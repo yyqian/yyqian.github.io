@@ -26,7 +26,7 @@ Java 语言中「编译期」以及「编译器」有可能有两种含义：
 JVM 设计团队把对性能的优化都集中到了 JIT 编译器中，这样可以让所有产生 Class 文件的语言都能享受到性能的优化。
 
 前段编译器的优化措施主要是改善开发人员的编码风格和提高编码效率。相当多新生的 Java 语法特性，都是靠编译器的「语法糖」来实现的，而不是依赖于 JVM 底层的改进支持。
-
+<!-- more -->
 ### 10.2 Javac 编译器
 
 Javac 编译器本身就是由 Java 语言编写的。Javac 的编译过程如下：
@@ -100,7 +100,7 @@ public static void main(String args[]) {
         int i = ((Integer) iterator.next()).intValue();  
         sum += i;  
     }  
-  
+
     System.out.print(sum);  
 }  
 ```

@@ -24,7 +24,7 @@ hexo deploy # 部署到远程，需要先配置 Github 账户
 hexo generate --watch # 监视文件改动，并重新生成静态文件
 hexo deploy --generate # generate 之后紧接着 deploy
 ```
-
+<!-- more -->
 ## Github 的部署配置
 
 ```bash

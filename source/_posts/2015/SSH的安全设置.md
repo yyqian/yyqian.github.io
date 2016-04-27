@@ -18,10 +18,10 @@ tags: 网络安全
 1. 在本地生成一个key：`ssh-keygen -t rsa`，该命令会生成2个key，一个公钥，一个私钥。公钥是存放在服务器端，可以公开的，私钥存放在本地要保护好。
 2. 将本地的`~/.ssh/id_rsa.pub`用scp复制到服务器，并将该文件中的key添加到服务器端的`~/.ssh/authorized_keys`：
   `cat id_rsa.pub >> ~/.ssh/authorized_keys`
-3. 最后我们要设置下权限，保证他人不能访问服务器端的`.ssh`文件夹： 
+3. 最后我们要设置下权限，保证他人不能访问服务器端的`.ssh`文件夹：
   `chmod 700 ~/.ssh`
   `chmod 600 ~/.ssh/authorized_keys`
-
+<!-- more -->
 以上第一步完成后最好检查下本地端应有的权限，如果需要的话设置如下：
 
 * `chmod 700 ~/.ssh`

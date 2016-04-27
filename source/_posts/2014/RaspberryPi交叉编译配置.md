@@ -26,7 +26,7 @@ PC端：
 	source ~/.bashrc
 	arm-linux-gnueabihf-gcc -v                    #检查是否安装成功
 	arm-linux-gnueabihf-g++ test.cpp -o test.exe  #写一个test.cpp并尝试编译，生成的test.exe需要拷贝到RPi运行
-
+<!-- more -->
 Debian 7默认stable源的libc6版本有可能比较低，需要装testing源的高版本libc6：
 
 	echo 'deb http://ftp.us.debian.org/debian/ testing main contrib non-free' >> /etc/apt/sources.list
@@ -69,7 +69,7 @@ Archlinux下这里有个问题：/lib被链接到了/usr/lib， 因此和debian�
 	sudo ln -s $HOME/Work/RPi/arm-lib/ /usr/lib/arm-linux-gnueabihf
 
 请仔细读qttest这个测试程序，理解Makefile内容以及程序的结构。如果对Qt4和Makefile不熟，可以参考以下两个链接：
-[Makefile](http://www.opensourceforu.com/2012/06/gnu-make-in-detail-for-beginners/), 
+[Makefile](http://www.opensourceforu.com/2012/06/gnu-make-in-detail-for-beginners/),
 [Qt4](http://www.zetcode.com/gui/qt4/)
 
 ######qcustomplot在交叉编译环境中的配置：
@@ -80,44 +80,44 @@ qcustomplot只有2个文件：qcustomplot.h, qcustomplot.cpp。
 这是一个Makefile示例文件，根据之前的qttest示例修改的（在INC中添加qcustomplot.h，在SRC中添加qcustomplot.cpp）:
 
 	CXX=arm-linux-gnueabihf-g++
-	 
-	INCLUDEDIR = ./ 
+
+	INCLUDEDIR = ./
 	INCLUDEDIR += $(HOME)/rpi/mntrpi/usr/include/qt4/
 	INCLUDEDIR += $(HOME)/rpi/mntrpi/usr/include/qt4/QtCore
 	INCLUDEDIR += $(HOME)/rpi/mntrpi/usr/include/qt4/QtGui
-	 
+
 	LIBRARYDIR = $(HOME)/rpi/mntrpi/usr/lib/arm-linux-gnueabihf/
-	LIBRARY +=  QtCore QtGui 
+	LIBRARY +=  QtCore QtGui
 	XLINK_LIBDIR += $(HOME)/rpi/mntrpi/lib/arm-linux-gnueabihf
 	XLINK_LIBDIR += $(HOME)/rpi/mntrpi/usr/lib/arm-linux-gnueabihf
-	 
+
 	INCDIR  = $(patsubst %,-I%,$(INCLUDEDIR))
 	LIBDIR  = $(patsubst %,-L%,$(LIBRARYDIR))
 	LIB    = $(patsubst %,-l%,$(LIBRARY))
 	XLINKDIR = $(patsubst %,-Xlinker -rpath-link=%,$(XLINK_LIBDIR))
-	 
+
 	OPT = -O3
 	DEBUG = -g
 	WARN= -Wall
 	PTHREAD= -pthread
-	 
+
 	CXXFLAGS= $(OPT) $(DEBUG) $(WARN) $(INCDIR)
 	LDFLAGS= $(LIBDIR) $(LIB) $(XLINKDIR) $(PTHREAD)
-	 
-	INC = qcustomplot.h 
+
+	INC = qcustomplot.h
 	SRC = main.cpp qcustomplot.cpp dsp.cpp
-	 
+
 	OBJ = $(SRC:.cpp=.o) $(INC:.h=.moc.o)
-	 
+
 	all: $(OBJ)
 		$(CXX) $(LDFLAGS) $(OBJ) -o tdlas
-	 
+
 	%.moc.cpp: $(INC)
 		moc-qt4  $<  -o $@
-	 
+
 	%.o:%.cpp
 		$(CXX) $(CXXFLAGS)  -c $<  
-	 
+
 	clean:
 		-rm *.o
 		-rm target_bin

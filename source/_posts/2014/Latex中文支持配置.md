@@ -23,7 +23,7 @@ tags: LaTeX
     sudo fc-cache -fv
 
 用该命令可以列出系统所有的中文字体：`fc-list :lang=zh-cn`
-
+<!-- more -->
 **XeLaTeX中文环境设置**
 
     \usepackage{fontspec}%使可以设定字型

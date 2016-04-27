@@ -12,7 +12,7 @@ tags: Java
 ## transient
 
 transient 可以修饰于 field 上，这样在序列化为二进制的时候，这个 field 就会被忽略掉。例如以下 User 类的 password 字段：
-
+<!-- more -->
 ```java
 public class User implements Serializable {
   private String username;
@@ -22,7 +22,7 @@ public class User implements Serializable {
   public User() {
     User.count++;
   }
-  
+
   public void serialize(String filename) throws IOException {
     OutputStream os;
     ObjectOutputStream oos = null;
@@ -72,7 +72,7 @@ public class User implements Serializable {
   public User() {
     User.count++;
   }
-  
+
   public String stringfy() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.writeValueAsString(this);

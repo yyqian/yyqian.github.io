@@ -17,10 +17,10 @@ tags: REST
 * `GET /post` 获取所有的posts
 * `GET /post/:pid` 获取特定的post
 * `POST /post` 新建post
-* `PUT /post/:pid` 修改post 
+* `PUT /post/:pid` 修改post
 * `PATCH /post/:pid` 部分修改post
 * `DELETE /post/:pid` 删除post
-
+<!-- more -->
 ## 名词单复数问题
 
 `post`还是`posts`，其实都是可以的。有的文章建议复数，原因是有的工具会自动将单数转换为复数。我这里偏向于单数，原因是现在项目中使用的Sails框架中默认用的是单数。

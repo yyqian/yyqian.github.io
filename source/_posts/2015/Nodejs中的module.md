@@ -22,7 +22,7 @@ Node.js和Core JS有一点重要的不同是，Node.js多了Module对象，Node�
         x: 1,
         f: function () {}
     };
-
+<!-- more -->
 或者
 
     module.exports.x = 1;

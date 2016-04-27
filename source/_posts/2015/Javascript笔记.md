@@ -20,7 +20,7 @@ JS的Namespace采用的是Function Scope：{}中定义的变量为全局变量�
 JS只有一个数字类型：64位的浮点数
 
 JS所有字符都是16位的，可以用`\u[4 hex digits]`表示一个unicode字符
-
+<!-- more -->
 ### 变量提升
 
 ```
@@ -52,11 +52,11 @@ JS里除了string, number, true, false, null, undefined其他都是Object，即�
 
 注意几个名词：
 
-* property attributes: 
+* property attributes:
     1. writable: 可否set value
     2. enumerable：for/in loop中可否枚举
     3. configurable：可否delete该属性
-* object attributes: 
+* object attributes:
     1. prototype: 原型，其实就是父类
     2. class: type of an object，譬如：Date，Array，RegExp, Function
     3. extensible：可否增加新属性到该Object中
@@ -70,7 +70,7 @@ JS里除了string, number, true, false, null, undefined其他都是Object，即�
 
 避免Property Access Errors的小技巧：`var len = book && book.subtitle && book.subtitle.length;`
 
-Creating Object的几种方法: 
+Creating Object的几种方法:
 
 1. `var x = {};`
 2. `var x = new Object();`
@@ -194,7 +194,7 @@ function在不同语境下有不同名字：
 
 * methods: if a function is assigned to the property of an object
 * constructors: functions designed to initialize a newly created object
-* closures: 
+* closures:
 
 Method Chaining: when you write a method that does not have a return value of its own, consider having the method return `this`
 

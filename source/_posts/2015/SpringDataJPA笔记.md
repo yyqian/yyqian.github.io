@@ -14,7 +14,7 @@ Spring 采用 JDBC template 来去掉 boilerplate code (resource-management, exc
 结合 Spring Security 可以处理 method level 的 access control。
 
 Spring Data JPA 基本都是标准的 JPA(Java Persistence API)，底层是用 Hibernate 来实现的。持久化数据相关的最主要的两种类是：@Entity 和 @Repository 注解的 Class。
-
+<!-- more -->
 ## 1. Entity
 
 ---
@@ -325,7 +325,3 @@ public class RepositoryService {
   }
 }
 ```
-
-
-
-

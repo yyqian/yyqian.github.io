@@ -27,7 +27,7 @@ gitbook build # 生成静态文件
 
 主要是个人在阅读「Netty in Action」这本书时做的笔记，用于学习和分享。
 ```
-
+<!-- more -->
 **SUMMARY.md**
 
 这个相当于是整本书的目录。例子：

@@ -19,7 +19,7 @@ tags: REST
 URL 是 URI 的子集，除了要标识资源，还必须提供获取资源的方式，譬如说：
 
 `yyqian.com/post/1432535189699` 标识了在 yyqian.com 这个网站上 id 为 1432535189699 的一个 post，这个是 URI，因为它标识了一个资源，但它不是 URL，因为获取这个资源的方式没有说明，可能是通过 http，https，也可能是通过 ftp, telnet 等。因此 `http://yyqian.com/post/1432535189699` 才是一个完整的 URL。
-
+<!-- more -->
 URL 的 sytax 必须符合 generic URI:
 ```
 scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]

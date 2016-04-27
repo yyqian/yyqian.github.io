@@ -12,7 +12,7 @@ tags: Java
 ### The progress of abstraction
 
 当我们用程序去解决一个问题的时候，我们要面对的一个问题就是抽象，怎么把现实的问题抽象到一定层面来跟计算机打交道。程序语言可以说是计算机和现实沟通的一个桥梁或翻译，但程序语言本身抽象的程度是不同的。
-
+<!-- more -->
 **Assembly language**是计算机底层的一个抽象。它跟机器很“近”，但离现实问题很“远”，所以一般我们不会直接用它来编程解决实际问题。
 
 之后的**imperative language**(FORTRAN, BASIC, and C)是对Assembly language的一个抽象。这些语言在计算机发展的初期或者是我们学习编程的初期，已经可以解决很多实际问题，但这些语言抽象的程度不够，我们在写程序的时候还是要关注计算机的构造，书上的原话是：
@@ -157,7 +157,7 @@ ternary operator(conditional operator): boolean-exp ? value0 : value1，要注�
 
 ### Java中的类型转换
 
-> Java allows you to cast any primitive type to any other primitive type, except for boolean, which doesn’t allow any casting at all. Class types do not allow casting. 
+> Java allows you to cast any primitive type to any other primitive type, except for boolean, which doesn’t allow any casting at all. Class types do not allow casting.
 
 可以用int b = (int)a;这种方式把变量a转换成int，有些转换还会是隐性的，但是boolean是不允许转换的。
 
@@ -222,7 +222,7 @@ new Foo()的时候初始化顺序：1. static fields，2. non-static fields，3.
     int[] a1 = { 1, 2, 3, 4, 5 };
     a.length; //intrinsic member, you can query—but not chang
     int[] a = new int[18];
-    Integer[] a = new Integer[18]; 
+    Integer[] a = new Integer[18];
     Integer[] a = {
       new Integer(1),
       new Integer(2),
@@ -265,7 +265,7 @@ static method有values( )，普通的method有ordinal( )，enum可以配合switc
 
 ## 6. Access Control
 
-The levels of access control: 
+The levels of access control:
 
 1. public
 2. protected

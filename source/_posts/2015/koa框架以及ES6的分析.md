@@ -10,7 +10,7 @@ tags: [Node.js, koa]
 ES6的推进一定程度上解决了部分问题，譬如用Generator函数和Promise对象改善异步的处理，用let和const来缓解大家对JS词法作用域的不适应，还有Class类来适应面向对象设计。这些改动都让JS语言变得更强大。Node.js 4.0支持了部分ES6的新特性并在逐步覆盖所有特性，并使用了最新的Chrome V8引擎，由于不像浏览器端存在兼容性的问题，也不用去操作糟糕的DOM树，所以Node应该是拥抱ES6带来的改变的最佳试炼场。
 
 接下来主要是分析Node.js的下一代web框架：koa，同时看下ES6的新特性是如何在实际环境中运用的。
-
+<!-- more -->
 ### 中间件（middleware）
 
 koa延用了express的中间件（middleware），但两者中间件的形式是不一样的：

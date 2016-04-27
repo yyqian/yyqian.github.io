@@ -10,7 +10,7 @@ EM算法貌似是个比较重要的算法，推导了一遍公式，但感觉理
 “9.1.2 EM算法的导出”这一小节中的联合概率分布P(Y,Z|\theta)其实没必要展开，这样推导看起来能更简洁一点。
 
 这里主要给出一段演示代码，主要用于高斯混合模型。用3组不同参数下的高斯分布随机函数产生观测数据（2维的），用EM算法通过这些数据反推出系统参数。图中黑点为观测数据，红绿蓝三色椭圆分别为计算所得的三个高斯分布生成函数的半波宽位置。
-
+<!-- more -->
 	'''
 	EM algorithm for Gaussian misture model
 	'''
@@ -23,7 +23,7 @@ EM算法貌似是个比较重要的算法，推导了一遍公式，但感觉理
 	def gaussian(y_j, mu_k, sigma_k):
 		temp0 = ((y_j[0]-mu_k[0])/sigma_k[0])**2 + ((y_j[1]-mu_k[1])/sigma_k[1])**2
 		return math.exp(-0.5*temp0) / (2*math.pi*sigma_k[0]*sigma_k[1])
-	 
+
 	def generate_gaussian(N, mu, sigma, alpha):
 		K = len(alpha)
 		n = []
@@ -37,7 +37,7 @@ EM算法貌似是个比较重要的算法，推导了一遍公式，但感觉理
 		for k in range(K):
 			Y = Y + [[rd.gauss(mu[k][0], sigma[k][0]), rd.gauss(mu[k][1], sigma[k][1])] for i in range(n[k])]
 		return Y
-	 
+
 	def eclipse(mu, sigma):
 		theta = [2*math.pi*i/999 for i in range(1000)]
 		K = len(mu)
@@ -76,13 +76,13 @@ EM算法貌似是个比较重要的算法，推导了一遍公式，但感觉理
 		mu_old = mu[:]
 		sigma_old = sigma[:]
 		alpha_old = alpha[:]
-	 
+
 		for j in range(N):
 			gamma.append([])
 			for k in range(K):
 				temp = sum([alpha[l]*gaussian(Y[j], mu[l], sigma[l]) for l in range(K)])
 				gamma[j].append(alpha[k]*gaussian(Y[j], mu[k], sigma[k])/temp)
-	 
+
 		for k in range(K):
 			for dim in range(D):
 				temp1 = sum([gamma[j][k]*Y[j][dim]  for j in range(N)])
@@ -91,7 +91,7 @@ EM算法貌似是个比较重要的算法，推导了一遍公式，但感觉理
 				temp1 = sum([gamma[j][k]*((Y[j][dim]-mu[k][dim])**2)  for j in range(N)])
 				sigma[k][dim] = math.sqrt(temp1 / sum_gamma)
 			alpha[k] = sum_gamma / N
-	 
+
 		temp = 0.0
 		temp += sum([(alpha[i]-alpha_old[i])**2 for i in range(len(alpha))])
 		temp += sum([sum([(sigma[i][j]-sigma_old[i][j])**2 for j in range(len(sigma[i]))]) for i in range(len(sigma))])

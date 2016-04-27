@@ -7,12 +7,12 @@ title: YYQIAN
 subtitle:
 description:
 author: Yinyin Qian
-language: en
+language: zh-Hans
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yyqian.github.com
+url: http://yyqian.com
 root: /
 permalink: post/:title/
 permalink_defaults:
@@ -72,3 +72,8 @@ deploy:
   repo: git@github.com:yyqian/yyqian.github.io.git
   branch: master
   message:
+
+# ADDED
+duoshuo_shortname: yyqian
+baidu_analytics: d00e38d4c75ea7dd82adf3b48be0c9ff
+avatar: https://avatars3.githubusercontent.com/u/8790385

@@ -33,7 +33,7 @@ public class BraveKnight implements Knight {
 ```
 
 将要注入的 class
-
+<!-- more -->
 ```java
 public class SlayDragonQuest implements Quest {
   private PrintStream stream;
@@ -295,14 +295,14 @@ public class RabbitmqConfig {
 如果想手动禁止一些自动配置的话，有两种方法：
 
 1. @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
-2. 配置 application.properties 文件中的 spring.autoconfigure.exclude 
+2. 配置 application.properties 文件中的 spring.autoconfigure.exclude
 
 ### 在 Ubuntu 中注册服务
 
 Gradle 中加入：
 
 ```java
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
 springBoot {
     executable = true
 }

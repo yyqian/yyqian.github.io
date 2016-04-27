@@ -14,7 +14,7 @@ hash code 是在数据结构 hash table 中，将 hash function 作用于存储�
 基本类型有八种：boolean, byte, char, short, int, long, float, double
 
 它们的 wrapper class 都有一个静态的 hashCode 方法，例如 Long 类的源码：
-
+<!-- more -->
 ```java
 public static int hashCode(long value) {
         return (int)(value ^ (value >>> 32));
@@ -152,4 +152,4 @@ XOR 在合并两个 bits 的时候，得到的值的分布是均匀的，而 AND
 
 1. 速度快，前面数组中使用的方法需要一次加法和乘法，而这里是一次位运算
 2. 跟 fields 之间合并的先后顺序无关，符合交换律，这个特点在某些情况下是优点，有些情况下是缺点
-3. 两个相同的值，XOR 之后的结果是 0，因此在某些情况下，hash code 可能会有一大部分集中在 0；并且 0 也不是一个有意义的值，一般 null 的 hash code 才会是 0. 
+3. 两个相同的值，XOR 之后的结果是 0，因此在某些情况下，hash code 可能会有一大部分集中在 0；并且 0 也不是一个有意义的值，一般 null 的 hash code 才会是 0.

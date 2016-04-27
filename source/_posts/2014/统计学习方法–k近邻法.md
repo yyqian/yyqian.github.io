@@ -19,7 +19,7 @@ k近邻法(K-nearest neighbor, KNN)是一个比较简单的算法，概括来说
 暴力解法的缺点在于需要遍历计算输入点到所有数据点的距离，并进行排序。书中给出了一种数据结构来优化这一算法：kd树，这个优化算法最复杂的地方就是构造kd树和搜索kd树。
 
 以下给出一段暴力算法的程序，使用红绿蓝三色X标记了三个类别的训练点，用三角形标记了输入点，用圆形标记输入点的k个近邻点，输入点的颜色取决于k个近邻点最多的那种颜色。程序主要以实现算法为主，写得比较冗杂：
-
+<!-- more -->
 	import numpy as np
 	import matplotlib.pyplot as plt
 	import random as rd
@@ -36,7 +36,7 @@ k近邻法(K-nearest neighbor, KNN)是一个比较简单的算法，概括来说
         	for i in range(N_m[m]):
             	T.append([[rd.random()*(m+1),rd.random()*(m+1)], m])
     	return T
- 
+
 	def plot_result(k, z, T, Lp):
     	N = len(T)
     	for i in range(N):
@@ -68,11 +68,11 @@ k近邻法(K-nearest neighbor, KNN)是一个比较简单的算法，概括来说
     	plt.xlabel('$x^{(1)}$')
     	plt.ylabel('$x^{(2)}$')
     	plt.show()
- 
+
 	def cal_distance(p, x, x_T):
     	dim = len(x)
     	return pow(sum([pow(abs(x[l]-x_T[l]),p) for l in range(dim)]), 1.0/p)
- 
+
 	def cal_Lp(p, x, T):
     	N = len(T)
     	Lp = []
@@ -81,7 +81,7 @@ k近邻法(K-nearest neighbor, KNN)是一个比较简单的算法，概括来说
         	Lp.append((d, i))
     	Lp.sort()
     	return Lp
- 
+
 	def classify(k, x, Lp, T):
     	count = [0, 0, 0]
     	for i in range(k):

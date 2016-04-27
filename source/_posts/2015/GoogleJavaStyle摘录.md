@@ -17,7 +17,7 @@ A source file consists of in order:
 2. Package statement
 3. Import statements
 4. Exactly one top-level class
-
+<!-- more -->
 Exactly one blank line separates each section that is present.
 
 The package statement, import statements are not line-wrapped
@@ -38,7 +38,7 @@ Exactly one top-level class declaration
 
 Braces are used with if, else, for, do and while statements, even when the body is empty or contains only a single statement.
 
-K & R style: 
+K & R style:
 
 - No line break before the opening brace.
 - Line break after the opening brace.
@@ -102,7 +102,7 @@ public protected private abstract static final transient volatile synchronized n
 
 long-valued integer literals use an uppercase L suffix, never lowercase
 
-Package names are all lowercase, with consecutive words simply concatenated together (no underscores). For example, 
+Package names are all lowercase, with consecutive words simply concatenated together (no underscores). For example,
 
     com.example.deepspace, not com.example.deepSpace or com.example.deep_space.
 

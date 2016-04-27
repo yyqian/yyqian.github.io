@@ -25,8 +25,7 @@ public String messages(Model model) {
 ```
 
 (2) 用 URL 中的查询参数
-
-
+<!-- more -->
 ```java
 @Controller
 public class SomeController {

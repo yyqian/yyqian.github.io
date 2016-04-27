@@ -25,7 +25,7 @@ tags: [Java, JVM]
 ![image](http://cdn.yyqian.com/1455874363073_a.jpg?imageView2/2/w/500)
 
 除了高速缓存外，还存在一种不一致性，来源于 CPU 可能会对指令进行乱序执行优化，它只保证执行的结果和顺序执行的结果是相同的，中间结果是不可预测的。
-
+<!-- more -->
 ### 12.3 Java 内存模型（JMM）
 
 C/C++ 等主流程序语言，直接用物理硬件和操作系统的内存模型，因此不同平台下的内存模型是不同的。而 JVM 试图定义一种 Java 内存模型，来屏蔽这种差异。
@@ -169,16 +169,16 @@ Java 总共定义了五种线程状态：
 - 运行（Runable）：包括了操作系统线程状态中的 Running 和 Ready
 
 - 无限期等待（Waiting）：处于这种状态的线程不会被分配 CPU 执行时间，它们要等待被其他线程显式地唤醒。以下方法会触发该状态：
-	- 没有设置 Timeout 参数的 Object.wait() 
+	- 没有设置 Timeout 参数的 Object.wait()
 	- 没有设置 Timeout 参数的 Thread.join()
-	- LockSupport.park() 
+	- LockSupport.park()
 
 - 限期等待（Timed Waiting）：处于这种状态的线程也不会被分配 CPU 执行时间，但系统在一定时间后会自动唤醒它。以下方法会触发该状态：
 	- Thread.sleep()
-	- 设置 Timeout 参数的 Object.wait() 
+	- 设置 Timeout 参数的 Object.wait()
 	- 设置 Timeout 参数的 Thread.join()
-	- LockSupport.parkNanos() 
-	- LockSupport.parkUntil() 
+	- LockSupport.parkNanos()
+	- LockSupport.parkUntil()
 
 - 阻塞（Blocked）：阻塞状态下是在等待着获取一个排他锁，在程序等待进入同步区域的时候，线程将进入这个状态
 
