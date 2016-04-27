@@ -1,0 +1,1716 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="YYQIAN">
+<meta property="og:url" content="http://yyqian.github.com/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="YYQIAN">
+<meta name="twitter:description">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1461744874666/" itemprop="url">
+                  使用 Gitbook 和 Github 来写作
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T15:48:36+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Gitbook-常用命令"><a href="#Gitbook-常用命令" class="headerlink" title="Gitbook 常用命令"></a>Gitbook 常用命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install gitbook-cli -g # 安装 gitbook</span><br><span class="line">gitbook init # 初始化项目</span><br><span class="line">gitbook serve # 本地预览，支持监视文件改动</span><br><span class="line">gitbook build # 生成静态文件</span><br></pre></td></tr></table></figure>
+<h2 id="Gitbook-项目的文件结构"><a href="#Gitbook-项目的文件结构" class="headerlink" title="Gitbook 项目的文件结构"></a>Gitbook 项目的文件结构</h2><p>运行 <code>gitbook init</code> 命令之后，会得到 README.md 和 SUMMARY.md 两个文件。</p>
+<p><strong>README.md</strong></p>
+<p>这个相当于整本书的简介。例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Netty in Action 学习笔记</span><br><span class="line"></span><br><span class="line">主要是个人在阅读「Netty in Action」这本书时做的笔记，用于学习和分享。</span><br></pre></td></tr></table></figure>
+<p><strong>SUMMARY.md</strong></p>
+<p>这个相当于是整本书的目录。例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Summary</span><br><span class="line"></span><br><span class="line">* Netty concepts and architecture</span><br><span class="line">    * [Netty—asynchronous and event-driven](part1/chapter1.md)</span><br><span class="line">    * [Your first Netty application](part1/chapter2.md)</span><br><span class="line">* Codecs</span><br><span class="line">    * [The codec framework](part2/chapter10.md)</span><br></pre></td></tr></table></figure>
+<p><strong>Markdown 文档</strong></p>
+<p>Markdown 文档的存放应当是和你 SUMMARY.md 中设置的超链接一致的。</p>
+<h2 id="发布到-Gitbook"><a href="#发布到-Gitbook" class="headerlink" title="发布到 Gitbook"></a>发布到 Gitbook</h2><p>个人喜欢先发布到 Github，然后再让 Gitbook 关联 Github 的仓库，具体就是：</p>
+<ul>
+<li>Github 建一个 Gitbook 项目，发布内容到这个仓库</li>
+<li>Gitbook 关联 Github 中的该项目，这样你每次 push 到 Github 仓库， Gitbook 都会自动更新页面</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1461744842678/" itemprop="url">
+                  使用 Hexo 和 Github 搭建静态博客
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T15:22:29+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><ul>
+<li>本地安装好了 node，git 等工具</li>
+<li>有 Github 账户，并且配置好了 ssh key</li>
+<li>注册一个 <a href="https://pages.github.com/" target="_blank" rel="external">Github page</a></li>
+</ul>
+<h2 id="Hexo-基本命令"><a href="#Hexo-基本命令" class="headerlink" title="Hexo 基本命令"></a>Hexo 基本命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g <span class="comment"># 安装 hexo</span></span><br><span class="line">hexo init gitnote <span class="comment"># 初始化一个项目 gitnote</span></span><br><span class="line">hexo new <span class="string">"输入你文章的标题"</span> <span class="comment"># 初始化一篇文章</span></span><br><span class="line">hexo server <span class="comment"># 本地预览</span></span><br><span class="line">hexo generate <span class="comment"># 生成静态文件</span></span><br><span class="line">hexo deploy <span class="comment"># 部署到远程，需要先配置 Github 账户</span></span><br><span class="line"></span><br><span class="line">hexo generate --watch <span class="comment"># 监视文件改动，并重新生成静态文件</span></span><br><span class="line">hexo deploy --generate <span class="comment"># generate 之后紧接着 deploy</span></span><br></pre></td></tr></table></figure>
+<h2 id="Github-的部署配置"><a href="#Github-的部署配置" class="headerlink" title="Github 的部署配置"></a>Github 的部署配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save <span class="comment"># 先安装 git 插件</span></span><br></pre></td></tr></table></figure>
+<p>配置 _config.yml：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: git@github.com:yyqian/yyqian.github.io.git</span><br><span class="line">  branch: master</span><br><span class="line">  message:</span><br></pre></td></tr></table></figure>
+<h2 id="实时预览"><a href="#实时预览" class="headerlink" title="实时预览"></a>实时预览</h2><p>有时我们希望能实时地预览每次改动，但是 <code>hexo server</code> 命令并不支持监视文件改动，因此，我们需要运行两个进程来实时地预览改动后的样子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 命令行 1：</span></span><br><span class="line">hexo generate --watch</span><br><span class="line"><span class="comment"># 命令行 2：</span></span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+<h2 id="同步项目文件夹"><a href="#同步项目文件夹" class="headerlink" title="同步项目文件夹"></a>同步项目文件夹</h2><p>如果我们想在多台电脑上写作，同步项目文件夹是个问题，如果通过同步盘等方式，node_modules 这种文件夹会严重地拖慢同步速度。因此，我们还是用 Git 来完成：</p>
+<ul>
+<li>先在 Github 上的 git page 仓库中建立一个新的分支，我这儿命名为 hexo</li>
+<li>在 Github 中将这个分支设置为默认分支</li>
+<li>在本地 clone 这个分支，然后清空这个分支的内容，把项目文件夹的内容都挪到这个分支中来</li>
+</ul>
+<p>这样我们只要在每个电脑上克隆 Github Page 仓库的 hexo 分支，就能同步项目文件夹，而生成的静态文件内容，则发布到 master 分支中，而 Github Page 也是提取 master 分支内容来展示的，所以两者互不影响。</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/2016年书单/" itemprop="url">
+                  2016 年书单
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T15:18:14+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="二月："><a href="#二月：" class="headerlink" title="二月："></a>二月：</h3><p><a href="http://book.douban.com/subject/24722612/" target="_blank" rel="external">深入理解 Java 虚拟机</a></p>
+<p>推荐。讲得很好</p>
+<p><a href="http://book.douban.com/subject/10484692/" target="_blank" rel="external">Java 并发编程实践</a></p>
+<p>推荐。有难度，需要一定基础</p>
+<p><a href="http://book.douban.com/subject/26436525/" target="_blank" rel="external">MySQL 技术内幕</a></p>
+<p>不推荐。只有前面 220 页值得看，其余的不如看官方文档。作者同一个东西翻来覆去讲，不过这有好有坏吧。<br>建议看 SQL 必知必会 + 官方文档 + 高性能 MySQL</p>
+<p><a href="http://book.douban.com/subject/19965586/" target="_blank" rel="external">深入分析 Java Web 技术内幕</a></p>
+<p>不推荐。这本书我就花了两三个小时大致扫了一下，可以看看 Java Web 相关的有些什么知识点。大致讲了：</p>
+<ul>
+<li>I/O</li>
+<li>中文编码</li>
+<li>Java 虚拟机</li>
+<li>Servlet</li>
+<li>Session 和 Cookie</li>
+<li>Servlet 容器：Tomcat 和 Jetty</li>
+<li>Spring</li>
+<li>ibatis</li>
+<li>Velocity</li>
+</ul>
+<p>内容上很难读懂，用了一堆代码、时序图、类关系图，没有深入浅出的感觉。不过期望一本书能把这些知识点都讲清楚应该也是不现实的。分解到每个知识点基本都有更好的书来解读。</p>
+<p><a href="http://book.douban.com/subject/1052241/" target="_blank" rel="external">设计模式</a></p>
+<p>推荐。虽然有一部分人是反对设计模式的滥用的，但是我觉得了解每个设计模式的理念还是很有必要的，即使自己不用这些设计模式，但在看一些框架的文档或源代码时，经常会蹦出一些设计模式的名字，如果能理解这个设计模式的工作机制的话，就能很快速地理解这个框架内部的工作机制，省去很多钻研代码、文档的时间。</p>
+<p>另外，至于如何使用设计模式，首先我觉得这些设计模式还是跟语言有关的，设计模式更多的像是对语言的一种补充，有些语言本身就能自带一些模式，譬如 Lambda 表达式可以代替 Command 模式。这本书还是针对 OOP 写的，函数式语言基本都不适用。另外，我觉得心里有这些模式总是比没有的好，这就好比有信仰总比什么信仰都没有的好。但也不能变成书呆子，随便什么代码都得套个设计模式。</p>
+<p><a href="http://book.douban.com/subject/1088054/" target="_blank" rel="external">TCP/IP详解 卷1：协议</a></p>
+<p>推荐。都是一些基础知识，想要深入理解网络方面的内容还是很有必要了解的，http 和 socket 都是在 tcp/ip 协议上的一个封装。不过这本书读起来很枯燥，看完后还是感觉一知半解的，只能说大体有个了解了。</p>
+<h3 id="三月"><a href="#三月" class="headerlink" title="三月"></a>三月</h3><p><a href="http://book.douban.com/subject/3360807/" target="_blank" rel="external">Effective Java</a></p>
+<p>推荐。这本讲的就是 Java 的最佳实践，各种语言貌似都有同类的书。适合经常翻翻，有利于养成良好的编码习惯。</p>
+<h3 id="四月"><a href="#四月" class="headerlink" title="四月"></a>四月</h3><p><a href="https://book.douban.com/subject/25732463/" target="_blank" rel="external">淘宝十年产品事</a></p>
+<p>推荐。一本小巧的书，半天就能看完的。这本书是在做一个电商项目的时候，到处搜罗商品系统设计相关的资源找到的。主要就讲了淘宝的商品分类和属性，以及搜索引擎是如何设计的。做电商系统的同学可以看下这本书，毕竟淘宝是这个领域的标杆，看看淘宝这么多年的商品系统是如何演变的、在这个过程遇到的问题以及解决的方案。</p>
+<hr>
+<h3 id="正在看："><a href="#正在看：" class="headerlink" title="正在看："></a>正在看：</h3><p><a href="https://book.douban.com/subject/6709783/" target="_blank" rel="external">浪潮之巅</a></p>
+<h3 id="计划看："><a href="#计划看：" class="headerlink" title="计划看："></a>计划看：</h3><p>Spring 技术内幕</p>
+<p>算法导论</p>
+<p>高性能 MySQL</p>
+<p>大型网站技术架构，李智慧</p>
+<p>增长黑客</p>
+<p>HTTP权威指南</p>
+<p>深入理解计算机系统</p>
+<h3 id="未来看"><a href="#未来看" class="headerlink" title="未来看"></a>未来看</h3><p>SICP</p>
+<p>编译原理</p>
+<p>编程之美</p>
+<p>领域驱动设计</p>
+<p>企业应用架构模式</p>
+<p>UNIX网络编程(卷1):套接字联网API(第3版)</p>
+<p>UNIX环境高级编程(第3版)</p>
+<h3 id="有可能看"><a href="#有可能看" class="headerlink" title="有可能看"></a>有可能看</h3><p>Spring Boot Cookbook</p>
+<p>Spring Boot in Action</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/MySQL笔记/" itemprop="url">
+                  MySQL 笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T15:18:14+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="名词"><a href="#名词" class="headerlink" title="名词"></a>名词</h2><ul>
+<li>多表检索</li>
+<li>子查询</li>
+<li>事务处理</li>
+<li>外键</li>
+<li>视图</li>
+<li>存储函数、存储过程</li>
+<li>触发器</li>
+<li>事件</li>
+<li>索引</li>
+</ul>
+<h2 id="数据类型最佳实践"><a href="#数据类型最佳实践" class="headerlink" title="数据类型最佳实践"></a>数据类型最佳实践</h2><p>CHAR 会在存储时填充空格，检索时删除空格<br>BINARY 会在存储时填充0x00，检索时不处理</p>
+<h3 id="AUTO-INCREMENT"><a href="#AUTO-INCREMENT" class="headerlink" title="AUTO_INCREMENT"></a>AUTO_INCREMENT</h3><p>BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY</p>
+<h3 id="TIMESTAMP"><a href="#TIMESTAMP" class="headerlink" title="TIMESTAMP"></a>TIMESTAMP</h3><p>TIMESTAMP NOT NULL</p>
+<p>自动初始化选项：DEFAULT CURRENT_TIMESTAMP</p>
+<p>自动更新选项：ON UPDATE CURRENT_TIMESTAMP</p>
+<h2 id="查询优化"><a href="#查询优化" class="headerlink" title="查询优化"></a>查询优化</h2><p>（1）用于显示的列不用建索引（SELECT 中的列），这些列要建索引：</p>
+<ul>
+<li>WHERE 子句中的列</li>
+<li>连接子句中的列</li>
+<li>ORDER BY 或 GROUP BY 中的列</li>
+</ul>
+<p>（2）列的基数是指该列非重复元素的个数。基数越大，索引效果越好。例如性别只有 M 和 F 两个值，那么基数是 2，每次检索完性别后，还是有近乎一半的行被挑选出来，索引效果就不好。</p>
+<p>（3）索引的数据类型越小，检索速度越快</p>
+<p>（4）字符串可以只索引字符串的前缀，不用索引整段字符串，但前缀也不能太短，这样就无法获得大量的唯一值（参照第二条，基数越大越好）</p>
+<p>（5）最左前缀。如果一个复合索引，列的名字分别为 country state city，这个索引可以用来搜索下列组合：</p>
+<ul>
+<li>country, state, city</li>
+<li>country, state</li>
+<li>country</li>
+</ul>
+<p>如果建了这个索引，再建一个单独的 country 是没有意义的，但建一个单独的 state 或 city 索引是有意义的。</p>
+<p>（6）不要建立过多的索引。每增加一个索引就要额外的空间，还会影响写入速度。所以索引是用空间和写入速度，来换取读取速度的。</p>
+<p>（7）InnoDB 总会使用 B 树索引</p>
+<p>（8）利用慢查询日志找出性能差的查询</p>
+<p>（9）利用 EXPLAIN 来检查优化程序的操作</p>
+<p>（10）多用数字运算，少用字符串运算</p>
+<p>（11）数据列声明为 NOT NULL，这样可以节省检查 NULL 的操作</p>
+<p>（12）如果基数很低，考虑使用 ENUM 列</p>
+<p>（13）使用 BLOB 和 TEXT 要注意，避免检索这两种列</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/Spring技术内幕/" itemprop="url">
+                  Spring 技术内幕
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T15:18:14+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对象之间的相互依赖关系由 IoC 容器进行统一管理，这样就不需要考虑复杂的对象依赖关系</p>
+<p>OOP 系统中的对象分类大致有几种：</p>
+<ul>
+<li>数据对象</li>
+<li>用来处理数据的对象，这种一般能以单件形式存在，一般不涉及数据和状态共享</li>
+<li>如果涉及数据共享，需要在单件的基础上做进一步处理</li>
+</ul>
+<p>Spring IoC 提供的是 JavaBean 容器</p>
+<p>注入的实现上有：</p>
+<ul>
+<li>接口注入</li>
+<li>setter 注入</li>
+<li>构造器注入</li>
+</ul>
+<p>Spring IoC 容器有两种：</p>
+<ul>
+<li>实现 BeanFactory 接口的简单容器</li>
+<li>ApplicationContext 应用上下文</li>
+</ul>
+<p>不管什么 IoC 容器，都需要实现 BeanFactory 接口</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/商品相关的数据库设计/" itemprop="url">
+                  商城系统中商品相关信息的数据库设计
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T15:18:14+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="淘宝商品的-SKU、item-和-product"><a href="#淘宝商品的-SKU、item-和-product" class="headerlink" title="淘宝商品的 SKU、item 和 product"></a>淘宝商品的 SKU、item 和 product</h2><p>SKU 是 stock keeping unit 的缩写，一般是在库存管理中用于表示一种不可再细分的对象。</p>
+<p>举例来说：iPhone 6s 不能作为 SKU，因为 iPhone 6s 还能细分为：金色、银色、灰黑色；16GB、32GB、64GB。因此以下这些才能称为 SKU：</p>
+<ul>
+<li>全新 金色 64GB iPhone 6s</li>
+<li>全新 银色 32GB iPhone 6s</li>
+<li>全新 灰黑色 32GB iPhone SE</li>
+</ul>
+<p>在对某个商品进行定价、库存管理的时候，我们一般是作用在 SKU 上面的，也就是说会细化到这个商品各种规格属性。而在类似淘宝这样的商城系统中，商品在做展示的时候，并不是以 SKU 作为展示单元的，而是用 item。例如：iPhone 6s 是一个 item，颜色和容量是它的属性名称，用户需要选择特定的属性值，来得到一个 SKU，这个 SKU 关联了具体的价格和库存。也就是说这里的 SKU 是在 item 的基础上，增加了一些约束的属性。我们把一组属性名称和属性值理解为一个键值对（Key-Value），那么 SKU = item + KVs，而反过来 item 又是一组 SKU 的一个集合。而这里每个 item 拥有的 key 不同，KV 对的数量也不同。因此需要设计一种灵活的数据结构来满足以上的需求。</p>
+<p>淘宝商品相关的对象除了 SKU 和 item，还有一种称为 product。当商家想上架某个 item，需要从产品库中挑选某个对应的 product，这个 product 可能预先定义了一系列属性值等，然后商家在这个 product 的基础上加一些额外的描述或定制，这些定制可能表明了有一些附加的服务或礼品等。这个 product 对象也被称为 SPU(Standard Product Unit)。如果在业务模型中加入 product 对象，就要涉及到如何维护这个产品库、商品发布流程的变化以及数据库设计的更改。</p>
+<p>SKU、item 和 product 这三者是否都需要出现在业务模型中？个人觉得取决于业务的复杂度，我现在手上的项目只计划使用 SKU 和 item 两个对象，因此，数据库设计也不考虑加入 product 对象的情况。</p>
+<h2 id="淘宝-API-的返回值"><a href="#淘宝-API-的返回值" class="headerlink" title="淘宝 API 的返回值"></a>淘宝 API 的返回值</h2><p><a href="https://open.taobao.com/doc2/apiDetail.htm?spm=a219a.7395905.0.0.VthZgO&amp;apiId=24625" target="_blank" rel="external">taobao.item.seller.get</a></p>
+<h2 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h2><p>淘宝中某个商品的属性有三类：</p>
+<ol>
+<li>关键属性：这个是用于确认唯一产品的一组属性，比如：相机的”品牌””型号”能确定唯一的产品，服装的”品牌””货号”能确定唯一的产品</li>
+<li>销售属性：这个是组成 SKU 的关键属性，如服装的”颜色”、”套餐”和”尺码”</li>
+<li>非关键属性：用于一些对商品进行描述的属性</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/JavaSpringThymeleaf/" itemprop="url">
+                  Thymeleaf
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T15:18:14+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="模版中调用参数的方法："><a href="#模版中调用参数的方法：" class="headerlink" title="模版中调用参数的方法："></a>模版中调用参数的方法：</h2><p>(1) 使用 Model</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(value = &quot;message&quot;, method = RequestMethod.GET)</span><br><span class="line">public String messages(Model model) &#123;</span><br><span class="line">    model.addAttribute(&quot;messages&quot;, messageRepository.findAll());</span><br><span class="line">    return &quot;message/list&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr th:each=&quot;message : $&#123;messages&#125;&quot;&gt;</span><br><span class="line">    &lt;td th:text=&quot;$&#123;message.id&#125;&quot;&gt;1&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;&lt;a href=&quot;#&quot; th:text=&quot;$&#123;message.title&#125;&quot;&gt;Title ...&lt;/a&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td th:text=&quot;$&#123;message.text&#125;&quot;&gt;Text ...&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br></pre></td></tr></table></figure>
+<p>(2) 用 URL 中的查询参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class SomeController &#123;</span><br><span class="line">    @RequestMapping(&quot;/&quot;)</span><br><span class="line">    public String redirect() &#123;</span><br><span class="line">        return &quot;redirect:/query?q=Thymeleaf Is Great!&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span th:text=&quot;$&#123;param.q[0]&#125;&quot; th:unless=&quot;$&#123;param.q == null&#125;&quot;&gt;Test&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<p>Parameters are always string arrays, as they can be multivalued</p>
+<p>(3) Session 中的参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(&#123;&quot;/&quot;&#125;)</span><br><span class="line">String index(HttpSession session) &#123;</span><br><span class="line">    session.setAttribute(&quot;mySessionAttribute&quot;, &quot;someValue&quot;);</span><br><span class="line">    return &quot;index&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span th:text=&quot;$&#123;session.mySessionAttribute&#125;&quot;&gt;[...]&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<p>(4) ServletContext 中的参数</p>
+<p>ServletContext 中的参数是 request 和 session 共享的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;table&gt;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">        &lt;td&gt;My context attribute&lt;/td&gt;</span><br><span class="line">        &lt;!-- Retrieves the ServletContext attribute &apos;myContextAttribute&apos; --&gt;</span><br><span class="line">        &lt;td th:text=&quot;$&#123;application.myContextAttribute&#125;&quot;&gt;42&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">        &lt;td&gt;Number of attributes&lt;/td&gt;</span><br><span class="line">        &lt;!-- Returns the number of attributes --&gt;</span><br><span class="line">        &lt;td th:text=&quot;$&#123;application.size()&#125;&quot;&gt;42&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">    &lt;tr th:each=&quot;attr : $&#123;application.keySet()&#125;&quot;&gt;</span><br><span class="line">        &lt;td th:text=&quot;$&#123;attr&#125;&quot;&gt;javax.servlet.context.tempdir&lt;/td&gt;</span><br><span class="line">        &lt;td th:text=&quot;$&#123;application.get(attr)&#125;&quot;&gt;/tmp&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure>
+<p>(5) Spring Beans</p>
+<p>通过 @beanName 来获取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div th:text=&quot;$&#123;@urlService.getApplicationUrl()&#125;&quot;&gt;...&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class MyConfiguration &#123;</span><br><span class="line">    @Bean(name = &quot;urlService&quot;)</span><br><span class="line">    public UrlService urlService() &#123;</span><br><span class="line">        return new FixedUrlService(&quot;somedomain.com/myapp); // some implementation</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public interface UrlService &#123;</span><br><span class="line">    String getApplicationUrl();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>(6) Spring Security 相关的</p>
+<p>参考：<a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity" target="_blank" rel="external">https://github.com/thymeleaf/thymeleaf-extras-springsecurity</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div sec:authorize=&quot;hasRole(&apos;ROLE_ADMIN&apos;)&quot;&gt;</span><br><span class="line">  This content is only shown to administrators.</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div sec:authorize=&quot;hasRole(&apos;ROLE_USER&apos;)&quot;&gt;</span><br><span class="line">  This content is only shown to users.</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Logged user: &lt;span sec:authentication=&quot;name&quot;&gt;Bob&lt;/span&gt;</span><br><span class="line">Roles: &lt;span sec:authentication=&quot;principal.authorities&quot;&gt;[ROLE_USER, ROLE_ADMIN]&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/2016学习计划/" itemprop="url">
+                  2016 年学习计划
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T15:18:14+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="DOING"><a href="#DOING" class="headerlink" title="DOING"></a>DOING</h2><ul>
+<li>深入 Java（并发类、集合类、IO）</li>
+<li>Netty，NIO</li>
+</ul>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ul>
+<li>ElasticSearch 搜索引擎</li>
+<li>Spring 源码分析</li>
+<li>基本的算法和数据结构</li>
+<li>J2EE</li>
+</ul>
+<h2 id="DONE"><a href="#DONE" class="headerlink" title="DONE"></a>DONE</h2><ul>
+<li>深入理解 JVM</li>
+<li>MySQL 中级水平</li>
+<li>了解并发</li>
+<li>设计模式</li>
+<li>TCP/IP 协议</li>
+<li>Docker 初级知识</li>
+<li>Jenkins 持续集成</li>
+<li>Mybatis 初级知识</li>
+</ul>
+<h2 id="不接触"><a href="#不接触" class="headerlink" title="不接触"></a>不接触</h2><ul>
+<li>acm 等字节码生成技术</li>
+<li>osgi 加载</li>
+<li>编译原理</li>
+</ul>
+<h2 id="项目需要知识"><a href="#项目需要知识" class="headerlink" title="项目需要知识"></a>项目需要知识</h2><ul>
+<li>Java</li>
+<li>Spring Framework</li>
+<li>mybatis</li>
+<li>tomcat</li>
+<li>MySQL</li>
+<li>ElasticSearch</li>
+<li>Redis</li>
+<li>架构</li>
+<li>并发</li>
+<li>Rabbitmq</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/Java/SpecializedJava笔记/" itemprop="url">
+                  Specialized Java 笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-23T21:54:47+08:00" content="2016-04-23">
+              2016-04-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Basic-I-O"><a href="#Basic-I-O" class="headerlink" title="Basic I/O"></a>Basic I/O</h2><p><img src="http://cdn.yyqian.com/201604191634-FvpJX1yO9k3iJluPb4Zq8aNcrlqB?imageView2/2/w/800/h/600" alt="ioHierarchyTop.gif"></p>
+<p><img src="http://cdn.yyqian.com/201604191637-Fs8Qm4tfWUSL7igel2FbO-r18PcS?imageView2/2/w/800/h/600" alt="inputHierarchy.gif"></p>
+<p><img src="http://cdn.yyqian.com/201604191637-Ft1F_D_8dNEq5o1QCQ3JZYHIF40j?imageView2/2/w/800/h/600" alt="outputStreams.gif"></p>
+<p><img src="http://cdn.yyqian.com/201604191637-FgrIHYuIHaTsdyiQHwEfHBLCFCoi?imageView2/2/w/800/h/600" alt="readerHierarchy.gif"></p>
+<p><img src="http://cdn.yyqian.com/201604191637-Fr3rl35jSBWajOvhwpdoFWU-TzPY?imageView2/2/w/800/h/600" alt="writerHierarchy.gif"></p>
+<p>Stream 用完之后一定要关闭，为了确保关闭，一般都放在 finally block 中。</p>
+<p>Line-Oriented I/O: BufferedReader, PrintWriter</p>
+<h3 id="Buffered-Streams"><a href="#Buffered-Streams" class="headerlink" title="Buffered Streams"></a>Buffered Streams</h3><p>Buffered Streams (wrap unbuffered streams): BufferedInputStream, BufferedOutputStream, BufferedReader, BufferedWriter</p>
+<p>Buffered input streams read data from a memory area known as a buffer; the native input API is called only when the buffer is empty. Similarly, buffered output streams write data to a buffer, and the native output API is called only when the buffer is full.</p>
+<p>It often makes sense to write out a buffer at critical points, without waiting for it to fill. This is known as flushing the buffer.</p>
+<p>An autoflush PrintWriter object flushes the buffer on every invocation of println or format. To flush a stream manually, invoke its flush method. The flush method is valid on any output stream, but has no effect unless the stream is buffered.</p>
+<h3 id="Scanning-and-Formatting"><a href="#Scanning-and-Formatting" class="headerlink" title="Scanning and Formatting"></a>Scanning and Formatting</h3><p>Objects of type Scanner are useful for breaking down formatted input into tokens and translating individual tokens according to their data type.</p>
+<p>By default, a scanner uses white space to separate tokens.</p>
+<p>Stream objects that implement formatting: PrintWriter, PrintStream</p>
+<p>The only PrintStream objects you are likely to need are System.out and System.err. When you need to create a formatted output stream, instantiate <strong>PrintWriter</strong>, not PrintStream.</p>
+<p>Two levels of formatting:</p>
+<ul>
+<li>print, println</li>
+<li>format</li>
+</ul>
+<p>In the Java programming language, the \n escape always generates the linefeed character (\u000A). Don’t use \n unless you specifically want a linefeed character. To get the correct line separator for the local platform, use <strong>%n</strong>.</p>
+<p>The Java platform supports three Standard Streams:</p>
+<ul>
+<li>Standard Input, accessed through System.in</li>
+<li>Standard Output, accessed through System.out</li>
+<li>Standard Error, accessed through System.err</li>
+</ul>
+<h3 id="Data-Streams"><a href="#Data-Streams" class="headerlink" title="Data Streams"></a>Data Streams</h3><p>Data streams support binary I/O of primitive data type values (boolean, char, byte, short, int, long, float, and double) as well as String values.</p>
+<p>interface: DataInput, DataOutput</p>
+<p>implementations: DataInputStream, DataOutputStream</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">out = <span class="keyword">new</span> DataOutputStream(<span class="keyword">new</span> BufferedOutputStream(<span class="keyword">new</span> FileOutputStream(dataFile)));</span><br><span class="line">in = <span class="keyword">new</span> DataInputStream(<span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(dataFile)));</span><br></pre></td></tr></table></figure>
+<p>Output Method: writeDouble, writeInt, writeUTF</p>
+<p>Input Method: readDouble, readInt, readUTF</p>
+<p>Notice that DataStreams detects an end-of-file condition by catching EOFException, instead of testing for an invalid return value. All implementations of DataInput methods use EOFException instead of return values.</p>
+<h3 id="Object-Streams"><a href="#Object-Streams" class="headerlink" title="Object Streams"></a>Object Streams</h3><p>Just as data streams support I/O of primitive data types, object streams support I/O of objects.</p>
+<p>interface: ObjectInput, ObjectOutput (subinterfaces of DataInput and DataOutput)</p>
+<p>implementations: ObjectInputStream, ObjectOutputStream</p>
+<p>method: writeObject, readObject</p>
+<p>The writeObject and readObject methods are simple to use, but they contain some very sophisticated object management logic. This isn’t important for a class like Calendar, which just encapsulates primitive values. But many objects contain references to other objects. If readObject is to reconstitute an object from a stream, it has to be able to reconstitute all of the objects the original object referred to. These additional objects might have their own references, and so on. In this situation, writeObject traverses the entire web of object references and writes all objects in that web onto the stream. Thus a single invocation of writeObject can cause a large number of objects to be written to the stream.</p>
+<hr>
+<h2 id="Collections"><a href="#Collections" class="headerlink" title="Collections"></a>Collections</h2><h3 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h3><p><img src="http://cdn.yyqian.com/201604191727-FlYlqD6LTUicFl5FyYgmhu7lt9Ue?imageView2/2/w/800/h/600" alt="colls-coreInterfaces.gif"></p>
+<p>常用方法：</p>
+<ul>
+<li>basic operations: size, isEmpty, contains, add, remove</li>
+<li>bulk operations: containsAll, addAll, removeAll, retainAll, clear</li>
+<li>convert to Array: toArray</li>
+<li>aggregate Operations: stream, parallelStream</li>
+</ul>
+<p>Three ways to traverse collections:</p>
+<ol>
+<li>using aggregate operations</li>
+<li>with the for-each construct</li>
+<li>using Iterators</li>
+</ol>
+<p>In JDK 8 and later, the preferred method of iterating over a collection is to obtain a stream and perform aggregate operations on it. Aggregate operations are often used in conjunction with lambda expressions to make programming more expressive, using less lines of code.</p>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p>Set implementations:</p>
+<ul>
+<li>HashSet，性能最好</li>
+<li>TreeSet，用了 red-black tree，按照值的顺序排序</li>
+<li>LinkedHashSet，按照插入顺序排序</li>
+</ul>
+<p>Convert Collection to Set: <code>c.stream().collect(Collectors.toSet());</code></p>
+<p>Convert Collection to TreeSet:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;String&gt; set = people.stream()</span><br><span class="line">.map(Person::getName)</span><br><span class="line">.collect(Collectors.toCollection(TreeSet::<span class="keyword">new</span>));</span><br></pre></td></tr></table></figure>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p>implementations:</p>
+<ul>
+<li>ArrayList</li>
+<li>LinkedList</li>
+</ul>
+<p>List 特有的方法：</p>
+<ul>
+<li>get, set</li>
+<li>indexOf, lastIndexOf</li>
+<li>subList: list view, As the term view implies, the returned List is backed up by the List on which subList was called, so changes in the former are reflected in the latter.</li>
+</ul>
+<p>It’s highly recommended that you use the List returned by subList only as a transient object — to perform one or a sequence of range operations on the backing List.</p>
+<h3 id="Queue-amp-Deque"><a href="#Queue-amp-Deque" class="headerlink" title="Queue &amp; Deque"></a>Queue &amp; Deque</h3><p><img src="http://cdn.yyqian.com/201604192209-Fi2FNUWJYeLQNkMIPUSL1Lpa12Z8?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-19 at 10.09.47 PM.png"></p>
+<p><img src="http://cdn.yyqian.com/201604192234-FmiR-ni8ty5vDOctrNv1PcVk4x_U?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-19 at 10.34.18 PM.png"></p>
+<p>Queue implementations:</p>
+<ul>
+<li>LinkedList</li>
+<li>PriorityQueue</li>
+</ul>
+<p>Deque implementations:</p>
+<ul>
+<li>LinkedList</li>
+<li>ArrayDeque</li>
+</ul>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>Methods:</p>
+<ul>
+<li>basic operations: put, get, remove, containsKey, containsValue, size, and empty</li>
+<li>bulk operations: putAll and clear</li>
+<li>collection views: keySet, entrySet, and values</li>
+</ul>
+<p>Map implementations:</p>
+<ul>
+<li>HashMap, performance</li>
+<li>TreeMap, key-ordered</li>
+<li>LinkedHashMap, near-HashMap performance and insertion-order iteration</li>
+</ul>
+<p>Map 不归属于 Collection</p>
+<h3 id="Aggregate-Operations"><a href="#Aggregate-Operations" class="headerlink" title="Aggregate Operations"></a>Aggregate Operations</h3><p>Aggregate operations do not mutate the underlying collection. In fact, you must be careful to never mutate a collection while invoking its aggregate operations. Doing so could lead to concurrency problems should the stream be changed to a parallel stream at some point in the future.</p>
+<p>Reduce:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Integer totalAgeReduce = roster</span><br><span class="line">   .stream()</span><br><span class="line">   .map(Person::getAge)</span><br><span class="line">   .reduce(</span><br><span class="line">       <span class="number">0</span>,</span><br><span class="line">       (a, b) -&gt; a + b);</span><br></pre></td></tr></table></figure>
+<p>Collect:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; namesOfMaleMembersCollect = roster</span><br><span class="line">    .stream()</span><br><span class="line">    .filter(p -&gt; p.getGender() == Person.Sex.MALE)</span><br><span class="line">    .map(p -&gt; p.getName())</span><br><span class="line">    .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<p>不能在遍历集合的时候修改集合，避免使用 Stateful Lambda Expressions</p>
+<p>parallelStream 可以用于并发流</p>
+<h3 id="Implementations"><a href="#Implementations" class="headerlink" title="Implementations"></a>Implementations</h3><p><img src="http://cdn.yyqian.com/201604201023-Fjv16f-3JQMg6Q4Bh2ljM5wm_rFR?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-20 at 10.22.39 AM.png"></p>
+<p>As a rule, you should be thinking about the interfaces, not the implementations. For the most part, the choice of implementation affects only performance. The preferred style, as mentioned in the Interfaces section, is to choose an implementation when a Collection is created and to immediately assign the new collection to a variable of the corresponding interface type</p>
+<p>The fact that these implementations are unsynchronized represents a break with the past: The legacy collections Vector and Hashtable are synchronized. The present approach was taken because collections are frequently used when the synchronization is of no benefit. Such uses include single-threaded use, read-only use, and use as part of a larger data object that does its own synchronization. In general, it is good API design practice not to make users pay for a feature they don’t use. Furthermore, unnecessary synchronization can result in deadlock under certain circumstances.</p>
+<p>并发相关的：</p>
+<ul>
+<li>ConcurrentHashMap 需要重点突破</li>
+<li>BlockingQueue 接口下的实现</li>
+</ul>
+<p>Wrapper，典型的 decorator pattern:</p>
+<ul>
+<li>Collections.synchronizedXXX</li>
+<li>Collections.unmodifiableXXX</li>
+</ul>
+<p>The <code>Arrays.asList</code> method returns a <strong>List view</strong> of its array argument. Changes to the List write through to the array and vice versa. The size of the collection is that of the array and cannot be changed. If the add or the remove method is called on the List, an UnsupportedOperationException will result.</p>
+<p>Empty Set, List, and Map Constants: Collections.emptyXXX()</p>
+<p>Most commonly used implementation:</p>
+<ul>
+<li>Set: HashSet</li>
+<li>List: ArrayList</li>
+<li>Map: HashMap</li>
+<li>Queue: LinkedList</li>
+<li>Deque: ArrayDeque</li>
+</ul>
+<p>Collections 中有很多集合相关的算法：</p>
+<ul>
+<li>sort: 复杂度 nlog(n)</li>
+<li>shuffle: useful in implementing games of chance</li>
+<li>reverse, fill, copy, swap, addAll</li>
+<li>binarySearch</li>
+<li>frequency, disjoint</li>
+<li>min, max</li>
+</ul>
+<p>上面这些算法一般都有两种形式，一种是 Natural Ordering，另一种是传入一个 Comparator 的实现</p>
+<p>如果想自己实现 Collection，可以继承各种 Abstract Class:</p>
+<ul>
+<li>AbstractCollection</li>
+<li>AbstractSet</li>
+<li>AbstractList</li>
+<li>AbstractSequentialList</li>
+<li>AbstractQueue</li>
+<li>AbstractMap</li>
+</ul>
+<hr>
+<h2 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h2><hr>
+<p>JDBC Database Access, Concurrency</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/blog/transient和JsonIgnore/" itemprop="url">
+                  transient和@JsonIgnore
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-23T17:02:17+08:00" content="2016-04-23">
+              2016-04-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一般在遇到到远程过程调用（Remote Procedure Call，RPC）或者 Restful API 的时候，我们就会涉及到对象序列化的问题。RMI 中只要让类实现 Serializable 接口，然后使用 ObjectOutputStream 就可以完成序列化为二进制的过程。而 Restful API 一般用 JSON 格式较为普遍，我个人习惯用 Jackson 2 类库来完成序列化为 JSON 字符串的过程。</p>
+<p>在序列化的过程中，我们可能会遇到一些 fields，我们并不希望把它们传输出去，例如用户的密码、银行卡号等，这时候我们就会用到 transient 或 @JsonIgnore，前者是 Java 中的一个描述符，后者是 Jackson 2 类库中的一个注释，下面我们分开来讨论这两个东西的用法。</p>
+<h2 id="transient"><a href="#transient" class="headerlink" title="transient"></a>transient</h2><p>transient 可以修饰于 field 上，这样在序列化为二进制的时候，这个 field 就会被忽略掉。例如以下 User 类的 password 字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class User implements Serializable &#123;</span><br><span class="line">  private String username;</span><br><span class="line">  private transient String password;</span><br><span class="line">  private static int count = 0;</span><br><span class="line"></span><br><span class="line">  public User() &#123;</span><br><span class="line">    User.count++;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  public void serialize(String filename) throws IOException &#123;</span><br><span class="line">    OutputStream os;</span><br><span class="line">    ObjectOutputStream oos = null;</span><br><span class="line">    try &#123;</span><br><span class="line">      os = new FileOutputStream(filename);</span><br><span class="line">      oos = new ObjectOutputStream(os);</span><br><span class="line">      oos.writeObject(this);</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">      if (oos != null) &#123;</span><br><span class="line">        oos.close();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static User deserialize(String filename) throws IOException, ClassNotFoundException &#123;</span><br><span class="line">    InputStream is;</span><br><span class="line">    ObjectInputStream ois = null;</span><br><span class="line">    try &#123;</span><br><span class="line">      is = new FileInputStream(filename);</span><br><span class="line">      ois = new ObjectInputStream(is);</span><br><span class="line">      return (User) ois.readObject();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">      if (ois != null) &#123;</span><br><span class="line">        ois.close();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">  \\ 下面省略了 getter setter 方法</span><br></pre></td></tr></table></figure>
+<p>我们可以测试下 serialize 方法，看下持久化后的文件，其中是没有 password 相关信息的，然后再反序列化回来，得到的 User 对象的 password 字段也是 null。</p>
+<p>这里要注意的是 static fields 是不会被序列化的，这个可以自行验证一下。我觉得是因为本质上 static fields 保存的是跟一个类相关的信息，而不是跟单独一个对象相关的，例如上面例子中的 count 字段，如果 static fields 也被序列化和反序列化则会引起混乱。</p>
+<h2 id="JsonIgnore"><a href="#JsonIgnore" class="headerlink" title="@JsonIgnore"></a>@JsonIgnore</h2><p>在 Jackson 1.9 之后，@JsonIgnore 作用在 field，getter method，setter method 这三者任意一个上面，都会使得在序列化或者反序列化为 JSON 的时候，三者都会被忽略掉。例如下面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class User implements Serializable &#123;</span><br><span class="line">  private String username;</span><br><span class="line">  @JsonIgnore</span><br><span class="line">  private String password;</span><br><span class="line">  private static int count = 0;</span><br><span class="line"></span><br><span class="line">  public User() &#123;</span><br><span class="line">    User.count++;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  public String stringfy() throws JsonProcessingException &#123;</span><br><span class="line">    ObjectMapper mapper = new ObjectMapper();</span><br><span class="line">    return mapper.writeValueAsString(this);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static User parse(String jsonString) throws IOException &#123;</span><br><span class="line">    ObjectMapper mapper = new ObjectMapper();</span><br><span class="line">    return mapper.readValue(jsonString, User.class);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">  \\ 下面省略了 getter setter 方法</span><br></pre></td></tr></table></figure>
+<p>我们可以测试发现，password 不管在序列化还是反序列化过程中，都会被忽略掉。而静态字段 count，也不会在序列化中出现，并且在反序列化的时候，如果包含了 count 字段，会抛出未知参数的错误。</p>
+<p>我们也可以用 @JsonIgnoreProperties 作用于类上面，来完成上面同样的功能，这个在需要忽略的字段是继承自父类的时候，就能有用武之地，因为这个时候没有相应的字段或方法可以注释。</p>
+<p>Jackson 2 除了给出默认的同时忽略序列化和反序列化的行为，也给出了只忽略一个过程的选择。我们以忽略反序列化，不忽略序列化为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@JsonProperty(access = WRITE_ONLY)</span><br><span class="line">private String password;</span><br></pre></td></tr></table></figure>
+<p>Jackson 的类库还有很多灵活的用法，不过这篇就只讨论到这了。</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="Yinyin Qian" />
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
