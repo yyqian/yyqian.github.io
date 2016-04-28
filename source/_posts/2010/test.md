@@ -1,0 +1,8 @@
+---
+title: test
+date: 2010-06-28 09:43:32
+permalink: 1277689412000
+tags: 
+---
+
+<p><img border="0" alt="IMG_0134" src="http://static.flickr.com/1083/4731924696_ce6f66e528_b.jpg" width="900" height="600" /></p>  <p>&#160;</p>  <p><img border="0" alt="IMG_0135" src="http://static.flickr.com/1358/4731930136_afc1e02d97_b.jpg" width="951" height="600" /></p>  <p>&#160;</p>  <p><img border="0" alt="IMG_0139" src="http://static.flickr.com/1316/4731291167_0d6e40f3ed_b.jpg" width="900" height="600" /></p>  <p>&#160;</p>  <p><img border="0" alt="IMG_0149" src="http://static.flickr.com/1033/4731940192_d657114878_b.jpg" width="937" height="600" /></p>  <p>&#160;</p>  <p><img border="0" alt="IMG_0165" src="http://static.flickr.com/1065/4731300231_bb41ba7776_b.jpg" width="870" height="600" /></p>  <p>&#160;</p>  <p><img border="0" alt="IMG_0178" src="http://static.flickr.com/1316/4731955256_a16f84132d_b.jpg" width="825" height="600" /></p>  <p>&#160;</p>  <p><img border="0" alt="IMG_0177" src="http://static.flickr.com/1007/4731951538_d5a27e94a8_b.jpg" width="951" height="600" /></p>  <p>&#160;</p>  <p><img border="0" alt="IMG_0172" src="http://static.flickr.com/1106/4731304769_d12531f231_b.jpg" width="825" height="600" /></p>  <p>&#160;</p>  <p>很久以前的一张片子：</p>  <p></p>  <p></p>  <p></p>  <p></p>  <p></p>  <p><img border="0" alt="南山竹海" src="http://static.flickr.com/4101/4741600698_abe78b783e.jpg" /></p>

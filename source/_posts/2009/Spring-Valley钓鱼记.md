@@ -1,0 +1,8 @@
+---
+title: Spring Valley钓鱼记
+date: 2009-05-17 21:51:46
+permalink: 1242568306000
+tags: 
+---
+
+<p><img border="0" alt="IMG_1078" src="http://static.flickr.com/3632/3537766853_877492dbf5_b.jpg" width="980" height="563" /></p>  <p><img border="0" alt="IMG_1107" src="http://static.flickr.com/2010/3537777193_9eb76df30c_b.jpg" width="980" height="604" /></p>  <p><img border="0" alt="IMG_1108" src="http://static.flickr.com/2162/3537778003_6e24ac6689_b.jpg" width="980" height="600" /></p>  <p><img border="0" alt="IMG_1126" src="http://static.flickr.com/2266/3537780127_fb383b8c24_b.jpg" width="980" height="610" /></p>  <p><img border="0" alt="IMG_1131" src="http://static.flickr.com/2407/3537780893_6d5dee0dbc_b.jpg" width="980" height="527" /></p>  <p><img border="0" alt="IMG_1132" src="http://static.flickr.com/3405/3537782329_13d56b326e_b.jpg" width="980" height="727" /></p>  <p><img border="0" alt="IMG_1155" src="http://static.flickr.com/2148/3537790627_0f2f33a55b_b.jpg" width="980" height="528" /></p>  <p><img border="0" alt="IMG_1164" src="http://static.flickr.com/2352/3537791653_b74ef8561f_b.jpg" width="932" height="800" /></p>  <p><img border="0" alt="IMG_1165" src="http://static.flickr.com/2320/3538605982_779d27495e_b.jpg" width="980" height="601" /></p>  <p><img border="0" alt="IMG_1211" src="http://static.flickr.com/2249/3538621824_3811715c77_b.jpg" width="980" height="635" /></p>  <p><img border="0" alt="IMG_1215" src="http://static.flickr.com/2322/3537810837_155577a1c0_b.jpg" width="980" height="654" /></p>  <p><img border="0" alt="IMG_1259" src="http://static.flickr.com/2369/3537816671_e5717a357f_b.jpg" width="980" height="581" /></p>
