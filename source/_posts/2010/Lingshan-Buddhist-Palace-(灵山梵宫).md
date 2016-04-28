@@ -8,7 +8,7 @@ tags:
 Location: Wuxi, Jiangsu, China
 
 <object width="640" height="360"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=13388727&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1&amp;autoplay=0&amp;loop=0" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=13388727&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1&amp;autoplay=0&amp;loop=0" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="640" height="360"></embed></object>
-
+<!-- more -->
 <img class="alignnone" title="1" src="http://farm5.static.flickr.com/4117/4798225231_16a21d22ff_z.jpg" alt="" width="640" height="360" />
 
 <img class="alignnone" title="2" src="http://farm5.static.flickr.com/4123/4798244767_378f489cf7_z.jpg" alt="" width="640" height="405" />

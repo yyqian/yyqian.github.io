@@ -13,7 +13,7 @@ tags:
 <img src="http://static.flickr.com/4120/4917685490_d4fe962e56_z.jpg" border="0" alt="IMG_1572" />
 
 <img src="http://static.flickr.com/4140/4917686280_3b257db126_z.jpg" border="0" alt="IMG_1578" />
-
+<!-- more -->
 <img src="http://static.flickr.com/4116/4917691254_9d29952f88_z.jpg" border="0" alt="IMG_1598" />
 
 <img src="http://static.flickr.com/4095/4917091963_c13746f7bb_z.jpg" border="0" alt="IMG_1602" />

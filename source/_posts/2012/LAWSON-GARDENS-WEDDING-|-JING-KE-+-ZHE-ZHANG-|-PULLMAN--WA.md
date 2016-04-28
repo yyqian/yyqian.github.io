@@ -10,7 +10,7 @@ My first wedding shoot for my best friends. Congratulations to you both. Wishing
 <img src="http://farm8.staticflickr.com/7192/7086378365_d58c98aed9_b.jpg" alt="" />
 
 <img src="http://farm6.staticflickr.com/5467/7086379689_a42a338b5f_b.jpg" alt="" />
-
+<!-- more -->
 <img src="http://farm8.staticflickr.com/7077/7086377555_c8ba4bb9eb_b.jpg" alt="" />
 
 <img src="http://farm6.staticflickr.com/5197/7086375289_fba7873d59_b.jpg" alt="" />

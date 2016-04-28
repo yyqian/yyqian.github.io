@@ -16,7 +16,7 @@ tags:
 <p>我就是在这个会场做报告的</p>
 
 <p><img src="http://farm8.staticflickr.com/7207/6815147488_2af4218b80_b.jpg" /></p>
-
+<!-- more -->
 <p>我这方向的一位大牛，长得很像任达华。。。</p>
 
 <p><img src="http://farm8.staticflickr.com/7188/6815144180_220b7a9aa5_b.jpg" /></p>
