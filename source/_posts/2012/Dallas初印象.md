@@ -2,7 +2,7 @@
 title: Dallas初印象
 date: 2012-09-17 05:57:32
 permalink: 1347832652000
-tags: 
+tags:
 ---
 
 Dallas给我的第一印象是个冰冷的工业城市
@@ -17,6 +17,5 @@ Dallas给我的第一印象是个冰冷的工业城市
 <img src="http://farm9.staticflickr.com/8031/7994939555_a48cdd2582_b.jpg"/><br/><br/>
 华灯初上的Skyline
 <img src="http://farm9.staticflickr.com/8308/7994938363_aae1949206_b.jpg"/><br/><br/>
-<img src="http://farm9.staticflickr.com/8305/7994942042_8c96193aab_b.jpg"/><br/><br/>
 车流
 <img src="http://farm9.staticflickr.com/8457/7994941644_c6288df1a3_b.jpg"/><br/><br/>

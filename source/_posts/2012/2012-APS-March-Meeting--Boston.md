@@ -2,7 +2,7 @@
 title: 2012 APS March Meeting, Boston
 date: 2012-03-07 01:53:16
 permalink: 1331056396000
-tags: 
+tags:
 ---
 
 <p>先把照片贴一下，内容过两天再填。</p>
@@ -20,10 +20,6 @@ tags:
 <p>我这方向的一位大牛，长得很像任达华。。。</p>
 
 <p><img src="http://farm8.staticflickr.com/7188/6815144180_220b7a9aa5_b.jpg" /></p>
-
-<p>展览，有做poster的，也有推销仪器的</p>
-
-<p><img src="http://farm8.staticflickr.com/7058/6815143372_7d91457e7b_b.jpg" /></p>
 
 <p>赶会场的人</p>
 
@@ -43,19 +39,11 @@ tags:
 
 <p><img src="http://farm8.staticflickr.com/7189/6815147070_7ffaf82ef1_b.jpg" /></p>
 
-<p><img src="http://farm8.staticflickr.com/7037/6815144846_fd22c45344_b.jpg" /></p>
-
 <p><img src="http://farm8.staticflickr.com/7069/6815145838_0fa74d65cf_b.jpg" /></p>
-
-<p><img src="http://farm8.staticflickr.com/7205/6961261731_9010fefaaa_b.jpg" /></p>
 
 <p><img src="http://farm8.staticflickr.com/7191/6815144568_4ceed712a5_b.jpg" /></p>
 
 <p><img src="http://farm8.staticflickr.com/7046/6815146378_a07c8b355d_b.jpg" /></p>
-
-<p>在Harvard找到了Facebook创始人Zuckerberg当时的宿舍</p>
-
-<p><img src="http://farm8.staticflickr.com/7183/6815143178_81db3cbdc6_b.jpg" /></p>
 
 <p>MIT的一角，整个校园都是这种灰色的建筑</p>
 

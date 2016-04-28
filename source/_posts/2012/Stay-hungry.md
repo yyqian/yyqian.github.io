@@ -2,7 +2,7 @@
 title: Stay hungry
 date: 2012-02-16 22:48:33
 permalink: 1329403713000
-tags: 
+tags:
 ---
 
 乔帮主和金胖子都曾有遗言: “Stay hungry, stay foolish”.
@@ -28,9 +28,3 @@ tags:
 元宵节和室友包的汤圆
 
 <img src="http://farm8.staticflickr.com/7177/6890148495_a2d595160a_b.jpg" alt="" />
-
-&nbsp;
-
-生日那天同学亲自做的蛋糕
-
-<img src="http://farm8.staticflickr.com/7187/6890147543_0bd7a3ede5_b.jpg" alt="" />

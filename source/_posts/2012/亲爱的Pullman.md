@@ -2,7 +2,7 @@
 title: 亲爱的Pullman
 date: 2012-07-28 17:58:27
 permalink: 1343469507000
-tags: 
+tags:
 ---
 
 <p>周末花了一天的时间把网站又建起来了，把手上一个废弃已久的Pogoplug Pro刷了Arch linux，装了apache、mysql、php，貌似速度还没慢到发指，这种arm系统还挺有意思的，先这样用着吧。之前的数据还没从原来的服务器上的拷过来，就把前几天在人人上的一篇日志转过来吧：</p>
@@ -98,9 +98,6 @@ tags:
 <img src="http://farm8.staticflickr.com/7121/7619284716_436b66f0af_b.jpg" alt="" border="0" />
 
 <img src="http://farm9.staticflickr.com/8292/7619280568_88a8f2edc5_b.jpg" alt="" border="0" />
-
-<img src="http://farm9.staticflickr.com/8289/7619281114_2f871192cd_c.jpg" alt="" border="0" />
-
 
 <br/>
 <p>第三天我们前往大峡谷国家公园，大概有6个小时左右的路程，这条路旁都是荒漠，后面的路都得握紧方向盘小心横风。从Utah进入Arizona之后，沿途会经过很大的一片Indian reservations，那儿能见到的几乎都是印第安人，我们在一个叫Tuba City的小镇上停留了一会，这儿印第安人的生活虽然不像电视上看到的那么原始，但跟外界相比，真是相当于中国的山村，美国的贫民窟，周围都是寸草不生的土石，无法种植和畜牧，看着就觉得他们过得很穷困。美国津津乐道地谈人权民主，却又把这些真正的Native Americans逼到了这种地方。</p>
