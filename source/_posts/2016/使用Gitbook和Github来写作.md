@@ -5,6 +5,12 @@ permalink: 1461744874666
 tags: [Git, Gitbook]
 ---
 
+## 前提
+
+- 本地安装好了 node，git 等工具
+- 有 Github 账户，并且配置好了 ssh key
+- 注册一个 [Gitbook](http://gitbook.com/)
+
 ## Gitbook 常用命令
 
 ```
