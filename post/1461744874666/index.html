@@ -32,48 +32,25 @@
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
 
 
 
 <link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Gitbook,Github," />
-
-
-
+  <meta name="keywords" content="Git,Gitbook," />
 
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
 
 
 
@@ -85,12 +62,12 @@ Gitbook 项目的文件结构运行 gitbook init 命令之后，会得到 README
 READ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Gitbook 和 Github 来写作">
-<meta property="og:url" content="http://yyqian.github.com/post/1461744874666/index.html">
+<meta property="og:url" content="http://yyqian.com/post/1461744874666/index.html">
 <meta property="og:site_name" content="YYQIAN">
 <meta property="og:description" content="Gitbook 常用命令1234npm install gitbook-cli -g # 安装 gitbookgitbook init # 初始化项目gitbook serve # 本地预览，支持监视文件改动gitbook build # 生成静态文件
 Gitbook 项目的文件结构运行 gitbook init 命令之后，会得到 README.md 和 SUMMARY.md 两个文件。
 READ">
-<meta property="og:updated_time" content="2016-04-27T08:37:04.000Z">
+<meta property="og:updated_time" content="2016-04-28T01:15:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Gitbook 和 Github 来写作">
 <meta name="twitter:description" content="Gitbook 常用命令1234npm install gitbook-cli -g # 安装 gitbookgitbook init # 初始化项目gitbook serve # 本地预览，支持监视文件改动gitbook build # 生成静态文件
@@ -108,7 +85,7 @@ READ">
     motion: true,
     duoshuo: {
       userId: 0,
-      author: 'Author'
+      author: '博主'
     }
   };
 </script>
@@ -116,11 +93,21 @@ READ">
   <title> 使用 Gitbook 和 Github 来写作 | YYQIAN </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -171,7 +158,7 @@ READ">
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            Home
+            首页
           </a>
         </li>
       
@@ -181,7 +168,17 @@ READ">
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            Archives
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
           </a>
         </li>
       
@@ -234,7 +231,7 @@ READ">
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2016-04-27T15:48:36+08:00" content="2016-04-27">
               2016-04-27
             </time>
@@ -244,6 +241,13 @@ READ">
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1461744874666/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1461744874666/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -251,7 +255,6 @@ READ">
           
           
 
-          
         </div>
       </header>
     
@@ -263,14 +266,15 @@ READ">
       
 
       
-        <h2 id="Gitbook-常用命令"><a href="#Gitbook-常用命令" class="headerlink" title="Gitbook 常用命令"></a>Gitbook 常用命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install gitbook-cli -g # 安装 gitbook</span><br><span class="line">gitbook init # 初始化项目</span><br><span class="line">gitbook serve # 本地预览，支持监视文件改动</span><br><span class="line">gitbook build # 生成静态文件</span><br></pre></td></tr></table></figure>
+        <h2 id="Gitbook-常用命令"><a href="#Gitbook-常用命令" class="headerlink" title="Gitbook 常用命令"></a>Gitbook 常用命令</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install </span>gitbook-cli -g <span class="comment"># 安装 gitbook</span></span><br><span class="line">gitbook init <span class="comment"># 初始化项目</span></span><br><span class="line">gitbook serve <span class="comment"># 本地预览，支持监视文件改动</span></span><br><span class="line">gitbook <span class="keyword">build </span><span class="comment"># 生成静态文件</span></span><br></pre></td></tr></table></figure>
 <h2 id="Gitbook-项目的文件结构"><a href="#Gitbook-项目的文件结构" class="headerlink" title="Gitbook 项目的文件结构"></a>Gitbook 项目的文件结构</h2><p>运行 <code>gitbook init</code> 命令之后，会得到 README.md 和 SUMMARY.md 两个文件。</p>
 <p><strong>README.md</strong></p>
 <p>这个相当于整本书的简介。例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Netty in Action 学习笔记</span><br><span class="line"></span><br><span class="line">主要是个人在阅读「Netty in Action」这本书时做的笔记，用于学习和分享。</span><br></pre></td></tr></table></figure>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Netty <span class="keyword">in</span> <span class="keyword">Action</span> 学习笔记</span><br><span class="line"></span><br><span class="line">主要是个人在阅读「Netty <span class="keyword">in</span> <span class="keyword">Action</span>」这本书时做的笔记，用于学习和分享。</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p><strong>SUMMARY.md</strong></p>
 <p>这个相当于是整本书的目录。例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Summary</span><br><span class="line"></span><br><span class="line">* Netty concepts and architecture</span><br><span class="line">    * [Netty—asynchronous and event-driven](part1/chapter1.md)</span><br><span class="line">    * [Your first Netty application](part1/chapter2.md)</span><br><span class="line">* Codecs</span><br><span class="line">    * [The codec framework](part2/chapter10.md)</span><br></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># <span class="selector-tag">Summary</span></span><br><span class="line"></span><br><span class="line">* <span class="selector-tag">Netty</span> <span class="selector-tag">concepts</span> <span class="selector-tag">and</span> <span class="selector-tag">architecture</span></span><br><span class="line">    * <span class="selector-attr">[Netty—asynchronous and event-driven]</span>(part1/chapter1.md)</span><br><span class="line">    * <span class="selector-attr">[Your first Netty application]</span>(part1/chapter2.md)</span><br><span class="line">* <span class="selector-tag">Codecs</span></span><br><span class="line">    * <span class="selector-attr">[The codec framework]</span>(part2/chapter10.md)</span><br></pre></td></tr></table></figure>
 <p><strong>Markdown 文档</strong></p>
 <p>Markdown 文档的存放应当是和你 SUMMARY.md 中设置的超链接一致的。</p>
 <h2 id="发布到-Gitbook"><a href="#发布到-Gitbook" class="headerlink" title="发布到 Gitbook"></a>发布到 Gitbook</h2><p>个人喜欢先发布到 Github，然后再让 Gitbook 关联 Github 的仓库，具体就是：</p>
@@ -279,12 +283,6 @@ READ">
 <li>Gitbook 关联 Github 中的该项目，这样你每次 push 到 Github 仓库， Gitbook 都会自动更新页面</li>
 </ul>
 
-      
-    </div>
-    
-    <div>
-      
-        
       
     </div>
 
@@ -298,9 +296,9 @@ READ">
       
         <div class="post-tags">
           
-            <a href="/tags/gitbook/" rel="tag">#Gitbook</a>
+            <a href="/tags/git/" rel="tag">#Git</a>
           
-            <a href="/tags/github/" rel="tag">#Github</a>
+            <a href="/tags/gitbook/" rel="tag">#Gitbook</a>
           
         </div>
       
@@ -341,6 +339,10 @@ READ">
           
   <div class="comments" id="comments">
     
+      <div class="ds-thread" data-thread-key="post/1461744874666/"
+           data-title="使用 Gitbook 和 Github 来写作" data-url="http://yyqian.com/post/1461744874666/">
+      </div>
+    
   </div>
 
 
@@ -364,10 +366,10 @@ READ">
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            站点概览
           </li>
         </ul>
       
@@ -375,7 +377,7 @@ READ">
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/default_avatar.jpg"
+               src="http://cdn.yyqian.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd"
                alt="Yinyin Qian" />
           <p class="site-author-name" itemprop="name">Yinyin Qian</p>
           <p class="site-description motion-element" itemprop="description"></p>
@@ -383,8 +385,8 @@ READ">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-count">41</span>
+              <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
@@ -392,10 +394,10 @@ READ">
 
           
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">tags</span>
-              
+              <a href="/tags">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
             </div>
           
 
@@ -405,13 +407,44 @@ READ">
 
         <div class="links-of-author motion-element">
           
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/yinyinqian" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
         </div>
 
         
         
 
         
-        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
 
       </section>
 
@@ -449,19 +482,18 @@ READ">
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
 </div>
 
-        
 
-        
+
       </div>
     </footer>
 
@@ -472,6 +504,12 @@ READ">
 
   
 
+
+  
+
+
+
+
 <script type="text/javascript">
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
@@ -479,42 +517,25 @@ READ">
 </script>
 
 
-
-
-
-
-
-
-
-  
-
-
-
-  
   <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-  
   <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-  
   <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
 
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
 
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
 
 
 
@@ -522,30 +543,49 @@ READ">
   
 
 
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
 
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
 
 
 
   
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
 
 
 
   
 
 
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
 
   
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
 
 
 
