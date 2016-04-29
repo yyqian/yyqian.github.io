@@ -75,7 +75,7 @@ console.log(queens(8));
 
 ```JavaScript
 'use strict';
-const queens = (boarderSize) => {
+const queens = boarderSize => {
   // 用递归生成一个start到end的Array
   const interval = (start, end) => (start > end) ? [] : interval(start, end - 1).concat(end);
   // 检查一个组合是否有效
