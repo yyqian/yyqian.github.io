@@ -28,7 +28,7 @@ Command-, |	配置当前应用
 Command-Backspace 或 Del | 删除，多数应用都支持至少这两种方式之一，Finder 可以用前者
 Command–Any Arrow | 把光标移到上下左右最末端
 Command–[, ] | 后退，前进
-
+<!-- more -->
 Finder 额外的快捷键
 
 快捷键 | 功能
