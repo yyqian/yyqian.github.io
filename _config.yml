@@ -12,7 +12,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yyqian.com
+url: https://yyqian.com
 root: /
 permalink: post/:title/
 permalink_defaults:
@@ -76,4 +76,4 @@ deploy:
 # ADDED
 duoshuo_shortname: yyqian
 baidu_analytics: d00e38d4c75ea7dd82adf3b48be0c9ff
-avatar: http://cdn.yyqian.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd
+avatar: https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd
