@@ -60,7 +60,7 @@
 <meta name="description" content="In me the tiger sniffs the rose">
 <meta property="og:type" content="website">
 <meta property="og:title" content="YYQIAN">
-<meta property="og:url" content="http://yyqian.com/page/4/index.html">
+<meta property="og:url" content="https://yyqian.com/page/4/index.html">
 <meta property="og:site_name" content="YYQIAN">
 <meta property="og:description" content="In me the tiger sniffs the rose">
 <meta name="twitter:card" content="summary">
@@ -194,6 +194,115 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1432535189699/" itemprop="url">
+                  REST API 设计
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-25T14:26:29+08:00" content="2015-05-25">
+              2015-05-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1432535189699/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1432535189699/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="RESTful-API设计思想"><a href="#RESTful-API设计思想" class="headerlink" title="RESTful API设计思想"></a>RESTful API设计思想</h2><ol>
+<li>URL里只包含名词，用来指向资源</li>
+<li>用HTTP请求(GET/POST/PUT/PATCH/DELETE)来描述CRUD动作</li>
+</ol>
+<h2 id="标准的RESTful-API"><a href="#标准的RESTful-API" class="headerlink" title="标准的RESTful API"></a>标准的RESTful API</h2><p>以下为几种常见的RESTful API：</p>
+<ul>
+<li><code>GET /post</code> 获取所有的posts</li>
+<li><code>GET /post/:pid</code> 获取特定的post</li>
+<li><code>POST /post</code> 新建post</li>
+<li><code>PUT /post/:pid</code> 修改post</li>
+<li><code>PATCH /post/:pid</code> 部分修改post</li>
+<li><code>DELETE /post/:pid</code> 删除post
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1432535189699/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1131,116 +1240,6 @@ arm-linux-gnueabihf-g++ test.cpp -o test.exe  #写一个test.cpp并尝试编译�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1405998420000/" itemprop="url">
-                  LaTeX 中文支持配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-07-22T11:07:00+08:00" content="2014-07-22">
-              2014-07-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1405998420000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1405998420000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>LaTeX安装</strong></p>
-<p>运行环境：Ubuntu 14.04/Linux mint 17</p>
-<pre><code>sudo apt-get install texlive-full
-</code></pre><p><strong>字体安装</strong></p>
-<pre><code>sudo mkdir /usr/share/fonts/win
-sudo cp *字体文件* /usr/share/fonts/win
-sudo chmod 644 /usr/share/fonts/win/*
-cd /usr/share/fonts/win/
-sudo mkfontscale
-sudo mkfontdir
-fc-cache
-sudo fc-cache -fv
-</code></pre><p>用该命令可以列出系统所有的中文字体：<code>fc-list :lang=zh-cn</code><br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1405998420000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1278,7 +1277,7 @@ sudo fc-cache -fv
       <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://cdn.yyqian.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd"
+               src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd"
                alt="Yinyin Qian" />
           <p class="site-author-name" itemprop="name">Yinyin Qian</p>
           <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
@@ -1286,7 +1285,7 @@ sudo fc-cache -fv
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">108</span>
+              <span class="site-state-item-count">109</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

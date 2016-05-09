@@ -64,7 +64,7 @@
 下面我示例用的项目是用 Java 下的 Spring Boot 框架写的，在编译的时候实际还需要 JDK、Maven，如果是其他语言的项目，部分环节上会有出入，但大致的流程应该是一致的。另外，这里主要是介绍下 Jenkins 的配置，其">
 <meta property="og:type" content="article">
 <meta property="og:title" content="持续集成环境的搭建（基于 Jenkins、Docker、Git）">
-<meta property="og:url" content="http://yyqian.com/post/1460773574738/index.html">
+<meta property="og:url" content="https://yyqian.com/post/1460773574738/index.html">
 <meta property="og:site_name" content="YYQIAN">
 <meta property="og:description" content="目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。
 工具：Jenkins、Docker、Git
@@ -81,7 +81,7 @@
 <meta property="og:image" content="http://cdn.yyqian.com/201604181456-Fp-qIUgSof1mXtb53Q9k8_5eammk?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201604181450-FjJKOEistf0u-YlgZ5q5irrokmg_?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201604181450-Fna4uRxkfdVIYvLpJg64GsvCGu9b?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-04-28T01:15:54.000Z">
+<meta property="og:updated_time" content="2016-05-09T08:20:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="持续集成环境的搭建（基于 Jenkins、Docker、Git）">
 <meta name="twitter:description" content="目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。
@@ -294,9 +294,9 @@
 <li>Java</li>
 <li>Docker</li>
 </ul>
-<h2 id="安装和运行-Jenkins"><a href="#安装和运行-Jenkins" class="headerlink" title="安装和运行 Jenkins"></a>安装和运行 Jenkins</h2><p>具体参照：<a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions" target="_blank" rel="external">官方说明</a></p>
+<h2 id="安装和运行-Jenkins"><a href="#安装和运行-Jenkins" class="headerlink" title="安装和运行 Jenkins"></a>安装和运行 Jenkins</h2><p>具体参照：<a href="httpss://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions" target="_blank" rel="external">官方说明</a></p>
 <p>安装 LTS 版本：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> http:<span class="comment">//pkg.jenkins-ci.org/redhat-stable/jenkins.repo</span></span><br><span class="line">sudo rpm --import https:<span class="comment">//jenkins-ci.org/redhat/jenkins-ci.org.key</span></span><br><span class="line">sudo yum install jenkins</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> https:<span class="comment">//pkg.jenkins-ci.org/redhat-stable/jenkins.repo</span></span><br><span class="line">sudo rpm --import httpss:<span class="comment">//jenkins-ci.org/redhat/jenkins-ci.org.key</span></span><br><span class="line">sudo yum install jenkins</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>更改端口：修改 <code>/etc/sysconfig/jenkins</code> 中的 <code>JENKINS_PORT</code></p>
 <p>启动服务和设置开机自启动：</p>
@@ -316,7 +316,7 @@
 </ul>
 <h2 id="更新插件和安装-Git-插件"><a href="#更新插件和安装-Git-插件" class="headerlink" title="更新插件和安装 Git 插件"></a>更新插件和安装 Git 插件</h2><p>进入插件管理页面：</p>
 <ul>
-<li>在 Advanced 中配置 Http 代理</li>
+<li>在 Advanced 中配置 https 代理</li>
 <li>然后更新所有插件，重启服务</li>
 <li>安装 Git plugin，重启服务</li>
 </ul>
@@ -341,7 +341,7 @@
 <p><img src="http://cdn.yyqian.com/201604181450-FvTTuY_oBnvWI2NtEyBlbWV_FpRn?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.47.26 PM.png"></p>
 <p>然后，填写 System Admin e-mail address，注意要与 SMTP 服务的账户名相同，配置 E-mail Notification</p>
 <h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>这是我的示例项目：</p>
-<p><a href="https://github.com/yyqian/jenkins-ci-demo" target="_blank" rel="external">https://github.com/yyqian/jenkins-ci-demo</a></p>
+<p><a href="httpss://github.com/yyqian/jenkins-ci-demo" target="_blank" rel="external">httpss://github.com/yyqian/jenkins-ci-demo</a></p>
 <h2 id="创建和开始-Jenkins-任务"><a href="#创建和开始-Jenkins-任务" class="headerlink" title="创建和开始 Jenkins 任务"></a>创建和开始 Jenkins 任务</h2><p>New Item 页面：填写 Name，选择 <code>Freestyle project</code></p>
 <p>在下一个页面填写代码仓库地址 Repository URL，Jenkins 每次运行任务都会从该地址拉取代码</p>
 <p><img src="http://cdn.yyqian.com/201604181450-FlpB61fUD3M6Vj3OiOVtOQtfDHL2?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.48.28 PM.png"></p>
@@ -427,7 +427,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="post/1460773574738/"
-           data-title="持续集成环境的搭建（基于 Jenkins、Docker、Git）" data-url="http://yyqian.com/post/1460773574738/">
+           data-title="持续集成环境的搭建（基于 Jenkins、Docker、Git）" data-url="https://yyqian.com/post/1460773574738/">
       </div>
     
   </div>
@@ -464,7 +464,7 @@
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://cdn.yyqian.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd"
+               src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd"
                alt="Yinyin Qian" />
           <p class="site-author-name" itemprop="name">Yinyin Qian</p>
           <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
@@ -472,7 +472,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">108</span>
+              <span class="site-state-item-count">109</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
