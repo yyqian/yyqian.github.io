@@ -216,7 +216,7 @@
             
               
                 
-                <a class="post-title-link" href="/post/2016/letsencrypt/" itemprop="url">
+                <a class="post-title-link" href="/post/1462519709000/" itemprop="url">
                   Let's Encrypt 在 Centos 和 Nginx 中的部署
                 </a>
               
@@ -241,8 +241,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/post/2016/letsencrypt/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/2016/letsencrypt/" itemprop="commentsCount"></span>
+                <a href="/post/1462519709000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1462519709000/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -265,9 +265,9 @@
 
       
         
-          
-            <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><ul>
-<li>把你的域名解析到主机的 IP 上，因为 Let’s Encrypt 服务器在给你发证书的时候，会检查这个域名是不是你持有</li>
+          <p>Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流浏览器都已经把这个项目的证书添加到了信任列表。</p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><ul>
+<li>把你所有的域名和子域名都解析到主机的 IP 上，因为 Let’s Encrypt 服务器在给你发证书的时候，会检查这个域名是不是你持有</li>
 <li>已经安装好 Nginx</li>
 </ul>
 <h2 id="安装-Let’s-Encrypt-客户端"><a href="#安装-Let’s-Encrypt-客户端" class="headerlink" title="安装 Let’s Encrypt 客户端"></a>安装 Let’s Encrypt 客户端</h2><p>首先安装 git 和 bc，然后克隆 Let’s Encrypt 的代码到 /opt/letsencrypt 文件夹</p>
@@ -277,22 +277,12 @@
 <h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><p>我们将使用 standalone 的方式来获取证书。在这之前我们需要先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let’s Encrypt 服务端的验证.</p>
 <p>这里我们假设你的域名是 example.com，你需要在这把子域名也写上</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="keyword">stop</span> nginx</span><br><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto certonly --standalone -d example.<span class="keyword">com</span> -d www.example.<span class="keyword">com</span> -d blog.example.<span class="keyword">com</span></span><br><span class="line">sudo systemctl start nginx</span><br></pre></td></tr></table></figure>
-<p>获取成功的证书会存放在 /etc/letsencrypt/live/example.com 文件夹中</p>
-<h2 id="生成-Strong-Diffie-Hellman-Group"><a href="#生成-Strong-Diffie-Hellman-Group" class="headerlink" title="生成 Strong Diffie-Hellman Group"></a>生成 Strong Diffie-Hellman Group</h2><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl dhparam -out <span class="meta-keyword">/etc/</span>ssl<span class="meta-keyword">/certs/</span>dhparam.pem <span class="number">2048</span></span><br></pre></td></tr></table></figure>
-<p>输出会存放在 /etc/ssl/certs/dhparam.pem</p>
-<h2 id="Nginx-中配置-TLS-SSL"><a href="#Nginx-中配置-TLS-SSL" class="headerlink" title="Nginx 中配置 TLS/SSL"></a>Nginx 中配置 TLS/SSL</h2><p>进入 Nginx 的配置文件夹</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> /etc/nginx/<span class="keyword">conf</span>.<span class="built_in">d</span></span><br><span class="line">sudo <span class="keyword">su</span></span><br></pre></td></tr></table></figure>
-<p>新建 example-ssl.conf 文件，用来配置 SSL</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">server_name</span> example.com www.example.com;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/example.com/fullchain.pem;</span><br><span class="line">        <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/example.com/privkey.pem;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line">        <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">ssl_dhparam</span> /etc/ssl/certs/dhparam.pem;</span><br><span class="line">        <span class="attribute">ssl_ciphers</span> <span class="string">'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA'</span>;</span><br><span class="line">        <span class="attribute">ssl_session_timeout</span> <span class="number">1d</span>;</span><br><span class="line">        <span class="attribute">ssl_session_cache</span> shared:SSL:<span class="number">50m</span>;</span><br><span class="line">        <span class="attribute">ssl_stapling</span> <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">ssl_stapling_verify</span> <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">add_header</span> Strict-Transport-Security max-age=<span class="number">15768000</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># The rest of your server block</span></span><br><span class="line">        <span class="attribute">root</span> /path/to/root;</span><br><span class="line">        <span class="attribute">index</span> index.html index.htm;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">                <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>新建 example-redirect.conf 文件，用来重定向 http 连接</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span> example.com www.example.com;</span><br><span class="line">        <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$server_name</span><span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后重启 Nginx 服务</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart nginx</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.nginx.com/blog/free-certificates-lets-encrypt-and-nginx/" target="_blank" rel="external">https://www.nginx.com/blog/free-certificates-lets-encrypt-and-nginx/</a></p>
-<p><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-centos-7" target="_blank" rel="external">https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-centos-7</a></p>
-<p><a href="https://letsencrypt.org/getting-started/" target="_blank" rel="external">https://letsencrypt.org/getting-started/</a></p>
-
-          
+<p>获取成功的证书会存放在 /etc/letsencrypt/live/example.com 文件夹中<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1462519709000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1383,7 +1373,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
