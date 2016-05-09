@@ -120,10 +120,19 @@ https://www.ssllabs.com/ssltest/analyze.html?d=example.com
 
 这个证书有效期是 3 个月。接下来，我们可以设定一个 crontab 任务，在每个月的 10 号 4:00 更新证书。
 
+sudo vim /root/le-renew.sh
+
 ```
+#!/usr/bin/env bash
+systemctl stop nginx
+/opt/letsencrypt/letsencrypt-auto renew --non-interactive >> /var/log/le-renew.log
+systemctl start nginx
+```
+
 sudo crontab -e
-0 4 10 * * systemctl stop nginx && /opt/letsencrypt/letsencrypt-auto renew >> /var/log/le-renew.log && systemctl start nginx
-sudo systemctl restart crond
+
+```
+0 4 10 * * /root/le-renew.sh
 ```
 
 ## 参考链接
