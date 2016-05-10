@@ -59,30 +59,33 @@
 
 <meta name="description" content="Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流浏览器都已经把这个项目的证书添加到了信任列表。
 前提
-把你所有的域名和子域名都解析到主机的 IP 上，因为 Let’s Encrypt 服务器在给你发证书的时候，会检查这个域名是不是你持有
+把你想要加到证书中的域名和子域名都解析到主机的 IP 上
 已经安装好 Nginx
 
-安装 Let’s Encrypt 客户端首先安装 git 和 bc，然后克隆 Let’s Encrypt 的">
+安装 Let’s Encrypt 客户端首先安装 git 和 bc，然后克隆 Let’s Encrypt 的代码到 /opt/letsencrypt 文件夹
+12sudo yum -y">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Let's Encrypt 在 Centos 和 Nginx 中的部署">
 <meta property="og:url" content="https://yyqian.com/post/1462519709000/index.html">
 <meta property="og:site_name" content="YYQIAN">
 <meta property="og:description" content="Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流浏览器都已经把这个项目的证书添加到了信任列表。
 前提
-把你所有的域名和子域名都解析到主机的 IP 上，因为 Let’s Encrypt 服务器在给你发证书的时候，会检查这个域名是不是你持有
+把你想要加到证书中的域名和子域名都解析到主机的 IP 上
 已经安装好 Nginx
 
-安装 Let’s Encrypt 客户端首先安装 git 和 bc，然后克隆 Let’s Encrypt 的">
+安装 Let’s Encrypt 客户端首先安装 git 和 bc，然后克隆 Let’s Encrypt 的代码到 /opt/letsencrypt 文件夹
+12sudo yum -y">
 <meta property="og:image" content="http://cdn.yyqian.com/201605091755-Ft4WzoSKT2HE3Dmx-TpKvrQLwKhj?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-05-09T09:55:08.000Z">
+<meta property="og:updated_time" content="2016-05-10T02:37:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Let's Encrypt 在 Centos 和 Nginx 中的部署">
 <meta name="twitter:description" content="Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流浏览器都已经把这个项目的证书添加到了信任列表。
 前提
-把你所有的域名和子域名都解析到主机的 IP 上，因为 Let’s Encrypt 服务器在给你发证书的时候，会检查这个域名是不是你持有
+把你想要加到证书中的域名和子域名都解析到主机的 IP 上
 已经安装好 Nginx
 
-安装 Let’s Encrypt 客户端首先安装 git 和 bc，然后克隆 Let’s Encrypt 的">
+安装 Let’s Encrypt 客户端首先安装 git 和 bc，然后克隆 Let’s Encrypt 的代码到 /opt/letsencrypt 文件夹
+12sudo yum -y">
 <meta name="twitter:image" content="http://cdn.yyqian.com/201605091755-Ft4WzoSKT2HE3Dmx-TpKvrQLwKhj?imageView2/2/w/800/h/600">
 
 
@@ -279,32 +282,40 @@
       
         <p>Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流浏览器都已经把这个项目的证书添加到了信任列表。</p>
 <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><ul>
-<li>把你所有的域名和子域名都解析到主机的 IP 上，因为 Let’s Encrypt 服务器在给你发证书的时候，会检查这个域名是不是你持有</li>
+<li>把你想要加到证书中的域名和子域名都解析到主机的 IP 上</li>
 <li>已经安装好 Nginx</li>
 </ul>
 <h2 id="安装-Let’s-Encrypt-客户端"><a href="#安装-Let’s-Encrypt-客户端" class="headerlink" title="安装 Let’s Encrypt 客户端"></a>安装 Let’s Encrypt 客户端</h2><p>首先安装 git 和 bc，然后克隆 Let’s Encrypt 的代码到 /opt/letsencrypt 文件夹</p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install git bc</span><br><span class="line">sudo git <span class="keyword">clone</span> <span class="title">https</span>://github.com/letsencrypt/letsencrypt /opt/letsencrypt</span><br></pre></td></tr></table></figure>
-<p>你可能需要安装所有的依赖</p>
+<p>安装所有的依赖</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto --<span class="keyword">help</span></span><br></pre></td></tr></table></figure>
-<h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><p>我们将使用 standalone 的方式来获取证书。在这之前我们需要先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let’s Encrypt 服务端的验证.</p>
-<p>这里我们假设你的域名是 example.com，你需要在这把子域名也写上</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="keyword">stop</span> nginx</span><br><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto certonly --standalone -d example.<span class="keyword">com</span> -d www.example.<span class="keyword">com</span> -d blog.example.<span class="keyword">com</span></span><br><span class="line">sudo systemctl start nginx</span><br></pre></td></tr></table></figure>
+<h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><p>Let’s Encrypt 在给你颁发证书的时候，首先会检查你想要加到证书中的域名是否都是你持有的，因此它会挨个访问这些域名，并做一些操作来进行检验。</p>
+<p>这里我们将使用 standalone 的方式来获取证书。这种方式需要我们先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let’s Encrypt 服务端的验证。</p>
+<p>我们假设你的域名是 example.com，你需要在这把子域名也写上</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="keyword">stop</span> nginx</span><br><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto certonly --standalone -d example.<span class="keyword">com</span> -d www.example.<span class="keyword">com</span> -d foo.example.<span class="keyword">com</span></span><br><span class="line">sudo systemctl start nginx</span><br></pre></td></tr></table></figure>
 <p>获取成功的证书会存放在 /etc/letsencrypt/live/example.com 文件夹中<br><a id="more"></a></p>
-<h2 id="生成-Strong-Diffie-Hellman-Group"><a href="#生成-Strong-Diffie-Hellman-Group" class="headerlink" title="生成 Strong Diffie-Hellman Group"></a>生成 Strong Diffie-Hellman Group</h2><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl dhparam -out <span class="meta-keyword">/etc/</span>ssl<span class="meta-keyword">/certs/</span>dhparam.pem <span class="number">2048</span></span><br></pre></td></tr></table></figure>
+<h2 id="生成-Strong-Diffie-Hellman-Group"><a href="#生成-Strong-Diffie-Hellman-Group" class="headerlink" title="生成 Strong Diffie-Hellman Group"></a>生成 Strong Diffie-Hellman Group</h2><p>这个在后面的 Nginx 配置文件中会用到</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl dhparam -out <span class="meta-keyword">/etc/</span>ssl<span class="meta-keyword">/certs/</span>dhparam.pem <span class="number">2048</span></span><br></pre></td></tr></table></figure>
 <p>输出会存放在 /etc/ssl/certs/dhparam.pem</p>
 <h2 id="Nginx-中配置-TLS-SSL"><a href="#Nginx-中配置-TLS-SSL" class="headerlink" title="Nginx 中配置 TLS/SSL"></a>Nginx 中配置 TLS/SSL</h2><p>进入 Nginx 的配置文件夹</p>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> /etc/nginx/<span class="keyword">conf</span>.<span class="built_in">d</span></span><br><span class="line">sudo <span class="keyword">su</span></span><br></pre></td></tr></table></figure>
 <p>新建 example-ssl.conf 文件，用来配置 SSL</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">server_name</span> example.com www.example.com;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/example.com/fullchain.pem;</span><br><span class="line">        <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/example.com/privkey.pem;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line">        <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">ssl_dhparam</span> /etc/ssl/certs/dhparam.pem;</span><br><span class="line">        <span class="attribute">ssl_ciphers</span> <span class="string">'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA'</span>;</span><br><span class="line">        <span class="attribute">ssl_session_timeout</span> <span class="number">1d</span>;</span><br><span class="line">        <span class="attribute">ssl_session_cache</span> shared:SSL:<span class="number">50m</span>;</span><br><span class="line">        <span class="attribute">ssl_stapling</span> <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">ssl_stapling_verify</span> <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">add_header</span> Strict-Transport-Security max-age=<span class="number">15768000</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># The rest of your server block</span></span><br><span class="line">        <span class="attribute">root</span> /path/to/root;</span><br><span class="line">        <span class="attribute">index</span> index.html index.htm;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">                <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>新建 example-redirect.conf 文件，用来重定向 http 连接</p>
+<p>新建 ssl-redirect.conf 文件，用来将 http 重定向到 https，这样我们就能强制 https 连接了</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span> example.com www.example.com;</span><br><span class="line">        <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$server_name</span><span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后重启 Nginx 服务</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart nginx</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+<p>然后重载 Nginx 服务</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">reload</span> nginx</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
 <h2 id="测试-SSL"><a href="#测试-SSL" class="headerlink" title="测试 SSL"></a>测试 SSL</h2><p>可以用以下网址测试 SSL 的安全等级，把 example.com 改成你的域名：</p>
 <p><a href="https://www.ssllabs.com/ssltest/analyze.html?d=example.com" target="_blank" rel="external">https://www.ssllabs.com/ssltest/analyze.html?d=example.com</a></p>
 <p><img src="http://cdn.yyqian.com/201605091755-Ft4WzoSKT2HE3Dmx-TpKvrQLwKhj?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-09 at 5.54.40 PM.png"></p>
 <h2 id="自动更新证书"><a href="#自动更新证书" class="headerlink" title="自动更新证书"></a>自动更新证书</h2><p>这个证书有效期是 3 个月。接下来，我们可以设定一个 crontab 任务，在每个月的 10 号 4:00 更新证书。</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo crontab -<span class="keyword">e</span></span><br><span class="line"><span class="number">0</span> <span class="number">4</span> <span class="number">10</span> * * systemctl <span class="keyword">stop</span> nginx &amp;&amp; /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto renew &gt;&gt; /var/<span class="built_in">log</span>/<span class="keyword">le</span>-renew.<span class="built_in">log</span> &amp;&amp; systemctl start nginx</span><br><span class="line">sudo systemctl restart crond</span><br></pre></td></tr></table></figure>
+<p>新建一个 <code>/root/le-renew.sh</code> 脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line">systemctl stop nginx</span><br><span class="line">/opt/letsencrypt/letsencrypt-auto renew --non-interactive &gt;&gt; /var/<span class="built_in">log</span>/le-renew.log</span><br><span class="line">systemctl start nginx</span><br></pre></td></tr></table></figure>
+<p>用 <code>sudo crontab -e</code> 来新建 root 级别的 cron 任务</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">0 </span><span class="number">4</span> <span class="number">10</span> * * /root/le-renew.sh</span><br></pre></td></tr></table></figure>
+<h2 id="增加或删除子域名"><a href="#增加或删除子域名" class="headerlink" title="增加或删除子域名"></a>增加或删除子域名</h2><p>增加子域名：在原有的域名列表后边添加新的子域名就行</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto certonly --standalone -d example.<span class="keyword">com</span> -d www.example.<span class="keyword">com</span> -d blog.example.<span class="keyword">com</span></span><br></pre></td></tr></table></figure>
+<p>Let’s Encrypt 貌似还不能删除子域名，如果在原有列表上删除子域名，它会新建一套新的证书，不会覆盖原有的证书，我暂时的做法是把 <code>/etc/letsencrypt</code> 文件夹清除，然后重新生成所有的证书。</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.nginx.com/blog/free-certificates-lets-encrypt-and-nginx/" target="_blank" rel="external">https://www.nginx.com/blog/free-certificates-lets-encrypt-and-nginx/</a></p>
 <p><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-centos-7" target="_blank" rel="external">https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-centos-7</a></p>
 <p><a href="https://letsencrypt.org/getting-started/" target="_blank" rel="external">https://letsencrypt.org/getting-started/</a></p>
@@ -483,7 +494,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-text">前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Let’s-Encrypt-客户端"><span class="nav-text">安装 Let’s Encrypt 客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取证书"><span class="nav-text">获取证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成-Strong-Diffie-Hellman-Group"><span class="nav-text">生成 Strong Diffie-Hellman Group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx-中配置-TLS-SSL"><span class="nav-text">Nginx 中配置 TLS/SSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试-SSL"><span class="nav-text">测试 SSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动更新证书"><span class="nav-text">自动更新证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-text">前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Let’s-Encrypt-客户端"><span class="nav-text">安装 Let’s Encrypt 客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取证书"><span class="nav-text">获取证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成-Strong-Diffie-Hellman-Group"><span class="nav-text">生成 Strong Diffie-Hellman Group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx-中配置-TLS-SSL"><span class="nav-text">Nginx 中配置 TLS/SSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试-SSL"><span class="nav-text">测试 SSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动更新证书"><span class="nav-text">自动更新证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增加或删除子域名"><span class="nav-text">增加或删除子域名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-text">参考链接</span></a></li></ol></div>
             
           </div>
         </section>

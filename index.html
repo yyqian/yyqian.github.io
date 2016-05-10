@@ -267,16 +267,17 @@
         
           <p>Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流浏览器都已经把这个项目的证书添加到了信任列表。</p>
 <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><ul>
-<li>把你所有的域名和子域名都解析到主机的 IP 上，因为 Let’s Encrypt 服务器在给你发证书的时候，会检查这个域名是不是你持有</li>
+<li>把你想要加到证书中的域名和子域名都解析到主机的 IP 上</li>
 <li>已经安装好 Nginx</li>
 </ul>
 <h2 id="安装-Let’s-Encrypt-客户端"><a href="#安装-Let’s-Encrypt-客户端" class="headerlink" title="安装 Let’s Encrypt 客户端"></a>安装 Let’s Encrypt 客户端</h2><p>首先安装 git 和 bc，然后克隆 Let’s Encrypt 的代码到 /opt/letsencrypt 文件夹</p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install git bc</span><br><span class="line">sudo git <span class="keyword">clone</span> <span class="title">https</span>://github.com/letsencrypt/letsencrypt /opt/letsencrypt</span><br></pre></td></tr></table></figure>
-<p>你可能需要安装所有的依赖</p>
+<p>安装所有的依赖</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto --<span class="keyword">help</span></span><br></pre></td></tr></table></figure>
-<h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><p>我们将使用 standalone 的方式来获取证书。在这之前我们需要先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let’s Encrypt 服务端的验证.</p>
-<p>这里我们假设你的域名是 example.com，你需要在这把子域名也写上</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="keyword">stop</span> nginx</span><br><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto certonly --standalone -d example.<span class="keyword">com</span> -d www.example.<span class="keyword">com</span> -d blog.example.<span class="keyword">com</span></span><br><span class="line">sudo systemctl start nginx</span><br></pre></td></tr></table></figure>
+<h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><p>Let’s Encrypt 在给你颁发证书的时候，首先会检查你想要加到证书中的域名是否都是你持有的，因此它会挨个访问这些域名，并做一些操作来进行检验。</p>
+<p>这里我们将使用 standalone 的方式来获取证书。这种方式需要我们先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let’s Encrypt 服务端的验证。</p>
+<p>我们假设你的域名是 example.com，你需要在这把子域名也写上</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="keyword">stop</span> nginx</span><br><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto certonly --standalone -d example.<span class="keyword">com</span> -d www.example.<span class="keyword">com</span> -d foo.example.<span class="keyword">com</span></span><br><span class="line">sudo systemctl start nginx</span><br></pre></td></tr></table></figure>
 <p>获取成功的证书会存放在 /etc/letsencrypt/live/example.com 文件夹中<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/post/1462519709000/" rel="contents">
