@@ -9,9 +9,8 @@ Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流
 
 ## 前提
 
-- 把你所有的域名和子域名都解析到主机的 IP 上，因为 Let's Encrypt 服务器在给你发证书的时候，会检查这个域名是不是你持有
+- 把你想要加到证书中的域名和子域名都解析到主机的 IP 上
 - 已经安装好 Nginx
-
 
 ## 安装 Let's Encrypt 客户端
 
@@ -22,7 +21,7 @@ sudo yum -y install git bc
 sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
 ```
 
-你可能需要安装所有的依赖
+安装所有的依赖
 
 ```
 sudo /opt/letsencrypt/letsencrypt-auto --help
@@ -30,19 +29,23 @@ sudo /opt/letsencrypt/letsencrypt-auto --help
 
 ## 获取证书
 
-我们将使用 standalone 的方式来获取证书。在这之前我们需要先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let's Encrypt 服务端的验证.
+Let's Encrypt 在给你颁发证书的时候，首先会检查你想要加到证书中的域名是否都是你持有的，因此它会挨个访问这些域名，并做一些操作来进行检验。
 
-这里我们假设你的域名是 example.com，你需要在这把子域名也写上
+这里我们将使用 standalone 的方式来获取证书。这种方式需要我们先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let's Encrypt 服务端的验证。
+
+我们假设你的域名是 example.com，你需要在这把子域名也写上
 
 ```
 sudo systemctl stop nginx
-sudo /opt/letsencrypt/letsencrypt-auto certonly --standalone -d example.com -d www.example.com -d blog.example.com
+sudo /opt/letsencrypt/letsencrypt-auto certonly --standalone -d example.com -d www.example.com -d foo.example.com
 sudo systemctl start nginx
 ```
 
 获取成功的证书会存放在 /etc/letsencrypt/live/example.com 文件夹中
 <!-- more -->
 ## 生成 Strong Diffie-Hellman Group
+
+这个在后面的 Nginx 配置文件中会用到
 
 ```
 sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
@@ -90,7 +93,7 @@ server {
 }
 ```
 
-新建 example-redirect.conf 文件，用来重定向 http 连接
+新建 ssl-redirect.conf 文件，用来将 http 重定向到 https，这样我们就能强制 https 连接了
 
 ```
 server {
@@ -100,10 +103,10 @@ server {
 }
 ```
 
-然后重启 Nginx 服务
+然后重载 Nginx 服务
 
 ```
-systemctl restart nginx
+systemctl reload nginx
 exit
 ```
 
@@ -120,7 +123,7 @@ https://www.ssllabs.com/ssltest/analyze.html?d=example.com
 
 这个证书有效期是 3 个月。接下来，我们可以设定一个 crontab 任务，在每个月的 10 号 4:00 更新证书。
 
-sudo vim /root/le-renew.sh
+新建一个 `/root/le-renew.sh` 脚本
 
 ```
 #!/usr/bin/env bash
@@ -129,11 +132,21 @@ systemctl stop nginx
 systemctl start nginx
 ```
 
-sudo crontab -e
+用 `sudo crontab -e` 来新建 root 级别的 cron 任务
 
 ```
 0 4 10 * * /root/le-renew.sh
 ```
+
+## 增加或删除子域名
+
+增加子域名：在原有的域名列表后边添加新的子域名就行
+
+```
+sudo /opt/letsencrypt/letsencrypt-auto certonly --standalone -d example.com -d www.example.com -d blog.example.com
+```
+
+Let’s Encrypt 貌似还不能删除子域名，如果在原有列表上删除子域名，它会新建一套新的证书，不会覆盖原有的证书，我暂时的做法是把 `/etc/letsencrypt` 文件夹清除，然后重新生成所有的证书。
 
 ## 参考链接
 
