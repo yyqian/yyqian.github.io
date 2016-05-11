@@ -216,6 +216,129 @@
             
               
                 
+                <a class="post-title-link" href="/post/1462945087000/" itemprop="url">
+                  配置 GPU 加速的 Tensorflow
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-11T13:38:07+08:00" content="2016-05-11">
+              2016-05-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1462945087000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1462945087000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近想了解下热门的深度学习、神经网络，于是选择了 Tensorflow 作为工具。这里我们就先来安装下 Tensorflow。</p>
+<p>Tensorflow 本身安装很容易，不过想要利用 GPU 多核的优势来加速计算，就要先安装显卡驱动和 CUDA，这两者的安装是有点麻烦的。</p>
+<p>前提条件：</p>
+<ul>
+<li>操作系统：Centos 7</li>
+<li>硬件环境：Nvidia 的显卡（请自行查询是否支持 CUDA）</li>
+</ul>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>yum 更新下，安装 Development Tools 软件包</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum <span class="keyword">update</span></span><br><span class="line">sudo yum <span class="keyword">group</span> <span class="keyword">install</span> <span class="string">'Development Tools'</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装-Nvidia-驱动"><a href="#安装-Nvidia-驱动" class="headerlink" title="安装 Nvidia 驱动"></a>安装 Nvidia 驱动</h2><p>Nvidia 官网上有显卡驱动的软件包下载，但安装前需要繁琐的配置，这里我们选择更简单的方式，通过软件源来安装：</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 安装 elrepo 源</span></span><br><span class="line">sudo rpm --import https:<span class="comment">//www.elrepo.org/RPM-GPG-KEY-elrepo.org</span></span><br><span class="line">sudo rpm -Uvh http:<span class="comment">//www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span></span><br><span class="line"><span class="meta"># 探测要安装的包</span></span><br><span class="line">sudo yum install nvidia-detect</span><br><span class="line">nvidia-detect</span><br><span class="line"><span class="meta"># 安装</span></span><br><span class="line">sudo yum install kmod-nvidia</span><br><span class="line"><span class="meta"># 最后重启，然后检查是否安装成功</span></span><br><span class="line">ls -la /dev | grep nvidia</span><br></pre></td></tr></table></figure>
+<p>下面的 CUDA 软件包中也包含了显卡驱动，但我没尝试过直接用这个包来安装驱动。</p>
+<h2 id="安装-CUDA"><a href="#安装-CUDA" class="headerlink" title="安装 CUDA"></a>安装 CUDA</h2><p>先去 Nvidia 上下载 CUDA 包，我下载的是 7.5 版本的，然后就可以进行安装：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="keyword">sh</span> cuda_xxxx.<span class="keyword">run</span></span><br></pre></td></tr></table></figure>
+<p>这里会询问是否要安装驱动，因为前面我们已经安装好了驱动，所以这里别选</p>
+<p>记住 CUDA 的根目录是在 /usr/local/cuda-7.5 和 /usr/local/cuda，后者是前者的一个链接</p>
+<p>安装完后，配置环境变量，在 ~/.bash_profile 中添加：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="string">"<span class="variable">$LD_LIBRARY_PATH</span>:/usr/local/cuda/lib64"</span></span><br><span class="line"><span class="built_in">export</span> CUDA_HOME=/usr/<span class="built_in">local</span>/cuda</span><br><span class="line"><span class="comment"># PATH 变量添加 /usr/local/cuda/bin</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装-cudnn"><a href="#安装-cudnn" class="headerlink" title="安装 cudnn"></a>安装 cudnn</h2><p>Tensorflow 还需要 cudnn 插件，这个可以从 Nvidia 官网下载，我下的版本是 v4，下载完后解压并复制到相应的文件夹。</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">tar</span> xvzf cudnn-<span class="number">7</span>.<span class="number">5</span>-linux-x64-<span class="built_in">v4</span>.tgz</span><br><span class="line"><span class="symbol">sudo</span> <span class="meta">cp</span> cudnn-<span class="number">7</span>.<span class="number">5</span>-linux-x64-<span class="built_in">v4</span>/cudnn.h /usr/local/cuda/<span class="meta">include</span></span><br><span class="line"><span class="symbol">sudo</span> <span class="meta">cp</span> cudnn-<span class="number">7</span>.<span class="number">5</span>-linux-x64-<span class="built_in">v4</span>/libcudnn* /usr/local/cuda/lib64</span><br><span class="line"><span class="symbol">sudo</span> chmod a+r /usr/local/cuda/lib64/libcudnn*</span><br></pre></td></tr></table></figure>
+<h2 id="安装-pip"><a href="#安装-pip" class="headerlink" title="安装 pip"></a>安装 pip</h2><p>我们将用 pip 来安装 Tensorflow，所以要先安装 pip。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum <span class="keyword">install</span> python-pip python-devel</span><br><span class="line">sudo pip <span class="keyword">install</span> <span class="comment">--upgrade pip</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装-Tensorflow"><a href="#安装-Tensorflow" class="headerlink" title="安装 Tensorflow"></a>安装 Tensorflow</h2><p>确保前面的显卡驱动、CUDA toolkit 7.5 和 CuDNN v4 安装好了，然后就可以用 pip 来安装了。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install --upgrade <span class="symbol">https:</span>/<span class="regexp">/storage.googleapis.com/tensorflow</span><span class="regexp">/linux/gpu</span><span class="regexp">/tensorflow-0.8.0-cp27-none-linux_x86_64.whl</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装-matplotlib"><a href="#安装-matplotlib" class="headerlink" title="安装 matplotlib"></a>安装 matplotlib</h2><p>我们做数据相关的工作时，常常需要将数据可视化，matplotlib 可以进行一些简单的画图操作，所以最好安装一下。</p>
+<p>如果直接用 pip 来安装，会提示缺少两个依赖的库，这是因为这两个依赖是 pip 解决不了的，需要 yum 来安装：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum <span class="keyword">install</span> freetype-devel</span><br><span class="line">sudo yum <span class="keyword">install</span> libpng-devel</span><br><span class="line">sudo pip <span class="keyword">install</span> matplotlib</span><br></pre></td></tr></table></figure>
+<p>至此，CUDA、Tensorflow 以及一些相关的工具就都安装完毕了，我们在启动 Tensorflow 的程序时，会看到一系列 gpu 相关的输出，这就表明 Tensorflow 安装成功，并且已经启用了 GPU 来进行计算。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1462519709000/" itemprop="url">
                   Let's Encrypt 在 Centos 和 Nginx 中的部署
                 </a>
@@ -1218,107 +1341,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1456761600000/" itemprop="url">
-                  Thymeleaf 调用参数的几种方式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-01T00:00:00+08:00" content="2016-03-01">
-              2016-03-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1456761600000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1456761600000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="模版中调用参数的方法："><a href="#模版中调用参数的方法：" class="headerlink" title="模版中调用参数的方法："></a>模版中调用参数的方法：</h2><p>(1) 使用 Model</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"message"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">messages</span><span class="params">(Model model)</span> </span>&#123;</span><br><span class="line">    model.addAttribute(<span class="string">"messages"</span>, messageRepository.findAll());</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"message/list"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"message : $&#123;messages&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.id&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.title&#125;"</span>&gt;</span>Title ...<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.text&#125;"</span>&gt;</span>Text ...<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>(2) 用 URL 中的查询参数<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1456761600000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1364,7 +1386,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">109</span>
+              <span class="site-state-item-count">110</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1374,7 +1396,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
