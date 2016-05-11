@@ -39,7 +39,7 @@ sudo yum install kmod-nvidia
 # 最后重启，然后检查是否安装成功
 ls -la /dev | grep nvidia
 ```
-
+<!-- more -->
 下面的 CUDA 软件包中也包含了显卡驱动，但我没尝试过直接用这个包来安装驱动。
 
 ## 安装 CUDA

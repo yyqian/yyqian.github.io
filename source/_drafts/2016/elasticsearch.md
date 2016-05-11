@@ -1,5 +1,5 @@
 ---
-title: Elasticsearch: The Definitive Guide 笔记
+title: Elasticsearch - The Definitive Guide 笔记
 tags:
 ---
 
