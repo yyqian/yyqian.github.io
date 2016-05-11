@@ -35,7 +35,7 @@ POST /website/blog/1/_update
 - 悲观的：使用锁，一般数据库中都使用这个。例如，锁定一行，确保只有一个线程能进行修改操作。
 - 乐观的：Elasticsearch 中使用，这个是基于竞态并不是经常发生的条件。如果数据在读和写这两步中间被更改了，更新操作就失败了，然后取决于程序怎么处理这个失败，可以是用新的数据重新操作，或者把失败通知用户。
 
-乐观机制的实现主要依靠 version，我们可以在修改或删除的时候附带 version 参数，指定修改某一个版本的数据。如果当前的 version 和我们请求的 version 不同，说明在这读写的期间数据被更改了，就会操作失败，返回错误。
+乐观机制的实现主要依靠 version 字段，我们可以在修改或删除的时候附带 version 参数，指定修改某一个版本的数据。如果当前的 version 和我们请求的 version 不同，说明在这读写的期间数据被更改了，就会操作失败，返回错误。
 
 ```
 PUT /website/blog/1?version=1
@@ -189,3 +189,87 @@ mget and bulk
 ![Screen Shot 2016-05-10 at 2.05.40 PM.png](http://cdn.yyqian.com/201605101405-FgGQatAPHpdwNlsW5naP8y5L_I2U?imageView2/2/w/800/h/600)
 
 ## Searching—The Basic Tools
+
+### 查询结果
+
+- `hits`：包含结果的数量 `total`，以及结果 hits 数组
+- `took`：查询所耗的毫秒数
+- `_shards`：参与查询的 shards 数目
+- `timeout`：判断查询是否超时
+
+### 查询多个 index 和 type：
+
+```
+/_search
+    Search all types in all indices
+/gb/_search
+    Search all types in the gb index
+/gb,us/_search
+    Search all types in the gb and us indices
+/g*,u*/_search
+    Search all types in any indices beginning with g or beginning with u
+/gb/user/_search
+    Search type user in the gb index
+/gb,us/user,tweet/_search
+    Search types user and tweet in the gb and us indices
+/_all/user,tweet/_search
+    Search types user and tweet in all indices
+```
+
+### Pagination
+
+- size: 返回结果的数目
+- from：跳过的数目
+
+```
+GET /_search?size=5&from=10
+```
+
+尽量避免 Deep Paging，正常不要查询超过 1000 条的数目。
+
+### Search Lite
+
+search API 有两个版本：
+
+- query-string version：生产环境不建议用这个版本。查询的时候可以只写 value，不写 key，ES 会把所有的字段连接起来成为 `_all` 字段，然后用这个字段来查询。
+- request body version
+
+## Mapping and Analysis
+
+### Exact Values Versus Full Text
+
+ES 中的 Data 可以分为两类：
+
+- Exact values：这种查询很简单，类似数据库中的查询，结果要么是匹配，要么是不匹配。例如：Foo 不等同于 foo，2014 不匹配 2014-09-15
+- Full text
+
+Full text 不一定是非结构化的数据，自然语言是结构化的，只是规则非常复杂。查询 Full text 比较繁琐，我们的问题不是数据是否匹配，而是数据匹配的程度如何，它们的相关程度如何。
+
+并且，我们还要满足以下一些情形：
+
+- A search for UK should also return documents mentioning the United Kingdom.
+- A search for jump should also match jumped, jumps, jumping, and perhaps even leap.
+- johnny walker should match Johnnie Walker, and johnnie depp should match Johnny Depp.
+- fox news hunting should return stories about hunting on Fox News, while fox hunting news should return news stories about fox hunting.
+
+### Analysis and Analyzers
+
+Analysis 包含两个步骤：
+
+- tokenizing
+- normalizing
+
+完成这两步分析的构件是 analyzer，analyzer 由几个功能模块组成：
+
+- Character filters：过滤掉一些无关的字符
+- Tokenizer：例如按照标点符号来划分单词
+- Token filters：修改、去除、增加 token，例如：lowercasing，去除 a the and 等，将 leap 转换为 jump
+
+Built-in Analyzers:
+
+- Standard analyzer
+- Simple analyzer
+- Whitespace analyzer
+- Language analyzers
+
+当我们 index 一个 document 的时候，会使用 analyzer 将 full-text fields 转换为 tokens；当我们查询的时候，也要用相同的 analyzer，将查询语句转换成同样的 tokens。
