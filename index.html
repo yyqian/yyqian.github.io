@@ -265,8 +265,7 @@
 
       
         
-          
-            <p>最近想了解下热门的深度学习、神经网络，于是选择了 Tensorflow 作为工具。这里我们就先来安装下 Tensorflow。</p>
+          <p>最近想了解下热门的深度学习、神经网络，于是选择了 Tensorflow 作为工具。这里我们就先来安装下 Tensorflow。</p>
 <p>Tensorflow 本身安装很容易，不过想要利用 GPU 多核的优势来加速计算，就要先安装显卡驱动和 CUDA，这两者的安装是有点麻烦的。</p>
 <p>前提条件：</p>
 <ul>
@@ -277,25 +276,11 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum <span class="keyword">update</span></span><br><span class="line">sudo yum <span class="keyword">group</span> <span class="keyword">install</span> <span class="string">'Development Tools'</span></span><br></pre></td></tr></table></figure>
 <h2 id="安装-Nvidia-驱动"><a href="#安装-Nvidia-驱动" class="headerlink" title="安装 Nvidia 驱动"></a>安装 Nvidia 驱动</h2><p>Nvidia 官网上有显卡驱动的软件包下载，但安装前需要繁琐的配置，这里我们选择更简单的方式，通过软件源来安装：</p>
 <figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 安装 elrepo 源</span></span><br><span class="line">sudo rpm --import https:<span class="comment">//www.elrepo.org/RPM-GPG-KEY-elrepo.org</span></span><br><span class="line">sudo rpm -Uvh http:<span class="comment">//www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span></span><br><span class="line"><span class="meta"># 探测要安装的包</span></span><br><span class="line">sudo yum install nvidia-detect</span><br><span class="line">nvidia-detect</span><br><span class="line"><span class="meta"># 安装</span></span><br><span class="line">sudo yum install kmod-nvidia</span><br><span class="line"><span class="meta"># 最后重启，然后检查是否安装成功</span></span><br><span class="line">ls -la /dev | grep nvidia</span><br></pre></td></tr></table></figure>
-<p>下面的 CUDA 软件包中也包含了显卡驱动，但我没尝试过直接用这个包来安装驱动。</p>
-<h2 id="安装-CUDA"><a href="#安装-CUDA" class="headerlink" title="安装 CUDA"></a>安装 CUDA</h2><p>先去 Nvidia 上下载 CUDA 包，我下载的是 7.5 版本的，然后就可以进行安装：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="keyword">sh</span> cuda_xxxx.<span class="keyword">run</span></span><br></pre></td></tr></table></figure>
-<p>这里会询问是否要安装驱动，因为前面我们已经安装好了驱动，所以这里别选</p>
-<p>记住 CUDA 的根目录是在 /usr/local/cuda-7.5 和 /usr/local/cuda，后者是前者的一个链接</p>
-<p>安装完后，配置环境变量，在 ~/.bash_profile 中添加：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="string">"<span class="variable">$LD_LIBRARY_PATH</span>:/usr/local/cuda/lib64"</span></span><br><span class="line"><span class="built_in">export</span> CUDA_HOME=/usr/<span class="built_in">local</span>/cuda</span><br><span class="line"><span class="comment"># PATH 变量添加 /usr/local/cuda/bin</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装-cudnn"><a href="#安装-cudnn" class="headerlink" title="安装 cudnn"></a>安装 cudnn</h2><p>Tensorflow 还需要 cudnn 插件，这个可以从 Nvidia 官网下载，我下的版本是 v4，下载完后解压并复制到相应的文件夹。</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">tar</span> xvzf cudnn-<span class="number">7</span>.<span class="number">5</span>-linux-x64-<span class="built_in">v4</span>.tgz</span><br><span class="line"><span class="symbol">sudo</span> <span class="meta">cp</span> cudnn-<span class="number">7</span>.<span class="number">5</span>-linux-x64-<span class="built_in">v4</span>/cudnn.h /usr/local/cuda/<span class="meta">include</span></span><br><span class="line"><span class="symbol">sudo</span> <span class="meta">cp</span> cudnn-<span class="number">7</span>.<span class="number">5</span>-linux-x64-<span class="built_in">v4</span>/libcudnn* /usr/local/cuda/lib64</span><br><span class="line"><span class="symbol">sudo</span> chmod a+r /usr/local/cuda/lib64/libcudnn*</span><br></pre></td></tr></table></figure>
-<h2 id="安装-pip"><a href="#安装-pip" class="headerlink" title="安装 pip"></a>安装 pip</h2><p>我们将用 pip 来安装 Tensorflow，所以要先安装 pip。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum <span class="keyword">install</span> python-pip python-devel</span><br><span class="line">sudo pip <span class="keyword">install</span> <span class="comment">--upgrade pip</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装-Tensorflow"><a href="#安装-Tensorflow" class="headerlink" title="安装 Tensorflow"></a>安装 Tensorflow</h2><p>确保前面的显卡驱动、CUDA toolkit 7.5 和 CuDNN v4 安装好了，然后就可以用 pip 来安装了。</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install --upgrade <span class="symbol">https:</span>/<span class="regexp">/storage.googleapis.com/tensorflow</span><span class="regexp">/linux/gpu</span><span class="regexp">/tensorflow-0.8.0-cp27-none-linux_x86_64.whl</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装-matplotlib"><a href="#安装-matplotlib" class="headerlink" title="安装 matplotlib"></a>安装 matplotlib</h2><p>我们做数据相关的工作时，常常需要将数据可视化，matplotlib 可以进行一些简单的画图操作，所以最好安装一下。</p>
-<p>如果直接用 pip 来安装，会提示缺少两个依赖的库，这是因为这两个依赖是 pip 解决不了的，需要 yum 来安装：</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum <span class="keyword">install</span> freetype-devel</span><br><span class="line">sudo yum <span class="keyword">install</span> libpng-devel</span><br><span class="line">sudo pip <span class="keyword">install</span> matplotlib</span><br></pre></td></tr></table></figure>
-<p>至此，CUDA、Tensorflow 以及一些相关的工具就都安装完毕了，我们在启动 Tensorflow 的程序时，会看到一系列 gpu 相关的输出，这就表明 Tensorflow 安装成功，并且已经启用了 GPU 来进行计算。</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1462945087000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
