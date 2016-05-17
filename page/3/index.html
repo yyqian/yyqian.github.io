@@ -216,6 +216,112 @@
             
               
                 
+                <a class="post-title-link" href="/post/1448354139006/" itemprop="url">
+                  Google Java Style 摘录
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-24T16:35:39+08:00" content="2015-11-24">
+              2015-11-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1448354139006/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1448354139006/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>File encoding: UTF-8</p>
+<p>the ASCII horizontal space character (0x20) is the only whitespace character that appears anywhere in a source file. No Tab!</p>
+<p>non-ASCII characters depending only on which makes the code easier to read and understand.</p>
+<p>A source file consists of in order:</p>
+<ol>
+<li>License or copyright information, if present</li>
+<li>Package statement</li>
+<li>Import statements</li>
+<li>Exactly one top-level class
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1448354139006/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1446792395444/" itemprop="url">
                   Thinking in Java 笔记
                 </a>
@@ -1146,120 +1252,11 @@ console.log(module.exports === this); //true
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1433494907104/" itemprop="url">
-                  SSH 的安全设置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-05T17:01:47+08:00" content="2015-06-05">
-              2015-06-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1433494907104/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1433494907104/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>首先要注意的一点是，用户名密码登录的方式是不安全的。总体来说，对SSH登录要做以下几点防护：</p>
-<ol>
-<li>废除密码登录，改用key登录</li>
-<li>禁止root账户远程登录</li>
-<li>更改默认的22端口</li>
-</ol>
-<p>要注意的是，第一点会导致你只能从事先注册过的电脑上登录服务器，无法从其他电脑登录。如果注册过的电脑都已经丢了密钥，则会导致你无法登录服务器，所以一旦禁止密码登录后，千万要保护好自己的私钥。</p>
-<p>具体操作如下：</p>
-<ol>
-<li>在本地生成一个key：<code>ssh-keygen -t rsa</code>，该命令会生成2个key，一个公钥，一个私钥。公钥是存放在服务器端，可以公开的，私钥存放在本地要保护好。</li>
-<li>将本地的<code>~/.ssh/id_rsa.pub</code>用scp复制到服务器，并将该文件中的key添加到服务器端的<code>~/.ssh/authorized_keys</code>：<br><code>cat id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</code></li>
-<li>最后我们要设置下权限，保证他人不能访问服务器端的<code>.ssh</code>文件夹：<br><code>chmod 700 ~/.ssh</code><br><code>chmod 600 ~/.ssh/authorized_keys</code>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1433494907104/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1300,7 +1297,7 @@ console.log(module.exports === this); //true
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">110</span>
+              <span class="site-state-item-count">111</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1310,7 +1307,7 @@ console.log(module.exports === this); //true
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -216,6 +216,116 @@
             
               
                 
+                <a class="post-title-link" href="/post/1409195880000/" itemprop="url">
+                  统计学习方法 – k近邻法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-08-28T11:18:00+08:00" content="2014-08-28">
+              2014-08-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1409195880000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1409195880000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>k近邻法(K-nearest neighbor, KNN)是一个比较简单的算法，概括来说就2步：</p>
+<ol>
+<li>计算输入点到训练数据集中所有数据点的距离，找出k个离输入点最近的训练点。</li>
+<li>这k个点多数属于哪个类别，这个输入点就是该类别。</li>
+</ol>
+<p>如果暴力求解这个问题，就是以下步骤：</p>
+<ol>
+<li>遍历整个训练集，计算所有训练点到输入点距离。</li>
+<li>按距离远近对这些训练点排序。</li>
+<li>取前k个训练点，对这k个点统计各个类别所含数据点的数目，该输入点就属于所含数据点最多的类别。</li>
+</ol>
+<p>暴力解法的缺点在于需要遍历计算输入点到所有数据点的距离，并进行排序。书中给出了一种数据结构来优化这一算法：kd树，这个优化算法最复杂的地方就是构造kd树和搜索kd树。</p>
+<p>以下给出一段暴力算法的程序，使用红绿蓝三色X标记了三个类别的训练点，用三角形标记了输入点，用圆形标记输入点的k个近邻点，输入点的颜色取决于k个近邻点最多的那种颜色。程序主要以实现算法为主，写得比较冗杂：<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1409195880000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1409109180000/" itemprop="url">
                   统计学习方法 - 感知机
                 </a>
@@ -1127,109 +1237,11 @@ sudo fc-cache -fv
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1326635871000/" itemprop="url">
-                  First snow of 2012
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2012-01-15T21:57:51+08:00" content="2012-01-15">
-              2012-01-15
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1326635871000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1326635871000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://farm8.staticflickr.com/7157/6706306813_4dc6cbf84f_b.jpg"><br></p>
-<p><img src="http://farm8.staticflickr.com/7030/6706308095_6fe2ddb76f_b.jpg"><br></p>
-<p><img src="http://farm8.staticflickr.com/7011/6706307477_277d6af286_b.jpg"><br></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1270,7 +1282,7 @@ sudo fc-cache -fv
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">110</span>
+              <span class="site-state-item-count">111</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1280,7 +1292,7 @@ sudo fc-cache -fv
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
