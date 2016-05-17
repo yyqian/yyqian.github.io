@@ -28,35 +28,6 @@ POST /website/blog/1/_update
 }
 ```
 
-### 并发处理机制
-
-处理并发通常有两种方式：
-
-- 悲观的：使用锁，一般数据库中都使用这个。例如，锁定一行，确保只有一个线程能进行修改操作。
-- 乐观的：Elasticsearch 中使用，这个是基于竞态并不是经常发生的条件。如果数据在读和写这两步中间被更改了，更新操作就失败了，然后取决于程序怎么处理这个失败，可以是用新的数据重新操作，或者把失败通知用户。
-
-乐观机制的实现主要依靠 version 字段，我们可以在修改或删除的时候附带 version 参数，指定修改某一个版本的数据。如果当前的 version 和我们请求的 version 不同，说明在这读写的期间数据被更改了，就会操作失败，返回错误。
-
-```
-PUT /website/blog/1?version=1
-{
-  "title": "My first blog entry",
-  "text":  "Starting to get the hang of this..."
-}
-```
-
-retry_on_conflict 参数可以用来使得在发生冲突时，进行重试
-
-```
-POST /website/pageviews/1/_update?retry_on_conflict=5
-{
-   "script" : "ctx._source.views+=1",
-   "upsert": {
-       "views": 0
-   }
-}
-```
-
 ### 获取多个 Document
 
 如果一下子要获取多个 Document，可以用一句 API 解决：
@@ -154,40 +125,6 @@ POST /website/log/_bulk
 
 A good place to start is with batches of 1,000 to 5,000 documents or, if your documents are very large, with even smaller batches. A good bulk size to start playing with is around 5-15MB in size.
 
-## Distributed Document Store
-
-shard # 用以下公式计算，其中 routing 一般是 document 的 id。
-
-```
-shard = hash(routing) % number_of_primary_shards
-```
-
-primary_shards 的数量一般是不可更改的。所有的 API 都接受 routing 参数，用来控制 document-to-shard mapping，这样就能使得相关的数据在同一个 shard 中。
-
-### Creating, Indexing, and Deleting a Document
-
-create, index, and delete
-
-![Screen Shot 2016-05-10 at 1.55.25 PM.png](http://cdn.yyqian.com/201605101356-FmwudfY99Z293y-IaLIaGH8MxN_2?imageView2/2/w/800/h/600)
-
-### Retrieving a Document
-
-![Screen Shot 2016-05-10 at 1.58.06 PM.png](http://cdn.yyqian.com/201605101358-FkGV_AvkH7QsfwtV_joO_Ezmfl7_?imageView2/2/w/800/h/600)
-
-### Partial Updates to a Document
-
-update
-
-![Screen Shot 2016-05-10 at 2.00.38 PM.png](http://cdn.yyqian.com/201605101401-FhKYDhqMQyVWrfYbhghyPRjfpryY?imageView2/2/w/800/h/600)
-
-### Multidocument
-
-mget and bulk
-
-![Screen Shot 2016-05-10 at 2.05.11 PM.png](http://cdn.yyqian.com/201605101405-FrS_ElQ0GJ0-hOqDxxRj5lNzmS2q?imageView2/2/w/800/h/600)
-
-![Screen Shot 2016-05-10 at 2.05.40 PM.png](http://cdn.yyqian.com/201605101405-FgGQatAPHpdwNlsW5naP8y5L_I2U?imageView2/2/w/800/h/600)
-
 ## Searching—The Basic Tools
 
 ### 查询结果
@@ -273,3 +210,44 @@ Built-in Analyzers:
 - Language analyzers
 
 当我们 index 一个 document 的时候，会使用 analyzer 将 full-text fields 转换为 tokens；当我们查询的时候，也要用相同的 analyzer，将查询语句转换成同样的 tokens。
+
+## API
+
+- 创建新的 index：`curl -XPUT localhost:9200/index-name`
+- 获取 mapping：`curl localhost:9200/index-name/_mapping/type-name?pretty`
+
+### Search
+
+其中 query_string, term 和 filtered 是 query type，再深一层的是参数
+
+```
+curl localhost:9200/index-name/type-name/_search?pretty -d '{
+  "query": {
+    "query_string": {
+      "query": "elasticsearch san francisco",
+      "default_field": "name",
+      "default_operator": "AND"
+    }
+  }
+}'
+
+curl localhost:9200/index-name/type-name/_search?pretty -d '{
+  "query": {
+    "term": {
+      "name": "elasticsearch"
+    }
+  }
+}'
+
+curl localhost:9200/index-name/type-name/_search?pretty -d '{
+  "query": {
+    "filtered": {
+      "filter": {
+        "term": {
+          "name": "elasticsearch"
+        }
+      }
+    }
+  }
+}'
+```
