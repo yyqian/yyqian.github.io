@@ -1,11 +1,27 @@
 ---
-title: Elasticsearch - The Definitive Guide 笔记
+title: Elasticsearch API 笔记
 tags:
 ---
 
-## Data In, Data Out
+## Mapping
 
-### Update
+```
+# 获取某个 type 的 mapping
+curl -XGET 'localhost:9200/index-name/_mapping/type-name?pretty'
+
+# 新建某个 type 的 mapping，如果这个 type 已存在，会合并之前的 mapping。但是不能修改已存在的某个 field 的数据类型。
+curl -XPUT 'localhost:9200/index-name/_mapping/type-name' -d '{
+  "new-events" : {
+    "properties" : {
+      "host": {
+        "type" : "string"
+      }
+    }
+  }
+}'
+```
+
+## Update
 
 document 是 immutable，每次更新实际是四步操作：
 
@@ -19,13 +35,11 @@ document 是 immutable，每次更新实际是四步操作：
 The simplest form of the update request accepts a partial document as the doc parameter, which just gets merged with the existing document. Objects are merged together, existing scalar fields are overwritten, and new fields are added.
 
 ```
-POST /website/blog/1/_update
-{
-   "doc" : {
-      "tags" : [ "testing" ],
-      "views": 0
-   }
-}
+curl -XPOST 'localhost:9200/index-name/type-name/doc-id/_update' -d '{
+  "doc": {
+    "your-key": "your-value"
+  }
+}'
 ```
 
 ### 获取多个 Document
@@ -215,6 +229,7 @@ Built-in Analyzers:
 
 - 创建新的 index：`curl -XPUT localhost:9200/index-name`
 - 获取 mapping：`curl localhost:9200/index-name/_mapping/type-name?pretty`
+- 获取 shards 信息：`curl 'localhost:9200/_cat/shards?v'`
 
 ### Search
 

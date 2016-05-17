@@ -140,6 +140,8 @@ Type 对应于 SQL DB 的 table，但是概念上有一定差别：
 - mapping 包含了这个 type 中所有 documents 的 fields，但是反过来则不是，某个 document 可以只包含某几个 field，因此从这个意义上来讲，还是 scheme-free 的
 - 如果新增的一个 document 含有新的 field，ES 会通过这个 field 的 value 来猜测数据类型，这种方式是不靠谱的，因此在生成环境要在 indexing 之前预先定义 mapping
 
+要注意的是， Type 仅仅提供逻辑上的隔离，在物理上同一个 index 中的 documents 的分布情况跟 type 无关，这里如果同一个 shard 中的两个不同 type 包含同名的 field，这两个 fields 应该是相同数据类型的，否则 ES 会有额外的开销来区分这两个 fields。
+
 Index 是多个 types 的集合，它有一些自身的设置，譬如：
 
 - refresh_interval，这个表示 indexing 的频率，新增数据一般不是立即进行 indexing，而是有一定的时间间隔，否则开销太大，所以 ES 自称是 near-real-time，这个说法就是从这来的
