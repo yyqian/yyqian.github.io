@@ -3,6 +3,11 @@ title: Elasticsearch API 笔记
 tags:
 ---
 
+## API
+
+- 创建新的 index：`curl -XPUT localhost:9200/index-name`
+- 获取 shards 信息：`curl 'localhost:9200/_cat/shards?v'`
+
 ## Mapping
 
 ```
@@ -18,6 +23,16 @@ curl -XPUT 'localhost:9200/index-name/_mapping/type-name' -d '{
       }
     }
   }
+}'
+```
+
+## Index
+
+```
+# index with id
+curl -XPUT 'localhost:9200/index-name/type-name/doc-id/?pretty' -d '{
+  "name": "Elasticsearch Denver",
+  "organizer": "Lee"
 }'
 ```
 
@@ -40,7 +55,119 @@ curl -XPOST 'localhost:9200/index-name/type-name/doc-id/_update' -d '{
     "your-key": "your-value"
   }
 }'
+
+# 用 retry_on_conflict 来控制并发
+curl -XPOST 'localhost:9200/index-name/type-name/doc-id/_update?retry_on_conflict=3' -d '{
+  "script": "ctx._source.price = 2"
+}'
+
+# 用 version 来控制并发
+curl -XPUT 'localhost:9200/index-name/type-name/doc-id?version=3' -d '{
+  "caption": "I Know about Elasticsearch Versioning",
+  "price": 5
+}'
 ```
+
+## Delete
+
+```
+# 删除指定 id 的 document，这里可以指定 version
+curl -XDELETE 'localhost:9200/index-name/type-name/doc-id'
+
+# 删除整个 type 的 documents
+curl -XDELETE 'localhost:9200/index-name/type-name
+
+# 删除整个 index
+curl -XDELETE 'localhost:9200/index-name'
+
+# close index
+curl -XPOST 'localhost:9200/index-name/_close'
+
+# open index
+curl -XPOST 'localhost:9200/index-name/_open'
+```
+
+## Search
+
+Search request 有以下基础的组成部分：`query`, `from`, `size`, `_source`, `sort`，以下是使用示例：
+
+```
+curl 'localhost:9200/index-name/type-name/_search' -d '{
+  "query": {
+    "match_all": {}
+  },
+  "from": 10,
+  "size": 10,
+  "_source": ["field1", "field2"],
+  "sort": [
+    {"created_on": "asc"},
+    {"name": "desc"},
+    "_score"
+  ]
+}'
+
+# _source 也可以是这种形式
+curl 'localhost:9200/index-name/_search' -d '{
+  "query": {
+    "match_all": {}
+  },
+  "_source": {
+    "include": ["location.*", "date"],
+    "exclude": ["location.geolocation"]
+  }
+}'
+```
+
+搜索结果解释：
+
+![Screen Shot 2016-05-18 at 2.24.07 PM.png](http://cdn.yyqian.com/201605181424-FgLAoNQpSySZqv84G2r2jspc7Tyx?imageView2/2/w/800/h/600)
+
+## Query and Filter DSL
+
+下面将介绍几种形式的 query：match_all, match, term, filtered
+
+filter 和 query 的区别是：filter 可以挑选出符合规则的 documents，但不计算 score；而 query 则在挑选出符合规则的 documents 之后，就计算 score，然后再返回 documents。
+
+```
+# match
+curl 'localhost:9200/get-together/event/_search?pretty' -d '{
+  "query": {
+    "match": {
+      "title": "hadoop"
+    }
+  }
+}'
+
+# term
+curl 'localhost:9200/get-together/event/_search?pretty' -d '{
+  "query": {
+    "term": {
+      "title": "hadoop"
+    }
+  }
+}'
+
+# filtered，先用 filter "host": "andy"，然后再用 query "title": "hadoop"
+curl 'localhost:9200/get-together/_search' –d '
+{
+  "query": {
+    "filtered": {
+      "query": {
+        "match": {
+          "title": "hadoop"
+        }
+      },
+      "filter": {
+        "term": {
+          "host": "andy"
+        }
+      }
+    }
+  }
+}'
+```
+
+---
 
 ### 获取多个 Document
 
@@ -225,11 +352,6 @@ Built-in Analyzers:
 
 当我们 index 一个 document 的时候，会使用 analyzer 将 full-text fields 转换为 tokens；当我们查询的时候，也要用相同的 analyzer，将查询语句转换成同样的 tokens。
 
-## API
-
-- 创建新的 index：`curl -XPUT localhost:9200/index-name`
-- 获取 mapping：`curl localhost:9200/index-name/_mapping/type-name?pretty`
-- 获取 shards 信息：`curl 'localhost:9200/_cat/shards?v'`
 
 ### Search
 

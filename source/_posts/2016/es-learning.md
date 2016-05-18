@@ -192,6 +192,15 @@ bulk
 
 ![Screen Shot 2016-05-10 at 2.05.40 PM.png](http://cdn.yyqian.com/201605101405-FgGQatAPHpdwNlsW5naP8y5L_I2U?imageView2/2/w/800/h/600)
 
+## 预定义的 fields
+
+ES 中有一些预定义的字段，所有预定义的字段都是以下划线开头。
+
+document 的 `_source` 和 `_all` 字段将这个 document 所有的内容都聚合在了一起：
+
+- `_source`：这个字段存储了原始的、JSON 格式的、待索引的数据，原始数据在部分更新等操作的时候是必须的
+- `_all`：这个字段存储了原始数据倒排索引之后的、所有字段聚合在一起的数据，因此当搜索某个 document、但没指明搜索的字段的时候，ES 就会搜索 `_all` 字段。`_all` 字段是可以配置的，可以选择启用/不启用，或者指定某个字段不被包含在 `_all` 字段中
+
 ---
 
 参考链接：
