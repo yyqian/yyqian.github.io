@@ -82,7 +82,7 @@
 <meta property="og:image" content="http://cdn.yyqian.com/201605101401-FhKYDhqMQyVWrfYbhghyPRjfpryY?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201605101405-FrS_ElQ0GJ0-hOqDxxRj5lNzmS2q?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201605101405-FgGQatAPHpdwNlsW5naP8y5L_I2U?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-05-17T09:46:32.000Z">
+<meta property="og:updated_time" content="2016-05-18T02:38:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elasticsearch 学习笔记">
 <meta name="twitter:description" content="本文将分析 Elasticsearch 中的一些关键概念
@@ -400,6 +400,7 @@
 <li>mapping 包含了这个 type 中所有 documents 的 fields，但是反过来则不是，某个 document 可以只包含某几个 field，因此从这个意义上来讲，还是 scheme-free 的</li>
 <li>如果新增的一个 document 含有新的 field，ES 会通过这个 field 的 value 来猜测数据类型，这种方式是不靠谱的，因此在生成环境要在 indexing 之前预先定义 mapping</li>
 </ul>
+<p>要注意的是， Type 仅仅提供逻辑上的隔离，在物理上同一个 index 中的 documents 的分布情况跟 type 无关，这里如果同一个 shard 中的两个不同 type 包含同名的 field，这两个 fields 应该是相同数据类型的，否则 ES 会有额外的开销来区分这两个 fields。</p>
 <p>Index 是多个 types 的集合，它有一些自身的设置，譬如：</p>
 <ul>
 <li>refresh_interval，这个表示 indexing 的频率，新增数据一般不是立即进行 indexing，而是有一定的时间间隔，否则开销太大，所以 ES 自称是 near-real-time，这个说法就是从这来的</li>
@@ -427,6 +428,12 @@
 <p><img src="http://cdn.yyqian.com/201605101405-FrS_ElQ0GJ0-hOqDxxRj5lNzmS2q?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-10 at 2.05.11 PM.png"></p>
 <p>bulk</p>
 <p><img src="http://cdn.yyqian.com/201605101405-FgGQatAPHpdwNlsW5naP8y5L_I2U?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-10 at 2.05.40 PM.png"></p>
+<h2 id="预定义的-fields"><a href="#预定义的-fields" class="headerlink" title="预定义的 fields"></a>预定义的 fields</h2><p>ES 中有一些预定义的字段，所有预定义的字段都是以下划线开头。</p>
+<p>document 的 <code>_source</code> 和 <code>_all</code> 字段将这个 document 所有的内容都聚合在了一起：</p>
+<ul>
+<li><code>_source</code>：这个字段存储了原始的、JSON 格式的、待索引的数据，原始数据在部分更新等操作的时候是必须的</li>
+<li><code>_all</code>：这个字段存储了原始数据倒排索引之后的、所有字段聚合在一起的数据，因此当搜索某个 document、但没指明搜索的字段的时候，ES 就会搜索 <code>_all</code> 字段。<code>_all</code> 字段是可以配置的，可以选择启用/不启用，或者指定某个字段不被包含在 <code>_all</code> 字段中</li>
+</ul>
 <hr>
 <p>参考链接：</p>
 <ul>
@@ -605,7 +612,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#倒排索引"><span class="nav-text">倒排索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算-Relevancy-Score-的算法"><span class="nav-text">计算 Relevancy Score 的算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发处理机制"><span class="nav-text">并发处理机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式的数据存储"><span class="nav-text">分布式的数据存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从逻辑的角度来看-ES"><span class="nav-text">从逻辑的角度来看 ES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从物理的角度来看-ES"><span class="nav-text">从物理的角度来看 ES</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个-API-背后的运作机制"><span class="nav-text">各个 API 背后的运作机制</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#倒排索引"><span class="nav-text">倒排索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算-Relevancy-Score-的算法"><span class="nav-text">计算 Relevancy Score 的算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发处理机制"><span class="nav-text">并发处理机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式的数据存储"><span class="nav-text">分布式的数据存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从逻辑的角度来看-ES"><span class="nav-text">从逻辑的角度来看 ES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从物理的角度来看-ES"><span class="nav-text">从物理的角度来看 ES</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个-API-背后的运作机制"><span class="nav-text">各个 API 背后的运作机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预定义的-fields"><span class="nav-text">预定义的 fields</span></a></li></ol></div>
             
           </div>
         </section>
