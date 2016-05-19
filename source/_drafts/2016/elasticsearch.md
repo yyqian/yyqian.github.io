@@ -167,6 +167,13 @@ curl 'localhost:9200/get-together/_search' –d '
 }'
 ```
 
+## 分析
+
+```
+curl -XPOST 'localhost:9200/_analyze?analyzer=standard' -d '
+share your experience with NoSql & big data technologies'
+```
+
 ---
 
 ### 获取多个 Document
