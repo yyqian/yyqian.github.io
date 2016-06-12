@@ -47,7 +47,7 @@ tags: [Clojure, JavaScript]
 
 (queen 8)
 ```
-
+<!-- more -->
 用 ES6 的箭头函数改写的之前的代码。
 
 ```JavaScript
