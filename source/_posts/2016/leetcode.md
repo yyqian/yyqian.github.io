@@ -53,3 +53,19 @@ Power of Four 的特点是 bit = 1 的位置出现在奇数位，我们用以下
 
 1. 先用 n & (n-1) trick 检查是否是 Power of Two
 2. 然后检查 1 出现的奇偶位：检查 0b010101...010101 (也就是 0x55555555) & num 的结果是否为 0
+
+**6. ZigZag Conversion**
+
+用 numRows 长度的 StringBuilder 缓存每一行的字符，然后一个指针指 rows，一个指针指下一个字符。
+
+**204. Count Primes**
+
+参照 Sieve of Eratosthenes 算法
+
+**7. Reverse Integer**
+
+迭代地用 mod 10 取最低位，然后最低位 * 10 添加到结果中。麻烦的地方在于检查 overflow。
+
+**9. Palindrome Number**
+
+7 的解法可以用在这里，也同样要注意 overflow。
