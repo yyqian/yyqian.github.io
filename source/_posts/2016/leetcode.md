@@ -69,3 +69,27 @@ Power of Four 的特点是 bit = 1 的位置出现在奇数位，我们用以下
 **9. Palindrome Number**
 
 7 的解法可以用在这里，也同样要注意 overflow。
+
+**146. LRU Cache**
+
+实现 LRU 的方法：用双向链表（LinkedList）来存放每个数据节点，当访问某个节点的时候，把该节点从链表中删除，然后再添加到链表的头部。当链表满了，就把尾部的节点删除。
+
+get 方法要做的事：访问 Map 获得 该 key 对应的节点，把该节点移到头部，返回该节点的值
+
+put 方法要做的事：如果存在该 key， 则把访问的节点移到头部，并且更新该节点的值，然后返回；如果空间不足， 则删除尾巴处的节点，也同时从 Map 中删除，直到空间足够；如果空间足够，则创建新的节点，把该节点加到链表头部，并且在 Map 中也添加该 key。
+
+**206. Reverse Linked List**
+
+Linked List 正常添加节点都是添加到头部，我们遍历一遍 List，每次都往头部添加，自然就得到一个反序的 List 了
+
+**92. Reverse Linked List II**
+
+在 206 的基础上，我们需要略过头部不需要反序的部分，并且在交换的时候注意要维持尾部的链条。
+
+**169. Majority Element**
+
+有点 tricky，用一个计数器去计算当前猜测字符出现的次数，如果计数器归零，则换个数字。(Boyer-Moore Majority Vote algorithm)
+
+**229. Majority Element II**
+
+这个和 169 类似，用 Boyer-Moore Majority Vote algorithm
