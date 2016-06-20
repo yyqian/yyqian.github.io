@@ -7,7 +7,7 @@ tags:
 
 最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
 
-**202.	Happy Number**
+**202. Happy Number**
 
 这个题目难点在于寻找闭环，有三个解法：
 
@@ -15,7 +15,7 @@ tags:
 2. 用一个 set 来记录出现过的数字，如果有重复的就说明有闭环
 3. 如果有闭环，则闭环中必定有 4（证明方法未知），根据这点来判定
 
-**350.	Intersection of Two Arrays II**
+**350. Intersection of Two Arrays II**
 
 解法一：
 
