@@ -216,6 +216,144 @@
             
               
                 
+                <a class="post-title-link" href="/post/1466091213000/" itemprop="url">
+                  LeetCode 解题思路汇总
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-16T23:33:33+08:00" content="2016-06-16">
+              2016-06-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1466091213000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1466091213000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。</p>
+<p><strong>202.    Happy Number</strong></p>
+<p>这个题目难点在于寻找闭环，有三个解法：</p>
+<ol>
+<li>用链表的 runner 和 walker 方法来寻找闭环</li>
+<li>用一个 set 来记录出现过的数字，如果有重复的就说明有闭环</li>
+<li>如果有闭环，则闭环中必定有 4（证明方法未知），根据这点来判定</li>
+</ol>
+<p><strong>350.    Intersection of Two Arrays II</strong></p>
+<p>解法一：</p>
+<ol>
+<li>先把两个数组各自排序</li>
+<li>用两个指针指向两个数组当前比较的位置，根据比较结果来移动指针和添加交叉值</li>
+</ol>
+<p>解法二：</p>
+<ol>
+<li>用 hashtable 来记录数组 1 中每个数字出现的次数</li>
+<li>遍历数组 2，如果 hashtable 中存在当前元素就添加该元素，同时将哈希表中该元素的出现次数减一</li>
+</ol>
+<p><strong>349. Intersection of Two Arrays</strong></p>
+<p>解法一：用两个 set，数组 1 转换成 set，结果用 set 作为数据结构。然后遍历数组 2 进行比较，如果符合则加入结果的 set</p>
+<p>解法二：跟 350 题的解法一类似，不同点是结果用 set 来作为数据结构</p>
+<p><strong>231. Power of Two</strong></p>
+<p>解法一：用 n &amp; (n-1) trick</p>
+<p>解法二：数一下 bit 为 1 的数目，符合的只会有 1 个</p>
+<p><strong>326. Power of Three</strong></p>
+<p>解法一：递归地检查余数，然后除以 3</p>
+<p>解法二：3^19 = 1162261467 是 int 所能容纳的最大的符合条件的数，用它来进行取模操作。</p>
+<p><strong>342. Power of Four</strong></p>
+<p>326 的解法二在这行不通，因为 4 不是素数。</p>
+<p>Power of Four 的特点是 bit = 1 的位置出现在奇数位，我们用以下步骤：</p>
+<ol>
+<li>先用 n &amp; (n-1) trick 检查是否是 Power of Two</li>
+<li>然后检查 1 出现的奇偶位：检查 0b010101…010101 (也就是 0x55555555) &amp; num 的结果是否为 0</li>
+</ol>
+<p><strong>6. ZigZag Conversion</strong></p>
+<p>用 numRows 长度的 StringBuilder 缓存每一行的字符，然后一个指针指 rows，一个指针指下一个字符。</p>
+<p><strong>204. Count Primes</strong></p>
+<p>参照 Sieve of Eratosthenes 算法</p>
+<p><strong>7. Reverse Integer</strong></p>
+<p>迭代地用 mod 10 取最低位，然后最低位 * 10 添加到结果中。麻烦的地方在于检查 overflow。</p>
+<p><strong>9. Palindrome Number</strong></p>
+<p>7 的解法可以用在这里，也同样要注意 overflow。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1465705199000/" itemprop="url">
                   八皇后问题的 Clojure 和 JavaScript 解法
                 </a>
@@ -1204,113 +1342,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1460014446333/" itemprop="url">
-                  自己实现动态域名解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-07T15:34:06+08:00" content="2016-04-07">
-              2016-04-07
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1460014446333/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1460014446333/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近感觉免费的花生壳服务不是很稳定，于是想自己实现一个，研究了下发现阿里云有提供域名管理的 API：</p>
-<p><a href="https://help.aliyun.com/document_detail/dns/api-reference/summary.html">https://help.aliyun.com/document_detail/dns/api-reference/summary.html</a></p>
-<p>利用这些 API，就能轻松实现花生壳相同的功能（当然，仅适用于阿里云托管的域名）</p>
-<p>原理上很简单：</p>
-<ol>
-<li>客户端访问服务器端，传递参数：待解析的域名</li>
-<li>服务器端获取域名参数，并解析得到客户端 IP 地址</li>
-<li>利用阿里云的 API，提交域名和 IP 地址，更新解析记录</li>
-</ol>
-<p>实现上比较麻烦的是 API 参数的签名和编码，不过这个搞明白之后就能解锁阿里云 API 所有的功能了。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1460014446333/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1356,7 +1387,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-count">113</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

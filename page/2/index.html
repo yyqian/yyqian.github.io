@@ -216,6 +216,113 @@
             
               
                 
+                <a class="post-title-link" href="/post/1460014446333/" itemprop="url">
+                  自己实现动态域名解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-07T15:34:06+08:00" content="2016-04-07">
+              2016-04-07
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1460014446333/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1460014446333/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近感觉免费的花生壳服务不是很稳定，于是想自己实现一个，研究了下发现阿里云有提供域名管理的 API：</p>
+<p><a href="https://help.aliyun.com/document_detail/dns/api-reference/summary.html">https://help.aliyun.com/document_detail/dns/api-reference/summary.html</a></p>
+<p>利用这些 API，就能轻松实现花生壳相同的功能（当然，仅适用于阿里云托管的域名）</p>
+<p>原理上很简单：</p>
+<ol>
+<li>客户端访问服务器端，传递参数：待解析的域名</li>
+<li>服务器端获取域名参数，并解析得到客户端 IP 地址</li>
+<li>利用阿里云的 API，提交域名和 IP 地址，更新解析记录</li>
+</ol>
+<p>实现上比较麻烦的是 API 参数的签名和编码，不过这个搞明白之后就能解锁阿里云 API 所有的功能了。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1460014446333/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1456847885703/" itemprop="url">
                   设计模式 - 行为模式
                 </a>
@@ -1188,110 +1295,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1454224599679/" itemprop="url">
-                  Spring 那些事
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-31T15:16:39+08:00" content="2016-01-31">
-              2016-01-31
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1454224599679/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1454224599679/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Spring 是个很庞大的框架，完整的介绍只能通过看官方的 Reference Documentation，相关的书籍也只能介绍其中的一些常用的功能。这篇文章只是记录一些零碎的知识。</p>
-<p>Spring Data 相关的内容较多，因此单独开帖:</p>
-<p><a href="http://yyqian.com/post/5666756091c0feee762f397f">Spring Data JPA 笔记</a></p>
-<h2 id="0-Spring-Core"><a href="#0-Spring-Core" class="headerlink" title="0. Spring Core"></a>0. Spring Core</h2><hr>
-<h3 id="依赖注入（DI）"><a href="#依赖注入（DI）" class="headerlink" title="依赖注入（DI）"></a>依赖注入（DI）</h3><p>待注入的 class</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BraveKnight</span> <span class="keyword">implements</span> <span class="title">Knight</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Quest quest;</span><br><span class="line">  <span class="comment">// will inject Quest here</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BraveKnight</span><span class="params">(Quest quest)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.quest = quest;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">embarkOnQuest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    quest.embark();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>将要注入的 class<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1454224599679/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1337,7 +1340,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-count">113</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

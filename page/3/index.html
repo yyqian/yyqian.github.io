@@ -216,6 +216,110 @@
             
               
                 
+                <a class="post-title-link" href="/post/1454224599679/" itemprop="url">
+                  Spring 那些事
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-31T15:16:39+08:00" content="2016-01-31">
+              2016-01-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1454224599679/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1454224599679/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Spring 是个很庞大的框架，完整的介绍只能通过看官方的 Reference Documentation，相关的书籍也只能介绍其中的一些常用的功能。这篇文章只是记录一些零碎的知识。</p>
+<p>Spring Data 相关的内容较多，因此单独开帖:</p>
+<p><a href="http://yyqian.com/post/5666756091c0feee762f397f">Spring Data JPA 笔记</a></p>
+<h2 id="0-Spring-Core"><a href="#0-Spring-Core" class="headerlink" title="0. Spring Core"></a>0. Spring Core</h2><hr>
+<h3 id="依赖注入（DI）"><a href="#依赖注入（DI）" class="headerlink" title="依赖注入（DI）"></a>依赖注入（DI）</h3><p>待注入的 class</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BraveKnight</span> <span class="keyword">implements</span> <span class="title">Knight</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Quest quest;</span><br><span class="line">  <span class="comment">// will inject Quest here</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BraveKnight</span><span class="params">(Quest quest)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.quest = quest;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">embarkOnQuest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    quest.embark();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将要注入的 class<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1454224599679/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1450333289904/" itemprop="url">
                   网页 URI/URL 设计
                 </a>
@@ -1147,115 +1251,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1438060629760/" itemprop="url">
-                  Node.js 中的 module.exports，exports，this
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-28T13:17:09+08:00" content="2015-07-28">
-              2015-07-28
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1438060629760/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1438060629760/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Node.js和Core JS有一点重要的不同是，Node.js多了Module对象，Node会为每一个js文件创建一个Module对象，module之间无法直接访问各自的variable或function，需要通过module.exports来开放接口，然后通过require来引用这些接口，这样就可以实现模块化。</p>
-<p>但这里有一点令人感到疑惑的是module.exports和exports的区别是什么？</p>
-<p>首先，在默认情况下，这两者以及this都指向同一个引用，这个可以通过这两句来判断：</p>
-<pre><code>console.log(module.exports === exports); //true
-console.log(module.exports === this); //true
-</code></pre><p>然后要注意的另一点是，require()返回的是module.exports。</p>
-<p>因此，如果要通过exports或this来暴露接口，要确保各自和module.exports是指向同一个引用的，但这样比较容易出错，因为既要保证exports或this在模块中没有指向新的对象，也要保证module.exports没有指向新的对象。个人比较喜欢的做法是</p>
-<pre><code>module.exports = {
-    x: 1,
-    f: function () {}
-};
-</code></pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1438060629760/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1301,7 +1296,7 @@ console.log(module.exports === this); //true
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-count">113</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
