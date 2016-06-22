@@ -78,7 +78,7 @@ AOF（append-only file），把所有写命令存储到日志文件中，跟 mys
 <meta property="og:image" content="http://cdn.yyqian.com/201606101032-FuVRVCXkcD4LI2tygloTtuF7Y29s?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201606101046-FoC_upg6ViKSWjTTTXZqkoqANudC?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201606101119-FirHKxTwDokfX9uZD2ET6F9I72yV?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-06-12T04:22:27.000Z">
+<meta property="og:updated_time" content="2016-06-22T05:50:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis 核心功能解析">
 <meta name="twitter:description" content="持久化Redis 持久化有两种选择：
@@ -355,6 +355,55 @@ AOF（append-only file），把所有写命令存储到日志文件中，跟 mys
 <p>Redis 的 Clojure 客户端 carmine 通过 wcar 实现 pipeline。它把多条命令一起发送，然后同时返回所有命令的结果。但它是否默认在头尾用 MULTI 和 EXEC 包裹了起来？像上面我们在 pipeline 中间显式地调用了 MULTI 和 EXEC，那么是否是 MULTI/EXEC 又嵌套了一层 MULTI/EXEC，从返回的结果来看貌似是这样的，但实际 Redis 是不支持嵌套 MULTI/EXEC 的，所以这里 pipeline 不应当是在最外面包裹了 MULTI/EXEC。</p>
 <h3 id="性能方面的考虑"><a href="#性能方面的考虑" class="headerlink" title="性能方面的考虑"></a>性能方面的考虑</h3><p>我们可以用 <code>redis-benchmark -c 1 -q</code> 命令来测试 Redis 的性能。</p>
 <p>一般用客户端的性能会比 benchmark 测出来的差，最常见的原因是没用 pipeline，每个命令都需要建立连接。一般多数 Redis 客户端都有 pipeline 功能，并且在内部会使用 connection pool。</p>
+<h2 id="Redis-的应用"><a href="#Redis-的应用" class="headerlink" title="Redis 的应用"></a>Redis 的应用</h2><h3 id="LRU-Cache"><a href="#LRU-Cache" class="headerlink" title="LRU Cache"></a>LRU Cache</h3><p>LRU Cache 可以用一个双向链表和哈希表实现。LRU 的关键是在获取一个节点的时候，把这个节点从链表中删除，再添加到头部。对于链表，删除和添加到头部都是 O(1) 复杂度的操作，但根据 key 获取一个节点的复杂度是 O(N)，这样性能就很差。哈希表的在这里的目的是根据 key 能快速定位到双向链表中的对应节点，所以这个哈希表的键是 key，值是对应的链表中的节点的引用。</p>
+<p>Redis 中的 List 实际就是个双向链表，但这里我们没法直接获得某个节点的引用，因此没法构建一个哈希表来通过 key 快速定位到对应的节点。我们只能用 Redis 提供的 O(N) 复杂度的 LREM 操作来完成节点的移动。但是对于 LRU 一般我们都会限制链表的大小，如果限制的大小不大的话（例如 100 左右），性能一般也足够了。</p>
+<p>还有种办法是使用 ZSET，score 设置为使用时的当前时间。</p>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>如果系统负载很重，主键争用非常厉害，这个时候用 WATCH/MULTI/EXEC 组成的乐观锁性能会严重下降，这种情况用悲观锁效率更高。我们可以在 Redis 中自己构建一个分布式锁。</p>
+<p>假设我们要操作一个名叫 yyqian 的用户信息，我们可以用 Redis 中的 String 来表示一个锁，这个 String 的 key 我们假定是 lock:user:yyqian，value 是一个生成的 UUID，用来在解锁的时候进行验证。因此，获取锁的过程是：</p>
+<ol>
+<li>构造一个锁 LOCK（这里是 lock:user:yyqian），并且生成一个 UUID</li>
+<li>用 <code>SETNX LOCK UUID</code> 来设定一个键</li>
+<li>如果返回 0，说明该主键存在，其他线程已经获取了该锁，我们返回失败</li>
+<li>如果返回 1，说明设定成功，没有其他线程获取该锁，我们返回 UUID</li>
+</ol>
+<p>释放锁的过程是：</p>
+<ol>
+<li>先 <code>WATCH LOCK</code></li>
+<li>获取 LOCK 的值，检查是否跟上面返回的 UUID 相同，如果不同说明出错，UNWATCH 然后返回</li>
+<li>依次执行 <code>MULTI</code>, <code>DEL LOCK</code>, <code>EXEC</code></li>
+</ol>
+<p>我们的程序在入口处获取锁，在出口处释放锁，这样就能保证 yyqian 用户相关的事务，但是这里有个 bug 是：如果我们的程序在获取锁和释放锁之间的过程中挂了，会导致锁一直在 Redis 中存在，不会被释放。因此，我们需要更改下获取锁的过程，在 <code>SETNX LOCK UUID</code> 之后，给 LOCK 键添加过期时间，即使被占用我们也要检查下 LOCK 是否设置了过期时间，如果没有也要添加过期时间，以保证 LOCK 总是会被释放的。</p>
+<h3 id="队列（Queue）"><a href="#队列（Queue）" class="headerlink" title="队列（Queue）"></a>队列（Queue）</h3><p>生产者-消费者队列的实现：</p>
+<p>任务进入队列（生产者）：</p>
+<ol>
+<li>用 JSON 或其他方式将任务序列化</li>
+<li>RPUSH/LPUSH 序列化后的字符串到一个 LIST 中</li>
+</ol>
+<p>任务出队列（消费者）：</p>
+<ol>
+<li>RPOP/LPOP 队列，获取任务再反序列化</li>
+<li>也可以用 BRPOP/BLPOP（Blocking 版的 POP），如果队列是空的，它会阻塞进程，直到等到新的任务或是超过设定的等待时间</li>
+</ol>
+<p>延时任务的实现：</p>
+<p>这里我们实际上是在前面的任务队列基础上，添加一个前置的操作，用 ZSET 来存尚未达到执行的时间的任务，通过不断地轮询，将达到时间的任务转移到前面的任务队列中。</p>
+<p>生产者：</p>
+<ol>
+<li>JSON 序列化任务</li>
+<li>在一个 ZSET 中添加「序列化的任务」和「执行时间」，前者是 member，后者是 score</li>
+</ol>
+<p>守护进程：</p>
+<ol>
+<li>循环检查 ZSET 中是否有任务，以及新的任务是否已达到执行时间（根据 score 判断）</li>
+<li>从 ZSET 中删除已到执行时间的任务，把该任务添加到上的生产者-消费者队列中（这里注意要加锁）</li>
+</ol>
+<p>消费者：跟前面的生产者-消费者队列相同</p>
+<h3 id="其他应用"><a href="#其他应用" class="headerlink" title="其他应用"></a>其他应用</h3><ul>
+<li>自动完成</li>
+<li>计数信号量</li>
+<li>消息系统</li>
+<li>搜索引擎：基于倒排索引，类似 ElasticSearch</li>
+<li>类似 Twitter 的系统</li>
+</ul>
 <hr>
 <p>参考资料：</p>
 <ul>
@@ -535,7 +584,7 @@ AOF（append-only file），把所有写命令存储到日志文件中，跟 mys
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#持久化"><span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快照"><span class="nav-text">快照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replication（复制）"><span class="nav-text">Replication（复制）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理系统错误"><span class="nav-text">处理系统错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-事务"><span class="nav-text">Redis 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非事务性的-pipeline（non-transactional-pipelines）"><span class="nav-text">非事务性的 pipeline（non-transactional pipelines）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能方面的考虑"><span class="nav-text">性能方面的考虑</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#持久化"><span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快照"><span class="nav-text">快照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replication（复制）"><span class="nav-text">Replication（复制）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理系统错误"><span class="nav-text">处理系统错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-事务"><span class="nav-text">Redis 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非事务性的-pipeline（non-transactional-pipelines）"><span class="nav-text">非事务性的 pipeline（non-transactional pipelines）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能方面的考虑"><span class="nav-text">性能方面的考虑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的应用"><span class="nav-text">Redis 的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LRU-Cache"><span class="nav-text">LRU Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式锁"><span class="nav-text">分布式锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#队列（Queue）"><span class="nav-text">队列（Queue）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他应用"><span class="nav-text">其他应用</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
