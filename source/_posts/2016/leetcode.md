@@ -93,3 +93,9 @@ Linked List 正常添加节点都是添加到头部，我们遍历一遍 List，
 **229. Majority Element II**
 
 这个和 169 类似，用 Boyer-Moore Majority Vote algorithm
+
+**8. String to Integer (atoi)**
+
+核心的部分，就是用 charAt 取字符，减去字符 0，得到的就是数字了。这里要注意头尾空格，正负号，以及 int 溢出。
+
+**14. Longest Common Prefix**
