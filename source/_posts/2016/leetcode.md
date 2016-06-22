@@ -26,7 +26,7 @@ tags:
 
 1. 用 hashtable 来记录数组 1 中每个数字出现的次数
 2. 遍历数组 2，如果 hashtable 中存在当前元素就添加该元素，同时将哈希表中该元素的出现次数减一
-
+<!-- more -->
 **349. Intersection of Two Arrays**
 
 解法一：用两个 set，数组 1 转换成 set，结果用 set 作为数据结构。然后遍历数组 2 进行比较，如果符合则加入结果的 set
