@@ -5,7 +5,7 @@ permalink: 1466091213000
 tags:
 ---
 
-最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
+最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
 
 **202. Happy Number**
 
@@ -98,4 +98,58 @@ Linked List 正常添加节点都是添加到头部，我们遍历一遍 List，
 
 核心的部分，就是用 charAt 取字符，减去字符 0，得到的就是数字了。这里要注意头尾空格，正负号，以及 int 溢出。
 
+**77. Combinations**
+
+自己的做法：用分治法，C(n,k) = C(n-1,k-1) + C(n-1,k)
+
+combine(n, k) 的结果可以由两部分组成：
+
+1. 组合里有元素 n: combine(n - 1, k - 1) 的每个组合都加上元素 n
+2. 组合里没有元素 n: combine(n - 1, k)
+
+考虑边界情况，把以上两个组合合并
+
+**59. Spiral Matrix II**
+
+有两种方法：
+
+1. 一圈一圈走，从最外圈往内圈走，每圈可以看成一次迭代
+2. 用上下左右四个指针维持接下来要走的路径，每走完一条边，相应的指针就移动一格。
+
+**341. Flatten Nested List Iterator**
+
+用 Stack 来存储，如果栈顶是数组，就把它解开来 push 到 Stack 中，迭代直到栈顶是单个数字。
+
+**55. Jump Game**
+
+可以用深度优先搜索来解决：把每个索引当做一个顶点，顶点的值决定了可以连接的后面的顶点。但这个算法不是最优的，会超时。
+
+高效的做法是：从结尾出发，我们用一个 last 变量来保存最近一次能到达的点，如果当前点能到达 last 点，我们就把这个点设定为 last。前面的点如果连 last 点也到达不了，last 之后的点就更到达不了，所以只要与 last 进行比较就行。
+
+```Java
+public class Solution {
+    public boolean canJump(int[] nums) {
+        int last = nums.length - 1;
+        for (int i = nums.length - 2; i >= 0; i--) {
+            if (i + nums[i] >= last) last = i;
+        }
+        return last <= 0;
+    }
+}
+```
+
+**45. Jump Game II**
+
+同 55，可以考虑用广度优先搜索来做，用 edgeTo 数组来保存路径，最后数一下所走的路径，可以 AC，但效率比较低。
+
+更聪明的做法是，遍历数组，计算每个点能到达的最远距离，用一个 max 变量维持当前 level 所能到达的最远距离，如果当前 level 已经到达边界的时候，用 max 来设定下一个 level 的边界。
+
+**166. Fraction to Recurring Decimal**
+
+回想一下你是如何手动算除法的。
+
 **14. Longest Common Prefix**
+
+不排序的做法：先计算 0，1 两个位置的字符串的 lcp，然后遍历后面的字符串，跟 lcp 比较得到新的 lcp
+
+排序的做法：先排序，然后直接计算第一个和最后一个的 lcp
