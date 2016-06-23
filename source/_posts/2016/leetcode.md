@@ -157,3 +157,7 @@ public class Solution {
 **347. Top K Frequent Elements**
 
 用一个 Map 来统计每个数字的频率，然后用桶排序，每个桶对应一个频率，桶的大小是数组大小加一（因为频率可以是 0 ~ N），一组桶用 List<Integer>[] 来表示，每个桶的链表上挂对应频率的数字。然后从每个桶挨个取就可以了。
+
+**19. Remove Nth Node From End of List**
+
+用一个落后 n + 1 的指针跟随当前指针移动，当当前指针指向最后一个元素的时候，落后的指针的下一个就是要移除的元素。
