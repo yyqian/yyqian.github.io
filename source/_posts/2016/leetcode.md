@@ -158,12 +158,20 @@ public class Solution {
 
 用一个 Map 来统计每个数字的频率，然后用桶排序，每个桶对应一个频率，桶的大小是数组大小加一（因为频率可以是 0 ~ N），一组桶用 List<Integer>[] 来表示，每个桶的链表上挂对应频率的数字。然后从每个桶挨个取就可以了。
 
-<<<<<<< HEAD
 **111. Minimum Depth of Binary Tree**
 
 用递归法，注意要处理左右节点是否为 null 组合成的四种情况。
-=======
+
 **19. Remove Nth Node From End of List**
 
 用一个落后 n + 1 的指针跟随当前指针移动，当当前指针指向最后一个元素的时候，落后的指针的下一个就是要移除的元素。
->>>>>>> ea760d0882b2bb117913c2f813d9247c2a2d7ec9
+
+**2. Add Two Numbers**
+
+构造两个 Node，sentinel 用来记录头部，pre 用来记录上一个 Node，这样就能向尾部添加新的元素，需要注意的就是进位问题
+
+**3. Longest Substring Without Repeating Characters**
+
+利用哈希表存储字符和索引的关系，并维护指向符合条件字符串头尾的两个指针。
+
+
