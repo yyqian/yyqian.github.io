@@ -181,3 +181,14 @@ public class Solution {
 **11. Container With Most Water**
 
 用两个指针，一个指头部，一个指尾部，计算完面积之后，如果头部的高度小于尾部的高度，则头部的指针右移（因为此时尾部指针左移不可能得到比当前更小的面积）；反之尾部的指针左移。
+
+**70. Climbing Stairs**
+
+动态规划，DP
+
+**121. Best Time to Buy and Sell Stock**
+
+**53. Maximum Subarray**
+
+以上两题参照：[Maximum subarray problem](https://en.wikipedia.org/wiki/Maximum_subarray_problem)
+
