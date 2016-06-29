@@ -192,3 +192,28 @@ public class Solution {
 
 以上两题参照：[Maximum subarray problem](https://en.wikipedia.org/wiki/Maximum_subarray_problem)
 
+
+**62. Unique Paths**
+
+有两个方法：
+
+1. 用 DP，P(m, n) = P(m-1, n) + P(m, n-1)
+2. 总共需要 m-1 次向下，n-1 次向右，总的步数是 m+n-2，结果就是 C^(n-1)_(m+n-2)
+
+**63. Unique Paths II**
+
+62 题排列组合的方法貌似不适用了，所以只能用 DP，节省空间的做法是利用参数的矩阵来存 DP 的中间结果，这样就不需要额外的空间复杂度了。
+
+**64. Minimum Path Sum**
+
+虽然这题貌似可以用 dijkstra 来解决，但实际 overkill 了，只要从左到右、从上到下遍历一遍，每个经过的顶点都不可能再被访问一遍，然后用贪心算法，局部作出最优选择就可以了。
+
+**96. Unique Binary Search Trees**
+
+假设计算 BST 个数的函数是 G(n), 以某个数字 i 为根的树的个数为 F(i, n)。我们可以得到 `G(n) = F(1, n) + F(2, n) + ... + F(n, n)`。数字 i 的两个分支分别是 1,...,i-1 和 i+1,...,n 组成的两棵树，因此 F(i, n) = G(i-1) * G(n-i)。最后，我们得到：
+
+`G(n) = G(0) * G(n-1) + G(1) * G(n-2) + … + G(n-1) * G(0)`
+
+**95. Unique Binary Search Trees II**
+
+跟 96 题思路类似，不过这里不能用迭代法，只能用递归：选一个数字作为根，分成两个数字连续的分支，同样是 DP 的思维。
