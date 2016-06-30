@@ -216,6 +216,322 @@
             
               
                 
+                <a class="post-title-link" href="/post/1413996540000/" itemprop="url">
+                  Basis（基）的理解
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-23T00:49:00+08:00" content="2014-10-23">
+              2014-10-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1413996540000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1413996540000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h6 id="文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常"><a href="#文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常" class="headerlink" title="文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常"></a>文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常</h6><p>最近想研究一下小波变换（wavelet），所以先从Basis入手，加深一下对基的理解。由于这篇内容比较抽象，所以先举个日常生活中的例子，对基有个大体的了解：</p>
+<p>我们拿在KFC点餐举例，我们可以点套餐，也可以单个点，譬如说1号套餐是1巨无霸+1薯条+1可乐，2号套餐是1鸡肉卷+1薯条+1可乐，如果我们总共想买1巨无霸+2鸡肉卷+3薯条+3可乐，那我们可以点1个1号套餐，2个2号套餐。这里，这些套餐就是在KFC食品空间的一组基，我们点的单子就是这组基的线性组合。但是，如果我们要点1巨无霸+1鸡肉卷+1可乐，我们是无法通过组合这几个套餐来下单的，只能单个点这些食品。这里，单个食品也组成一组基，并且这组“单品基”比“套餐基”更“万能”，因为我们要下的任何单子都可以是“单品基”的一种线性组合。但是，“套餐基”也有其优点：它可以简化表达方式，我们下的第一份单子如果用“套餐基”，只需要点2种套餐，如果用“单品基”，需要点4种单品。例子就举到这，下面说正题。</p>
+<p>对于学过量子力学的，肯定对各种矩阵变换、矩阵对角化、特征值特征向量求解很熟悉（当然，其他学科也会有涉及，只是表达形式不一样）。我们对于某个事物所处状态的描述通常是在某个特定空间内，选取一组基，然后用特征向量来表示该事物状态。<br>譬如说在二维平面内，一个物体的位置我们可以用坐标(x,y)来表示，如果我们选取的一组基是(1,0)和(0,1)，那么位置的特征向量就是(x,y)，这是因为：<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1413996540000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1413449580000/" itemprop="url">
+                  Raspberry Pi 交叉编译配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-16T16:53:00+08:00" content="2014-10-16">
+              2014-10-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1413449580000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1413449580000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>以下所用的配置环境：</p>
+<ul>
+<li>PC端: Ubuntu 14.04 LTS 64-bit</li>
+<li>Raspberry Pi(RPi)端: Raspbian</li>
+</ul>
+<p>Raspbian的安装配置参照：<a href="http://blog.yyqian.com/117.html">Raspbian安装配置记录</a></p>
+<p><a href="http://hertaville.com/2012/09/28/development-environment-raspberry-pi-cross-compiler/">配置C/C++交叉编译环境</a></p>
+<p>请仔细阅读以上链接内容，以下仅仅是个人操作记录。</p>
+<p>PC端：</p>
+<pre><code>sudo apt-get install build-essential git
+mkdir ~/rpi
+cd ~/rpi
+git clone git://github.com/raspberrypi/tools.git
+vi ~/.bashrc    #最后一行添加export PATH=$PATH:$HOME/Work/RPi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin
+source ~/.bashrc
+arm-linux-gnueabihf-gcc -v                    #检查是否安装成功
+arm-linux-gnueabihf-g++ test.cpp -o test.exe  #写一个test.cpp并尝试编译，生成的test.exe需要拷贝到RPi运行
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1413449580000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1409906040000/" itemprop="url">
+                  统计学习方法 - 决策树
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-09-05T16:34:00+08:00" content="2014-09-05">
+              2014-09-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1409906040000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1409906040000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>决策树模型一个比较容易理解的例子就是信用卡申请：当我们申请信用卡时，会被问一堆问题，其中包括是否有房子、有工作，月收入，教育程度，是否结婚等等，你的这些每项个人信息都会影响你申请的结果（通过或拒绝）。然而，这些各项信息对于结果的影响权重是不同的，譬如说现在有房子比有工作更能说明你财务状况不错。因此，在评估的过程中应当首先考虑权重大的因素，如果几个权重大的因素都满足要求，我们可以忽略剩余的其他因素，提前结束评估让申请通过，反之亦然，这样在一定程度上能加快评估过程。</p>
+<p>基于这个想法，我们可以考察一个测试数据集，通过计算这个数据集各个因素的权重，构造一个树形结构，每个节点都是一个因素（譬如：工作，教育程度），节点的分支代表这个因素的取值（譬如：有/没有，本科/硕士/博士），节点分支连接的子节点是满足该分支条件的样本。这样我们把权重最大的因素放在根节点，然后按权重从大到小生出各个节点，当该节点所包含的样本都是同一类的时，这个节点就是叶节点，可以唯一地确定结果。（这个决策树的生成过程建议参考书本，我想不出通俗的语句来解释。）</p>
+<p>这里比较重要的一点是“权重”到底是什么？如何来定量地计算它？书本从信息论和概率统计的角度引入了“熵(entropy)”，用于计算这个”权重”。熵是衡量系统混乱度/不确定性的量，它跟信息量是有一定关联的（成正比关系还是反比关系个人认为是取决于如何定义信息量）。我们所要做的是先计算出整个数据集的熵，再计算出给定某个因素之后的数据集的熵，前者和后者的差被称为“信息增益”。这是因为给定该因素后，系统的熵减小了，也就是说不确定性小了，更容易分类了（相当于获得了更多信息量），因此熵的差值等价于信息量的增益。所以以上在构造决策树的过程中，我们需要不断地计算各种因素条件下的“信息增益”来作为“权重”，并进行对比选择。</p>
+<p>最后，当完整的决策树构造好后，我们还有可能需要进行“剪枝”。这是因为完整的决策树往往过于复杂，对于测试数据的分类过程中可能导致过拟合现象，因此我们需要降低模型复杂度，剪去一些分支，在对训练数据和测试数据的拟合程度上找到一个平衡点。</p>
+<p>CART算法：这个算法个人认为是决策树的简化版，这里的“权重”用Gini指数来代替，并且生成的决策树是一棵二叉树，即一个节点只有两个分支。对于有多个分支的，譬如说年龄（可分为青年，中年，老年），我们可以分别计算以下三种分类的Gini指数：青年和非青年，中年和非中年，老年和非老年。通过比较这三种分类的Gini指数，选指数最小的分类方法来生成两个分支。</p>
+<p>程序方面，感觉结合数据库会更方便，我自己没有写相应的代码。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1409646660000/" itemprop="url">
                   统计学习方法 - EM算法
                 </a>
@@ -924,303 +1240,6 @@ sudo fc-cache -fv
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1339424747000/" itemprop="url">
-                  EMMANUEL BAPTIST CHURCH WEDDING | WENJIA + SHUAI
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2012-06-11T22:25:47+08:00" content="2012-06-11">
-              2012-06-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1339424747000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1339424747000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://farm8.staticflickr.com/7099/7364454014_f37032cb66_b.jpg" alt=""></p>
-<p><img src="http://farm9.staticflickr.com/8159/7179225065_0cd82911f1_b.jpg" alt=""></p>
-<p><img src="http://farm8.staticflickr.com/7071/7179222941_c433621273_b.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1335156353000/" itemprop="url">
-                  第一卷120黑白
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2012-04-23T12:45:53+08:00" content="2012-04-23">
-              2012-04-23
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1335156353000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1335156353000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>之前过生日朋友送了一卷120黑白胶卷，最近天气渐好，于是拿我的Rolleiflex拍了一下，拍完了邮寄到店里冲印扫描的。</p>
-<p><img src="http://farm8.staticflickr.com/7185/7095149417_737251c461_z.jpg" alt=""></p>
-<p>再show一下我的Rolleiflex</p>
-<p><img src="http://static.flickr.com/5189/5688637055_7043885d28.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1334584342000/" itemprop="url">
-                  LAWSON GARDENS WEDDING | JING KE + ZHE ZHANG | PULLMAN, WA
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2012-04-16T21:52:22+08:00" content="2012-04-16">
-              2012-04-16
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1334584342000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1334584342000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>My first wedding shoot for my best friends. Congratulations to you both. Wishing you a lifetime of happiness.</p>
-<p><img src="http://farm8.staticflickr.com/7192/7086378365_d58c98aed9_b.jpg" alt="" /></p>
-<p><img src="http://farm6.staticflickr.com/5467/7086379689_a42a338b5f_b.jpg" alt="" /><br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1334584342000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1266,7 +1285,7 @@ sudo fc-cache -fv
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">113</span>
+              <span class="site-state-item-count">116</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

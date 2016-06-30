@@ -216,6 +216,318 @@
             
               
                 
+                <a class="post-title-link" href="/post/1461405609750/" itemprop="url">
+                  transient 和 @JsonIgnore
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-23T18:00:09+08:00" content="2016-04-23">
+              2016-04-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1461405609750/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1461405609750/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>一般在遇到到远程过程调用（Remote Procedure Call，RPC）或者 Restful API 的时候，我们就会涉及到对象序列化的问题。RMI 中只要让类实现 Serializable 接口，然后使用 ObjectOutputStream 就可以完成序列化为二进制的过程。而 Restful API 一般用 JSON 格式较为普遍，我个人习惯用 Jackson 2 类库来完成序列化为 JSON 字符串的过程。</p>
+<p>在序列化的过程中，我们可能会遇到一些 fields，我们并不希望把它们传输出去，例如用户的密码、银行卡号等，这时候我们就会用到 transient 或 @JsonIgnore，前者是 Java 中的一个描述符，后者是 Jackson 2 类库中的一个注释，下面我们分开来讨论这两个东西的用法。</p>
+<h2 id="transient"><a href="#transient" class="headerlink" title="transient"></a>transient</h2><p>transient 可以修饰于 field 上，这样在序列化为二进制的时候，这个 field 就会被忽略掉。例如以下 User 类的 password 字段：<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1461405609750/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1461314254577/" itemprop="url">
+                  Java 中 hashCode 的实现方式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-22T16:37:34+08:00" content="2016-04-22">
+              2016-04-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1461314254577/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1461314254577/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>hash code 是在数据结构 hash table 中，将 hash function 作用于存储的对象，然后得到的一个值。其中，hash function 可以有多种实现，但实现的要求之一是得到的 hash code 尽可能的平均分布在一个取值空间内。hash code 的分布越是均匀，对 hash table 的性能就越好。这个 hash function 的实现是个研究的课题，最好留给数学和计算机领域的研究者来完成，我们自己不要去重新发明轮子，接下来我们就看看一种正确的实现方式。</p>
+<p>「Effective Java」中有一篇专门讲了如何正确地实现 hashCode 方法，这里就不复制粘贴了。我研究了一下 Java 的源码之后，发现 Java 类库的实现方式和该书作者写的方法是几乎相同的（boolean 类型以及初始值的选择有差别）。因此，我们现在可以直接调用 Java 类库，而不用自己去按部就班地实现了。下面就讨论下如何针对不同类型的值来计算 hashCode。</p>
+<h2 id="单个基本类型的值"><a href="#单个基本类型的值" class="headerlink" title="单个基本类型的值"></a>单个基本类型的值</h2><p>基本类型有八种：boolean, byte, char, short, int, long, float, double</p>
+<p>它们的 wrapper class 都有一个静态的 hashCode 方法，例如 Long 类的源码：<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1461314254577/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1460773574738/" itemprop="url">
+                  持续集成环境的搭建（基于 Jenkins、Docker、Git）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-16T10:26:14+08:00" content="2016-04-16">
+              2016-04-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1460773574738/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1460773574738/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <ul>
+<li>目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。</li>
+<li>工具：Jenkins、Docker、Git</li>
+<li>环境：Centos 7</li>
+</ul>
+<p>下面我示例用的项目是用 Java 下的 Spring Boot 框架写的，在编译的时候实际还需要 JDK、Maven，如果是其他语言的项目，部分环节上会有出入，但大致的流程应该是一致的。另外，这里主要是介绍下 Jenkins 的配置，其他涉及到的工具不会详细介绍。</p>
+<p>在下面的步骤前，你需要提前安装好：</p>
+<ul>
+<li>Java</li>
+<li>Docker</li>
+</ul>
+<h2 id="安装和运行-Jenkins"><a href="#安装和运行-Jenkins" class="headerlink" title="安装和运行 Jenkins"></a>安装和运行 Jenkins</h2><p>具体参照：<a href="httpss://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions">官方说明</a></p>
+<p>安装 LTS 版本：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> https:<span class="comment">//pkg.jenkins-ci.org/redhat-stable/jenkins.repo</span></span><br><span class="line">sudo rpm --import httpss:<span class="comment">//jenkins-ci.org/redhat/jenkins-ci.org.key</span></span><br><span class="line">sudo yum install jenkins</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1460773574738/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1460014446333/" itemprop="url">
                   自己实现动态域名解析
                 </a>
@@ -945,356 +1257,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1455864579129/" itemprop="url">
-                  深入理解 Java 虚拟机 - 虚拟机执行子系统
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-19T14:49:39+08:00" content="2016-02-19">
-              2016-02-19
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1455864579129/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455864579129/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
-<ul>
-<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
-<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
-<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
-<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
-</ul>
-<h2 id="6-类文件结构"><a href="#6-类文件结构" class="headerlink" title="6. 类文件结构"></a>6. 类文件结构</h2><hr>
-<h3 id="6-2-字节码"><a href="#6-2-字节码" class="headerlink" title="6.2 字节码"></a>6.2 字节码</h3><p>Java 中正常编译后生产的不是「二进制本地机器码（Native Code）」，而是「字节码（ByteCode）」。</p>
-<p>JVM 有两种「无关性」：</p>
-<ol>
-<li>平台无关性：Java 诞生的时候有个著名的宣传口号「Write Once，Run Anywhere」，字节码是平台无关性的基石，VM 可以在不同平台上载入同一种平台无关的字节码。</li>
-<li>语言无关性：Clojure、Scala、Groovy 等语言在 javac 编译后都是生产 Class 文件。</li>
-</ol>
-<p>Java 语言各个元素的语义最终都是由多条字节码组合而成的，因此字节码命令所能提供的语义描述能力比 Java 更强大，<br>其他语言也能实现一些有别于 Java 的语言特性。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1455864579129/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1455605122895/" itemprop="url">
-                  深入理解 Java 虚拟机 - 自动内存管理机制
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-16T14:45:22+08:00" content="2016-02-16">
-              2016-02-16
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1455605122895/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455605122895/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
-<ul>
-<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
-<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
-<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
-<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
-</ul>
-<h2 id="1-走近-Java"><a href="#1-走近-Java" class="headerlink" title="1. 走近 Java"></a>1. 走近 Java</h2><hr>
-<p>JDK（Java Development Kit）包含三部分：Java、JVM、Java API 类库</p>
-<p>JRE（Java Runtime Enviroment）包含两部分：Java API 类库中的 Java SE API 子集、JVM</p>
-<p>最常见的 Java 虚拟机有：</p>
-<ul>
-<li>HotSpot VM：最常用的 JVM，有热点代码探测和 OSR（栈上替换）功能，可以在运行时触发 JIT 编译器进行优化和产生本地机器代码。Oracle 公司在收购了 JRockit 之后，还移植了一些 JRockit 的特性到 HotSpot VM 中。</li>
-<li>JRockit VM：JRockit 专门用于服务器端，不包含解析器，全靠 JIT 编译器。</li>
-<li>J9 VM：IBM 的产品，与 HotSpot 的定位类似。</li>
-</ul>
-<p>除此之外，还有特定硬件平台专有的「高性能」JVM：Azul VM、Liquid VM。</p>
-<p>还有个特殊的 VM 是 Dalvik VM，用于 Android 平台。它不是一个 JVM，没有遵守 JVM 的规范，不能直接运行 Java 的 Class 文件，使用的是寄存器架构而不是 JVM 中常见的栈架构。</p>
-<p>Java 技术未来的几个方向：</p>
-<ul>
-<li>模块化：主要的技术有 OSGi 和 Java 9 中的 Jigsaw（拼图）</li>
-<li>混合语言：JVM 上可以运行多种语言，譬如：Clojure、Scala、Groovy，因为它们都会被编译成统一的字节码</li>
-<li>多核并行：JDK 1.5 中引入了 java.util.concurrent，JDK 1.7 中加入了 java.util.concurrent.forkjoin，Java 8 中的 Lambda</li>
-<li>进一步丰富语法：譬如自动装箱、泛型、动态注解、可变长参数、遍历循环，还有 Coin 项目</li>
-<li>64 位虚拟机：现在的 64 位 JVM 比 32 位的内存消耗更多，性能差大约 15%，还有改进空间
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1455605122895/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1454576036902/" itemprop="url">
-                  2015 年读过的那些书
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-04T16:53:56+08:00" content="2016-02-04">
-              2016-02-04
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1454576036902/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1454576036902/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>「年轻人，你的问题主要在于读书不多而想得太多。」 — 杨绛</p>
-</blockquote>
-<p>2015 年读了不少书，收获也不少，到了年底写个小结。</p>
-<p>自从转行之后面对一个全新的领域，很多知识要去补，并且互联网本身可能是现在这个时代发展最迅速的一个领域了，所以为了赶上步伐，更是有无穷无尽的知识值得去学习。再加上创业这个「快速列车」，踏上的不一定是快速积累财富的通道，但一定是快速成长学习的一个通道（当然，前提是你真的在努力做这件事）。接下来就分享下最近一年读的书以及书评，书单是按读的时间顺序从旧到新排序的，书评是将非技术类的放前面，技术类的按语言划分放后面。</p>
-<p>2015 年的书单：</p>
-<ul>
-<li>精益创业</li>
-<li>The Swift Programming Language</li>
-<li>JavaScript: The Definitive Guide</li>
-<li>JavaScript: The Good Parts</li>
-<li>深入浅出 Node.js</li>
-<li>计算机程序的构造和解释 (SICP)</li>
-<li>淘宝技术这十年</li>
-<li>黑客与画家</li>
-<li>Think in Java</li>
-<li>Spring in Action</li>
-<li>人月神话</li>
-<li>SQL 必知必会
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1454576036902/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1340,7 +1302,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">113</span>
+              <span class="site-state-item-count">116</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

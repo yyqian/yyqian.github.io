@@ -57,40 +57,34 @@
 
 
 
-<meta name="description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
+<meta name="description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
 202. Happy Number
 这个题目难点在于寻找闭环，有三个解法：
 
 用链表的 runner 和 walker 方法来寻找闭环
 用一个 set 来记录出现过的数字，如果有重复的就说明有闭环
-如果有闭环，则闭环中必定有 4（证明方法未知），根据这点来判定
-
-350. Intersection of">
+如果有闭环，则闭环中必定有 4（证">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode 解题思路汇总">
 <meta property="og:url" content="https://yyqian.com/post/1466091213000/index.html">
 <meta property="og:site_name" content="YYQIAN">
-<meta property="og:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
+<meta property="og:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
 202. Happy Number
 这个题目难点在于寻找闭环，有三个解法：
 
 用链表的 runner 和 walker 方法来寻找闭环
 用一个 set 来记录出现过的数字，如果有重复的就说明有闭环
-如果有闭环，则闭环中必定有 4（证明方法未知），根据这点来判定
-
-350. Intersection of">
-<meta property="og:updated_time" content="2016-06-22T06:44:40.000Z">
+如果有闭环，则闭环中必定有 4（证">
+<meta property="og:updated_time" content="2016-06-30T01:22:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
-<meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
+<meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
 202. Happy Number
 这个题目难点在于寻找闭环，有三个解法：
 
 用链表的 runner 和 walker 方法来寻找闭环
 用一个 set 来记录出现过的数字，如果有重复的就说明有闭环
-如果有闭环，则闭环中必定有 4（证明方法未知），根据这点来判定
-
-350. Intersection of">
+如果有闭环，则闭环中必定有 4（证">
 
 
 
@@ -284,7 +278,7 @@
       
 
       
-        <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。</p>
+        <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。</p>
 <p><strong>202. Happy Number</strong></p>
 <p>这个题目难点在于寻找闭环，有三个解法：</p>
 <ol>
@@ -339,6 +333,70 @@
 <p>有点 tricky，用一个计数器去计算当前猜测字符出现的次数，如果计数器归零，则换个数字。(Boyer-Moore Majority Vote algorithm)</p>
 <p><strong>229. Majority Element II</strong></p>
 <p>这个和 169 类似，用 Boyer-Moore Majority Vote algorithm</p>
+<p><strong>8. String to Integer (atoi)</strong></p>
+<p>核心的部分，就是用 charAt 取字符，减去字符 0，得到的就是数字了。这里要注意头尾空格，正负号，以及 int 溢出。</p>
+<p><strong>77. Combinations</strong></p>
+<p>自己的做法：用分治法，C(n,k) = C(n-1,k-1) + C(n-1,k)</p>
+<p>combine(n, k) 的结果可以由两部分组成：</p>
+<ol>
+<li>组合里有元素 n: combine(n - 1, k - 1) 的每个组合都加上元素 n</li>
+<li>组合里没有元素 n: combine(n - 1, k)</li>
+</ol>
+<p>考虑边界情况，把以上两个组合合并</p>
+<p><strong>59. Spiral Matrix II</strong></p>
+<p>有两种方法：</p>
+<ol>
+<li>一圈一圈走，从最外圈往内圈走，每圈可以看成一次迭代</li>
+<li>用上下左右四个指针维持接下来要走的路径，每走完一条边，相应的指针就移动一格。</li>
+</ol>
+<p><strong>341. Flatten Nested List Iterator</strong></p>
+<p>用 Stack 来存储，如果栈顶是数组，就把它解开来 push 到 Stack 中，迭代直到栈顶是单个数字。</p>
+<p><strong>55. Jump Game</strong></p>
+<p>可以用深度优先搜索来解决：把每个索引当做一个顶点，顶点的值决定了可以连接的后面的顶点。但这个算法不是最优的，会超时。</p>
+<p>高效的做法是：从结尾出发，我们用一个 last 变量来保存最近一次能到达的点，如果当前点能到达 last 点，我们就把这个点设定为 last。前面的点如果连 last 点也到达不了，last 之后的点就更到达不了，所以只要与 last 进行比较就行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canJump</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> last = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = nums.length - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i + nums[i] &gt;= last) last = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> last &lt;= <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>45. Jump Game II</strong></p>
+<p>同 55，可以考虑用广度优先搜索来做，用 edgeTo 数组来保存路径，最后数一下所走的路径，可以 AC，但效率比较低。</p>
+<p>更聪明的做法是，遍历数组，计算每个点能到达的最远距离，用一个 max 变量维持当前 level 所能到达的最远距离，如果当前 level 已经到达边界的时候，用 max 来设定下一个 level 的边界。</p>
+<p><strong>166. Fraction to Recurring Decimal</strong></p>
+<p>回想一下你是如何手动算除法的。</p>
+<p><strong>14. Longest Common Prefix</strong></p>
+<p>不排序的做法：先计算 0，1 两个位置的字符串的 lcp，然后遍历后面的字符串，跟 lcp 比较得到新的 lcp</p>
+<p>排序的做法：先排序，然后直接计算第一个和最后一个的 lcp</p>
+<p><strong>347. Top K Frequent Elements</strong></p>
+<p>用一个 Map 来统计每个数字的频率，然后用桶排序，每个桶对应一个频率，桶的大小是数组大小加一（因为频率可以是 0 ~ N），一组桶用 List<integer>[] 来表示，每个桶的链表上挂对应频率的数字。然后从每个桶挨个取就可以了。</integer></p>
+<p><strong>111. Minimum Depth of Binary Tree</strong></p>
+<p>用递归法，注意要处理左右节点是否为 null 组合成的四种情况。</p>
+<p><strong>19. Remove Nth Node From End of List</strong></p>
+<p>用一个落后 n + 1 的指针跟随当前指针移动，当当前指针指向最后一个元素的时候，落后的指针的下一个就是要移除的元素。</p>
+<p><strong>2. Add Two Numbers</strong></p>
+<p>构造两个 Node，sentinel 用来记录头部，pre 用来记录上一个 Node，这样就能向尾部添加新的元素，需要注意的就是进位问题</p>
+<p><strong>3. Longest Substring Without Repeating Characters</strong></p>
+<p>利用哈希表存储字符和索引的关系，并维护指向符合条件字符串头尾的两个指针。</p>
+<p><strong>5. Longest Palindromic Substring</strong></p>
+<p>遍历所有字符，将单个或相邻两个字符进行展开，获得最大的长度。</p>
+<p><strong>11. Container With Most Water</strong></p>
+<p>用两个指针，一个指头部，一个指尾部，计算完面积之后，如果头部的高度小于尾部的高度，则头部的指针右移（因为此时尾部指针左移不可能得到比当前更小的面积）；反之尾部的指针左移。</p>
+<p><strong>70. Climbing Stairs</strong></p>
+<p>动态规划，DP</p>
+<p><strong>121. Best Time to Buy and Sell Stock</strong></p>
+<p><strong>53. Maximum Subarray</strong></p>
+<p>以上两题参照：<a href="https://en.wikipedia.org/wiki/Maximum_subarray_problem" target="_blank" rel="external">Maximum subarray problem</a></p>
+<p><strong>62. Unique Paths</strong></p>
+<p>有两个方法：</p>
+<ol>
+<li>用 DP，P(m, n) = P(m-1, n) + P(m, n-1)</li>
+<li>总共需要 m-1 次向下，n-1 次向右，总的步数是 m+n-2，结果就是 C^(n-1)_(m+n-2)</li>
+</ol>
+<p><strong>63. Unique Paths II</strong></p>
+<p>62 题排列组合的方法貌似不适用了，所以只能用 DP，节省空间的做法是利用参数的矩阵来存 DP 的中间结果，这样就不需要额外的空间复杂度了。</p>
+<p><strong>64. Minimum Path Sum</strong></p>
+<p>虽然这题貌似可以用 dijkstra 来解决，但实际 overkill 了，只要从左到右、从上到下遍历一遍，每个经过的顶点都不可能再被访问一遍，然后用贪心算法，局部作出最优选择就可以了。</p>
+<p><strong>96. Unique Binary Search Trees</strong></p>
+<p>假设计算 BST 个数的函数是 G(n), 以某个数字 i 为根的树的个数为 F(i, n)。我们可以得到 <code>G(n) = F(1, n) + F(2, n) + ... + F(n, n)</code>。数字 i 的两个分支分别是 1,…,i-1 和 i+1,…,n 组成的两棵树，因此 F(i, n) = G(i-1) * G(n-i)。最后，我们得到：</p>
+<p><code>G(n) = G(0) * G(n-1) + G(1) * G(n-2) + … + G(n-1) * G(0)</code></p>
+<p><strong>95. Unique Binary Search Trees II</strong></p>
+<p>跟 96 题思路类似，不过这里不能用迭代法，只能用递归：选一个数字作为根，分成两个数字连续的分支，同样是 DP 的思维。</p>
 
       
     </div>
@@ -363,6 +421,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1467262787000/" rel="prev" title="Spring IoC 深入解析">
+                Spring IoC 深入解析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -434,7 +496,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">113</span>
+              <span class="site-state-item-count">116</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -216,6 +216,394 @@
             
               
                 
+                <a class="post-title-link" href="/post/1467269308000/" itemprop="url">
+                  Spring 数据访问的解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-30T14:48:28+08:00" content="2016-06-30">
+              2016-06-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1467269308000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467269308000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对于数据访问，我们一般使用 DAO 模式，它的组成成员有：</p>
+<ol>
+<li>DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、csv 文件、数据库还是 LDAP，统一抽象为 DAO</li>
+<li>数据访问接口，一般称作 Repositiory 或 Mapper，用于让服务层访问数据，这时服务层不需要关心以何种技术去连接数据层，以及特定于技术的错误的处理。</li>
+<li>数据访问接口的实现，服务层不需要直接与它打交道。这个实现依赖于使用的数据源，我们这里关心的是数据库，所以使用 JDBC 来实现，当然我们也可以切换至 LDAP，这个修改对于服务层来说可以是透明的。</li>
+</ol>
+<p>但是以上模式有个缺陷，我们以使用 JDBC 技术为例：JDBC API 会抛出 checked exception，这个 exception 如果在接口的实现中内部消化的话，上层建筑就不知道出了什么差错，所以需要抛出；但如果抛出的话，这些 exception 特定于各种数据访问技术，如果更换数据源的话，就需要更换数据访问技术，这时候抛出的异常就会有变化，导致接口的定义发生变化，而接口的变化是我们不希望发生的，这会导致上层建筑需要处理新的异常类型。</p>
+<p>因此，Spring 在这里采取的措施是：统一各种数据源/技术的异常类型，对它们进行封装，使得它们对外表现出一致性。这样即使更换数据源，数据访问接口也不会有变化，上层建筑也不需要处理新的异常类型。</p>
+<p>Spring 在这里的工作就是进行转义（或者说翻译，不管你们说哪国语言，在这个关卡中统统翻译成 Spring 王国的语言），实际就是用一张映射表，将特定于技术的 ErrorCode 映射成 Spring 封装/统一之后的异常。</p>
+<p>Spring DAO 异常层级体系的根部是 DataAccessException</p>
+<p><img src="http://cdn.yyqian.com/201606300950-FtiwFLy1238zxntxyGgYR-CTpxoQ?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-30 at 9.49.53 AM.png"></p>
+<p>各种特定于数据源以及访问技术的异常，都可以映射到以上的这一系列异常，即使无法映射到其中之一，也可以映射到 UncategorizedDataAccessException。</p>
+<p>所有 JdbcTemplate 构造的时候都需要 DataSource 对象，我们在生产环境中最普遍使用的是拥有连接缓冲池的 DataSource 实现，它在启动的时候就初始化了一定的数据库连接以备用，当客户端的 Connection 对象调用 close() 方法，实际是把这个连接返还给缓冲池，并没有真正的关闭。</p>
+<p>有了 DataSource 和 JdbcTemplate，我们就可以用前者来获得数据库连接，后者进行数据库操作。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1467268596000/" itemprop="url">
+                  Spring AOP 深入解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-30T14:36:36+08:00" content="2016-06-30">
+              2016-06-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1467268596000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467268596000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="AOP-简介"><a href="#AOP-简介" class="headerlink" title="AOP 简介"></a>AOP 简介</h2><p>AOP 可以看成是针对 OOP 的一个补充或增强。有些系统需求，例如：安全检查、事务管理，如果把这些功能的代码写到业务模块里，会产生很多业务无关的代码，给调试、重构带来很大的复杂度。AOP 在这里的作用就是关注点分离，将业务模块和基础设施模块进行解耦。</p>
+<p>但 AOP 本身不能独立于 OOP 而存在，AOP 的实现一般都要「寄生」在 OOP 的领土之中，这个「寄生」的过程用 AOP 中的黑话来说就是「织入」：把 AOP 的组件集成到 OOP 的组件之中，获得一个新的、能力更强的 OOP 组件。</p>
+<p>我们在这里约定没被增强的原始类称为 POJO，织入的 AOP 组件称为 Aspect，织入后的新的类称为增强类。</p>
+<p>一个 POJO 被「织入」Aspect 之后，得到的增强类对于 POJO 的使用者来说应该是透明的，否则这种增强就是侵入式的了。对于不同的 AOP 的实现方式，如何对使用者透明，采取的方式也不一样。</p>
+<p>AOP 从实现的方式来分可以分为：</p>
+<ol>
+<li><p>静态 AOP：典型代表是 AspectJ，它解析 Aspect 的语义之后，直接在 POJO 的字节码中植入 Aspect 相关的字节码，因此虽然 JVM 实际运行的字节码发生变化了，但增强类的类型没变，使用者关注的部分是没有变化的，所以是透明的。这种方式的 Aspect 一般也不是用 Java 语言来描述的，而是用领域特定语言 AOL，它的织入过程发生在编译阶段（这里把 Java 代码到字节码的过程称为编译）。</p>
+</li>
+<li><p>动态 AOP：Spring AOP 就是其中之一，它在编译和系统启动之前，不会对 POJO 的 Java 代码或字节码做任何修改，也就是说「织入」过程不是发生在编译阶段的。实际上，动态方式的「织入」过程发生在类加载或者系统运行期间，这个期间我们无法再修改原始的 POJO 类，但我们还是有两种选择来实现对使用者透明：使用动态代理技术，代理类就是增强类，实现与之前相同的接口；使用动态字节码生成技术，生成一个继承了 POJO 类的增强类。不管是代理类还是字节码生成的子类，当我们用它来替换原来的 POJO 类的实现，对于 POJO 的调用者，它关心的部分没有变化，因此是透明的。</p>
+</li>
+</ol>
+<h2 id="AOP-的组成部分"><a href="#AOP-的组成部分" class="headerlink" title="AOP 的组成部分"></a>AOP 的组成部分</h2><p>这里我们采用 AspectJ 的描述方式：</p>
+<ol>
+<li><p>Joinpoint（织入点）：例如在调用某个方法之前织入 Aspect 逻辑，这个方法调用的点就是一个织入点，除了方法调用，字段设置、读取、异常处理等都可以作为织入点，但不同的 AOP 实现支持的织入点是不同的。</p>
+</li>
+<li><p>Pointcut：Pointcut 是用来描述一组 Joinpoint 的，例如我们有多个 Controller 类，每个类都有若干方法，如果我们希望在所有这些方法调用之前织入日志记录的 Aspect 逻辑，就可以用「所有带 @Controller 注解的类的所有方法」来描述多个 Joinpoint，这个描述就称为 Pointcut。描述的方式多种多样，后面我们会专注于一种描述方式。</p>
+</li>
+<li><p>Advice：Pointcut 描述带着我们定位到需要进行「织入」的 Joinpoints，接下来要做的事就是描述我们要在这个 Joinpoint「做些什么」，这就是 Advice 要干的事情。Advice 又可以分为 Before Advice, After Advice, Around Advice, Introduction，大概意思就是在 Joinpoint 之前干点什么，之后干点什么，前后干点什么，根据你的需要而定。</p>
+</li>
+<li><p>Aspect：这个是把 Pointcut 和 Advice 封装在一起的实体，就好比 OOP 中把 field 和 method 封装成 Class。在 Spring AOP 的 @AspectJ 实现中，Aspect 可以用一个 POJO 类来描述实现，这点后面将会看到。</p>
+</li>
+<li><p>Weaver（织入器）：前面反复说了「织入」这个过程，这个过程不是由编译器完成的，而是由专门的织入器完成，各个实现有自己的织入器选择。</p>
+</li>
+<li><p>Target（目标对象）：这个就是被「织入」的对象，Pointcut 实际描述了两个部分：要被「织入」的对象和该对象中被「织入」的点。例如前面的「所有带 @Controller 注解的类」就是 Target。所以 Pointcut 同时描述了 Target 和 Joinpoint 两者。</p>
+</li>
+</ol>
+<p>把它们组织到一起，就有了下图：</p>
+<p><img src="http://cdn.yyqian.com/201606301431-Fowh5r_wL6mODDSR3IQ2egOAlDrd?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-30 at 2.31.26 PM.png"></p>
+<p>其中我们要着手编写的是 Pointcut 和 Advice 两者（或者说是整个 Aspect），织入逻辑、织入对象以及织入点的描述都在其中。而 Weaver 由 AOP 框架来实现。</p>
+<h2 id="Spring-AOP-实现原理"><a href="#Spring-AOP-实现原理" class="headerlink" title="Spring AOP 实现原理"></a>Spring AOP 实现原理</h2><p>前面说了，Spring AOP 的实现属于动态 AOP，它的目的是在运行时生成一个「代理对象 = 织入逻辑 + 目标对象」，在使用目标对象的地方都用这个「代理对象」来替代，这个代理对象的生成有「动态代理机制」和「字节码生成技术」两种方式。</p>
+<h3 id="动态代理机制"><a href="#动态代理机制" class="headerlink" title="动态代理机制"></a>动态代理机制</h3><p>在讲解「动态代理机制」之前，我们先来看设计模式的其中一种：代理模式。</p>
+<p><img src="http://cdn.yyqian.com/201606301506-FsDPF4g32qoQ6FHEIt77a_oPcxlW?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-30 at 3.06.05 PM.png"></p>
+<p>三者的使用方法如下：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ISubject <span class="keyword">target</span> = <span class="keyword">new</span> SubjectImpl(); <span class="comment">// 为代理类的构造做准备</span></span><br><span class="line">ISubject subject = <span class="keyword">new</span> SubjectProxy(<span class="keyword">target</span>); <span class="comment">// 实际使用的代理对象，其中织入了 Aspect 逻辑</span></span><br><span class="line">subject.doSomething(); <span class="comment">// 这时调用方法就会触发织入的逻辑</span></span><br></pre></td></tr></table></figure>
+<p>由于 SubjectProxy 和 SubjectImpl 实现了相同的接口，并且 SubjectProxy 是 SubjectImpl 的拓展，所以我们可以把织入逻辑植入到 SubjectProxy 中，并且在使用中也可以直接替换掉 SubjectImpl。</p>
+<p>Spring AOP 的动态代理机制也使用了类似的思路，但不同点在于「动态」两个字。虽然上面的代理模式能解决问题，但一般同一个织入逻辑（Advice）会被织入到多个目标对象中（Target），用上面的方式，就需要为每一个目标对象都生成一个静态的代理对象，这样的话代理对象的数量就会非常多。</p>
+<p>因此，Spring AOP 实际上用的是 JDK 1.3 之后引入的动态代理（Dynamic Proxy）的机制，它是由 Proxy 类和 InvocationHandler 接口组合实现的。</p>
+<p>这两者的使用方式就不详述了，需要知道的是这里的织入逻辑会被植入到 InvocationHandler 接口的实现类中，可以在该类 invoke 方法的前后添加逻辑。Proxy 类的静态方法 newProxyInstance 可以直接生成代理类的对象实例，而不用像前面那样事先定义代理类。</p>
+<h3 id="字节码生成技术"><a href="#字节码生成技术" class="headerlink" title="字节码生成技术"></a>字节码生成技术</h3><p>前面的「动态代理机制」有一个缺陷：如果目标对象（Target）没有实现任何接口，那我们使用的时候就无法用代理对象替换目标对象了，所以「动态代理机制」对这种没有遵守「面向接口编程」的对象是无效的。</p>
+<p>以上情况下，我们可以用 CGLIB 等「字节码生成技术」，生成一个继承了目标对象的子类，然后在该子类上织入 Aspect 逻辑，由于<code>子类 instanceof 父类 == true</code>，所以我们可以用这个扩展的子类的对象实例来替换目标对象的实例。</p>
+<p>「字节码生成技术」顾名思义，可以直接得到字节码，所以这个生成子类实例的过程就不需要为每个目标对象都定义扩展子类了。具体的该技术的使用这里也不做介绍了。</p>
+<p>默认情况下，Spring AOP 如果发现目标对象实现了某个接口，就使用「动态代理机制」来生成代理对象的实例；如果没有，则使用 CGLIB。</p>
+<h2 id="Spring-AOP-的使用"><a href="#Spring-AOP-的使用" class="headerlink" title="Spring AOP 的使用"></a>Spring AOP 的使用</h2><p>这里只讨论一种使用方式：@AspectJ 注解形式的 Spring AOP。我们先来看一下一段示例，这段示例在所有 @Controller 类的方法上都添加了 Rate Limit 功能：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RateLimitAspect</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger =</span><br><span class="line">      LoggerFactory.getLogger(RateLimitAspect.class);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> StringRedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Pointcut</span>(<span class="string">"@annotation(rateLimit)"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">annotatedWithRateLimit</span><span class="params">(RateLimit rateLimit)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Pointcut</span>(<span class="string">"@within(org.springframework.stereotype.Controller)"</span></span><br><span class="line">      + <span class="string">" || @within(org.springframework.web.bind.annotation.RestController)"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">controllerMethods</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 处理 RateLimit 标注的 controller 包下面的方法.</span><br><span class="line">   */</span></span><br><span class="line">  <span class="meta">@Before</span>(<span class="string">"controllerMethods() &amp;&amp; annotatedWithRateLimit(rateLimit)"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rateLimitProcess</span><span class="params">(<span class="keyword">final</span> JoinPoint joinPoint,</span><br><span class="line">                               RateLimit rateLimit)</span> <span class="keyword">throws</span> RateLimitException </span>&#123;</span><br><span class="line">    logger.debug(<span class="string">"触发 rateLimitProcess()"</span>);</span><br><span class="line">    HttpServletRequest request = getRequest(joinPoint.getArgs());</span><br><span class="line">    <span class="keyword">if</span> (request == <span class="keyword">null</span>) &#123;</span><br><span class="line">      logger.error(String.format(<span class="string">"方法[%s]中缺失 HttpServletRequest 参数"</span>,</span><br><span class="line">                                 joinPoint.getSignature().toShortString()));</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    String ip = request.getRemoteHost();</span><br><span class="line">    String url = request.getRequestURI();</span><br><span class="line">    String key = String.format(<span class="string">"req:lim:%s:%s"</span>, url, ip);</span><br><span class="line">    <span class="keyword">long</span> count = redisTemplate.opsForValue().increment(key, <span class="number">1</span>);</span><br><span class="line">    logger.debug(String.format(<span class="string">"[Redis] %s = %s"</span>, key, count));</span><br><span class="line">    <span class="keyword">if</span> (count == <span class="number">1</span>) &#123;</span><br><span class="line">      redisTemplate.expire(key, rateLimit.duration(), rateLimit.unit());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (count &gt; rateLimit.limit()) &#123;</span><br><span class="line">      logger.warn(String.format(<span class="string">"用户IP[%s]短时间内连续[%d]次访问地址[%s], 超过了限定的次数[%d]"</span>,</span><br><span class="line">                                ip, count, url, rateLimit.limit()));</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> RateLimitException();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> HttpServletRequest <span class="title">getRequest</span><span class="params">(Object[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (Object arg : args) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arg <span class="keyword">instanceof</span> HttpServletRequest) &#123;</span><br><span class="line">        <span class="keyword">return</span> (HttpServletRequest)arg;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中跟 AOP 相关的是 @Aspect, @Pointcut, @Before 这几个注解。@Aspect 表明这个类是一个 Aspect；@Pointcut 用来描述一个 Pointcut，描述的领域特定语言可以查看文档，这里就不详述了；@Before 是 Advice 的一种，还有其他种类也请查看文档。基本上只要能玩转 @Pointcut 的描述和几种 Advice 就能实现很多功能了。</p>
+<p>这里要注意的是我们需要 aspectjweaver 类库作为依赖，因为其中的 Pointcut 解析和匹配工作是由 AspectJ 类库完成的，Spring AOP 完成了其余的部分。</p>
+<p>这里 Aspect 本身是个 POJO 类，也可以被当作 Bean 注入到 IoC 容器中。至于如何将这个定义好的 Aspect 织入目标类，我在 Spring Boot 框架下，只要把这个 bean 注入 IoC 容器就完成了，剩下的工作在框架内部是如何完成的我暂时也还不知道。</p>
+<p>前面 RateLimiter 的完整实现见：<a href="https://github.com/yyqian/rate-limiter" target="_blank" rel="external">Github</a></p>
+<hr>
+<p>参考资料：《Spring 揭秘》</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1467262787000/" itemprop="url">
+                  Spring IoC 深入解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-30T12:59:47+08:00" content="2016-06-30">
+              2016-06-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1467262787000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467262787000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Spring 有两种容器类型：</p>
+<ul>
+<li>BeanFactory：默认 lazy-load</li>
+<li>ApplicationContext：构建于 BeanFactory 之上</li>
+</ul>
+<p><img src="http://cdn.yyqian.com/201606241004-FqiUyxfP_kWIWmoqQbO6ShhD-_Pm?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-24 at 10.03.43 AM.png"></p>
+<p>对象注册大体分为三种方式：</p>
+<p><strong>代码方式</strong></p>
+<p>BeanFactory的对象注册过程：</p>
+<ol>
+<li>构造一个 DefaultListableBeanFactory，它同时实现了 BeanDefinitionRegistry 和 BeanFactory 两个接口</li>
+<li>用 BeanDefinition 来保存要注册对象的所有信息</li>
+<li>调用 BeanDefinitionRegistry 的 registerBeanDefinition 方法来进行注册</li>
+<li>指定 BeanDefinition 之间的依赖关系</li>
+<li>强制转换 DefaultListableBeanFactory 为 BeanFactory 然后返回（因为前面我们构造的 DefaultListableBeanFactory 实现了 BeanFactory接口）</li>
+</ol>
+<p><strong>外部配置文件方式</strong></p>
+<p>如果是通过外部文件进行 Bean 的配置（例如 XML），上述的过程之前，还需要进行：</p>
+<ol>
+<li>构造 BeanDefinitionReader</li>
+<li>用 BeanDefinitionReader 的 loadBeanDefinitions 方法来读取配置文件中的内容，并映射到 BeanDefinition</li>
+<li>前面的 2，3，4 在这里可以省去，因为这里的 loadBeanDefinitions 已经自动完成了这些事情</li>
+</ol>
+<p>最常用的外部文件配置通常是 XML，所以第一步我们可以用 XmlBeanDefinitionReader 来作为实现。</p>
+<p><strong>注解方式</strong></p>
+<p>我们可以在 POJO 中使用 @Autowired 和 @Component 注解来对当前对象完成注入和注册。@Component 是配合 classpath-scanning 功能使用的，也就是说 Spring 会自动扫描指定包内的带有 @Component 标注的对象。</p>
+<p>Spring 容器中有两种最基本的 bean 的类型：signleton 和 prototype。singleton 全局只会有一个，并且跟容器生命周期一样长。prototype 每次调用就新构造一个，并且容器不会去管理它的生命周期，调用者如果用完不需要了，就自然被 GC 了。</p>
+<p>IOC 容器有两个阶段：</p>
+<ol>
+<li>容器启动阶段：加载配置，分析配置，映射成 BeanDefinition，其他「后处理」</li>
+<li>Bean 实例化阶段：当 Bean 被通过 getBean 方法调用，会触发该 Bean 的实例化</li>
+</ol>
+<p>BeanFactoryPostProcessor 是在 Bean 定义完成后，Bean 构造前进行的，也就是前面说的「后处理」，常见的有：</p>
+<ol>
+<li>PropertyPlaceholderConfigurer 这个用来处理占位符，例如${jdbc.url}这种，可以把配置文件中具体的数值在这个时候进行替换</li>
+<li>PropertyOverrideConfigurer 是用来覆盖默认的配置，同样是从配置文件中进行获取配置信息，但配置的 key 必须符合 beanName.propertyName=value 的形式，否则 IOC 容器怎么知道你要覆盖哪个 bean 的哪个属性呢</li>
+<li>CustomEditorConfigurer，由于容器从 XML 中读到的数据都是 String 类型的，还需要进行类型转换，满足各种类型对象的需要。这个东西在这就是辅助完成这个转换过程的。大多数数据容器都能自动识别，但是有些像日期这种类型，格式多种多样，所以有的时候需要自己「造轮子」来完成我们期望的结果。</li>
+</ol>
+<p>BeanFactory 对于对象实例化，默认采用延迟初始化；而 ApplicationContext 则会实例化所有的 Bean。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1466091213000/" itemprop="url">
                   LeetCode 解题思路汇总
                 </a>
@@ -265,7 +653,7 @@
 
       
         
-          <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。</p>
+          <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。</p>
 <p><strong>202. Happy Number</strong></p>
 <p>这个题目难点在于寻找闭环，有三个解法：</p>
 <ol>
@@ -1007,318 +1395,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1461405609750/" itemprop="url">
-                  transient 和 @JsonIgnore
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-23T18:00:09+08:00" content="2016-04-23">
-              2016-04-23
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1461405609750/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1461405609750/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>一般在遇到到远程过程调用（Remote Procedure Call，RPC）或者 Restful API 的时候，我们就会涉及到对象序列化的问题。RMI 中只要让类实现 Serializable 接口，然后使用 ObjectOutputStream 就可以完成序列化为二进制的过程。而 Restful API 一般用 JSON 格式较为普遍，我个人习惯用 Jackson 2 类库来完成序列化为 JSON 字符串的过程。</p>
-<p>在序列化的过程中，我们可能会遇到一些 fields，我们并不希望把它们传输出去，例如用户的密码、银行卡号等，这时候我们就会用到 transient 或 @JsonIgnore，前者是 Java 中的一个描述符，后者是 Jackson 2 类库中的一个注释，下面我们分开来讨论这两个东西的用法。</p>
-<h2 id="transient"><a href="#transient" class="headerlink" title="transient"></a>transient</h2><p>transient 可以修饰于 field 上，这样在序列化为二进制的时候，这个 field 就会被忽略掉。例如以下 User 类的 password 字段：<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1461405609750/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1461314254577/" itemprop="url">
-                  Java 中 hashCode 的实现方式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-22T16:37:34+08:00" content="2016-04-22">
-              2016-04-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1461314254577/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1461314254577/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>hash code 是在数据结构 hash table 中，将 hash function 作用于存储的对象，然后得到的一个值。其中，hash function 可以有多种实现，但实现的要求之一是得到的 hash code 尽可能的平均分布在一个取值空间内。hash code 的分布越是均匀，对 hash table 的性能就越好。这个 hash function 的实现是个研究的课题，最好留给数学和计算机领域的研究者来完成，我们自己不要去重新发明轮子，接下来我们就看看一种正确的实现方式。</p>
-<p>「Effective Java」中有一篇专门讲了如何正确地实现 hashCode 方法，这里就不复制粘贴了。我研究了一下 Java 的源码之后，发现 Java 类库的实现方式和该书作者写的方法是几乎相同的（boolean 类型以及初始值的选择有差别）。因此，我们现在可以直接调用 Java 类库，而不用自己去按部就班地实现了。下面就讨论下如何针对不同类型的值来计算 hashCode。</p>
-<h2 id="单个基本类型的值"><a href="#单个基本类型的值" class="headerlink" title="单个基本类型的值"></a>单个基本类型的值</h2><p>基本类型有八种：boolean, byte, char, short, int, long, float, double</p>
-<p>它们的 wrapper class 都有一个静态的 hashCode 方法，例如 Long 类的源码：<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1461314254577/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1460773574738/" itemprop="url">
-                  持续集成环境的搭建（基于 Jenkins、Docker、Git）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-16T10:26:14+08:00" content="2016-04-16">
-              2016-04-16
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1460773574738/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1460773574738/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li>目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。</li>
-<li>工具：Jenkins、Docker、Git</li>
-<li>环境：Centos 7</li>
-</ul>
-<p>下面我示例用的项目是用 Java 下的 Spring Boot 框架写的，在编译的时候实际还需要 JDK、Maven，如果是其他语言的项目，部分环节上会有出入，但大致的流程应该是一致的。另外，这里主要是介绍下 Jenkins 的配置，其他涉及到的工具不会详细介绍。</p>
-<p>在下面的步骤前，你需要提前安装好：</p>
-<ul>
-<li>Java</li>
-<li>Docker</li>
-</ul>
-<h2 id="安装和运行-Jenkins"><a href="#安装和运行-Jenkins" class="headerlink" title="安装和运行 Jenkins"></a>安装和运行 Jenkins</h2><p>具体参照：<a href="httpss://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions">官方说明</a></p>
-<p>安装 LTS 版本：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> https:<span class="comment">//pkg.jenkins-ci.org/redhat-stable/jenkins.repo</span></span><br><span class="line">sudo rpm --import httpss:<span class="comment">//jenkins-ci.org/redhat/jenkins-ci.org.key</span></span><br><span class="line">sudo yum install jenkins</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1460773574738/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1364,7 +1440,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">113</span>
+              <span class="site-state-item-count">116</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
