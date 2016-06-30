@@ -14,7 +14,7 @@ AOP 可以看成是针对 OOP 的一个补充或增强。有些系统需求，�
 我们在这里约定没被增强的原始类称为 POJO，织入的 AOP 组件称为 Aspect，织入后的新的类称为增强类。
 
 一个 POJO 被「织入」Aspect 之后，得到的增强类对于 POJO 的使用者来说应该是透明的，否则这种增强就是侵入式的了。对于不同的 AOP 的实现方式，如何对使用者透明，采取的方式也不一样。
-
+<!-- more -->
 AOP 从实现的方式来分可以分为：
 
 1. 静态 AOP：典型代表是 AspectJ，它解析 Aspect 的语义之后，直接在 POJO 的字节码中植入 Aspect 相关的字节码，因此虽然 JVM 实际运行的字节码发生变化了，但增强类的类型没变，使用者关注的部分是没有变化的，所以是透明的。这种方式的 Aspect 一般也不是用 Java 语言来描述的，而是用领域特定语言 AOL，它的织入过程发生在编译阶段（这里把 Java 代码到字节码的过程称为编译）。
@@ -143,7 +143,7 @@ public class RateLimitAspect {
 
 这里要注意的是我们需要 aspectjweaver 类库作为依赖，因为其中的 Pointcut 解析和匹配工作是由 AspectJ 类库完成的，Spring AOP 完成了其余的部分。
 
-这里 Aspect 本身是个 POJO 类，也可以被当作 Bean 注入到 IoC 容器中。至于如何将这个定义好的 Aspect 织入目标类，我在 Spring Boot 框架下，只要把这个 bean 注入 IoC 容器就完成了，剩下的工作在框架内部是如何完成的我暂时也还不知道。
+这里 Aspect 本身是个 POJO 类，也可以被当作 Bean 注入到 IoC 容器中。至于如何将这个定义好的 Aspect 织入目标类，我在 Spring Boot 框架下，只要把这个 bean 注入 IoC 容器就完成了，剩下的工作在框架内部是如何完成的我暂时也还没细究。
 
 前面 RateLimiter 的完整实现见：[Github](https://github.com/yyqian/rate-limiter)
 

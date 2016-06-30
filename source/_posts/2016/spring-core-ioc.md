@@ -23,7 +23,7 @@ BeanFactory的对象注册过程：
 3. 调用 BeanDefinitionRegistry 的 registerBeanDefinition 方法来进行注册
 4. 指定 BeanDefinition 之间的依赖关系
 5. 强制转换 DefaultListableBeanFactory 为 BeanFactory 然后返回（因为前面我们构造的 DefaultListableBeanFactory 实现了 BeanFactory接口）
-
+<!-- more -->
 **外部配置文件方式**
 
 如果是通过外部文件进行 Bean 的配置（例如 XML），上述的过程之前，还需要进行：
