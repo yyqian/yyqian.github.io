@@ -84,7 +84,7 @@ BeanFactory的对象注册过程：
 
 构造一个 DefaultListableBeanFactory，它同时实现了 BeanDefinitionRegistry 和 BeanFactory 两个">
 <meta property="og:image" content="http://cdn.yyqian.com/201606241004-FqiUyxfP_kWIWmoqQbO6ShhD-_Pm?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-06-30T06:49:11.000Z">
+<meta property="og:updated_time" content="2016-06-30T08:29:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring IoC 深入解析">
 <meta name="twitter:description" content="Spring 有两种容器类型：
@@ -306,9 +306,9 @@ BeanFactory的对象注册过程：
 <li>用 BeanDefinition 来保存要注册对象的所有信息</li>
 <li>调用 BeanDefinitionRegistry 的 registerBeanDefinition 方法来进行注册</li>
 <li>指定 BeanDefinition 之间的依赖关系</li>
-<li>强制转换 DefaultListableBeanFactory 为 BeanFactory 然后返回（因为前面我们构造的 DefaultListableBeanFactory 实现了 BeanFactory接口）</li>
+<li>强制转换 DefaultListableBeanFactory 为 BeanFactory 然后返回（因为前面我们构造的 DefaultListableBeanFactory 实现了 BeanFactory接口）<a id="more"></a>
+<strong>外部配置文件方式</strong></li>
 </ol>
-<p><strong>外部配置文件方式</strong></p>
 <p>如果是通过外部文件进行 Bean 的配置（例如 XML），上述的过程之前，还需要进行：</p>
 <ol>
 <li>构造 BeanDefinitionReader</li>

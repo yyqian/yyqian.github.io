@@ -72,7 +72,7 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
 数据访问接口，一般称作 Repositiory 或 Mapper，用于让服务层访问数据，这时服务层不需要关心以何种技术去连接数据层，以及特定于技术的错误的处理。
 数据访问接口的实现，服务层不需要直接与它打交道。这个实">
 <meta property="og:image" content="http://cdn.yyqian.com/201606300950-FtiwFLy1238zxntxyGgYR-CTpxoQ?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-06-30T06:49:59.000Z">
+<meta property="og:updated_time" content="2016-06-30T08:29:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring 数据访问的解析">
 <meta name="twitter:description" content="对于数据访问，我们一般使用 DAO 模式，它的组成成员有：
@@ -281,8 +281,7 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
 <li>数据访问接口的实现，服务层不需要直接与它打交道。这个实现依赖于使用的数据源，我们这里关心的是数据库，所以使用 JDBC 来实现，当然我们也可以切换至 LDAP，这个修改对于服务层来说可以是透明的。</li>
 </ol>
 <p>但是以上模式有个缺陷，我们以使用 JDBC 技术为例：JDBC API 会抛出 checked exception，这个 exception 如果在接口的实现中内部消化的话，上层建筑就不知道出了什么差错，所以需要抛出；但如果抛出的话，这些 exception 特定于各种数据访问技术，如果更换数据源的话，就需要更换数据访问技术，这时候抛出的异常就会有变化，导致接口的定义发生变化，而接口的变化是我们不希望发生的，这会导致上层建筑需要处理新的异常类型。</p>
-<p>因此，Spring 在这里采取的措施是：统一各种数据源/技术的异常类型，对它们进行封装，使得它们对外表现出一致性。这样即使更换数据源，数据访问接口也不会有变化，上层建筑也不需要处理新的异常类型。</p>
-<p>Spring 在这里的工作就是进行转义（或者说翻译，不管你们说哪国语言，在这个关卡中统统翻译成 Spring 王国的语言），实际就是用一张映射表，将特定于技术的 ErrorCode 映射成 Spring 封装/统一之后的异常。</p>
+<p>因此，Spring 在这里采取的措施是：统一各种数据源/技术的异常类型，对它们进行封装，使得它们对外表现出一致性。这样即使更换数据源，数据访问接口也不会有变化，上层建筑也不需要处理新的异常类型。<br><a id="more"></a><br>Spring 在这里的工作就是进行转义（或者说翻译，不管你们说哪国语言，在这个关卡中统统翻译成 Spring 王国的语言），实际就是用一张映射表，将特定于技术的 ErrorCode 映射成 Spring 封装/统一之后的异常。</p>
 <p>Spring DAO 异常层级体系的根部是 DataAccessException</p>
 <p><img src="http://cdn.yyqian.com/201606300950-FtiwFLy1238zxntxyGgYR-CTpxoQ?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-30 at 9.49.53 AM.png"></p>
 <p>各种特定于数据源以及访问技术的异常，都可以映射到以上的这一系列异常，即使无法映射到其中之一，也可以映射到 UncategorizedDataAccessException。</p>
