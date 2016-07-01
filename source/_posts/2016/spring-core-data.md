@@ -1,5 +1,5 @@
 ---
-title: Spring 数据访问的解析
+title: Spring 数据访问
 date: 2016-06-30 14:48:28
 permalink: 1467269308000
 tags: Spring

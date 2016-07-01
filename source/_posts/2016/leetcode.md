@@ -244,3 +244,17 @@ public class Solution {
 **24. Swap Nodes in Pairs**
 
 用递归做最简单，处理头部两个节点，剩下的就递归。
+
+**17. Letter Combinations of a Phone Number**
+
+可以用分治法，合并分割后的两个结果。
+
+**26. Remove Duplicates from Sorted Array**
+
+**27. Remove Element**
+
+以上两个类似。比较简单，计数器既可以作为结果，又可以用来作为记录当前能填充位置的指针。
+
+**28. Implement strStr()**
+
+就是 substring 的算法，可以用 KMP，如果 KMP 复杂的话就用暴力解法。
