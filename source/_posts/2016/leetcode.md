@@ -109,6 +109,8 @@ combine(n, k) 的结果可以由两部分组成：
 
 考虑边界情况，把以上两个组合合并
 
+**54. Spiral Matrix**
+
 **59. Spiral Matrix II**
 
 有两种方法：
@@ -275,4 +277,48 @@ lgN 复杂度的一般只有用二分搜索，这里的二分搜索在匹配之�
 
 还是用二分搜索，关键点是在不匹配的情况下，从最后一次比较中得到应当插入的位置。
 
+**36. Valid Sudoku**
 
+可以定出左上角和右上角两个顶点，然后三种情况可以用同一个函数进行判断。
+
+**38. Count and Say**
+
+比较简单。每次都判断下一个字符是于当前相同，然后有计数器计数相等的个数。
+
+**39. Combination Sum**
+
+**40. Combination Sum II**
+
+40 题可以用 DFS，但特别要注意的是重复元素的问题，谨慎处理相同元素节点之间的跳转。
+
+**43. Multiply Strings**
+
+用我们手算的方法去做，构造一个数组，记录每一位的数字，注意处理进位。
+
+**46. Permutations**
+
+分治法。
+
+**47. Permutations II**
+
+用 dfs，配合 path 列表和 used 数组，这里有个诀窍是传入利用类似堆栈的形式重复利用 path 列表。
+
+**48. Rotate Image**
+
+有两种 in-place 方法：
+
+1. 每个点旋转四次后都会回到原来的位置，所以可以以四个点为一组进行 swap
+2. 旋转是翻转和转置的组合，翻转和转置都可以很容易地 in-place 进行
+
+**49. Group Anagrams**
+
+第一步：如果把字符串转换成字符数组，然后字符转 int 之后求和，如果是 Anagrams，求和肯定相同，但反过来不一定，这个相当于是在计算 hashCode，但可能会发生 hash collision
+第二步：设计一个不会发生 collision 的 hash function，思路就是用 prime number，把 24 个英文字母映射到不同的 prime number，然后连乘得到 hashCode
+
+**50. Pow(x, n)**
+
+递归，n 每次降一半
+
+**58. Length of Last Word**
+
+很奇怪的题目，特别简单
