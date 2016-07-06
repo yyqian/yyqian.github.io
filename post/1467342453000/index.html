@@ -66,7 +66,7 @@
 
 原子性就是把事务包含的全部操作看作是一个不可分割的整体（就像一颗无法再继续分裂的原子），事务操作的结果只有整体成功和整体失败两种，不能是部分操作成功、部分操作失败（一旦有一个操作失败，事务就要中断并回滚">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring 事务管理">
+<meta property="og:title" content="Spring Transaction 深入解析">
 <meta property="og:url" content="https://yyqian.com/post/1467342453000/index.html">
 <meta property="og:site_name" content="YYQIAN">
 <meta property="og:description" content="什么是事务事务指的是一组数据操作的集合。事务必须包含 ACID 四个属性：
@@ -81,9 +81,9 @@
 <meta property="og:image" content="http://cdn.yyqian.com/201607011122-FpMKl2v7_aH9RSypOuC3V3djBPc0?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201607011313-FkrUxSb9B1Zlpx3uxi_qvqlQTswx?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201607011506-FpALr3XZdg93MKoQF00mJ7UDo2m1?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-07-05T09:31:15.000Z">
+<meta property="og:updated_time" content="2016-07-06T01:01:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring 事务管理">
+<meta name="twitter:title" content="Spring Transaction 深入解析">
 <meta name="twitter:description" content="什么是事务事务指的是一组数据操作的集合。事务必须包含 ACID 四个属性：
 
 原子性，Atomicity
@@ -110,7 +110,7 @@
   };
 </script>
 
-  <title> Spring 事务管理 | YYQIAN </title>
+  <title> Spring Transaction 深入解析 | YYQIAN </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -240,7 +240,7 @@
             
             
               
-                Spring 事务管理
+                Spring Transaction 深入解析
               
             
           </h1>
@@ -294,7 +294,7 @@
 <li>持久性，Durability</li>
 </ul>
 <h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>就是把事务包含的全部操作看作是一个不可分割的整体（就像一颗无法再继续分裂的原子），事务操作的结果只有整体成功和整体失败两种，不能是部分操作成功、部分操作失败（一旦有一个操作失败，事务就要中断并回滚之前的操作）。这样从外部来看，一个事务就像一个独立的操作一样。</p>
-<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>一个事务执行完之后，要保持数据间的一致性状态。这是什么意思呢？例如账户 A 有 10 万元，账户 B 有 10 万元，我们要从账户 A 转账到账户 B 5 万元，这里的一致性要求是两者的总和要保持不变。如果一个事务只包含从 A 扣除 5 万元的一个操作，那么结果就是 A 有 5 万元，B 有 10 万元，这时候总和发生了变化，数据就不一致了，所以这个事务不满足一致性的要求。在这里，满足一致性要求的事务应当包含扣款和充值两个操作，并且数值相等。</p>
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>一个事务执行完之后，要保持数据间的一致性状态。这是什么意思呢？例如账户 A 有 10 万元，账户 B 有 10 万元，我们要从账户 A 转账到账户 B 5 万元，这里的一致性要求是两者的总和要保持不变。如果一个事务只包含从 A 扣除 5 万元的一个操作，那么结果就是 A 有 5 万元，B 有 10 万元，这时候总和发生了变化，数据就不一致了，所以这个事务不满足一致性的要求。在这里，满足一致性要求的事务应当包含扣款和充值两个操作，并且数值相等。<br><a id="more"></a></p>
 <h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p>事务的隔离性指的是同一个数据资源在并发访问的状况下，多个事务之间以何种方式协作配合。例如对同一数据资源只有在当前事务完成之后，下一个事务才能执行，这时候事务之间就是完全隔离，相互之间不可能有影响。</p>
 <p>根据不同的隔离级别，我们可能遇到几个问题：</p>
 <ol>
@@ -417,6 +417,8 @@
 <li>SqlSessionFactoryBean：在基本 MyBatis 中，session 工厂由 SqlSessionFactoryBuilder 创建，而 MyBatis-Spring 中用这个代替。我们用这个来获取 SqlSession（对应于 JDBC 中的 Connection，Hibernate 中的 Session）</li>
 <li>MapperScannerConfigurer：除此之外，我们还需要一个映射器，映射 XML 和 Java class 之间的关系</li>
 </ol>
+<hr>
+<p>参考资料：《Spring 揭秘》</p>
 
       
     </div>
@@ -440,13 +442,17 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/1467269308000/" rel="next" title="Spring 数据访问">
-                <i class="fa fa-chevron-left"></i> Spring 数据访问
+              <a href="/post/1467269308000/" rel="next" title="Spring Data 深入解析">
+                <i class="fa fa-chevron-left"></i> Spring Data 深入解析
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1467766655000/" rel="prev" title="Spring MVC 深入解析">
+                Spring MVC 深入解析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -473,7 +479,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="post/1467342453000/"
-           data-title="Spring 事务管理" data-url="https://yyqian.com/post/1467342453000/">
+           data-title="Spring Transaction 深入解析" data-url="https://yyqian.com/post/1467342453000/">
       </div>
     
   </div>
@@ -518,7 +524,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">117</span>
+              <span class="site-state-item-count">118</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -542,6 +548,15 @@
           
             
               <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
                 <a href="https://github.com/yyqian" target="_blank">
                   
                     <i class="fa fa-github"></i>
@@ -556,15 +571,6 @@
                     <i class="fa fa-flickr"></i>
                   
                   Flickr
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/yinyinqian" target="_blank">
-                  
-                    <i class="fa fa-weibo"></i>
-                  
-                  Weibo
                 </a>
               </span>
             

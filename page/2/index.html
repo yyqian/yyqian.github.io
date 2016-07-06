@@ -216,6 +216,117 @@
             
               
                 
+                <a class="post-title-link" href="/post/1462519709000/" itemprop="url">
+                  Let's Encrypt 在 Centos 和 Nginx 中的部署
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-06T15:28:29+08:00" content="2016-05-06">
+              2016-05-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1462519709000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1462519709000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流浏览器都已经把这个项目的证书添加到了信任列表。</p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><ul>
+<li>把你想要加到证书中的域名和子域名都解析到主机的 IP 上</li>
+<li>已经安装好 Nginx</li>
+</ul>
+<h2 id="安装-Let’s-Encrypt-客户端"><a href="#安装-Let’s-Encrypt-客户端" class="headerlink" title="安装 Let’s Encrypt 客户端"></a>安装 Let’s Encrypt 客户端</h2><p>首先安装 git 和 bc，然后克隆 Let’s Encrypt 的代码到 /opt/letsencrypt 文件夹</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install git bc</span><br><span class="line">sudo git <span class="keyword">clone</span> <span class="title">https</span>://github.com/letsencrypt/letsencrypt /opt/letsencrypt</span><br></pre></td></tr></table></figure>
+<p>安装所有的依赖</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto --<span class="keyword">help</span></span><br></pre></td></tr></table></figure>
+<h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><p>Let’s Encrypt 在给你颁发证书的时候，首先会检查你想要加到证书中的域名是否都是你持有的，因此它会挨个访问这些域名，并做一些操作来进行检验。</p>
+<p>这里我们将使用 standalone 的方式来获取证书。这种方式需要我们先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let’s Encrypt 服务端的验证。</p>
+<p>我们假设你的域名是 example.com，你需要在这把子域名也写上</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="keyword">stop</span> nginx</span><br><span class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto certonly --standalone -d example.<span class="keyword">com</span> -d www.example.<span class="keyword">com</span> -d foo.example.<span class="keyword">com</span></span><br><span class="line">sudo systemctl start nginx</span><br></pre></td></tr></table></figure>
+<p>获取成功的证书会存放在 /etc/letsencrypt/live/example.com 文件夹中<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1462519709000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1461905231000/" itemprop="url">
                   让 Mac 操作行云流水
                 </a>
@@ -1208,115 +1319,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1455874363073/" itemprop="url">
-                  深入理解 Java 虚拟机 - 高效并发
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-19T17:32:43+08:00" content="2016-02-19">
-              2016-02-19
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1455874363073/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455874363073/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
-<ul>
-<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
-<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
-<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
-<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
-</ul>
-<h2 id="12-Java-内存模型与线程"><a href="#12-Java-内存模型与线程" class="headerlink" title="12. Java 内存模型与线程"></a>12. Java 内存模型与线程</h2><hr>
-<h3 id="12-2-硬件的效率与一致性"><a href="#12-2-硬件的效率与一致性" class="headerlink" title="12.2 硬件的效率与一致性"></a>12.2 硬件的效率与一致性</h3><p>计算机的 CPU 与 内存之间有几个数量级的速度差距，因此需要有一层高速缓存（Cache）来作为内存与 CPU 之间的缓冲。</p>
-<p>但是这个高速缓存（Cache）会带来缓存一致性（Cache Coherence）的问题：多核处理器中，每个核心有各自的高速缓存，因此它们各自缓存的数据可能是不一样的，但它们又共享同一主内存，所以缓存和主内存之间的读写访问需要遵循一种协议，称为缓存一致性协议。</p>
-<p><img src="http://cdn.yyqian.com/1455874363073_a.jpg?imageView2/2/w/500" alt="image"></p>
-<p>除了高速缓存外，还存在一种不一致性，来源于 CPU 可能会对指令进行乱序执行优化，它只保证执行的结果和顺序执行的结果是相同的，中间结果是不可预测的。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1455874363073/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1362,7 +1364,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">117</span>
+              <span class="site-state-item-count">118</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1386,6 +1388,15 @@
           
             
               <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
                 <a href="https://github.com/yyqian" target="_blank">
                   
                     <i class="fa fa-github"></i>
@@ -1400,15 +1411,6 @@
                     <i class="fa fa-flickr"></i>
                   
                   Flickr
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/yinyinqian" target="_blank">
-                  
-                    <i class="fa fa-weibo"></i>
-                  
-                  Weibo
                 </a>
               </span>
             

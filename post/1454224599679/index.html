@@ -57,31 +57,22 @@
 
 
 
-<meta name="description" content="Spring 是个很庞大的框架，完整的介绍只能通过看官方的 Reference Documentation，相关的书籍也只能介绍其中的一些常用的功能。这篇文章只是记录一些零碎的知识。
-Spring Data 相关的内容较多，因此单独开帖:
-Spring Data JPA 笔记
-Spring IoC
+<meta name="description" content="Spring IoC
 待注入的 class
-12345678910public class BraveKnight imp">
+12345678910public class BraveKnight implements Knight &amp;#123;  private Quest quest;  // will inject Quest here  public BraveKnight(Quest quest) &amp;#123;    this.quest = quest;  &amp;#12">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring 那些事">
+<meta property="og:title" content="Spring in Action 笔记">
 <meta property="og:url" content="https://yyqian.com/post/1454224599679/index.html">
 <meta property="og:site_name" content="YYQIAN">
-<meta property="og:description" content="Spring 是个很庞大的框架，完整的介绍只能通过看官方的 Reference Documentation，相关的书籍也只能介绍其中的一些常用的功能。这篇文章只是记录一些零碎的知识。
-Spring Data 相关的内容较多，因此单独开帖:
-Spring Data JPA 笔记
-Spring IoC
+<meta property="og:description" content="Spring IoC
 待注入的 class
-12345678910public class BraveKnight imp">
-<meta property="og:updated_time" content="2016-06-30T08:22:55.000Z">
+12345678910public class BraveKnight implements Knight &amp;#123;  private Quest quest;  // will inject Quest here  public BraveKnight(Quest quest) &amp;#123;    this.quest = quest;  &amp;#12">
+<meta property="og:updated_time" content="2016-07-06T01:04:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring 那些事">
-<meta name="twitter:description" content="Spring 是个很庞大的框架，完整的介绍只能通过看官方的 Reference Documentation，相关的书籍也只能介绍其中的一些常用的功能。这篇文章只是记录一些零碎的知识。
-Spring Data 相关的内容较多，因此单独开帖:
-Spring Data JPA 笔记
-Spring IoC
+<meta name="twitter:title" content="Spring in Action 笔记">
+<meta name="twitter:description" content="Spring IoC
 待注入的 class
-12345678910public class BraveKnight imp">
+12345678910public class BraveKnight implements Knight &amp;#123;  private Quest quest;  // will inject Quest here  public BraveKnight(Quest quest) &amp;#123;    this.quest = quest;  &amp;#12">
 
 
 
@@ -99,7 +90,7 @@ Spring IoC
   };
 </script>
 
-  <title> Spring 那些事 | YYQIAN </title>
+  <title> Spring in Action 笔记 | YYQIAN </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -229,7 +220,7 @@ Spring IoC
             
             
               
-                Spring 那些事
+                Spring in Action 笔记
               
             
           </h1>
@@ -275,10 +266,7 @@ Spring IoC
       
 
       
-        <p>Spring 是个很庞大的框架，完整的介绍只能通过看官方的 Reference Documentation，相关的书籍也只能介绍其中的一些常用的功能。这篇文章只是记录一些零碎的知识。</p>
-<p>Spring Data 相关的内容较多，因此单独开帖:</p>
-<p><a href="http://yyqian.com/post/5666756091c0feee762f397f">Spring Data JPA 笔记</a></p>
-<h2 id="Spring-IoC"><a href="#Spring-IoC" class="headerlink" title="Spring IoC"></a>Spring IoC</h2><hr>
+        <h2 id="Spring-IoC"><a href="#Spring-IoC" class="headerlink" title="Spring IoC"></a>Spring IoC</h2><hr>
 <p>待注入的 class</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BraveKnight</span> <span class="keyword">implements</span> <span class="title">Knight</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Quest quest;</span><br><span class="line">  <span class="comment">// will inject Quest here</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BraveKnight</span><span class="params">(Quest quest)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.quest = quest;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">embarkOnQuest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    quest.embark();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>将要注入的 class<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SlayDragonQuest</span> <span class="keyword">implements</span> <span class="title">Quest</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> PrintStream stream;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">SlayDragonQuest</span><span class="params">(PrintStream stream)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.stream = stream;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">embark</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    stream.println(<span class="string">"Embarking on quest to slay the dragon!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -469,7 +457,7 @@ Spring IoC
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="post/1454224599679/"
-           data-title="Spring 那些事" data-url="https://yyqian.com/post/1454224599679/">
+           data-title="Spring in Action 笔记" data-url="https://yyqian.com/post/1454224599679/">
       </div>
     
   </div>
@@ -514,7 +502,7 @@ Spring IoC
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">117</span>
+              <span class="site-state-item-count">118</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -538,6 +526,15 @@ Spring IoC
           
             
               <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
                 <a href="https://github.com/yyqian" target="_blank">
                   
                     <i class="fa fa-github"></i>
@@ -552,15 +549,6 @@ Spring IoC
                     <i class="fa fa-flickr"></i>
                   
                   Flickr
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/yinyinqian" target="_blank">
-                  
-                    <i class="fa fa-weibo"></i>
-                  
-                  Weibo
                 </a>
               </span>
             

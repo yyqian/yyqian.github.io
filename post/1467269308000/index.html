@@ -63,7 +63,7 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
 数据访问接口，一般称作 Repositiory 或 Mapper，用于让服务层访问数据，这时服务层不需要关心以何种技术去连接数据层，以及特定于技术的错误的处理。
 数据访问接口的实现，服务层不需要直接与它打交道。这个实">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring 数据访问">
+<meta property="og:title" content="Spring Data 深入解析">
 <meta property="og:url" content="https://yyqian.com/post/1467269308000/index.html">
 <meta property="og:site_name" content="YYQIAN">
 <meta property="og:description" content="对于数据访问，我们一般使用 DAO 模式，它的组成成员有：
@@ -72,9 +72,9 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
 数据访问接口，一般称作 Repositiory 或 Mapper，用于让服务层访问数据，这时服务层不需要关心以何种技术去连接数据层，以及特定于技术的错误的处理。
 数据访问接口的实现，服务层不需要直接与它打交道。这个实">
 <meta property="og:image" content="http://cdn.yyqian.com/201606300950-FtiwFLy1238zxntxyGgYR-CTpxoQ?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-07-01T03:08:49.000Z">
+<meta property="og:updated_time" content="2016-07-06T00:59:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring 数据访问">
+<meta name="twitter:title" content="Spring Data 深入解析">
 <meta name="twitter:description" content="对于数据访问，我们一般使用 DAO 模式，它的组成成员有：
 
 DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、csv 文件、数据库还是 LDAP，统一抽象为 DAO
@@ -98,7 +98,7 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
   };
 </script>
 
-  <title> Spring 数据访问 | YYQIAN </title>
+  <title> Spring Data 深入解析 | YYQIAN </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -228,7 +228,7 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
             
             
               
-                Spring 数据访问
+                Spring Data 深入解析
               
             
           </h1>
@@ -287,6 +287,8 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
 <p>各种特定于数据源以及访问技术的异常，都可以映射到以上的这一系列异常，即使无法映射到其中之一，也可以映射到 UncategorizedDataAccessException。</p>
 <p>所有 JdbcTemplate 构造的时候都需要 DataSource 对象，我们在生产环境中最普遍使用的是拥有连接缓冲池的 DataSource 实现，它在启动的时候就初始化了一定的数据库连接以备用，当客户端的 Connection 对象调用 close() 方法，实际是把这个连接返还给缓冲池，并没有真正的关闭。</p>
 <p>有了 DataSource 和 JdbcTemplate，我们就可以用前者来获得数据库连接，后者进行数据库操作。</p>
+<hr>
+<p>参考资料：《Spring 揭秘》</p>
 
       
     </div>
@@ -318,8 +320,8 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/post/1467342453000/" rel="prev" title="Spring 事务管理">
-                Spring 事务管理 <i class="fa fa-chevron-right"></i>
+              <a href="/post/1467342453000/" rel="prev" title="Spring Transaction 深入解析">
+                Spring Transaction 深入解析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -347,7 +349,7 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="post/1467269308000/"
-           data-title="Spring 数据访问" data-url="https://yyqian.com/post/1467269308000/">
+           data-title="Spring Data 深入解析" data-url="https://yyqian.com/post/1467269308000/">
       </div>
     
   </div>
@@ -392,7 +394,7 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">117</span>
+              <span class="site-state-item-count">118</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -416,6 +418,15 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
           
             
               <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
                 <a href="https://github.com/yyqian" target="_blank">
                   
                     <i class="fa fa-github"></i>
@@ -430,15 +441,6 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
                     <i class="fa fa-flickr"></i>
                   
                   Flickr
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/yinyinqian" target="_blank">
-                  
-                    <i class="fa fa-weibo"></i>
-                  
-                  Weibo
                 </a>
               </span>
             
