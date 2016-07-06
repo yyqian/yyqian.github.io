@@ -71,9 +71,9 @@ scheme: Muse
 # Key is the link label showing to end users.
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
 social:
+  Linkedin: https://cn.linkedin.com/in/yyqian
   GitHub: https://github.com/yyqian
   Flickr: http://www.flickr.com/photos/yyqian
-  Weibo: http://weibo.com/yinyinqian
 
 
 # Social Links Icons
@@ -85,9 +85,9 @@ social_icons:
   enable: true
   # Icon Mappings.
   # KeyMapsToSocalItemKey: NameOfTheIconFromFontAwesome
+  Linkedin: linkedin
   GitHub: github
   Flickr: flickr
-  Weibo: weibo
 
 
 # Sidebar Avatar

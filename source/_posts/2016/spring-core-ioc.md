@@ -52,3 +52,7 @@ BeanFactoryPostProcessor 是在 Bean 定义完成后，Bean 构造前进行的�
 3. CustomEditorConfigurer，由于容器从 XML 中读到的数据都是 String 类型的，还需要进行类型转换，满足各种类型对象的需要。这个东西在这就是辅助完成这个转换过程的。大多数数据容器都能自动识别，但是有些像日期这种类型，格式多种多样，所以有的时候需要自己「造轮子」来完成我们期望的结果。
 
 BeanFactory 对于对象实例化，默认采用延迟初始化；而 ApplicationContext 则会实例化所有的 Bean。
+
+---
+
+参考资料：《Spring 揭秘》

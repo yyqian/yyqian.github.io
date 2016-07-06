@@ -1,15 +1,9 @@
 ---
-title: Spring 那些事
+title: Spring in Action 笔记
 date: 2016-01-31 15:16:39
 permalink: 1454224599679
 tags: Spring
 ---
-
-Spring 是个很庞大的框架，完整的介绍只能通过看官方的 Reference Documentation，相关的书籍也只能介绍其中的一些常用的功能。这篇文章只是记录一些零碎的知识。
-
-Spring Data 相关的内容较多，因此单独开帖:
-
-[Spring Data JPA 笔记](http://yyqian.com/post/5666756091c0feee762f397f)
 
 ## Spring IoC
 

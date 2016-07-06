@@ -1,5 +1,5 @@
 ---
-title: Spring 事务管理
+title: Spring Transaction 深入解析
 date: 2016-07-01 11:07:33
 permalink: 1467342453000
 tags: Spring
@@ -21,7 +21,7 @@ tags: Spring
 ### 一致性
 
 一个事务执行完之后，要保持数据间的一致性状态。这是什么意思呢？例如账户 A 有 10 万元，账户 B 有 10 万元，我们要从账户 A 转账到账户 B 5 万元，这里的一致性要求是两者的总和要保持不变。如果一个事务只包含从 A 扣除 5 万元的一个操作，那么结果就是 A 有 5 万元，B 有 10 万元，这时候总和发生了变化，数据就不一致了，所以这个事务不满足一致性的要求。在这里，满足一致性要求的事务应当包含扣款和充值两个操作，并且数值相等。
-
+<!-- more -->
 ### 隔离性
 
 事务的隔离性指的是同一个数据资源在并发访问的状况下，多个事务之间以何种方式协作配合。例如对同一数据资源只有在当前事务完成之后，下一个事务才能执行，这时候事务之间就是完全隔离，相互之间不可能有影响。
@@ -300,3 +300,7 @@ MyBatis 在整合到 Spring 之后，事务就由 Spring 代管，而不是实�
 1. DataSourceTransactionManage：这个就是我们的事务管理器
 2. SqlSessionFactoryBean：在基本 MyBatis 中，session 工厂由 SqlSessionFactoryBuilder 创建，而 MyBatis-Spring 中用这个代替。我们用这个来获取 SqlSession（对应于 JDBC 中的 Connection，Hibernate 中的 Session）
 3. MapperScannerConfigurer：除此之外，我们还需要一个映射器，映射 XML 和 Java class 之间的关系
+
+---
+
+参考资料：《Spring 揭秘》

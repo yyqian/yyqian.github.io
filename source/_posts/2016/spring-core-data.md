@@ -1,5 +1,5 @@
 ---
-title: Spring 数据访问
+title: Spring Data 深入解析
 date: 2016-06-30 14:48:28
 permalink: 1467269308000
 tags: Spring
@@ -26,3 +26,7 @@ Spring DAO 异常层级体系的根部是 DataAccessException
 所有 JdbcTemplate 构造的时候都需要 DataSource 对象，我们在生产环境中最普遍使用的是拥有连接缓冲池的 DataSource 实现，它在启动的时候就初始化了一定的数据库连接以备用，当客户端的 Connection 对象调用 close() 方法，实际是把这个连接返还给缓冲池，并没有真正的关闭。
 
 有了 DataSource 和 JdbcTemplate，我们就可以用前者来获得数据库连接，后者进行数据库操作。
+
+---
+
+参考资料：《Spring 揭秘》
