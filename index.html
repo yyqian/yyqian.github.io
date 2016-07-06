@@ -265,30 +265,17 @@
 
       
         
-          
-            <h2 id="Spring-MVC-史前时代"><a href="#Spring-MVC-史前时代" class="headerlink" title="Spring MVC 史前时代"></a>Spring MVC 史前时代</h2><p>这里我们主要回顾一下 Java 平台上的 Web 开发历程。</p>
+          <h2 id="Spring-MVC-史前时代"><a href="#Spring-MVC-史前时代" class="headerlink" title="Spring MVC 史前时代"></a>Spring MVC 史前时代</h2><p>这里我们主要回顾一下 Java 平台上的 Web 开发历程。</p>
 <p>最早的时候，我们用的是 Servlet，它运行于 Web 容器之内，提供了 Session 和对象生命周期管理等功能。它本身是 Java 类，所以可以调用 Java 平台各种 API。</p>
 <p>如果单单依靠这一种技术，我们就会把所有代码全部写在 Servlet 中，包括视图渲染的代码，例如 <code>out.println(&quot;&lt;td&gt;&quot; + rs.getString(2) + &quot;&lt;/td&gt;&quot;)</code> 。但这样不满足我们关注点分离的要求，会导致系统难以重构、需求更改和维护。</p>
 <p>除此之外，我们还一般使用「一个 Servlet 对应处理一个 Web 请求」，所以会有大量的散乱的 Servlet。</p>
 <p>为了能将 Servlet 中视图渲染的逻辑提取出来，让业务逻辑和视图渲染逻辑分离，我们就有了 JSP。JSP 可以看作是现在 Java 平台各种模版引擎的鼻祖，它看上去和 HTML 代码差不多，只是有一些自己独特的命名空间和变量。但它与现在的模版技术有一个主要区别：它最终是编译为 Servlet 来运行的。由于这一点，JSP 中还可以写 Java 代码，可以写复杂的逻辑处理，它的能力更强大。</p>
-<p>在使用 Servlet 的时候，我们要在 web.xml 中配置请求 URL 和 Servlet 的映射关系。有些开发人员为了省去这些繁琐的配置，就把所有的逻辑都写入了 JSP，完全抛弃了 Servlet，这个时候 JSP 已经不只是一个视图模版了。前面我们使用单一 Servlet 带来的困扰，在 JSP 中又重现了，唯一改善的只是配置变得比以前容易了。</p>
-<p>这个时候 SUN 公司祭出了 JavaBean，把业务逻辑剥离到其中，完成了初步的关注点分离，这个时候我们称为 JSP Model 1：</p>
-<p><img src="http://cdn.yyqian.com/201607060936-Fs7QfdEyF_B75nyUBu2n4wymhDUe?imageView2/2/w/800/h/600" alt="Screen Shot 2016-07-06 at 9.36.40 AM.png"></p>
-<p>但这个时候，我们现在所谓的控制器部分，还混杂在 JSP 中。于是，我们又让尘封已久的 Servlet 重现光辉，让它担任控制器角色，进行了进一步的关注点分离，这个时候我们称之为 JSP Model 2：</p>
-<p><img src="http://cdn.yyqian.com/201607060940-Ft68LqBDwod3FN3JcDjIUbOTBPVF?imageView2/2/w/800/h/600" alt="Screen Shot 2016-07-06 at 9.40.06 AM.png"></p>
-<p>这个模型其实就是我们现在 MVC 的鼻祖。对于这一个模型，它的问题在于 Servlet 作为控制器常常会遇到 web.xml 文件膨胀或者硬编码带来的维护和重复利用的问题。所以我们在这个基础上，需要一套更容易复用的基础设施。</p>
-<p>这时候就迎来了两种类型的 Web 开发框架：</p>
-<ol>
-<li>请求驱动的 Web 框架（request-driven framework），基于 request/response 处理模型构建，Struts，Spring MVC 都属于这一种。</li>
-<li>事件驱动的 Web 框架（event-driven framework），Netty 框架应该可以算是一个例子。</li>
-</ol>
-<p>对于请求驱动的 Web 开发框架，它们在 JSP Model 2 的基础上，进一步改进了控制器，把它变成了两级。原来单一 Servlet 作为 Front Controller，接收到请求之后根据映射规则，再转发给后面的 sub-controller，关系如下：</p>
-<p><img src="http://cdn.yyqian.com/201607060954-FnJiC3hMZHrQKWIqZXxoFBNqIYyC?imageView2/2/w/800/h/600" alt="Screen Shot 2016-07-06 at 9.54.33 AM.png"></p>
-<p>我们从后面的分析中可以看到，其实现在我们直接开发的都是这些 sub-controller，这个单一的 Front Controller 在 Spring MVC 中的名字叫 DispatcherServlet。接下我们就踏入 Spring MVC 时代。</p>
-<h2 id="Spring-MVC-概览"><a href="#Spring-MVC-概览" class="headerlink" title="Spring MVC 概览"></a>Spring MVC 概览</h2><h2 id="Spring-MVC-中的主角"><a href="#Spring-MVC-中的主角" class="headerlink" title="Spring MVC 中的主角"></a>Spring MVC 中的主角</h2><h2 id="Spring-MVC-中的配角"><a href="#Spring-MVC-中的配角" class="headerlink" title="Spring MVC 中的配角"></a>Spring MVC 中的配角</h2><h2 id="基于注解的-Controller"><a href="#基于注解的-Controller" class="headerlink" title="基于注解的 Controller"></a>基于注解的 Controller</h2><hr>
-<p>参考资料：《Spring 揭秘》</p>
-
-          
+<p>在使用 Servlet 的时候，我们要在 web.xml 中配置请求 URL 和 Servlet 的映射关系。有些开发人员为了省去这些繁琐的配置，就把所有的逻辑都写入了 JSP，完全抛弃了 Servlet，这个时候 JSP 已经不只是一个视图模版了。前面我们使用单一 Servlet 带来的困扰，在 JSP 中又重现了，唯一改善的只是配置变得比以前容易了。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1467766655000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -807,42 +794,17 @@
         
           <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。</p>
 <h2 id="总结一些技巧和注意点"><a href="#总结一些技巧和注意点" class="headerlink" title="总结一些技巧和注意点"></a>总结一些技巧和注意点</h2><h3 id="注意处理特殊情况"><a href="#注意处理特殊情况" class="headerlink" title="注意处理特殊情况"></a>注意处理特殊情况</h3><p>除数为零，输入为 null，数组/列表长度为零，int 溢出</p>
-<h3 id="列表问题的技巧："><a href="#列表问题的技巧：" class="headerlink" title="列表问题的技巧："></a>列表问题的技巧：</h3><ul>
+<h3 id="列表问题的技巧"><a href="#列表问题的技巧" class="headerlink" title="列表问题的技巧"></a>列表问题的技巧</h3><ul>
 <li>runner 和 walker 用来探测闭环</li>
 <li>用 sentinel 来记录头部</li>
 </ul>
-<h3 id="数组问题："><a href="#数组问题：" class="headerlink" title="数组问题："></a>数组问题：</h3><ul>
+<h3 id="数组问题"><a href="#数组问题" class="headerlink" title="数组问题"></a>数组问题</h3><ul>
 <li>用指针来记录和移动</li>
 <li>先排序试试(一般 nlgn 复杂度)</li>
 </ul>
-<h3 id="数字问题技巧："><a href="#数字问题技巧：" class="headerlink" title="数字问题技巧："></a>数字问题技巧：</h3><ul>
+<h3 id="数字问题技巧"><a href="#数字问题技巧" class="headerlink" title="数字问题技巧"></a>数字问题技巧</h3><ul>
 <li>x &amp; (x - 1) 来判断是否为 2 的 n 次方</li>
-<li>利用 Prime Number 的性质</li>
-</ul>
-<h3 id="常见算法应用："><a href="#常见算法应用：" class="headerlink" title="常见算法应用："></a>常见算法应用：</h3><ol>
-<li>DP</li>
-<li>dfs 和 bfs（dfs 有个技巧：把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用）</li>
-<li>二分法</li>
-<li>分治</li>
-<li>hash 算法</li>
-</ol>
-<h2 id="各个题目的解题思路"><a href="#各个题目的解题思路" class="headerlink" title="各个题目的解题思路"></a>各个题目的解题思路</h2><p><strong>202. Happy Number</strong></p>
-<p>这个题目难点在于寻找闭环，有三个解法：</p>
-<ol>
-<li>用链表的 runner 和 walker 方法来寻找闭环</li>
-<li>用一个 set 来记录出现过的数字，如果有重复的就说明有闭环</li>
-<li>如果有闭环，则闭环中必定有 4（证明方法未知），根据这点来判定</li>
-</ol>
-<p><strong>350. Intersection of Two Arrays II</strong></p>
-<p>解法一：</p>
-<ol>
-<li>先把两个数组各自排序</li>
-<li>用两个指针指向两个数组当前比较的位置，根据比较结果来移动指针和添加交叉值</li>
-</ol>
-<p>解法二：</p>
-<ol>
-<li>用 hashtable 来记录数组 1 中每个数字出现的次数</li>
-<li>遍历数组 2，如果 hashtable 中存在当前元素就添加该元素，同时将哈希表中该元素的出现次数减一
+<li>利用 Prime Number 的性质
           <div class="post-more-link text-center">
             <a class="btn" href="/post/1466091213000/" rel="contents">
               阅读全文 &raquo;

@@ -59,38 +59,38 @@
 
 <meta name="description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
 总结一些技巧和注意点注意处理特殊情况除数为零，输入为 null，数组/列表长度为零，int 溢出
-列表问题的技巧：
+列表问题的技巧
 runner 和 walker 用来探测闭环
 用 sentinel 来记录头部
 
-数组问题：
+数组问题
 用指针来记录和移动
-先">
+先排序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode 解题思路汇总">
 <meta property="og:url" content="https://yyqian.com/post/1466091213000/index.html">
 <meta property="og:site_name" content="YYQIAN">
 <meta property="og:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
 总结一些技巧和注意点注意处理特殊情况除数为零，输入为 null，数组/列表长度为零，int 溢出
-列表问题的技巧：
+列表问题的技巧
 runner 和 walker 用来探测闭环
 用 sentinel 来记录头部
 
-数组问题：
+数组问题
 用指针来记录和移动
-先">
-<meta property="og:updated_time" content="2016-07-06T00:56:26.000Z">
+先排序">
+<meta property="og:updated_time" content="2016-07-06T02:40:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
 <meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
 总结一些技巧和注意点注意处理特殊情况除数为零，输入为 null，数组/列表长度为零，int 溢出
-列表问题的技巧：
+列表问题的技巧
 runner 和 walker 用来探测闭环
 用 sentinel 来记录头部
 
-数组问题：
+数组问题
 用指针来记录和移动
-先">
+先排序">
 
 
 
@@ -286,19 +286,20 @@ runner 和 walker 用来探测闭环
       
         <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。</p>
 <h2 id="总结一些技巧和注意点"><a href="#总结一些技巧和注意点" class="headerlink" title="总结一些技巧和注意点"></a>总结一些技巧和注意点</h2><h3 id="注意处理特殊情况"><a href="#注意处理特殊情况" class="headerlink" title="注意处理特殊情况"></a>注意处理特殊情况</h3><p>除数为零，输入为 null，数组/列表长度为零，int 溢出</p>
-<h3 id="列表问题的技巧："><a href="#列表问题的技巧：" class="headerlink" title="列表问题的技巧："></a>列表问题的技巧：</h3><ul>
+<h3 id="列表问题的技巧"><a href="#列表问题的技巧" class="headerlink" title="列表问题的技巧"></a>列表问题的技巧</h3><ul>
 <li>runner 和 walker 用来探测闭环</li>
 <li>用 sentinel 来记录头部</li>
 </ul>
-<h3 id="数组问题："><a href="#数组问题：" class="headerlink" title="数组问题："></a>数组问题：</h3><ul>
+<h3 id="数组问题"><a href="#数组问题" class="headerlink" title="数组问题"></a>数组问题</h3><ul>
 <li>用指针来记录和移动</li>
 <li>先排序试试(一般 nlgn 复杂度)</li>
 </ul>
-<h3 id="数字问题技巧："><a href="#数字问题技巧：" class="headerlink" title="数字问题技巧："></a>数字问题技巧：</h3><ul>
+<h3 id="数字问题技巧"><a href="#数字问题技巧" class="headerlink" title="数字问题技巧"></a>数字问题技巧</h3><ul>
 <li>x &amp; (x - 1) 来判断是否为 2 的 n 次方</li>
-<li>利用 Prime Number 的性质</li>
+<li>利用 Prime Number 的性质<a id="more"></a>
+<h3 id="常见算法应用"><a href="#常见算法应用" class="headerlink" title="常见算法应用"></a>常见算法应用</h3></li>
 </ul>
-<h3 id="常见算法应用："><a href="#常见算法应用：" class="headerlink" title="常见算法应用："></a>常见算法应用：</h3><ol>
+<ol>
 <li>DP</li>
 <li>dfs 和 bfs（dfs 有个技巧：把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用）</li>
 <li>二分法</li>
@@ -321,9 +322,9 @@ runner 和 walker 用来探测闭环
 <p>解法二：</p>
 <ol>
 <li>用 hashtable 来记录数组 1 中每个数字出现的次数</li>
-<li>遍历数组 2，如果 hashtable 中存在当前元素就添加该元素，同时将哈希表中该元素的出现次数减一<a id="more"></a>
-<strong>349. Intersection of Two Arrays</strong></li>
+<li>遍历数组 2，如果 hashtable 中存在当前元素就添加该元素，同时将哈希表中该元素的出现次数减一</li>
 </ol>
+<p><strong>349. Intersection of Two Arrays</strong></p>
 <p>解法一：用两个 set，数组 1 转换成 set，结果用 set 作为数据结构。然后遍历数组 2 进行比较，如果符合则加入结果的 set</p>
 <p>解法二：跟 350 题的解法一类似，不同点是结果用 set 来作为数据结构</p>
 <p><strong>231. Power of Two</strong></p>
@@ -650,7 +651,7 @@ runner 和 walker 用来探测闭环
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结一些技巧和注意点"><span class="nav-text">总结一些技巧和注意点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意处理特殊情况"><span class="nav-text">注意处理特殊情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表问题的技巧："><span class="nav-text">列表问题的技巧：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组问题："><span class="nav-text">数组问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字问题技巧："><span class="nav-text">数字问题技巧：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见算法应用："><span class="nav-text">常见算法应用：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个题目的解题思路"><span class="nav-text">各个题目的解题思路</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结一些技巧和注意点"><span class="nav-text">总结一些技巧和注意点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意处理特殊情况"><span class="nav-text">注意处理特殊情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表问题的技巧"><span class="nav-text">列表问题的技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组问题"><span class="nav-text">数组问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字问题技巧"><span class="nav-text">数字问题技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见算法应用"><span class="nav-text">常见算法应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个题目的解题思路"><span class="nav-text">各个题目的解题思路</span></a></li></ol></div>
             
           </div>
         </section>
