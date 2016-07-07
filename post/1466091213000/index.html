@@ -57,40 +57,69 @@
 
 
 
-<meta name="description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
-总结一些技巧和注意点注意处理特殊情况除数为零，输入为 null，数组/列表长度为零，int 溢出
-列表问题的技巧
-runner 和 walker 用来探测闭环
-用 sentinel 来记录头部
+<meta name="description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
+当前免费的题目有 286 题（2016/07/07），各难度总数统计：
 
-数组问题
-用指针来记录和移动
-先排序">
+Easy: 78
+Medium: 142
+Hard: 66
+
+当前已完成的统计（2016/07/07）：
+
+Easy: 48
+Medium: 49
+Hard: 3
+
+未完成统计：
+
+Easy: 30
+Medium: 93
+Hard">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode 解题思路汇总">
 <meta property="og:url" content="https://yyqian.com/post/1466091213000/index.html">
 <meta property="og:site_name" content="YYQIAN">
-<meta property="og:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
-总结一些技巧和注意点注意处理特殊情况除数为零，输入为 null，数组/列表长度为零，int 溢出
-列表问题的技巧
-runner 和 walker 用来探测闭环
-用 sentinel 来记录头部
+<meta property="og:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
+当前免费的题目有 286 题（2016/07/07），各难度总数统计：
 
-数组问题
-用指针来记录和移动
-先排序">
-<meta property="og:updated_time" content="2016-07-06T02:40:16.000Z">
+Easy: 78
+Medium: 142
+Hard: 66
+
+当前已完成的统计（2016/07/07）：
+
+Easy: 48
+Medium: 49
+Hard: 3
+
+未完成统计：
+
+Easy: 30
+Medium: 93
+Hard">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg">
+<meta property="og:updated_time" content="2016-07-07T05:55:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
-<meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。
-总结一些技巧和注意点注意处理特殊情况除数为零，输入为 null，数组/列表长度为零，int 溢出
-列表问题的技巧
-runner 和 walker 用来探测闭环
-用 sentinel 来记录头部
+<meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
+当前免费的题目有 286 题（2016/07/07），各难度总数统计：
 
-数组问题
-用指针来记录和移动
-先排序">
+Easy: 78
+Medium: 142
+Hard: 66
+
+当前已完成的统计（2016/07/07）：
+
+Easy: 48
+Medium: 49
+Hard: 3
+
+未完成统计：
+
+Easy: 30
+Medium: 93
+Hard">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg">
 
 
 
@@ -284,14 +313,33 @@ runner 和 walker 用来探测闭环
       
 
       
-        <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。当前免费的题目有 280 题，总共 364 题（2016/06/23）。</p>
+        <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。</p>
+<p>当前免费的题目有 286 题（2016/07/07），各难度总数统计：</p>
+<ul>
+<li>Easy: 78</li>
+<li>Medium: 142</li>
+<li>Hard: 66</li>
+</ul>
+<p>当前已完成的统计（2016/07/07）：</p>
+<ul>
+<li>Easy: 48</li>
+<li>Medium: 49</li>
+<li>Hard: 3</li>
+</ul>
+<p>未完成统计：</p>
+<ul>
+<li>Easy: 30</li>
+<li>Medium: 93</li>
+<li>Hard: 63</li>
+</ul>
+<p>按照每天 1 Easy, 3 Medium, 1 Hard 的题量，30 天可以清空所有免费的 Easy 和 Medium。</p>
 <h2 id="总结一些技巧和注意点"><a href="#总结一些技巧和注意点" class="headerlink" title="总结一些技巧和注意点"></a>总结一些技巧和注意点</h2><h3 id="注意处理特殊情况"><a href="#注意处理特殊情况" class="headerlink" title="注意处理特殊情况"></a>注意处理特殊情况</h3><p>除数为零，输入为 null，数组/列表长度为零，int 溢出</p>
 <h3 id="列表问题的技巧"><a href="#列表问题的技巧" class="headerlink" title="列表问题的技巧"></a>列表问题的技巧</h3><ul>
 <li>runner 和 walker 用来探测闭环</li>
-<li>用 sentinel 来记录头部</li>
+<li>用 sentinel 来记录头部，适当的时候也记录下尾部。</li>
 </ul>
 <h3 id="数组问题"><a href="#数组问题" class="headerlink" title="数组问题"></a>数组问题</h3><ul>
-<li>用指针来记录和移动</li>
+<li>用若干个指针来记录和移动</li>
 <li>先排序试试(一般 nlgn 复杂度)</li>
 </ul>
 <h3 id="数字问题技巧"><a href="#数字问题技巧" class="headerlink" title="数字问题技巧"></a>数字问题技巧</h3><ul>
@@ -302,7 +350,7 @@ runner 和 walker 用来探测闭环
 <ol>
 <li>DP</li>
 <li>dfs 和 bfs（dfs 有个技巧：把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用）</li>
-<li>二分法</li>
+<li>二分搜索</li>
 <li>分治</li>
 <li>hash 算法</li>
 </ol>
@@ -482,6 +530,32 @@ runner 和 walker 用来探测闭环
 <p>可以把它变成一个环，然后在合适的地方把环断开。</p>
 <p><strong>60. Permutation Sequence</strong></p>
 <p>对于第一个字符我们是可以计算出来的，计算出来之后我们把它添加到结果，然后处理下一个字符，下一个字符的位置可以是看做一个 subarray，这时候字符集少了一个字，我们可以在最初用一个有序的 list 来保存当前尚未用过的数字，用完后把它移除。</p>
+<p><strong>66. Plus One</strong></p>
+<p>比较简单，一个小 trick 是如果最高为进位，只有可能是整个序列是 999999, 这个时候只要新建一个数组，然后最高为设置为 1 就可以了，余下的都是 0。</p>
+<p><strong>67. Add Binary</strong></p>
+<p>我们可以用 XOR 和加法来判断当前位和进位的数字。</p>
+<p><strong>69. Sqrt(x)</strong></p>
+<p>用二分搜索，注意 overflow</p>
+<p><strong>71. Simplify Path</strong></p>
+<p>用 stack，类似状态机，遇到 / 就 push，pop 或什么都不做。</p>
+<p><strong>73. Set Matrix Zeroes</strong></p>
+<p>我们先遍历一遍看看哪些位置是零，这里的 trick 是我们可以不用 Set 来存这些零点的位置，只要把这个点所在行或者列的头部标为 0 即可，用这个点来存放信息。</p>
+<p><strong>74. Search a 2D Matrix</strong></p>
+<p>二分搜索，把二维数组还原成一维就行。</p>
+<p><strong>75. Sort Colors</strong></p>
+<p>在头尾各用一个指针，在遍历数组的时候，遇到 0 就向头部 swap，遇到 2 就向尾部 swap。</p>
+<p><strong>78. Subsets</strong></p>
+<p>用迭代，一个个元素加上去</p>
+<p><strong>90. Subsets II</strong></p>
+<p>当有重复元素的时候，我们先数一下有几个重复的，然后在原有的结果上，添加 1 个重复的元素、添加 2 个。。。直到添加所有的重复元素。然后再处理下一个元素。</p>
+<p><strong>89. Gray Code</strong></p>
+<p>解法一：迭代，在(n - 1)的基础上加一个 0 或者 1。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg" alt=""></p>
+<p>解法二：直接用公式：G(i) = i^ (i/2)，暂时还没研究为什么这个公式可行。<a href="https://en.wikipedia.org/wiki/Gray_code" target="_blank" rel="external">wiki</a></p>
+<p><strong>91. Decode Ways</strong></p>
+<p>DP，把字符挨个往上加，迭代更新结果。</p>
+<p><strong>86. Partition List</strong></p>
+<p>维护两个 List，一个存放小于 x 的元素，另一个存放大于等于 x 的元素，遍历完之后把它们接起来。维护这两个 List 的时候用四个指针指向它们的头尾。</p>
 
       
     </div>

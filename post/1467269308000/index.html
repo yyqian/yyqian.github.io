@@ -72,7 +72,7 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
 数据访问接口，一般称作 Repositiory 或 Mapper，用于让服务层访问数据，这时服务层不需要关心以何种技术去连接数据层，以及特定于技术的错误的处理。
 数据访问接口的实现，服务层不需要直接与它打交道。这个实">
 <meta property="og:image" content="http://cdn.yyqian.com/201606300950-FtiwFLy1238zxntxyGgYR-CTpxoQ?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-07-06T00:59:56.000Z">
+<meta property="og:updated_time" content="2016-07-07T09:37:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Data 深入解析">
 <meta name="twitter:description" content="对于数据访问，我们一般使用 DAO 模式，它的组成成员有：
@@ -287,6 +287,7 @@ DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、c
 <p>各种特定于数据源以及访问技术的异常，都可以映射到以上的这一系列异常，即使无法映射到其中之一，也可以映射到 UncategorizedDataAccessException。</p>
 <p>所有 JdbcTemplate 构造的时候都需要 DataSource 对象，我们在生产环境中最普遍使用的是拥有连接缓冲池的 DataSource 实现，它在启动的时候就初始化了一定的数据库连接以备用，当客户端的 Connection 对象调用 close() 方法，实际是把这个连接返还给缓冲池，并没有真正的关闭。</p>
 <p>有了 DataSource 和 JdbcTemplate，我们就可以用前者来获得数据库连接，后者进行数据库操作。</p>
+<p><em>未完结</em></p>
 <hr>
 <p>参考资料：《Spring 揭秘》</p>
 
