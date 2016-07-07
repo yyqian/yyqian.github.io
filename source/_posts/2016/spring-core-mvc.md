@@ -173,9 +173,100 @@ Spring MVC 中除了前面讨论的的几个主角，还有一些配角，例如
 4. HandlerExceptionResolver：在处理 Web 请求过程中，如果 Handler 抛出异常该如何处理
 5. LocaleResolver, ThemeResolver：如果我们想根据用户的地理信息显示不同的视图，或者用户可以选择不同的主题，我们就需要这两个。
 
-接下来，我们会稍微讨论下 HandlerInterceptor，HandlerAdaptor，HandlerExceptionResolver。
+接下来，我们会稍微讨论下 HandlerAdaptor，HandlerInterceptor，HandlerExceptionResolver。
 
-*未完待续*
+### Handler 与 HandlerAdaptor
+
+Spring MVC 中任何可用于 Web 请求处理的对象统称为 Handler。Controller 是 handler 的一种特殊类型。Struts 的 Action 也是一种 Handler。
+
+DispatcherServlet 为了能够调用各种各样的 Handler，就用了 HandlerAdaptor 这一接口。
+
+这个接口主要的方法是 supports 和 handle。DispatcherServlet 先从 HandlerMapping 那获取合适的 Handler，然后用 HandlerAdaptor 的 support 方法询问是否支持该 Handler 的调用，如果支持，则调用 handle 方法，这个方法将返回 ModelAndView。
+
+除了 Controller，Spring MVC 中还有一种 Handler：ThrowawayController。它不依赖于任何 Servlet API，并且可以定义状态。由于它拥有状态，就不能作为 Singleton 类型的 Bean 了，每次 Web 请求都要构造一个新的实例，所以要把该 Bean 的 scope 设定为 prototype。
+
+如果我们要自定义一个 Handler，除了写一个注解了 @Handler 的 POJO 类之外，还要构造一个能识别该 Handler 的 HandlerMapping，还需要实现一个 HandlerAdaptor 以便能让 DispatcherServlet 调用。
+
+HandlerAdaptor 的实现很简单，supports 方法用 instanceof 去判断，handle 方法只要把 Handler 对象强制转换为自定义的 Handler 实现类，让后调用相应的方法就可以了。
+
+### HandlerInterceptor
+
+前面我们提到过 HandlerMapping 返回的是一个 HandlerExecutionChain 对象，这个对象封装了两类数据：
+
+1. Handler：用于处理 Web 请求
+2. HandlerInterceptor：可以在 Handler 前后对处理流程进行拦截
+
+```
+public interface HandlerInterceptor {
+    boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception;
+    
+    void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception;
+
+    void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception;
+}
+```
+
+从这几个方法可以看出，HandlerInterceptor 可以在指定的 handler 执行前、后、完成之后进行拦截并进行逻辑处理。
+
+它有若干个实现类：
+
+```
+org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor
+org.springframework.web.servlet.mvc.WebContentInterceptor
+org.springframework.web.servlet.i18n.LocaleChangeInterceptor
+org.springframework.web.servlet.theme.ThemeChangeInterceptor
+```
+
+UserRoleAuthorizationInterceptor 用于实现验证相关的功能，类似于 Spring Security 框架的功能。
+
+WebContentInterceptor 可以检查请求方法是否在支持范围内、是否有必要的 Session 实例、缓存时间的设置等。
+
+如果我们要自定义一个 HandlerInterceptor，我们可以继承 HandlerInterceptorAdapter，override 其中的 preHandle 或者其他方法。
+
+注：Spring 中很多接口都有一个 XXXXAdapter 实现类，它与 Adapter Pattern 不同，目的是为了减少我们实现某个接口的工作量。
+
+在定义完之后，我们需要配置一个 bean，把它加入到 WebApplicationContext 中。
+
+到这里，我们自定义的 HandlerInterceptor 还不能发挥作用，我们还需要在注册 HandlerMapping 实现类的 bean 的时候，调用它的 setInterceptors 方法，把我们的 HandlerInterceptor 添加到其中。这样才算完成了 HandlerInterceptor 的所有配置。
+
+前面说过 HandlerMapping 可以有多个，因此我们可以给各个 HandlerMapping 注入不同的 HandlerInterceptor，这样就可以灵活地根据特定的请求给予不同的拦截了。
+
+**Servlet Filter**
+
+Web 请求的拦截功能，Servlet 标准组件：Filter 也可以提供，因为 Spring MVC 基于 Servlet API 构建，所以在 Spring MVC 中还可以用 Filter 来进行拦截，但它与 HandlerInterceptor 拦截的位置不同，如下图所示：
+
+![Screen Shot 2016-07-07 at 3.30.30 PM.png](http://cdn.yyqian.com/201607071530-FjXIiOvT95plVto59sB3QGv8GyO8?imageView2/2/w/800/h/600)
+
+Filter 的拦截在 DispatcherServlet 外部，而 HandlerInterceptor 在内部。Filter 可以提供全局的、粗粒度的拦截，优先级更高。而 HandlerInterceptor 在配合 HandlerMapping  的 Chaining 特性之后，可以提供细粒度的拦截。因此我们可以根据拦截的覆盖面、粒度来决定使用哪一个进行拦截。
+
+Filter 是 Servlet 标准组件，需要在 web.xml 中配置，它的生命周期由 Web 容器进行管理（而不是 Spring MVC 的 WebApplicationContext），如果我们想让 Spring MVC 能接纳它，可以使用 DelegatingFilterProxy，让 DelegatingFilterProxy 成为 Servlet Filter 注入到 Web 容器中，然后把实际的工作转交给提供了实际拦截逻辑的类，再把这个类注册成一个 Bean。
+
+两者关系如下：
+
+![Screen Shot 2016-07-07 at 3.48.47 PM.png](http://cdn.yyqian.com/201607071549-FnPP7v4Em-xiYjnk2fbPypYXwibV?imageView2/2/w/800/h/600)
+
+### HandlerExceptionResolver
+
+我们从 Controller 接口的方法可以看到，它会抛出 checked exception，并且是 Exception，这在 *Effective Java* 一书中不提倡的。之所以 Spring 框架可以这样做，一是因为确实很难预料 Controller 会抛出哪些异常，二是因为 Spring 有一个框架内统一的异常处理方式。
+
+```
+public interface Controller {
+    ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception;
+}
+```
+
+Handler 和 HandlerExceptionResolver 就像双子座两兄弟，一旦 Handler 执行期间抛出异常，HandlerExceptionResolver 就会接手异常情况的处理，它的接口定义如下。我们可以看到它也会返回 ModelAndView，只不过这里是跳转的错误信息页面和相关异常信息。返回 ModelAndView 之后还是由 DispatcherServlet 寻求 ViewResolver 和 View 进行处理。
+
+```
+public interface HandlerExceptionResolver {
+    ModelAndView resolveException(
+            HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex);
+}
+```
+
+HandlerExceptionResolver 对异常的处理范围仅限于 Handler 查找以及 Handler 执行期间。
+
+框架中该接口只有一个实现：SimpleMappingExceptionResolver，它可以将异常类名映射到特定的错误信息视图，这样不同的异常有各自的错误页面。
 
 ## 基于注解的 Controller
 
@@ -189,7 +280,74 @@ Spring MVC 中除了前面讨论的的几个主角，还有一些配角，例如
 
 这样 MVC 框架就会去搜索、获取并调用这些基于注解的 Controller。
 
-*未完待续*
+我们的 Controller 只是一个普通的 POJO，不依赖于任何 Servlet API，也不需要做任何 XML 配置，如果没有 Spring MVC 框架在幕后的支持，这个孤零零的 POJO 也发挥不了什么作用。
+
+### 原型分析
+
+对于 Spring MVC 来说，基于注解的 Controller 和其他实现了 Controller 接口的类没有区别，两者实际上都是在自定义一个 Handler。对于基于注解的 Controller，我们同样需要思考几点：
+
+1. 如何让 DispatcherServlet 知道当前 Web 请求应该由哪个基于注解的 Controller 处理
+2. 如何让 MVC 框架知道要调用该 POJO 的哪个方法
+
+这两点我们前面就已经讨论过了：
+
+1. 我们要为基于注解的 Controller 提供相应的 HandlerMapping 处理映射关系
+2. 为基于注解的 Controller 提供相应的 HandlerAdapter 来执行处理逻辑
+
+所以我们关注点在 HandlerMapping 和 HandlerAdapter 上面。
+
+**用于「基于注解的 Controller」的 HandlerMapping**
+
+我们的 POJO 中的 @RequestMapping 要通过 Java 的反射机制来读取内容，之前的 HandlerMapping 实现类都没有提供该功能。所以我们要为「基于注解的 Controller」提供特定的 HandlerMapping 实现。
+
+原理上来说，我们只要遍历所有「基于注解的 Controller」，通过反射机制读取它们其中的 @RequestMapping 的内容，然后进行路径信息的匹配，就可以得到一个基于注解的 HandlerMapping。
+
+Spring 框架有现成的实现类：DefaultAnnotationHandlerMapping（Deprecated），RequestMappingHandlerMapping。它会先扫描应用程序的 Classpath，寻找所有标注了 @Controller 的类，这个工作是由 `<context:component-scan/>` 来完成的，所以我们必须要标注 @Controller，否则该类不会被发现。
+
+这些 Bean 一般默认就都启用了，所以不需要在 WebApplicationContext 中注册它们。
+
+**用于「基于注解的 Controller」的 HandlerAdapter**
+
+有了用于「基于注解的 Controller」的 HandlerMapping，我们的工作就完成一半了，另一半就是 用于「基于注解的 Controller」的 HandlerAdapter，也就是针对「基于注解的 Controller」自定义一个 HandlerAdapter。
+
+回顾下我们如何构用于 Contoller 类的 HandlerAdapter：我们只要在 HandlerAdapter 中调用 Controller 接口的 handleRequest 方法就行了。但我们的 POJO 没有实现任何接口，没有这种「契约」关系。并且我们的 POJO 一个类中有若干个方法，可以映射多个 Web 请求。所以在这里不能通过这种方式。
+
+这里我们的实现思路和前面 HandlerMapping 的类似，也是用反射查找 @RequestMapping，然后通过反射去调用。实际的工作还要考虑很多细节，我们这里只要理解原理就可以了。实际情况下我们只要用官方的 AnnotationMethodHandlerAdapter（Deprecated），RequestMappingHandlerAdapter 就可以了。
+
+这种基础的 Bean 我们一般也不用在 WebApplicationContext 中注册它们，在框架启动的时候就默认注册了。
+
+### 详细使用
+
+简单地说，要声明一个「基于注解的 Controller」，我们只需要三样必要的东西：
+
+1. POJO
+2. @Controller 注解
+3. @RequestMapping 注解
+
+POJO 中的是处理逻辑，这个不用多说。@Controller 注解是为了能被 IoC 容器自动查找并注册，进而能构建一个 HandlerMapping。@RequestMapping 注解是为了让框架知道针对某个 Web 请求，应该调用哪个方法，也就是为了构建 HandlerAdapter。
+
+被 @RequestMapping 注解的方法，可以有多种方法参数：
+
+1. HttpServletRequest, HttpServletResonse, HttpSession
+2. WebRequest，与上面的类似
+3. Locale
+4. InputStream/OutputStream, Reader/Write，相当于调用相关的 HttpServletResonse.getXXX() 方法
+5. Map 或 ModelMap，这个就是模型数据，你可以在这对模型数据为所欲为。
+6. Errors 或 BindingResult，这个用于数据验证返回的结果
+7. SessionStatus
+
+@RequestMapping 注解的方法，返回值有可以有多种：
+
+1. ModelAndView
+2. String，这个是视图名称
+3. ModelMap，这个只返回模型数据，没有视图，框架将按默认规则来提取逻辑视图
+4. void，视图和模型数据都由框架的默认值来处理
+
+**参数绑定**
+
+如果我们的 @RequestMapping 注解的方法的方法参数在前面列表中，框架可以为这些特殊类型提供相应对象的引用。如果参数类型在这列表之外，我们要让 MVC 以某种规则将请求参数与方法参数绑定。
+
+在这里我们可以用 @RequestParam，@ModelAttribute, @SessionAttribute，@PathVariable 等。这些注解的详细使用，以及参数验证等功能请参考 Spring Framework Reference Documentation，这里就不详解了。
 
 ---
 

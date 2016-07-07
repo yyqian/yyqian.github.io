@@ -53,6 +53,8 @@ BeanFactoryPostProcessor 是在 Bean 定义完成后，Bean 构造前进行的�
 
 BeanFactory 对于对象实例化，默认采用延迟初始化；而 ApplicationContext 则会实例化所有的 Bean。
 
+*未完结*
+
 ---
 
 参考资料：《Spring 揭秘》

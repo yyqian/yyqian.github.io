@@ -27,6 +27,8 @@ Spring DAO 异常层级体系的根部是 DataAccessException
 
 有了 DataSource 和 JdbcTemplate，我们就可以用前者来获得数据库连接，后者进行数据库操作。
 
+*未完结*
+
 ---
 
 参考资料：《Spring 揭秘》
