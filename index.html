@@ -680,21 +680,20 @@
 
       
         
-          <p>Spring 有两种容器类型：</p>
-<ul>
-<li>BeanFactory：默认 lazy-load</li>
-<li>ApplicationContext：构建于 BeanFactory 之上</li>
-</ul>
-<p><img src="http://cdn.yyqian.com/201606241004-FqiUyxfP_kWIWmoqQbO6ShhD-_Pm?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-24 at 10.03.43 AM.png"></p>
-<p>对象注册大体分为三种方式：</p>
-<p><strong>代码方式</strong></p>
-<p>BeanFactory的对象注册过程：</p>
+          <p>IoC 的基本概念在这篇文章里先略过了，我们在这里主要探究一下实现的原理。</p>
+<h2 id="IoC-Service-Provider"><a href="#IoC-Service-Provider" class="headerlink" title="IoC Service Provider"></a>IoC Service Provider</h2><p>当我们写好了一个个 POJO，就需要有个对象来把这些相互之间有依赖关系的 Bean 组织在一起，这个对象就是 IoC Service Provider，提供 IoC 相关的服务。Spring IoC 容器就是一个提供依赖注入服务的 IoC Service Provider。</p>
+<p>它有两个职责：</p>
 <ol>
-<li>构造一个 DefaultListableBeanFactory，它同时实现了 BeanDefinitionRegistry 和 BeanFactory 两个接口</li>
-<li>用 BeanDefinition 来保存要注册对象的所有信息</li>
-<li>调用 BeanDefinitionRegistry 的 registerBeanDefinition 方法来进行注册</li>
-<li>指定 BeanDefinition 之间的依赖关系</li>
-<li>强制转换 DefaultListableBeanFactory 为 BeanFactory 然后返回（因为前面我们构造的 DefaultListableBeanFactory 实现了 BeanFactory接口）
+<li>业务对象的构建管理：当我们调用某个对象时，我们不需要去关心如何去构建它，IoC Service Provider 应当负责这件事</li>
+<li>业务对象之间的依赖绑定</li>
+</ol>
+<p>IoC Service Provider 使用的注册对象管理信息的方式主要有以下几种：</p>
+<ol>
+<li>直接编码方式：也就是写在 Java 代码中，例如构建一个 Container 类，然后调用它的 register 方法来注册 Bean</li>
+<li>配置文件方式：最为常见的就是用 XML 文件</li>
+<li>元数据方式：最场景的就是使用注解，当然，注解最终也要通过代码处理来确定最终的注入关系，所以注解方式也可以算作编码方式的一种特殊情况。</li>
+</ol>
+<p>以上三种方式在 Spring 提供的 IoC 容器中都是支持的，所以接下来我们主要来探究下 Spring 的 IoC 容器。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/post/1467262787000/" rel="contents">
               阅读全文 &raquo;
