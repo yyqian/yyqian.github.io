@@ -54,7 +54,8 @@ tags:
 2. dfs 和 bfs（dfs 有个技巧：把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用）
 3. 二分搜索
 4. 分治
-5. hash 算法
+5. hashtable
+6. 用迭代 + stack/queue/array 来取代递归
 
 ## 各个题目的解题思路
 
@@ -433,3 +434,109 @@ DP，把字符挨个往上加，迭代更新结果。
 **86. Partition List**
 
 维护两个 List，一个存放小于 x 的元素，另一个存放大于等于 x 的元素，遍历完之后把它们接起来。维护这两个 List 的时候用四个指针指向它们的头尾。
+
+**101. Symmetric Tree**
+
+递归
+
+**94. Binary Tree Inorder Traversal**
+
+**144. Binary Tree Preorder Traversal**
+
+**145. Binary Tree Postorder Traversal**
+
+递归法，这个方法最容易揭示这几个遍历方法的本质
+
+```Java
+// Inorder
+public class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        addInorder(root, res);
+        return res;
+    }
+    private void addInorder(TreeNode root, List<Integer> res) {
+        if (root == null) return;
+        addInorder(root.left, res);
+        res.add(root.val);
+        addInorder(root.right, res);
+    }
+}
+
+// Preorder，只要在前面的基础上改下递归函数
+    private void preAdd(TreeNode root, List<Integer> res) {
+        if (root == null) return;
+        res.add(root.val);
+        preAdd(root.left, res);
+        preAdd(root.right, res);
+    }
+
+// Postorder，同上
+    private void postAdd(TreeNode root, List<Integer> res) {
+        if (root == null) return;
+        postAdd(root.left, res);
+        postAdd(root.right, res);
+        res.add(root.val);
+    }
+```
+
+迭代法
+
+```Java
+// Inorder
+public class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Deque<TreeNode> stack = new LinkedList<>();
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            res.add(root.val);
+            root = root.right;
+        }
+        return res;
+    }
+}
+
+// preorder
+public class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) return res;
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            root = stack.pop();
+            res.add(root.val);
+            if (root.right != null) stack.push(root.right);
+            if (root.left != null) stack.push(root.left);
+        }
+        return res;
+    }
+}
+
+// postorder: postorder 的顺序是 left-right-root，而 preorder 的顺序是 root-left-right。我们先求 postorder 的倒序：root-right-left，这个只要在 preoder 算法基础上稍微改下就行，然后把结果倒序。
+public class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new LinkedList<>();
+        if (root == null) return res;
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            root = stack.pop();
+            res.add(root.val);
+            if (root.left != null) stack.push(root.left);
+            if (root.right != null) stack.push(root.right);
+        }
+        Collections.reverse(res);
+        return res;
+    }
+}
+```
+
+**79. Word Search**
+
+用递归一个个字去检查，可以用 marked 数组来保存访问过的字，也可以用 ^ 256 来把访问过的字转换为不符合规范的，递归回来之后再 ^ 256 就恢复了。
