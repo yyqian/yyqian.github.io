@@ -540,3 +540,39 @@ public class Solution {
 **79. Word Search**
 
 用递归一个个字去检查，可以用 marked 数组来保存访问过的字，也可以用 ^ 256 来把访问过的字转换为不符合规范的，递归回来之后再 ^ 256 就恢复了。
+
+**80. Remove Duplicates from Sorted Array II**
+
+对于这种数组，不需要 swap，只要赋值过去就可以了。另外，用变量 i 维持下个添加的位置，判断是否要往头部添加的判断条件是当前值 n 是否等于 nums[i-2]
+
+```
+public class Solution {
+    public int removeDuplicates(int[] nums) {
+        int i = 0;
+        for (int n : nums) {
+            if (i < 2 || n != nums[i - 2]) nums[i++] = n;
+        }
+        return i;
+    }
+}
+```
+
+**116. Populating Next Right Pointers in Each Node**
+
+定义一个辅助的递归方法，参数是两个相邻元素，把两者连起来，然后递归地调用它们的子节点。
+
+**33. Search in Rotated Sorted Array**
+
+两种解法：
+
+1. 比较笨的：我们可以做两次二分搜索，一次用来查找起点，第二次用来查找元素。
+
+2. 我们还是正常做二分搜索，每次分成两部分之后，必定会有一部分是升序的，这一点是关键。有了这一点，我们可以在这一部分中轻松地判断 target 是否在其中，如果不在，则在另一部分。其他的跟正常的二分相同，就是判断条件稍微多点。
+
+**81. Search in Rotated Sorted Array II**
+
+同 33 题，分成两部分，判断哪一部分是升序的，但不同点是：分成两部分之后，有可能两部分都不是升序的（因为有重复元素），这个时候一种选择是把两部分都做二分搜索，用递归法比较容易达到这点。
+
+**82. Remove Duplicates from Sorted List II**
+
+这题用递归思路最清晰。
