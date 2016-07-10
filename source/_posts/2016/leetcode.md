@@ -576,3 +576,25 @@ public class Solution {
 **82. Remove Duplicates from Sorted List II**
 
 这题用递归思路最清晰。
+
+**93. Restore IP Addresses**
+
+类似 DFS 的做法，递归地遍历所有可行的下一个节点
+
+**98. Validate Binary Search Tree**
+
+我的做法是用 inorder 遍历，二叉搜索是的中序遍历得到的数组应当是有序的（从小到大）。
+
+最好的做法是用递归，递归函数传入值的下界和下界。这样遍历一遍就能完成。
+
+**102. Binary Tree Level Order Traversal**
+
+BST，用一个 Queue，不过这儿需要每一层都中断一下
+
+**103. Binary Tree Zigzag Level Order Traversal**
+
+我的解法同 102，只是把 Queue 改用 Stack，还有先加左元素还是右元素需要根据层级判断一下
+
+**106. Construct Binary Tree from Inorder and Postorder Traversal**
+
+很经典，有助于更深入理解这几种遍历
