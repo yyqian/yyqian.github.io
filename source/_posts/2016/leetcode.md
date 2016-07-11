@@ -589,12 +589,34 @@ public class Solution {
 
 **102. Binary Tree Level Order Traversal**
 
-BST，用一个 Queue，不过这儿需要每一层都中断一下
+**107. Binary Tree Level Order Traversal II**
+
+BST，用一个 Queue，不过这儿需要每一层都中断一下。
 
 **103. Binary Tree Zigzag Level Order Traversal**
 
 我的解法同 102，只是把 Queue 改用 Stack，还有先加左元素还是右元素需要根据层级判断一下
 
+**105. Construct Binary Tree from Preorder and Inorder Traversal**
+
 **106. Construct Binary Tree from Inorder and Postorder Traversal**
 
-很经典，有助于更深入理解这几种遍历
+很经典，有助于更深入理解这几种遍历。比较明了的方法是，用一个 HashMap 保存 inorder 数组的映射，然后利用结构，递归地构造左分支和右分支
+
+**108. Convert Sorted Array to Binary Search Tree**
+
+二分和递归
+
+**109. Convert Sorted List to Binary Search Tree**
+
+可以用个 HashMap，仍然用二分和递归做，但这样得遍历两次
+
+更好的做法是反向的中序遍历，需要增加一个 ListNode 属性。
+
+**110. Balanced Binary Tree**
+
+递归检查两棵子树的高度是否差值大于 1
+
+**112. Path Sum**
+
+递归
