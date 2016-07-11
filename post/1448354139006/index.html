@@ -308,18 +308,18 @@ Exactly one blank line separates each section that is present.</li>
 <li>Optionally before the first member or after the last member of the class (neither encouraged nor discouraged).</li>
 </ol>
 <p>An enum class with no methods and no documentation on its constants may optionally be formatted as if it were an array initializer:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">enum</span> Suit &#123; CLUBS, HEARTS, SPADES, DIAMONDS &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">enum</span> Suit &#123; CLUBS, HEARTS, SPADES, DIAMONDS &#125;</div></pre></td></tr></table></figure>
 <p>One variable per declaration</p>
 <p>Declared when needed, initialized as soon as possible</p>
 <p>No C-style array declarations: The square brackets form a part of the type, not the variable: String[] args, not String args[].</p>
 <p>Annotations applying to a class, method or constructor appear immediately after the documentation block, and each annotation is listed on a line of its own. Example:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@Nullable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getNameIfPresent</span><span class="params">()</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="meta">@Nullable</span></div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getNameIfPresent</span><span class="params">()</span> </span>&#123; ... &#125;</div></pre></td></tr></table></figure>
 <p>Annotations applying to a field also appear immediately after the documentation block, but in this case, multiple annotations (possibly parameterized) may be listed on the same line; for example:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Partial</span> <span class="meta">@Mock</span> DataLoader loader;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Partial</span> <span class="meta">@Mock</span> DataLoader loader;</div></pre></td></tr></table></figure>
 <p>Comments</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span><br><span class="line"> * This is          // And so           <span class="comment">/* Or you can</span><br><span class="line"> * okay.            // is this.          * even do this. */</span></span><br><span class="line"> */</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * This is          // And so           <span class="comment">/* Or you can</span></div><div class="line"> * okay.            // is this.          * even do this. */</div><div class="line"> */</div></pre></td></tr></table></figure>
 <p>Class and member modifiers, when present, appear in the order recommended by the Java Language Specification:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">protected</span> <span class="keyword">private</span> <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> <span class="keyword">synchronized</span> <span class="keyword">native</span> <span class="keyword">strictfp</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">protected</span> <span class="keyword">private</span> <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> <span class="keyword">synchronized</span> <span class="keyword">native</span> <span class="keyword">strictfp</span></div></pre></td></tr></table></figure>
 <p>long-valued integer literals use an uppercase L suffix, never lowercase</p>
 <p>Package names are all lowercase, with consecutive words simply concatenated together (no underscores). For example,</p>
 <pre><code>com.example.deepspace, not com.example.deepSpace or com.example.deep_space.
@@ -439,7 +439,7 @@ Exactly one blank line separates each section that is present.</li>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">120</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

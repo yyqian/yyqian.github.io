@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="钱寅垠, Yinyin Qian, yyqian" />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -57,16 +57,22 @@
 
 
 
-<meta name="description" content="试用一下新买的500D，至于原来那个5D water damange的灵异事件以后再说  本来打算把烤箱烤肉的整个过程录下来的，没想到录到一半没电了… [flv:http://www.yyqian.com/videos/20091022.flv 720 480]">
+<meta name="description" content="这篇文章将搜集本人在 Spring 和 Java 核心库中遇到过的设计模式，尽量只包含很典型的例子，生搬硬套往上凑的就不计入了。
+工厂模式Spring IoC 容器 BeanFactory(ApplicationContext 继承了它) 就是一个 Bean 工厂，只需要调用它的 getBean 方法就可以得到实例对象，不需要我们自己 new 一个实例。
+Java 的 Collections 工具">
 <meta property="og:type" content="article">
-<meta property="og:title" content="宰牛很忙">
-<meta property="og:url" content="https://yyqian.com/post/1256142443000/index.html">
+<meta property="og:title" content="Spring 和 Java 中的设计模式">
+<meta property="og:url" content="https://yyqian.com/post/1468202793000/index.html">
 <meta property="og:site_name" content="YYQIAN">
-<meta property="og:description" content="试用一下新买的500D，至于原来那个5D water damange的灵异事件以后再说  本来打算把烤箱烤肉的整个过程录下来的，没想到录到一半没电了… [flv:http://www.yyqian.com/videos/20091022.flv 720 480]">
-<meta property="og:updated_time" content="2016-04-29T03:01:11.000Z">
+<meta property="og:description" content="这篇文章将搜集本人在 Spring 和 Java 核心库中遇到过的设计模式，尽量只包含很典型的例子，生搬硬套往上凑的就不计入了。
+工厂模式Spring IoC 容器 BeanFactory(ApplicationContext 继承了它) 就是一个 Bean 工厂，只需要调用它的 getBean 方法就可以得到实例对象，不需要我们自己 new 一个实例。
+Java 的 Collections 工具">
+<meta property="og:updated_time" content="2016-07-11T06:15:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="宰牛很忙">
-<meta name="twitter:description" content="试用一下新买的500D，至于原来那个5D water damange的灵异事件以后再说  本来打算把烤箱烤肉的整个过程录下来的，没想到录到一半没电了… [flv:http://www.yyqian.com/videos/20091022.flv 720 480]">
+<meta name="twitter:title" content="Spring 和 Java 中的设计模式">
+<meta name="twitter:description" content="这篇文章将搜集本人在 Spring 和 Java 核心库中遇到过的设计模式，尽量只包含很典型的例子，生搬硬套往上凑的就不计入了。
+工厂模式Spring IoC 容器 BeanFactory(ApplicationContext 继承了它) 就是一个 Bean 工厂，只需要调用它的 getBean 方法就可以得到实例对象，不需要我们自己 new 一个实例。
+Java 的 Collections 工具">
 
 
 
@@ -84,7 +90,7 @@
   };
 </script>
 
-  <title> 宰牛很忙 | YYQIAN </title>
+  <title> Spring 和 Java 中的设计模式 | YYQIAN </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +220,7 @@
             
             
               
-                宰牛很忙
+                Spring 和 Java 中的设计模式
               
             
           </h1>
@@ -226,8 +232,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2009-10-22T00:27:23+08:00" content="2009-10-22">
-              2009-10-22
+            <time itemprop="dateCreated" datetime="2016-07-11T10:06:33+08:00" content="2016-07-11">
+              2016-07-11
             </time>
           </span>
 
@@ -237,8 +243,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/post/1256142443000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1256142443000/" itemprop="commentsCount"></span>
+                <a href="/post/1468202793000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468202793000/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -260,7 +266,21 @@
       
 
       
-        <p>试用一下新买的500D，至于原来那个5D water damange的灵异事件以后再说</p>  <p>本来打算把烤箱烤肉的整个过程录下来的，没想到录到一半没电了… [flv:<a href="http://www.yyqian.com/videos/20091022.flv" target="_blank" rel="external">http://www.yyqian.com/videos/20091022.flv</a> 720 480]</p>
+        <p>这篇文章将搜集本人在 Spring 和 Java 核心库中遇到过的设计模式，尽量只包含很典型的例子，生搬硬套往上凑的就不计入了。</p>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>Spring IoC 容器 BeanFactory(ApplicationContext 继承了它) 就是一个 Bean 工厂，只需要调用它的 getBean 方法就可以得到实例对象，不需要我们自己 new 一个实例。</p>
+<p>Java 的 Collections 工具类有很多工厂方法（factory method），例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K,V&gt; <span class="title">synchronizedMap</span><span class="params">(Map&lt;K,V&gt; m)</span></span>; <span class="comment">// 用于生成同步的 Map</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K, V&gt; <span class="title">unmodifiableMap</span><span class="params">(Map&lt;? extends K, ? extends V&gt; m)</span></span>; <span class="comment">// 用于生成不可变的 Map</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><p>Spring AOP 是非常典型的代理模式，在其中大量使用。代理类和目标类继承同一个接口，类型用接口定义，赋的值用代理类代替。例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ISubject target = <span class="keyword">new</span> SubjectImpl(); <span class="comment">// 为代理类的构造做准备</span></div><div class="line">ISubject subject = <span class="keyword">new</span> SubjectProxy(target); <span class="comment">// 实际使用的代理对象，其中织入了 Aspect 逻辑</span></div><div class="line">subject.doSomething(); <span class="comment">// 这时调用方法就会触发织入的逻辑</span></div></pre></td></tr></table></figure>
+<h2 id="模版模式"><a href="#模版模式" class="headerlink" title="模版模式"></a>模版模式</h2><p>Spring 中 XXXXTemplate 的一般都是，主要工作是封装 boilerplate repeated code</p>
+<p>Spring 数据访问中的 JdbcTemplate 接口封装了 Java 原生的 JDBC API，把繁琐、重复、易出错的步骤封装到 JdbcTemplate 的方法中，开发者只要在这一套模版之上，填入自己的数据访问逻辑。</p>
+<p>Spring 事务管理中的 TransactionTemplate 封装了 PlatformTransactionManager 中的大量操作，我们在此基础上只需要关注于一个 Callback 接口。</p>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>Spring IoC 中大量使用，其中的 Bean 大多数是 singleton 类型的 Bean，虽然它们的 Java 定义不是实际的单例模式（一般只是个 POJO），但有了 IoC 容器的管理，可以保证只实例化和提供一个实例对象。</p>
+<h2 id="策略模式（Strategy）"><a href="#策略模式（Strategy）" class="headerlink" title="策略模式（Strategy）"></a>策略模式（Strategy）</h2><p>该模式封装的一般都是具体的算法。</p>
+<p>Spring 中 Bean 的初始化有两种方式：反射和动态字节码生成。Spring 采用策略模式来决定使用哪种。</p>
+<p>Spring AOP 的实现也有 JDK 动态代理和 CGLIB 字节码生成两种方式，也使用策略模式进行选择。</p>
+
       
     </div>
 
@@ -272,21 +292,27 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag">#设计模式</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/1252685373000/" rel="next" title="小镇的郊外">
-                <i class="fa fa-chevron-left"></i> 小镇的郊外
+              <a href="/post/1467766655000/" rel="next" title="Spring MVC 深入解析">
+                <i class="fa fa-chevron-left"></i> Spring MVC 深入解析
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/post/1258117719000/" rel="prev" title="初雪">
-                初雪 <i class="fa fa-chevron-right"></i>
+              <a href="/post/1468206055000/" rel="prev" title="Java 中的容器">
+                Java 中的容器 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -313,8 +339,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="post/1256142443000/"
-           data-title="宰牛很忙" data-url="https://yyqian.com/post/1256142443000/">
+      <div class="ds-thread" data-thread-key="post/1468202793000/"
+           data-title="Spring 和 Java 中的设计模式" data-url="https://yyqian.com/post/1468202793000/">
       </div>
     
   </div>
@@ -429,7 +455,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式"><span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模版模式"><span class="nav-text">模版模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略模式（Strategy）"><span class="nav-text">策略模式（Strategy）</span></a></li></ol></div>
             
           </div>
         </section>

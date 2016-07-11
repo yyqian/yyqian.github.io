@@ -216,6 +216,210 @@
             
               
                 
+                <a class="post-title-link" href="/post/1468206055000/" itemprop="url">
+                  Java 中的容器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T11:00:55+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468206055000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468206055000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本文主要简单介绍下 Java 中有哪些容器接口以及它们的实现，并且给出选择它们的合适的场景。不建议使用的 Vector、Hashtable、Stack 等容器类在这里都不提了。</p>
+<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><p>我们先来看看整个 Collection 下面有哪些接口：</p>
+<p><img src="http://docs.oracle.com/javase/tutorial/figures/collections/colls-coreInterfaces.gif" alt=""></p>
+<p>这几个接口对应了我们常用的一些抽象数据类型(Abstract Data Type)：链表、队列、栈、集合、映射表。</p>
+<p>其中的 Deque 实际上是继承自 Queue 的，它可以代替 Stack 类来使用（以前的 Stack 类已经不建议使用了）。Set 可以看作是 Map 的一种特例（每个节点只有 key，没有 value），SortedSet 和 SortedMap 在你需要维持顺序的时候使用。</p>
+<p>选择某个接口应该很简单，根据你需要的 ADT 进行选择就可以了。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1468206055000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1468202793000/" itemprop="url">
+                  Spring 和 Java 中的设计模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T10:06:33+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468202793000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468202793000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这篇文章将搜集本人在 Spring 和 Java 核心库中遇到过的设计模式，尽量只包含很典型的例子，生搬硬套往上凑的就不计入了。</p>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>Spring IoC 容器 BeanFactory(ApplicationContext 继承了它) 就是一个 Bean 工厂，只需要调用它的 getBean 方法就可以得到实例对象，不需要我们自己 new 一个实例。</p>
+<p>Java 的 Collections 工具类有很多工厂方法（factory method），例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K,V&gt; <span class="title">synchronizedMap</span><span class="params">(Map&lt;K,V&gt; m)</span></span>; <span class="comment">// 用于生成同步的 Map</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K, V&gt; <span class="title">unmodifiableMap</span><span class="params">(Map&lt;? extends K, ? extends V&gt; m)</span></span>; <span class="comment">// 用于生成不可变的 Map</span></div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1468202793000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1467766655000/" itemprop="url">
                   Spring MVC 深入解析
                 </a>
@@ -474,14 +678,16 @@
 
       
         
-          <p>对于数据访问，我们一般使用 DAO 模式，它的组成成员有：</p>
+          <p>Spring 数据访问层可以分成三个部分：</p>
 <ol>
-<li>DAO，即数据访问对象，有时也称作 Domain。不管是文本文件、csv 文件、数据库还是 LDAP，统一抽象为 DAO</li>
-<li>数据访问接口，一般称作 Repositiory 或 Mapper，用于让服务层访问数据，这时服务层不需要关心以何种技术去连接数据层，以及特定于技术的错误的处理。</li>
-<li>数据访问接口的实现，服务层不需要直接与它打交道。这个实现依赖于使用的数据源，我们这里关心的是数据库，所以使用 JDBC 来实现，当然我们也可以切换至 LDAP，这个修改对于服务层来说可以是透明的。</li>
+<li><p>统一的数据访问异常层次体系：Spring 框架会把所有特定于数据访问技术的异常（Exception）都进行转译，然后封装为一套标准的异常层次体系。这样我们只要处理这一套封装之后的异常体系就可以了。</p>
+</li>
+<li><p>JDBC API 的最佳实践：说白了就是对 JDBC API 的封装。</p>
+</li>
+<li><p>以统一的方式对各种 ORM 方案的集成：这一部分内容以后会用 MyBatis 作为例子单独进行阐述。</p>
+</li>
 </ol>
-<p>但是以上模式有个缺陷，我们以使用 JDBC 技术为例：JDBC API 会抛出 checked exception，这个 exception 如果在接口的实现中内部消化的话，上层建筑就不知道出了什么差错，所以需要抛出；但如果抛出的话，这些 exception 特定于各种数据访问技术，如果更换数据源的话，就需要更换数据访问技术，这时候抛出的异常就会有变化，导致接口的定义发生变化，而接口的变化是我们不希望发生的，这会导致上层建筑需要处理新的异常类型。</p>
-<p>因此，Spring 在这里采取的措施是：统一各种数据源/技术的异常类型，对它们进行封装，使得它们对外表现出一致性。这样即使更换数据源，数据访问接口也不会有变化，上层建筑也不需要处理新的异常类型。<br>
+<p>这三个部分本质上都是一种封装，第一部分是对各种异常的封装，第二部分是对 JDBC API 的封装，第三部分是都多种 ORM 技术的封装。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/post/1467269308000/" rel="contents">
               阅读全文 &raquo;
@@ -921,7 +1127,7 @@
       
         
           <p>最近在学习 Clojure，又写了个 Clojure 版本的八皇后解法。代码长度和箭头函数版的 JS 还是差不多的。</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; Eight queens puzzle</span></span><br><span class="line">(<span class="name"><span class="builtin-name">defn</span></span> safe?</span><br><span class="line">  <span class="string">"计算 a, b 两点的斜率, 如果斜率为 0, 1, -1, 无穷大的话, 则判定为 not safe"</span></span><br><span class="line">  [a b]</span><br><span class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> (<span class="name"><span class="builtin-name">second</span></span> a) (<span class="name"><span class="builtin-name">second</span></span> b))</span><br><span class="line">    <span class="literal">false</span></span><br><span class="line">    (<span class="name"><span class="builtin-name">let</span></span> [slope (/ (<span class="name"><span class="builtin-name">-</span></span> (<span class="name"><span class="builtin-name">first</span></span> a) (<span class="name"><span class="builtin-name">first</span></span> b))</span><br><span class="line">                   (<span class="name"><span class="builtin-name">-</span></span> (<span class="name"><span class="builtin-name">second</span></span> a) (<span class="name"><span class="builtin-name">second</span></span> b)))]</span><br><span class="line">      (<span class="name"><span class="builtin-name">not</span></span> (<span class="name"><span class="builtin-name">or</span></span> (<span class="name"><span class="builtin-name">=</span></span> slope <span class="number">0</span>)</span><br><span class="line">               (<span class="name"><span class="builtin-name">=</span></span> slope <span class="number">1</span>)</span><br><span class="line">               (<span class="name"><span class="builtin-name">=</span></span> slope <span class="number">-1</span>))))))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">defn</span></span> valid?</span><br><span class="line">  <span class="string">"检查新增的一列是否符合条件"</span></span><br><span class="line">  [col]</span><br><span class="line">  (<span class="name"><span class="builtin-name">let</span></span> [len (<span class="name"><span class="builtin-name">count</span></span> col)</span><br><span class="line">        to-check [(<span class="name"><span class="builtin-name">last</span></span> col) len]]</span><br><span class="line">    (<span class="name"><span class="builtin-name">-&gt;&gt;</span></span> col</span><br><span class="line">         (<span class="name"><span class="builtin-name">take</span></span> (<span class="name"><span class="builtin-name">-</span></span> len <span class="number">1</span>))</span><br><span class="line">         (<span class="name">map-indexed</span> (<span class="name"><span class="builtin-name">fn</span></span> [index row] (<span class="name">safe?</span> to-check [row (<span class="name"><span class="builtin-name">+</span></span> index <span class="number">1</span>)])))</span><br><span class="line">         (<span class="name"><span class="builtin-name">reduce</span></span> #(<span class="name"><span class="builtin-name">and</span></span> %<span class="number">1</span> %<span class="number">2</span>)))))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">defn</span></span> queen-cols</span><br><span class="line">  <span class="string">"递归地一列一列地添加新的符合条件的列"</span></span><br><span class="line">  [col board-size]</span><br><span class="line">  (<span class="name"><span class="builtin-name">let</span></span> [rng (<span class="name"><span class="builtin-name">range</span></span> <span class="number">1</span> (<span class="name"><span class="builtin-name">+</span></span> board-size <span class="number">1</span>))]</span><br><span class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&lt;=</span></span> col <span class="number">1</span>)</span><br><span class="line">      (<span class="name"><span class="builtin-name">map</span></span> #(<span class="name"><span class="builtin-name">vector</span></span> %) rng)</span><br><span class="line">      (<span class="name"><span class="builtin-name">-&gt;&gt;</span></span> (<span class="name">queen-cols</span> (<span class="name"><span class="builtin-name">-</span></span> col <span class="number">1</span>) board-size)</span><br><span class="line">           (<span class="name"><span class="builtin-name">map</span></span> (<span class="name"><span class="builtin-name">fn</span></span> [col] (<span class="name"><span class="builtin-name">map</span></span> #(<span class="name"><span class="builtin-name">conj</span></span> col %) rng)))</span><br><span class="line">           (<span class="name"><span class="builtin-name">reduce</span></span> into)</span><br><span class="line">           (<span class="name"><span class="builtin-name">filter</span></span> valid?)))))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">defn</span></span> queen</span><br><span class="line">  [size]</span><br><span class="line">  (<span class="name">queen-cols</span> size size))</span><br><span class="line"></span><br><span class="line">(<span class="name">queen</span> <span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">; Eight queens puzzle</span></div><div class="line">(<span class="name"><span class="builtin-name">defn</span></span> safe?</div><div class="line">  <span class="string">"计算 a, b 两点的斜率, 如果斜率为 0, 1, -1, 无穷大的话, 则判定为 not safe"</span></div><div class="line">  [a b]</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> (<span class="name"><span class="builtin-name">second</span></span> a) (<span class="name"><span class="builtin-name">second</span></span> b))</div><div class="line">    <span class="literal">false</span></div><div class="line">    (<span class="name"><span class="builtin-name">let</span></span> [slope (/ (<span class="name"><span class="builtin-name">-</span></span> (<span class="name"><span class="builtin-name">first</span></span> a) (<span class="name"><span class="builtin-name">first</span></span> b))</div><div class="line">                   (<span class="name"><span class="builtin-name">-</span></span> (<span class="name"><span class="builtin-name">second</span></span> a) (<span class="name"><span class="builtin-name">second</span></span> b)))]</div><div class="line">      (<span class="name"><span class="builtin-name">not</span></span> (<span class="name"><span class="builtin-name">or</span></span> (<span class="name"><span class="builtin-name">=</span></span> slope <span class="number">0</span>)</div><div class="line">               (<span class="name"><span class="builtin-name">=</span></span> slope <span class="number">1</span>)</div><div class="line">               (<span class="name"><span class="builtin-name">=</span></span> slope <span class="number">-1</span>))))))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">defn</span></span> valid?</div><div class="line">  <span class="string">"检查新增的一列是否符合条件"</span></div><div class="line">  [col]</div><div class="line">  (<span class="name"><span class="builtin-name">let</span></span> [len (<span class="name"><span class="builtin-name">count</span></span> col)</div><div class="line">        to-check [(<span class="name"><span class="builtin-name">last</span></span> col) len]]</div><div class="line">    (<span class="name"><span class="builtin-name">-&gt;&gt;</span></span> col</div><div class="line">         (<span class="name"><span class="builtin-name">take</span></span> (<span class="name"><span class="builtin-name">-</span></span> len <span class="number">1</span>))</div><div class="line">         (<span class="name">map-indexed</span> (<span class="name"><span class="builtin-name">fn</span></span> [index row] (<span class="name">safe?</span> to-check [row (<span class="name"><span class="builtin-name">+</span></span> index <span class="number">1</span>)])))</div><div class="line">         (<span class="name"><span class="builtin-name">reduce</span></span> #(<span class="name"><span class="builtin-name">and</span></span> %<span class="number">1</span> %<span class="number">2</span>)))))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">defn</span></span> queen-cols</div><div class="line">  <span class="string">"递归地一列一列地添加新的符合条件的列"</span></div><div class="line">  [col board-size]</div><div class="line">  (<span class="name"><span class="builtin-name">let</span></span> [rng (<span class="name"><span class="builtin-name">range</span></span> <span class="number">1</span> (<span class="name"><span class="builtin-name">+</span></span> board-size <span class="number">1</span>))]</div><div class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&lt;=</span></span> col <span class="number">1</span>)</div><div class="line">      (<span class="name"><span class="builtin-name">map</span></span> #(<span class="name"><span class="builtin-name">vector</span></span> %) rng)</div><div class="line">      (<span class="name"><span class="builtin-name">-&gt;&gt;</span></span> (<span class="name">queen-cols</span> (<span class="name"><span class="builtin-name">-</span></span> col <span class="number">1</span>) board-size)</div><div class="line">           (<span class="name"><span class="builtin-name">map</span></span> (<span class="name"><span class="builtin-name">fn</span></span> [col] (<span class="name"><span class="builtin-name">map</span></span> #(<span class="name"><span class="builtin-name">conj</span></span> col %) rng)))</div><div class="line">           (<span class="name"><span class="builtin-name">reduce</span></span> into)</div><div class="line">           (<span class="name"><span class="builtin-name">filter</span></span> valid?)))))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">defn</span></span> queen</div><div class="line">  [size]</div><div class="line">  (<span class="name">queen-cols</span> size size))</div><div class="line"></div><div class="line">(<span class="name">queen</span> <span class="number">8</span>)</div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/post/1465705199000/" rel="contents">
               阅读全文 &raquo;
@@ -1025,219 +1231,9 @@
 <li>AOF（append-only file），把所有写命令存储到日志文件中，跟 mysql binlog 类似，但是它不是 bin 而是 text</li>
 </ol>
 <h3 id="快照"><a href="#快照" class="headerlink" title="快照"></a>快照</h3><p>快照相关的 Redis 参数设置：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">save</span> <span class="number">60</span> <span class="number">1000</span></span><br><span class="line">stop-writes-<span class="literal">on</span>-bgsave-<span class="literal">error</span> <span class="literal">no</span></span><br><span class="line">rdbcompression <span class="literal">yes</span></span><br><span class="line">dbfilename dump.rdb</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">save</span> <span class="number">60</span> <span class="number">1000</span></div><div class="line">stop-writes-<span class="literal">on</span>-bgsave-<span class="literal">error</span> <span class="literal">no</span></div><div class="line">rdbcompression <span class="literal">yes</span></div><div class="line">dbfilename dump.rdb</div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/post/1465440721000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1463461156000/" itemprop="url">
-                  Elasticsearch 学习笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-17T12:59:16+08:00" content="2016-05-17">
-              2016-05-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1463461156000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1463461156000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本文将分析 Elasticsearch 中的一些关键概念</p>
-<h2 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h2><p>倒排索引是搜索引擎中核心的数据结构。以下的列表左侧是数据库中存储的数据结构，右侧是搜索引擎中的数据结构。</p>
-<p><img src="http://cdn.yyqian.com/201605171312-FitMXe_LTsHD0ikgm2toEVviCEbH?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 1.11.52 PM.png"></p>
-<p>在数据库中，如果我们要搜索 tag 含有 peace 的 blog，就需要遍历整个表，以及比对 tag 列中的多个值，这种做法开销非常大。而如果数据格式是上图右侧所示，则非常迅速。因此，搜素引擎中采用的是后者，称为 Inverted index，它把 ID - Keywords 的索引方式进行了反转，变成 Keyword - IDs 的方式。</p>
-<p>接下来，我们用一个实例来看下如何建立倒排索引:<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1463461156000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1462945087000/" itemprop="url">
-                  配置 GPU 加速的 Tensorflow
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-11T13:38:07+08:00" content="2016-05-11">
-              2016-05-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1462945087000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1462945087000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近想了解下热门的深度学习、神经网络，于是选择了 Tensorflow 作为工具。这里我们就先来安装下 Tensorflow。</p>
-<p>Tensorflow 本身安装很容易，不过想要利用 GPU 多核的优势来加速计算，就要先安装显卡驱动和 CUDA，这两者的安装是有点麻烦的。</p>
-<p>前提条件：</p>
-<ul>
-<li>操作系统：Centos 7</li>
-<li>硬件环境：Nvidia 的显卡（请自行查询是否支持 CUDA）</li>
-</ul>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>yum 更新下，安装 Development Tools 软件包</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum <span class="keyword">update</span></span><br><span class="line">sudo yum <span class="keyword">group</span> <span class="keyword">install</span> <span class="string">'Development Tools'</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装-Nvidia-驱动"><a href="#安装-Nvidia-驱动" class="headerlink" title="安装 Nvidia 驱动"></a>安装 Nvidia 驱动</h2><p>Nvidia 官网上有显卡驱动的软件包下载，但安装前需要繁琐的配置，这里我们选择更简单的方式，通过软件源来安装：</p>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 安装 elrepo 源</span></span><br><span class="line">sudo rpm --import https:<span class="comment">//www.elrepo.org/RPM-GPG-KEY-elrepo.org</span></span><br><span class="line">sudo rpm -Uvh http:<span class="comment">//www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span></span><br><span class="line"><span class="meta"># 探测要安装的包</span></span><br><span class="line">sudo yum install nvidia-detect</span><br><span class="line">nvidia-detect</span><br><span class="line"><span class="meta"># 安装</span></span><br><span class="line">sudo yum install kmod-nvidia</span><br><span class="line"><span class="meta"># 最后重启，然后检查是否安装成功</span></span><br><span class="line">ls -la /dev | grep nvidia</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1462945087000/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1308,7 +1304,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">120</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

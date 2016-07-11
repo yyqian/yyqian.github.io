@@ -216,6 +216,211 @@
             
               
                 
+                <a class="post-title-link" href="/post/1456847694817/" itemprop="url">
+                  设计模式 - 创建型模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-01T23:54:54+08:00" content="2016-03-01">
+              2016-03-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1456847694817/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1456847694817/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。</p>
+<h2 id="设计模式的六大原则"><a href="#设计模式的六大原则" class="headerlink" title="设计模式的六大原则"></a>设计模式的六大原则</h2><p>1、开闭原则（Open Close Principle）</p>
+<p>开闭原则就是说对扩展开放，对修改关闭。在程序需要进行拓展的时候，不能去修改原有的代码，实现一个热插拔的效果。所以一句话概括就是：为了使程序的扩展性好，易于维护和升级。想要达到这样的效果，我们需要使用接口和抽象类，后面的具体设计中我们会提到这点。</p>
+<p>2、里氏代换原则（Liskov Substitution Principle）</p>
+<p>里氏代换原则(Liskov Substitution Principle LSP)面向对象设计的基本原则之一。 里氏代换原则中说，任何基类可以出现的地方，子类一定可以出现。 LSP是继承复用的基石，只有当衍生类可以替换掉基类，软件单位的功能不受到影响时，基类才能真正被复用，而衍生类也能够在基类的基础上增加新的行为。里氏代换原则是对“开-闭”原则的补充。实现“开-闭”原则的关键步骤就是抽象化。而基类与子类的继承关系就是抽象化的具体实现，所以里氏代换原则是对实现抽象化的具体步骤的规范。</p>
+<p>3、依赖倒转原则（Dependence Inversion Principle）</p>
+<p>这个是开闭原则的基础，具体内容：真对接口编程，依赖于抽象而不依赖于具体。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1456847694817/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1456761600000/" itemprop="url">
+                  Thymeleaf 调用参数的几种方式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-01T00:00:00+08:00" content="2016-03-01">
+              2016-03-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1456761600000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1456761600000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="模版中调用参数的方法："><a href="#模版中调用参数的方法：" class="headerlink" title="模版中调用参数的方法："></a>模版中调用参数的方法：</h2><p>(1) 使用 Model</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"message"</span>, method = RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">messages</span><span class="params">(Model model)</span> </span>&#123;</div><div class="line">    model.addAttribute(<span class="string">"messages"</span>, messageRepository.findAll());</div><div class="line">    <span class="keyword">return</span> <span class="string">"message/list"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"message : $&#123;messages&#125;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.id&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.title&#125;"</span>&gt;</span>Title ...<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.text&#125;"</span>&gt;</span>Text ...<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>(2) 用 URL 中的查询参数<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1456761600000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1455874363073/" itemprop="url">
                   深入理解 Java 虚拟机 - 高效并发
                 </a>
@@ -839,7 +1044,7 @@
         
           <h2 id="Spring-IoC"><a href="#Spring-IoC" class="headerlink" title="Spring IoC"></a>Spring IoC</h2><hr>
 <p>待注入的 class</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BraveKnight</span> <span class="keyword">implements</span> <span class="title">Knight</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Quest quest;</span><br><span class="line">  <span class="comment">// will inject Quest here</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BraveKnight</span><span class="params">(Quest quest)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.quest = quest;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">embarkOnQuest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    quest.embark();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BraveKnight</span> <span class="keyword">implements</span> <span class="title">Knight</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> Quest quest;</div><div class="line">  <span class="comment">// will inject Quest here</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BraveKnight</span><span class="params">(Quest quest)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.quest = quest;</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">embarkOnQuest</span><span class="params">()</span> </span>&#123;</div><div class="line">    quest.embark();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>将要注入的 class<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/post/1454224599679/" rel="contents">
@@ -1076,211 +1281,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1448354139006/" itemprop="url">
-                  Google Java Style 摘录
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-24T16:35:39+08:00" content="2015-11-24">
-              2015-11-24
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1448354139006/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1448354139006/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>File encoding: UTF-8</p>
-<p>the ASCII horizontal space character (0x20) is the only whitespace character that appears anywhere in a source file. No Tab!</p>
-<p>non-ASCII characters depending only on which makes the code easier to read and understand.</p>
-<p>A source file consists of in order:</p>
-<ol>
-<li>License or copyright information, if present</li>
-<li>Package statement</li>
-<li>Import statements</li>
-<li>Exactly one top-level class
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1448354139006/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1446792395444/" itemprop="url">
-                  Thinking in Java 笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-06T14:46:35+08:00" content="2015-11-06">
-              2015-11-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1446792395444/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1446792395444/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这段是草草看完一遍之后写的。Java确实在“安全性”上要比我之前学过的语言好一点，在大型项目、多人合作时优点应该会比较突出，可以降低普通程序员犯傻的几率，可扩展性也不错。但除次之外感觉优点不多，首先语法实在太繁琐，Everything is object也是把双刃剑，况且也不真的是“Everything”。另外，要说这语言简单，深究下去也并不简单，一些高级特性像inner class、反射机制这种使用起来很复杂，代码也很难读，只能说作为Class的使用者来说还是比较简单的，但作为Class的作者就比较有挑战了。功能上，Java应该是比较全面的，并且相信是有保障的；Node.js在这方面还是显得有些嫩，虽然node的核心小而美是件好事，npm上的模块也很多，但不少是个人维护的，稳定性以及将来持续维护的可能性都不确定，我个人就遇到过node版本更新导致模块安装错误或是依赖的模块安装错误，而且作者也没及时修复的意思，所以在真正大项目中使用node.js还是要谨慎。当然，这些也与Node本身快速变化有关，希望4.2版本作为LTS可以稳定下来。但如果做做小项目，个人还是很喜欢Node.js的，虽然Java也号称可以像搭积木一样堆模块，但前置的准备还是有点多，不如Node.js写起来畅快淋漓。《黑客与画家》的作者唱衰Java，觉得以后很有可能会消失在历史长流，但现有的替代者们要是真发展到Java这个规模，很难说还能保持优雅的特性。</p>
-<h2 id="1-Introduction-to-Objects"><a href="#1-Introduction-to-Objects" class="headerlink" title="1. Introduction to Objects"></a>1. Introduction to Objects</h2><h3 id="The-progress-of-abstraction"><a href="#The-progress-of-abstraction" class="headerlink" title="The progress of abstraction"></a>The progress of abstraction</h3><p>当我们用程序去解决一个问题的时候，我们要面对的一个问题就是抽象，怎么把现实的问题抽象到一定层面来跟计算机打交道。程序语言可以说是计算机和现实沟通的一个桥梁或翻译，但程序语言本身抽象的程度是不同的。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1446792395444/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1326,7 +1326,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">120</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

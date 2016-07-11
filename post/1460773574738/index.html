@@ -296,11 +296,11 @@
 </ul>
 <h2 id="安装和运行-Jenkins"><a href="#安装和运行-Jenkins" class="headerlink" title="安装和运行 Jenkins"></a>安装和运行 Jenkins</h2><p>具体参照：<a href="httpss://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions" target="_blank" rel="external">官方说明</a></p>
 <p>安装 LTS 版本：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> https:<span class="comment">//pkg.jenkins-ci.org/redhat-stable/jenkins.repo</span></span><br><span class="line">sudo rpm --import httpss:<span class="comment">//jenkins-ci.org/redhat/jenkins-ci.org.key</span></span><br><span class="line">sudo yum install jenkins</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> https:<span class="comment">//pkg.jenkins-ci.org/redhat-stable/jenkins.repo</span></div><div class="line">sudo rpm --import httpss:<span class="comment">//jenkins-ci.org/redhat/jenkins-ci.org.key</span></div><div class="line">sudo yum install jenkins</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>更改端口：修改 <code>/etc/sysconfig/jenkins</code> 中的 <code>JENKINS_PORT</code></p>
 <p>启动服务和设置开机自启动：</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="keyword"> system</span>ctl start jenkins</span><br><span class="line">sudo<span class="keyword"> system</span>ctl enable jenkins</span><br></pre></td></tr></table></figure>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo<span class="keyword"> system</span>ctl start jenkins</div><div class="line">sudo<span class="keyword"> system</span>ctl enable jenkins</div></pre></td></tr></table></figure>
 <p>这个时候就能访问 Jenkins 了。（我实际上还配置了一下 Nginx，做个反向代理）</p>
 <h2 id="Configure-Global-Security"><a href="#Configure-Global-Security" class="headerlink" title="Configure Global Security"></a>Configure Global Security</h2><p>我做了以下操作：</p>
 <ul>
@@ -334,7 +334,7 @@
 <p>进入 Jenkins，Credentials 添加一个权限，private key 选择 <code>From the Jenkins master ~/.ssh</code></p>
 <p><img src="http://cdn.yyqian.com/201604181456-Fp_QGJEmPcvN5kvpHd_M3Xrv1Y4Q?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.55.31 PM.png"></p>
 <h2 id="将-jenkins-加入-docker-用户组"><a href="#将-jenkins-加入-docker-用户组" class="headerlink" title="将 jenkins 加入 docker 用户组"></a>将 jenkins 加入 docker 用户组</h2><p>跟上面同样的原因，如果不把 jenkins 加入 docker 组，就需要 sudo 来执行 docker 命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod <span class="_">-a</span>G docker jenkins</span><br><span class="line">sudo systemctl restart jenkins</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo usermod <span class="_">-a</span>G docker jenkins</div><div class="line">sudo systemctl restart jenkins</div></pre></td></tr></table></figure>
 <h2 id="配置-Jenkins"><a href="#配置-Jenkins" class="headerlink" title="配置 Jenkins"></a>配置 Jenkins</h2><p>JDK: 勾选 Install automatically，同意条款，输入自己的 Oracle 账户</p>
 <p><img src="http://cdn.yyqian.com/201604181450-FinCuE8tcMOBrOYrY21IvSMSOGoB?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.47.11 PM.png"></p>
 <p>Maven: 勾选 Install automatically</p>
@@ -472,7 +472,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">120</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

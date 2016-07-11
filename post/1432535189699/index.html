@@ -320,7 +320,7 @@ PUT /post/:pid 修改post">
 <li>Embed: <code>GET /post/12?embed=user.name,group.name</code>，展开链接的user和group</li>
 </ul>
 <h2 id="错误信息"><a href="#错误信息" class="headerlink" title="错误信息"></a>错误信息</h2><p>错误信息需要设计固定格式，这个是 Spring Boot 默认返回的错误信息：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   <span class="attr">"timestamp"</span> : <span class="number">1413313361387</span>,</span><br><span class="line">   <span class="attr">"exception"</span> : <span class="string">"org.springframework.web.bind.MissingServletRequestParameterException"</span>,</span><br><span class="line">   <span class="attr">"status"</span> : <span class="number">400</span>,</span><br><span class="line">   <span class="attr">"error"</span> : <span class="string">"Bad Request"</span>,</span><br><span class="line">   <span class="attr">"path"</span> : <span class="string">"/greet"</span>,</span><br><span class="line">   <span class="attr">"message"</span> : <span class="string">"Required String parameter 'name' is not present"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   <span class="attr">"timestamp"</span> : <span class="number">1413313361387</span>,</div><div class="line">   <span class="attr">"exception"</span> : <span class="string">"org.springframework.web.bind.MissingServletRequestParameterException"</span>,</div><div class="line">   <span class="attr">"status"</span> : <span class="number">400</span>,</div><div class="line">   <span class="attr">"error"</span> : <span class="string">"Bad Request"</span>,</div><div class="line">   <span class="attr">"path"</span> : <span class="string">"/greet"</span>,</div><div class="line">   <span class="attr">"message"</span> : <span class="string">"Required String parameter 'name' is not present"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -426,7 +426,7 @@ PUT /post/:pid 修改post">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">120</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

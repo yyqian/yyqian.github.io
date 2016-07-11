@@ -380,9 +380,9 @@
 <li>乐观的：Elasticsearch 中使用，这个是基于竞态并不是经常发生的条件。如果数据在读和写这两步中间被更改了，更新操作就失败了，然后取决于程序怎么处理这个失败，可以是用新的数据重新操作，或者把失败通知用户。</li>
 </ul>
 <p>乐观机制的实现主要依靠 version 字段，我们可以在修改或删除的时候附带 version 参数，指定修改某一个版本的数据。如果当前的 version 和我们请求的 version 不同，说明在这读写的期间数据被更改了，就会操作失败，返回错误。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUT /website/blog/<span class="number">1</span>?<span class="built_in">version</span>=<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"title"</span>: <span class="string">"My first blog entry"</span>,</span><br><span class="line">  <span class="string">"text"</span>:  <span class="string">"Starting to get the hang of this..."</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">PUT /website/blog/<span class="number">1</span>?<span class="built_in">version</span>=<span class="number">1</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"title"</span>: <span class="string">"My first blog entry"</span>,</div><div class="line">  <span class="string">"text"</span>:  <span class="string">"Starting to get the hang of this..."</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>retry_on_conflict 参数可以用来使得在发生冲突时，进行重试</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /website/pageviews/<span class="number">1</span>/_<span class="keyword">update</span>?retry_on_conflict=<span class="number">5</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="string">"script"</span> : <span class="string">"ctx._source.views+=1"</span>,</span><br><span class="line">   <span class="string">"upsert"</span>: &#123;</span><br><span class="line">       <span class="string">"views"</span>: <span class="number">0</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">POST /website/pageviews/<span class="number">1</span>/_<span class="keyword">update</span>?retry_on_conflict=<span class="number">5</span></div><div class="line">&#123;</div><div class="line">   <span class="string">"script"</span> : <span class="string">"ctx._source.views+=1"</span>,</div><div class="line">   <span class="string">"upsert"</span>: &#123;</div><div class="line">       <span class="string">"views"</span>: <span class="number">0</span></div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="分布式的数据存储"><a href="#分布式的数据存储" class="headerlink" title="分布式的数据存储"></a>分布式的数据存储</h2><p>我们可以从逻辑和物理两个角度来看 ES 的数据存储。</p>
 <p>从逻辑的角度来看，ES 的数据存储和 SQL DB 类似，index 对应 database，type 对应 table，document 对应 row。</p>
 <p>从物理的角度来看，ES 会把一个 index 的 documents 分配到多个 shards 中，同一个 shard 中的 documents 在逻辑上并没有关系。这些 shards 可以有多份拷贝，然后这些 primary shards 和 replica shards 又会被分配到多个 Node 中，分配的规则会保证当有一个 Node down 的时候，数据还是完整的。</p>
@@ -408,7 +408,7 @@
 </ul>
 <h3 id="从物理的角度来看-ES"><a href="#从物理的角度来看-ES" class="headerlink" title="从物理的角度来看 ES"></a>从物理的角度来看 ES</h3><p>一个 ES 进程就是一个 Node，一个服务器如果跑多个 ES 进程，就有多个 Nodes，如果这些 Nodes 的 Cluster name 相同，那么它们就自动组成了一个 Cluster。访问 Cluster 中任何一个 Node 都是等同的。</p>
 <p>前面说了 ES 会把一个 index 的数据分配到多个 shards 中，那具体是如何分配的呢？默认情况下，shard number 会用以下公式计算，其中 routing 一般是 document id。</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shard = hash<span class="comment">(routing)</span> <span class="meta">%</span> <span class="symbol">number_of_primary_shards</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shard = hash<span class="comment">(routing)</span> <span class="meta">%</span> <span class="symbol">number_of_primary_shards</span></div></pre></td></tr></table></figure>
 <p>所有的 API 都接受 routing 参数，用来控制 document-to-shard mapping。例如，如果我们用 type id 作为 routing 参数，这样就能使得相同 type 的数据在同一个 shard 中。</p>
 <p>primary_shards 的数量一般是不可更改的，而 replica 的数量是可以随意改变的。</p>
 <p>ES 中的每个 shard 都是一个 Lucene index（inverted index）。它包含了 Documents 的原始数据，以及额外的数据，例如 term dictionary 和 term frequencies：</p>
@@ -546,7 +546,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">120</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

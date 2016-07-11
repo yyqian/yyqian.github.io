@@ -466,9 +466,9 @@
 </ol>
 <p>验证阶段是一个重要、但不是必要的，如果全部代码都被反复使用和验证过，可以在实施阶段关闭类验证，以缩短 VM 类加载的时间。</p>
 <h4 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h4><p>准备阶段是为类变量分配内存并设置类变量初始值的阶段，分配的内存都在方法区。这里的初始值是指「零值」，假设类变量的定义是：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="keyword">value</span> = <span class="number">123</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="keyword">value</span> = <span class="number">123</span>;</div></pre></td></tr></table></figure>
 <p>那么在准备阶段之后，value 的初始值是 0 而不是 123。因为这个时候还没执行任何 Java 方法，赋值 123 的 putstatic 指令是在程序被编译后，存在类构造器<code>&lt;clinit&gt;()</code> 方法中的。但是，如果被 final 修饰过：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> value = <span class="number">123</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> value = <span class="number">123</span>;</div></pre></td></tr></table></figure>
 <p>则准备阶段之后，初始值就会变成 123。</p>
 <p>强调的是，类变量只有是被 static 修饰的变量，不包括实例变量，实例变量将在对象实例化时随对象分配在 Heap 中。</p>
 <h4 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h4><p>解析阶段是 VM 将常量池内的符号引用替换为直接引用的过程。</p>
@@ -550,9 +550,9 @@
 <p>JVM 之前只有四条方法调用指令，这四条指令的第一个参数都是被调用方法的符号引用。方法的符号引用在编译时产生，而动态类型语言只有在运行期才能确定接收者类型，因此 JDK 7 新出了一个 invokedynamic 指令以及 java.lang.invoke 包来实现动态类型。</p>
 <h3 id="8-4-基于栈的字节码解释执行引擎"><a href="#8-4-基于栈的字节码解释执行引擎" class="headerlink" title="8.4 基于栈的字节码解释执行引擎"></a>8.4 基于栈的字节码解释执行引擎</h3><p>JVM 执行引擎有两种执行方式：解释执行（通过解释器，解释字节码执行）和编译执行（通过 JIT 编译器，编译产生本地代码执行）。这个小节只限定于解释执行。</p>
 <p>Java 采用的是一种「基于栈的指令集架构」，以 <code>1 + 1</code> 为例：</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ico<span class="symbol">nst_1</span></span><br><span class="line">ico<span class="symbol">nst_1</span></span><br><span class="line">iadd</span><br><span class="line">istore_<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ico<span class="symbol">nst_1</span></div><div class="line">ico<span class="symbol">nst_1</span></div><div class="line">iadd</div><div class="line">istore_<span class="number">0</span></div></pre></td></tr></table></figure>
 <p>如果是基于寄存器的，则是：</p>
-<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov</span> <span class="built_in">eax</span>, <span class="number">1</span></span><br><span class="line"><span class="keyword">add</span> <span class="built_in">eax</span>, <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">mov</span> <span class="built_in">eax</span>, <span class="number">1</span></div><div class="line"><span class="keyword">add</span> <span class="built_in">eax</span>, <span class="number">1</span></div></pre></td></tr></table></figure>
 <p>基于栈的优点是可移植，寄存器是由硬件直接提供，依赖硬件寄存器就会受到硬件的约束。但缺点有：</p>
 <ul>
 <li>执行速度相对来说要慢一些</li>
@@ -686,7 +686,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">120</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
