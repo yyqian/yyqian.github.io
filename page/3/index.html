@@ -216,6 +216,113 @@
             
               
                 
+                <a class="post-title-link" href="/post/1456847885703/" itemprop="url">
+                  设计模式 - 行为模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-01T23:58:05+08:00" content="2016-03-01">
+              2016-03-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1456847885703/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1456847885703/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。</p>
+<h2 id="Chain-of-Responsibility（职责链）"><a href="#Chain-of-Responsibility（职责链）" class="headerlink" title="Chain of Responsibility（职责链）"></a>Chain of Responsibility（职责链）</h2><p>意图：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。</p>
+<p>参与者：</p>
+<ul>
+<li>Handler，接口</li>
+<li>ConcreteHandler</li>
+<li>Client</li>
+</ul>
+<p>Client 在发送一个命令的时候，它可以发给多个 ConcreteHandler 其中的一个，这些 ConcreteHandler 如果能自己处理，则自己处理，不行的话就一层层往后面转发，直到有 ConcreteHandler 处理。</p>
+<p>职责链通常与 Composite 一起使用，这样一个构件的父构件可作为它的后继。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1456847885703/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1456847723338/" itemprop="url">
                   设计模式 - 结构型模式
                 </a>
@@ -1182,112 +1289,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1450333289904/" itemprop="url">
-                  网页 URI/URL 设计
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-12-17T14:21:29+08:00" content="2015-12-17">
-              2015-12-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1450333289904/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1450333289904/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近自己在学习 Spring 框架，做了一个 Hacker News 的克隆版，见 <a href="https://github.com/yyqian/imagine">Github</a> ，随手写的 URI 比较混乱，所以想起来要对 URI 重构一下。</p>
-<p>之前介绍过 <a href="http://yyqian.com/post/1432535189699">RESTful API</a> 的设计，这里主要思考下网站 URL/URI 的设计，只想知道结论的就直接看最后一句就行。</p>
-<h3 id="URI-和-URL-的区分"><a href="#URI-和-URL-的区分" class="headerlink" title="URI 和 URL 的区分"></a>URI 和 URL 的区分</h3><p>首先，两者的全称分别是：</p>
-<ul>
-<li>Uniform Resource Identifier (URI)</li>
-<li>Uniform Resource Locator (URL)</li>
-</ul>
-<p>URL 是 URI 的子集，除了要标识资源，还必须提供获取资源的方式，譬如说：</p>
-<p><code>yyqian.com/post/1432535189699</code> 标识了在 yyqian.com 这个网站上 id 为 1432535189699 的一个 post，这个是 URI，因为它标识了一个资源，但它不是 URL，因为获取这个资源的方式没有说明，可能是通过 http，https，也可能是通过 ftp, telnet 等。因此 <code>http://yyqian.com/post/1432535189699</code> 才是一个完整的 URL。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1450333289904/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1333,7 +1334,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">121</span>
+              <span class="site-state-item-count">122</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

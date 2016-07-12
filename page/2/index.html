@@ -216,6 +216,105 @@
             
               
                 
+                <a class="post-title-link" href="/post/1465705199000/" itemprop="url">
+                  八皇后问题的 Clojure 和 JavaScript 解法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-12T12:19:59+08:00" content="2016-06-12">
+              2016-06-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1465705199000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1465705199000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近在学习 Clojure，又写了个 Clojure 版本的八皇后解法。代码长度和箭头函数版的 JS 还是差不多的。</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">; Eight queens puzzle</span></div><div class="line">(<span class="name"><span class="builtin-name">defn</span></span> safe?</div><div class="line">  <span class="string">"计算 a, b 两点的斜率, 如果斜率为 0, 1, -1, 无穷大的话, 则判定为 not safe"</span></div><div class="line">  [a b]</div><div class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> (<span class="name"><span class="builtin-name">second</span></span> a) (<span class="name"><span class="builtin-name">second</span></span> b))</div><div class="line">    <span class="literal">false</span></div><div class="line">    (<span class="name"><span class="builtin-name">let</span></span> [slope (/ (<span class="name"><span class="builtin-name">-</span></span> (<span class="name"><span class="builtin-name">first</span></span> a) (<span class="name"><span class="builtin-name">first</span></span> b))</div><div class="line">                   (<span class="name"><span class="builtin-name">-</span></span> (<span class="name"><span class="builtin-name">second</span></span> a) (<span class="name"><span class="builtin-name">second</span></span> b)))]</div><div class="line">      (<span class="name"><span class="builtin-name">not</span></span> (<span class="name"><span class="builtin-name">or</span></span> (<span class="name"><span class="builtin-name">=</span></span> slope <span class="number">0</span>)</div><div class="line">               (<span class="name"><span class="builtin-name">=</span></span> slope <span class="number">1</span>)</div><div class="line">               (<span class="name"><span class="builtin-name">=</span></span> slope <span class="number">-1</span>))))))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">defn</span></span> valid?</div><div class="line">  <span class="string">"检查新增的一列是否符合条件"</span></div><div class="line">  [col]</div><div class="line">  (<span class="name"><span class="builtin-name">let</span></span> [len (<span class="name"><span class="builtin-name">count</span></span> col)</div><div class="line">        to-check [(<span class="name"><span class="builtin-name">last</span></span> col) len]]</div><div class="line">    (<span class="name"><span class="builtin-name">-&gt;&gt;</span></span> col</div><div class="line">         (<span class="name"><span class="builtin-name">take</span></span> (<span class="name"><span class="builtin-name">-</span></span> len <span class="number">1</span>))</div><div class="line">         (<span class="name">map-indexed</span> (<span class="name"><span class="builtin-name">fn</span></span> [index row] (<span class="name">safe?</span> to-check [row (<span class="name"><span class="builtin-name">+</span></span> index <span class="number">1</span>)])))</div><div class="line">         (<span class="name"><span class="builtin-name">reduce</span></span> #(<span class="name"><span class="builtin-name">and</span></span> %<span class="number">1</span> %<span class="number">2</span>)))))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">defn</span></span> queen-cols</div><div class="line">  <span class="string">"递归地一列一列地添加新的符合条件的列"</span></div><div class="line">  [col board-size]</div><div class="line">  (<span class="name"><span class="builtin-name">let</span></span> [rng (<span class="name"><span class="builtin-name">range</span></span> <span class="number">1</span> (<span class="name"><span class="builtin-name">+</span></span> board-size <span class="number">1</span>))]</div><div class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&lt;=</span></span> col <span class="number">1</span>)</div><div class="line">      (<span class="name"><span class="builtin-name">map</span></span> #(<span class="name"><span class="builtin-name">vector</span></span> %) rng)</div><div class="line">      (<span class="name"><span class="builtin-name">-&gt;&gt;</span></span> (<span class="name">queen-cols</span> (<span class="name"><span class="builtin-name">-</span></span> col <span class="number">1</span>) board-size)</div><div class="line">           (<span class="name"><span class="builtin-name">map</span></span> (<span class="name"><span class="builtin-name">fn</span></span> [col] (<span class="name"><span class="builtin-name">map</span></span> #(<span class="name"><span class="builtin-name">conj</span></span> col %) rng)))</div><div class="line">           (<span class="name"><span class="builtin-name">reduce</span></span> into)</div><div class="line">           (<span class="name"><span class="builtin-name">filter</span></span> valid?)))))</div><div class="line"></div><div class="line">(<span class="name"><span class="builtin-name">defn</span></span> queen</div><div class="line">  [size]</div><div class="line">  (<span class="name">queen-cols</span> size size))</div><div class="line"></div><div class="line">(<span class="name">queen</span> <span class="number">8</span>)</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1465705199000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1465440721000/" itemprop="url">
                   Redis 核心功能解析
                 </a>
@@ -1212,113 +1311,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1456847885703/" itemprop="url">
-                  设计模式 - 行为模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-01T23:58:05+08:00" content="2016-03-01">
-              2016-03-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1456847885703/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1456847885703/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。</p>
-<h2 id="Chain-of-Responsibility（职责链）"><a href="#Chain-of-Responsibility（职责链）" class="headerlink" title="Chain of Responsibility（职责链）"></a>Chain of Responsibility（职责链）</h2><p>意图：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。</p>
-<p>参与者：</p>
-<ul>
-<li>Handler，接口</li>
-<li>ConcreteHandler</li>
-<li>Client</li>
-</ul>
-<p>Client 在发送一个命令的时候，它可以发给多个 ConcreteHandler 其中的一个，这些 ConcreteHandler 如果能自己处理，则自己处理，不行的话就一层层往后面转发，直到有 ConcreteHandler 处理。</p>
-<p>职责链通常与 Composite 一起使用，这样一个构件的父构件可作为它的后继。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1456847885703/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1364,7 +1356,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">121</span>
+              <span class="site-state-item-count">122</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
