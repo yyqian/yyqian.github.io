@@ -620,3 +620,27 @@ BST，用一个 Queue，不过这儿需要每一层都中断一下。
 **112. Path Sum**
 
 递归
+
+**113. Path Sum II**
+
+dfs，反复利用 Stack 形式的 path 变量（用来存储路径）
+
+**114. Flatten Binary Tree to Linked List**
+
+用 preorder 遍历一遍，递归的函数返回最后一个节点，这样可以把左右两个分支连接起来。
+
+更简单的方法是用反向的 preorder，先探到末端，再从方法栈中一级级退出并连接之前的节点。
+
+```
+public class Solution {
+    TreeNode prev;
+    public void flatten(TreeNode root) {
+        if (root == null) return;
+        flatten(root.right);
+        flatten(root.left);
+        root.right = prev;
+        root.left = null;
+        prev = root;
+    }
+}
+```
