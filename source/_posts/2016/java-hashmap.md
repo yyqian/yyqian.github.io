@@ -1,18 +1,18 @@
 ---
-title: Java 源码分析：HashMap
+title: Java 源码分析之 HashMap
 date: 2016-07-12 10:48:14
 permalink: 1468291694000
 tags: Java
 ---
 
-本文将深入分析 Java 8 的 HashMap 类，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。
+HashMap 是最常用的 Map 实现类。本文将深入分析 Java 8 的 HashMap，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。
 
 ## 存储结构-字段
 
 Java 中的 HashMap 在碰撞处理方面主要采用的是[Separate chaining with list head cells](https://en.wikipedia.org/wiki/Hash_table#Separate_chaining_with_list_head_cells)方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现主体采用的是数组 + 链表，当某个链表长度大于 8 的时候，该链表就被替换成红黑树。如下图所示：
 
 ![](http://tech.meituan.com/img/java-hashmap/hashMap%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E5%9B%BE.png)
-
+<!-- more -->
 上图中的哈希桶数组，在源码中是用 table 字段来表示的。这里要注意的一点是，JDK 1.8 的实现中，table 数组的大小是 2 的幂，默认是 16。这一点对后面的索引计算很重要。
 
 ```
@@ -263,5 +263,5 @@ JDK 1.8 中对扩容过程做了优化，利用了 table 数组大小永远是 2
 
 参考：
 
-- 美团的[Java8系列之重新认识HashMap](http://tech.meituan.com/java-hashmap.html)
+- [Java8系列之重新认识HashMap](http://tech.meituan.com/java-hashmap.html)
 - [Java HashMap工作原理及实现](http://yikun.github.io/2015/04/01/Java-HashMap%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/)
