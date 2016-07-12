@@ -17,7 +17,7 @@ public class ArrayList<E> extends AbstractList<E>
 ```
 
 接下来，我们从存储结构和功能实现两部分来对 ArrayList 进行剖析。
-
+<!-- more -->
 ## 存储结构-字段
 
 ```
