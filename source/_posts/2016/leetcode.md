@@ -42,6 +42,7 @@ tags:
 
 - 用若干个指针来记录和移动
 - 先排序试试(一般 nlgn 复杂度)
+- [Maximum subarray problem](https://en.wikipedia.org/wiki/Maximum_subarray_problem)
 
 ### 数字问题技巧
 
@@ -246,6 +247,9 @@ public class Solution {
 
 以上两题参照：[Maximum subarray problem](https://en.wikipedia.org/wiki/Maximum_subarray_problem)
 
+**122. Best Time to Buy and Sell Stock II**
+
+改动之后这题很简单，如果我们把股价变动的图画出来，只要将所有的正数求和就可以了。
 
 **62. Unique Paths**
 
@@ -644,3 +648,17 @@ public class Solution {
     }
 }
 ```
+
+**118. Pascal's Triangle**
+
+**119. Pascal's Triangle II**
+
+简单地迭代或递归。
+
+**120. Triangle**
+
+用递归的 DP 很简单，不过效率太低，很多重复计算。所以要改成迭代，我们从下向上计算，每次只需要保存前一行的结果，所以空间复杂度是 O(n)
+
+**125. Valid Palindrome**
+
+取头取尾，略过非字母或数字（用 Character.isLetterOrDigit 判断），迭代验证。比较简单。
