@@ -25,7 +25,9 @@ transient Object[] elementData;
 private int size;
 ```
 
-elementData 引用的 Object 数组用来存放数据，size 作为一个指针来记录当前容器中的实际元素数量。
+elementData 引用的 Object 数组用来存放数据，是该类核心的属性，这个字段被标记 transient，所以序列化不会包含内部存储的实际的数据（其他容器类也不会）。
+
+size 既可以用来记录当前容器中的实际元素数量，也可以被当作一个指针来标记数据的尾部。
 
 ## 功能实现-方法
 
