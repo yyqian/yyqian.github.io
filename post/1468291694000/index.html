@@ -57,14 +57,14 @@
 
 
 
-<meta name="description" content="本文将深入分析 Java 8 的 HashMap 类，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。
-存储结构-字段Java 中的 HashMap 在碰撞处理方面主要采用的是Separate chaining with list head cells方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现主体采用的是数组 + 链表，当某个链表长">
+<meta name="description" content="HashMap 是最常用的 Map 实现类。本文将深入分析 Java 8 的 HashMap，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。
+存储结构-字段Java 中的 HashMap 在碰撞处理方面主要采用的是Separate chaining with list head cells方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 源码分析：HashMap">
+<meta property="og:title" content="Java 源码分析之 HashMap">
 <meta property="og:url" content="https://yyqian.com/post/1468291694000/index.html">
 <meta property="og:site_name" content="YYQIAN">
-<meta property="og:description" content="本文将深入分析 Java 8 的 HashMap 类，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。
-存储结构-字段Java 中的 HashMap 在碰撞处理方面主要采用的是Separate chaining with list head cells方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现主体采用的是数组 + 链表，当某个链表长">
+<meta property="og:description" content="HashMap 是最常用的 Map 实现类。本文将深入分析 Java 8 的 HashMap，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。
+存储结构-字段Java 中的 HashMap 在碰撞处理方面主要采用的是Separate chaining with list head cells方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现">
 <meta property="og:image" content="http://tech.meituan.com/img/java-hashmap/hashMap%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E5%9B%BE.png">
 <meta property="og:image" content="http://tech.meituan.com/img/java-hashmap/hashMap%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95%E4%BE%8B%E5%9B%BE.png">
 <meta property="og:image" content="http://tech.meituan.com/img/java-hashmap/hashMap%20put%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%9B%BE.png">
@@ -72,11 +72,11 @@
 <meta property="og:image" content="http://tech.meituan.com/img/java-hashmap/hashMap%201.8%20%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95%E4%BE%8B%E5%9B%BE1.png">
 <meta property="og:image" content="https://cloud.githubusercontent.com/assets/1736354/6958301/519be432-d93c-11e4-85bb-dff0a03af9d3.png">
 <meta property="og:image" content="http://tech.meituan.com/img/java-hashmap/jdk1.8%20hashMap%E6%89%A9%E5%AE%B9%E4%BE%8B%E5%9B%BE.png">
-<meta property="og:updated_time" content="2016-07-12T06:26:53.000Z">
+<meta property="og:updated_time" content="2016-07-12T06:40:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 源码分析：HashMap">
-<meta name="twitter:description" content="本文将深入分析 Java 8 的 HashMap 类，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。
-存储结构-字段Java 中的 HashMap 在碰撞处理方面主要采用的是Separate chaining with list head cells方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现主体采用的是数组 + 链表，当某个链表长">
+<meta name="twitter:title" content="Java 源码分析之 HashMap">
+<meta name="twitter:description" content="HashMap 是最常用的 Map 实现类。本文将深入分析 Java 8 的 HashMap，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。
+存储结构-字段Java 中的 HashMap 在碰撞处理方面主要采用的是Separate chaining with list head cells方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现">
 <meta name="twitter:image" content="http://tech.meituan.com/img/java-hashmap/hashMap%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E5%9B%BE.png">
 
 
@@ -95,7 +95,7 @@
   };
 </script>
 
-  <title> Java 源码分析：HashMap | YYQIAN </title>
+  <title> Java 源码分析之 HashMap | YYQIAN </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -225,7 +225,7 @@
             
             
               
-                Java 源码分析：HashMap
+                Java 源码分析之 HashMap
               
             
           </h1>
@@ -271,10 +271,9 @@
       
 
       
-        <p>本文将深入分析 Java 8 的 HashMap 类，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。</p>
+        <p>HashMap 是最常用的 Map 实现类。本文将深入分析 Java 8 的 HashMap，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。</p>
 <h2 id="存储结构-字段"><a href="#存储结构-字段" class="headerlink" title="存储结构-字段"></a>存储结构-字段</h2><p>Java 中的 HashMap 在碰撞处理方面主要采用的是<a href="https://en.wikipedia.org/wiki/Hash_table#Separate_chaining_with_list_head_cells" target="_blank" rel="external">Separate chaining with list head cells</a>方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现主体采用的是数组 + 链表，当某个链表长度大于 8 的时候，该链表就被替换成红黑树。如下图所示：</p>
-<p><img src="http://tech.meituan.com/img/java-hashmap/hashMap%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt=""></p>
-<p>上图中的哈希桶数组，在源码中是用 table 字段来表示的。这里要注意的一点是，JDK 1.8 的实现中，table 数组的大小是 2 的幂，默认是 16。这一点对后面的索引计算很重要。</p>
+<p><img src="http://tech.meituan.com/img/java-hashmap/hashMap%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt=""><br><a id="more"></a><br>上图中的哈希桶数组，在源码中是用 table 字段来表示的。这里要注意的一点是，JDK 1.8 的实现中，table 数组的大小是 2 的幂，默认是 16。这一点对后面的索引计算很重要。</p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">transient <span class="keyword">Node</span><span class="title">&lt;K</span>,V&gt;[] table;</div></pre></td></tr></table></figure>
 <p>它的元素 Node 定义如下，上图中每个黑色点都是一个 Node 实例（KV 对）：</p>
 <figure class="highlight nimrod"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> class <span class="type">Node</span>&lt;K,V&gt; implements <span class="type">Map</span>.<span class="type">Entry</span>&lt;K,V&gt; &#123;</div><div class="line">        final <span class="built_in">int</span> hash;</div><div class="line">        final K key;</div><div class="line">        V value;</div><div class="line">        <span class="type">Node</span>&lt;K,V&gt; next; // 下一个节点</div><div class="line"></div><div class="line">        <span class="type">Node</span>(<span class="built_in">int</span> hash, K key, V value, <span class="type">Node</span>&lt;K,V&gt; next) <span class="meta">&#123;...&#125;</span></div><div class="line">        public final K getKey()        &#123; <span class="keyword">return</span> key; &#125;</div><div class="line">        public final V getValue()      &#123; <span class="keyword">return</span> value; &#125;</div><div class="line">        public final <span class="type">String</span> toString() &#123; <span class="keyword">return</span> key + <span class="string">"="</span> + value; &#125;</div><div class="line">        public final <span class="built_in">int</span> hashCode() <span class="meta">&#123;...&#125;</span></div><div class="line">        public final V setValue(V newValue) <span class="meta">&#123;...&#125;</span></div><div class="line">        public final boolean equals(<span class="type">Object</span> o) <span class="meta">&#123;...&#125;</span></div></pre></td></tr></table></figure>
@@ -327,7 +326,7 @@
 <hr>
 <p>参考：</p>
 <ul>
-<li>美团的<a href="http://tech.meituan.com/java-hashmap.html" target="_blank" rel="external">Java8系列之重新认识HashMap</a></li>
+<li><a href="http://tech.meituan.com/java-hashmap.html" target="_blank" rel="external">Java8系列之重新认识HashMap</a></li>
 <li><a href="http://yikun.github.io/2015/04/01/Java-HashMap%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/" target="_blank" rel="external">Java HashMap工作原理及实现</a></li>
 </ul>
 
@@ -386,7 +385,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="post/1468291694000/"
-           data-title="Java 源码分析：HashMap" data-url="https://yyqian.com/post/1468291694000/">
+           data-title="Java 源码分析之 HashMap" data-url="https://yyqian.com/post/1468291694000/">
       </div>
     
   </div>
