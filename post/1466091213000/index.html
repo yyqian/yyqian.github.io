@@ -98,7 +98,7 @@ Easy: 30
 Medium: 93
 Hard">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg">
-<meta property="og:updated_time" content="2016-07-11T01:07:43.000Z">
+<meta property="og:updated_time" content="2016-07-11T09:23:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
 <meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
@@ -591,11 +591,22 @@ Hard">
 <p>我的做法是用 inorder 遍历，二叉搜索是的中序遍历得到的数组应当是有序的（从小到大）。</p>
 <p>最好的做法是用递归，递归函数传入值的下界和下界。这样遍历一遍就能完成。</p>
 <p><strong>102. Binary Tree Level Order Traversal</strong></p>
-<p>BST，用一个 Queue，不过这儿需要每一层都中断一下</p>
+<p><strong>107. Binary Tree Level Order Traversal II</strong></p>
+<p>BST，用一个 Queue，不过这儿需要每一层都中断一下。</p>
 <p><strong>103. Binary Tree Zigzag Level Order Traversal</strong></p>
 <p>我的解法同 102，只是把 Queue 改用 Stack，还有先加左元素还是右元素需要根据层级判断一下</p>
+<p><strong>105. Construct Binary Tree from Preorder and Inorder Traversal</strong></p>
 <p><strong>106. Construct Binary Tree from Inorder and Postorder Traversal</strong></p>
-<p>很经典，有助于更深入理解这几种遍历</p>
+<p>很经典，有助于更深入理解这几种遍历。比较明了的方法是，用一个 HashMap 保存 inorder 数组的映射，然后利用结构，递归地构造左分支和右分支</p>
+<p><strong>108. Convert Sorted Array to Binary Search Tree</strong></p>
+<p>二分和递归</p>
+<p><strong>109. Convert Sorted List to Binary Search Tree</strong></p>
+<p>可以用个 HashMap，仍然用二分和递归做，但这样得遍历两次</p>
+<p>更好的做法是反向的中序遍历，需要增加一个 ListNode 属性。</p>
+<p><strong>110. Balanced Binary Tree</strong></p>
+<p>递归检查两棵子树的高度是否差值大于 1</p>
+<p><strong>112. Path Sum</strong></p>
+<p>递归</p>
 
       
     </div>
@@ -695,7 +706,7 @@ Hard">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">120</span>
+              <span class="site-state-item-count">121</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

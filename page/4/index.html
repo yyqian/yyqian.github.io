@@ -216,6 +216,108 @@
             
               
                 
+                <a class="post-title-link" href="/post/1449555296031/" itemprop="url">
+                  Spring Data JPA 笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-08T14:14:56+08:00" content="2015-12-08">
+              2015-12-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1449555296031/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1449555296031/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>traditional JDBC 太麻烦是因为要处理很多 SQLException，很多 boilerplate code，但它的操作比其他框架更底层。</p>
+<p>Spring JDBC 所有的异常都继承自 DataAccessException，属于 unchecked exceptions。</p>
+<p>Spring 采用 JDBC template 来去掉 boilerplate code (resource-management, exception-handling etc)，用户只需要写 SQL 语句和一些 mapping 的方法。</p>
+<p>结合 Spring Security 可以处理 method level 的 access control。</p>
+<p>Spring Data JPA 基本都是标准的 JPA(Java Persistence API)，底层是用 Hibernate 来实现的。持久化数据相关的最主要的两种类是：@Entity 和 @Repository 注解的 Class。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1449555296031/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1448354139006/" itemprop="url">
                   Google Java Style 摘录
                 </a>
@@ -1152,120 +1254,11 @@ console.log(module.exports === this); //true
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1433494907104/" itemprop="url">
-                  SSH 的安全设置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-05T17:01:47+08:00" content="2015-06-05">
-              2015-06-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1433494907104/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1433494907104/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>首先要注意的一点是，用户名密码登录的方式是不安全的。总体来说，对SSH登录要做以下几点防护：</p>
-<ol>
-<li>废除密码登录，改用key登录</li>
-<li>禁止root账户远程登录</li>
-<li>更改默认的22端口</li>
-</ol>
-<p>要注意的是，第一点会导致你只能从事先注册过的电脑上登录服务器，无法从其他电脑登录。如果注册过的电脑都已经丢了密钥，则会导致你无法登录服务器，所以一旦禁止密码登录后，千万要保护好自己的私钥。</p>
-<p>具体操作如下：</p>
-<ol>
-<li>在本地生成一个key：<code>ssh-keygen -t rsa</code>，该命令会生成2个key，一个公钥，一个私钥。公钥是存放在服务器端，可以公开的，私钥存放在本地要保护好。</li>
-<li>将本地的<code>~/.ssh/id_rsa.pub</code>用scp复制到服务器，并将该文件中的key添加到服务器端的<code>~/.ssh/authorized_keys</code>：<br><code>cat id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</code></li>
-<li>最后我们要设置下权限，保证他人不能访问服务器端的<code>.ssh</code>文件夹：<br><code>chmod 700 ~/.ssh</code><br><code>chmod 600 ~/.ssh/authorized_keys</code>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1433494907104/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1306,7 +1299,7 @@ console.log(module.exports === this); //true
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">120</span>
+              <span class="site-state-item-count">121</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
