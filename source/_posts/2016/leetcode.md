@@ -669,4 +669,10 @@ public class Solution {
 
 **130. Surrounded Regions**
 
-用 Union-Find
+只有 O 连到边界上时，才不会被 X 包围，所以当遍历到边界上的 O 时，用 BFS 探索所有与之连接的 O，标记为 B。完事之后，再遍历一次，把 B 变成 O，O 变成 X。
+
+**131. Palindrome Partitioning**
+
+类似 DP，我们从头部开始在不同的地方做第一次切分，右半部分递归地继续切分，左半部分不用再切分，但必须保证是 Palindrome
+
+
