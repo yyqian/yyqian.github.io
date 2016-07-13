@@ -73,7 +73,7 @@
 内部数据存储是通过 HashMap 存储的
 准备了一个没有实际内容的 Object
 构造实例的时候在内部构造了一个">
-<meta property="og:updated_time" content="2016-07-13T03:09:27.000Z">
+<meta property="og:updated_time" content="2016-07-13T07:46:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 源码分析之 HashSet/TreeSet/LinkedHashSet">
 <meta name="twitter:description" content="这篇文章把各种 Set 放在一起讲的原因是：它们实际都是穿着马甲的各种 Map，它们用一个 dummy object 来填充 Map 中的 value，剩下的事全部由 Map 来代劳。眼见为实，耳听为虚，下面就通过源码来证明这一点。
@@ -280,9 +280,10 @@
 <ul>
 <li>内部数据存储是通过 HashMap<e,object> 存储的</e,object></li>
 <li>准备了一个没有实际内容的 Object</li>
-<li>构造实例的时候在内部构造了一个 HashMap 实例</li>
-</ul>
+<li>构造实例的时候在内部构造了一个 HashMap 实例<a id="more"></a>
 <figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">HashMap</span>&lt;E,<span class="keyword">Object</span>&gt; <span class="built_in">map</span>;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">Object</span> PRESENT = <span class="keyword">new</span> <span class="keyword">Object</span>();</div><div class="line"></div><div class="line"><span class="keyword">public</span> HashSet() &#123;</div><div class="line">    <span class="built_in">map</span> = <span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;&gt;();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
 <p>add 和 remove 操作，直接调用 HashMap 中相关的方法，值用 PRESENT 这个 dummy object 来填充</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> add(E e) &#123;</div><div class="line">    <span class="built_in">return</span> <span class="built_in">map</span>.<span class="built_in">put</span>(e, PRESENT)==null;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="built_in">remove</span>(Object o) &#123;</div><div class="line">    <span class="built_in">return</span> <span class="built_in">map</span>.<span class="built_in">remove</span>(o)==PRESENT;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>其他操作也都是直接调用 HashMap 的对应方法</p>
