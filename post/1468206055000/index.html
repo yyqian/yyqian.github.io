@@ -74,7 +74,7 @@ Collection我们先来看看整个 Collection 下面有哪些接口：
 <meta property="og:image" content="http://docs.oracle.com/javase/tutorial/figures/collections/colls-coreInterfaces.gif">
 <meta property="og:image" content="http://cdn.yyqian.com/201607111412-Fihq5IyCVZ5Jmbh_YPp-9-UcIXmT?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201607111412-Fn7Sp3v23nc0QGUP_rZxKtcXilMz?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-07-11T06:16:34.000Z">
+<meta property="og:updated_time" content="2016-07-13T06:14:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 中的容器">
 <meta name="twitter:description" content="本文主要简单介绍下 Java 中有哪些容器接口以及它们的实现，并且给出选择它们的合适的场景。不建议使用的 Vector、Hashtable、Stack 等容器类在这里都不提了。
@@ -352,6 +352,21 @@ Collection我们先来看看整个 Collection 下面有哪些接口：
 <p>Set 没有任何特有的方法</p>
 <p>Map 不继承自 Collection，因此是独立的：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">containsKey</span><span class="params">(Object key)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">containsValue</span><span class="params">(Object value)</span></span>;</div><div class="line">    <span class="function">V <span class="title">get</span><span class="params">(Object key)</span></span>;</div><div class="line">    <span class="function">V <span class="title">put</span><span class="params">(K key, V value)</span></span>;</div><div class="line">    <span class="function">V <span class="title">remove</span><span class="params">(Object key)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">putAll</span><span class="params">(Map&lt;? extends K, ? extends V&gt; m)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Set&lt;K&gt; <span class="title">keySet</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Collection&lt;V&gt; <span class="title">values</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="实现类的源码解析"><a href="#实现类的源码解析" class="headerlink" title="实现类的源码解析"></a>实现类的源码解析</h2><p>我们先不管并发包中的那几个实现，只关注 java.util 中的常用实现类。我个人觉得最值得研究的几个实现类是：</p>
+<ol>
+<li>ArrayList：主要关注 add 和 remove 方法中涉及到的扩容和数组移动，看下可变数组是如何实现的</li>
+<li>LinkedList：链表是多个抽象瘦据类型的实现，它结构简单，操作原理简单，应用广泛，是其他更复杂数据结构的蓝本</li>
+<li>HashMap：个人觉得是很漂亮的一个实现，包含了可变数组 + 链表 + 红黑树，还有哈希值、索引值的计算，值得细细品味</li>
+<li>LinkedHashMap：这个继承自 HashMap，相当于是 LinkedList 和 HashMap 的合体。它可以作为 LRUCache 来使用，所以可以通过读这个源码探究下 LRUCache 的原理</li>
+</ol>
+<p>还有几个可以一读的类：</p>
+<ol>
+<li>TreeMap：这个就是红黑树的实现，红黑树的操作比较繁杂，个人觉得弄清楚原理就行了（2-3树和红黑树的对应关系），也没必要死扣源码中的每一步操作。</li>
+<li>PriorityQueue：这个是最小堆的实现，与红黑树类似，读这个类的源码实际就是在读堆的实现原理。</li>
+<li>ArrayDeque：就是双向版本的 ArrayList，内部实现上与 ArrayList 大体相似，只是字段中的指针从一个变成了两个</li>
+</ol>
+<p>Set 所有的实现类实际都是套了马甲的对应的 Map，所以只需要研究对应的 Map 就够了。</p>
+
       
     </div>
 
@@ -456,7 +471,7 @@ Collection我们先来看看整个 Collection 下面有哪些接口：
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">122</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -466,7 +481,7 @@ Collection我们先来看看整个 Collection 下面有哪些接口：
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -526,7 +541,7 @@ Collection我们先来看看整个 Collection 下面有哪些接口：
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection"><span class="nav-text">Collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set"><span class="nav-text">Set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-text">Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SortedSet-amp-SortedMap"><span class="nav-text">SortedSet & SortedMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Queue"><span class="nav-text">Queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deque"><span class="nav-text">Deque</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个接口的常用方法（API）"><span class="nav-text">各个接口的常用方法（API）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection"><span class="nav-text">Collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set"><span class="nav-text">Set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-text">Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SortedSet-amp-SortedMap"><span class="nav-text">SortedSet & SortedMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Queue"><span class="nav-text">Queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deque"><span class="nav-text">Deque</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个接口的常用方法（API）"><span class="nav-text">各个接口的常用方法（API）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现类的源码解析"><span class="nav-text">实现类的源码解析</span></a></li></ol></div>
             
           </div>
         </section>

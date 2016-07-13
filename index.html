@@ -216,6 +216,432 @@
             
               
                 
+                <a class="post-title-link" href="/post/1468391936000/" itemprop="url">
+                  Java 源码分析之 ArrayDeque
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T14:38:56+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468391936000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468391936000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>ArrayDeque 在实现上类似于 ArrayList，在功能上类似于 LinkedList，实现上比 ArrayList 稍复杂一点，功能上比 LinkedList 更强大一点。它实现了 Deque 接口，所以是个双端队列，可以被当做 FIFO 和 LIFO 两种队列来使用。</p>
+<h2 id="存储结构-字段"><a href="#存储结构-字段" class="headerlink" title="存储结构-字段"></a>存储结构-字段</h2><p>和 ArrayList 的区别就是从一个指针变成两个指针</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">transient</span> <span class="keyword">Object</span>[] elements; <span class="comment">// non-private to simplify nested class access</span></div><div class="line"><span class="comment">// 头部元素的索引</span></div><div class="line"><span class="keyword">transient</span> <span class="built_in">int</span> head;</div><div class="line"><span class="comment">// 尾部元素的下一个空位的索引，也就是说下一个被加入元素的位置</span></div><div class="line"><span class="keyword">transient</span> <span class="built_in">int</span> tail;</div></pre></td></tr></table></figure>
+<h2 id="容量相关操作"><a href="#容量相关操作" class="headerlink" title="容量相关操作"></a>容量相关操作</h2><p>从下面的函数可以看出，数组大小必须是 2 次幂，这个要求和 HashMap 中的桶数组是相同的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">allocateElements</span><span class="params">(<span class="keyword">int</span> numElements)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> initialCapacity = MIN_INITIAL_CAPACITY;</div><div class="line">    <span class="comment">// Find the best power of two to hold elements.</span></div><div class="line">    <span class="comment">// Tests "&lt;=" because arrays aren't kept full.</span></div><div class="line">    <span class="keyword">if</span> (numElements &gt;= initialCapacity) &#123;</div><div class="line">        initialCapacity = numElements;</div><div class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt;  <span class="number">1</span>);</div><div class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt;  <span class="number">2</span>);</div><div class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt;  <span class="number">4</span>);</div><div class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt;  <span class="number">8</span>);</div><div class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt; <span class="number">16</span>);</div><div class="line">        initialCapacity++;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)   <span class="comment">// Too many elements, must back off</span></div><div class="line">            initialCapacity &gt;&gt;&gt;= <span class="number">1</span>;<span class="comment">// Good luck allocating 2 ^ 30 elements</span></div><div class="line">    &#125;</div><div class="line">    elements = <span class="keyword">new</span> Object[initialCapacity];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>扩容，由于数组大小是 2 次幂，所以每次扩容实际就是容量翻倍。扩容只有当数组满的时候再扩，见下图。这个地方用的是 System.arraycopy 实现的数据移动，而 ArrayList 中的 grow 方法是用 Arrays.copyOf 在原地实现的。</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> doubleCapacity() &#123;</div><div class="line">    <span class="comment">// 因为这个数组是环形的（尾巴连着头部），所以当数组满的时候，head == tail</span></div><div class="line">    <span class="keyword">assert</span> head == tail;</div><div class="line">    <span class="built_in">int</span> p = head;</div><div class="line">    <span class="built_in">int</span> n = elements.length;</div><div class="line">    <span class="built_in">int</span> r = n - p; <span class="comment">// number of elements to the right of p</span></div><div class="line">    <span class="comment">// 容量翻倍</span></div><div class="line">    <span class="built_in">int</span> newCapacity = n &lt;&lt; <span class="number">1</span>;</div><div class="line">    <span class="comment">// 小于零说明溢出</span></div><div class="line">    <span class="keyword">if</span> (newCapacity &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Sorry, deque too big"</span>);</div><div class="line">    <span class="comment">// 分配新的空间</span></div><div class="line">    <span class="keyword">Object</span>[] a = <span class="keyword">new</span> <span class="keyword">Object</span>[newCapacity];</div><div class="line">    <span class="comment">// 这次 copy 对应于下图中的红线部分</span></div><div class="line">    System.arraycopy(elements, p, a, <span class="number">0</span>, r);</div><div class="line">    <span class="comment">// 这次 copy 对应于下图中的绿线部分</span></div><div class="line">    System.arraycopy(elements, <span class="number">0</span>, a, r, p);</div><div class="line">    <span class="comment">// elements 字段指向扩容后的数组</span></div><div class="line">    elements = a;</div><div class="line">    <span class="comment">// head 和 tail 索引的位置也重置了</span></div><div class="line">    head = <span class="number">0</span>;</div><div class="line">    tail = n;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://cdn.yyqian.com/201607131506-FpHXwz6zhztfrq8-fsrYJMu6WfTE?imageView2/2/w/800/h/600" alt="56e97f8c98931.png"></p>
+<h2 id="添加、移除操作"><a href="#添加、移除操作" class="headerlink" title="添加、移除操作"></a>添加、移除操作</h2><p>在哪个位置添加、删除都是差不多的，我们只以 push 和 pop 为例分析下源码：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    addFirst(e);</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (e == <span class="keyword">null</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    elements[head = (head - <span class="number">1</span>) &amp; (elements.length - <span class="number">1</span>)] = e;</div><div class="line">    <span class="keyword">if</span> (head == tail)</div><div class="line">        doubleCapacity();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function">E <span class="title">pop</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">return</span> <span class="title">removeFirst</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="function">E <span class="title">removeFirst</span><span class="params">()</span> </span>&#123;</div><div class="line">    E x = pollFirst();</div><div class="line">    <span class="keyword">if</span> (x == <span class="keyword">null</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">    <span class="keyword">return</span> x;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="function">E <span class="title">pollFirst</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> h = head;</div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">    E result = (E) elements[h];</div><div class="line">    <span class="comment">// Element is null if deque empty</span></div><div class="line">    <span class="keyword">if</span> (result == <span class="keyword">null</span>)</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    elements[h] = <span class="keyword">null</span>;     <span class="comment">// Must null out slot</span></div><div class="line">    head = (h + <span class="number">1</span>) &amp; (elements.length - <span class="number">1</span>);</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上代码中值得注意的是这两个操作：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(<span class="name">head</span> - <span class="number">1</span>) &amp; (<span class="name">elements</span>.length - <span class="number">1</span>)</div><div class="line">(<span class="name">h</span> + <span class="number">1</span>) &amp; (<span class="name">elements</span>.length - <span class="number">1</span>)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>它的目的是让数组变成一个等效的环形数组，在数组大小为 2 次幂的情况下，上面两个操作等效为取模操作，这一点和 JDK 1.8 的 HashMap 相同，可以大幅提高取模的效率，具体解释见我的 HashMap 源码分析。</p>
+<p><img src="http://cdn.yyqian.com/201607131523-FmjLWYxwkB9luBtJuOcZW3bSeZWA?imageView2/2/w/800/h/600" alt="56e97c2195747.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>ArrayDeque 是基于环形数组实现的双向队列，通过两个指针标记头尾，并且由于环形的实现需求，我们需要进行频繁的取模操作，在这点上作者使用了 HashMap 中相同的优化：把数组大小限定为 2 次幂，用 AND 运算来代替取模操作，获得效率上的提升。</p>
+<p>它的效率高于双向链表 LinkedList，但要注意 ArrayDeque 不支持为 null 的元素。</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="http://blog.jrwang.me/2016/java-collections-deque-arraydeque/" target="_blank" rel="external">Java 容器源码分析之 Deque 与 ArrayDeque</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1468377874000/" itemprop="url">
+                  Java 源码分析之 HashSet/TreeSet/LinkedHashSet
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T10:44:34+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468377874000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468377874000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这篇文章把各种 Set 放在一起讲的原因是：它们实际都是穿着马甲的各种 Map，它们用一个 dummy object 来填充 Map 中的 value，剩下的事全部由 Map 来代劳。眼见为实，耳听为虚，下面就通过源码来证明这一点。</p>
+<p>首先从下面的两个字段和构造函数，我们就能看到：</p>
+<ul>
+<li>内部数据存储是通过 HashMap<e,object> 存储的</e,object></li>
+<li>准备了一个没有实际内容的 Object</li>
+<li>构造实例的时候在内部构造了一个 HashMap 实例</li>
+</ul>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">HashMap</span>&lt;E,<span class="keyword">Object</span>&gt; <span class="built_in">map</span>;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">Object</span> PRESENT = <span class="keyword">new</span> <span class="keyword">Object</span>();</div><div class="line"></div><div class="line"><span class="keyword">public</span> HashSet() &#123;</div><div class="line">    <span class="built_in">map</span> = <span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;&gt;();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>add 和 remove 操作，直接调用 HashMap 中相关的方法，值用 PRESENT 这个 dummy object 来填充</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> add(E e) &#123;</div><div class="line">    <span class="built_in">return</span> <span class="built_in">map</span>.<span class="built_in">put</span>(e, PRESENT)==null;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="built_in">remove</span>(Object o) &#123;</div><div class="line">    <span class="built_in">return</span> <span class="built_in">map</span>.<span class="built_in">remove</span>(o)==PRESENT;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其他操作也都是直接调用 HashMap 的对应方法</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">return</span> map.<span class="title">size</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">return</span> map.<span class="title">isEmpty</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">return</span> map.<span class="title">containsKey</span><span class="params">(o)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>TreeSet 和 LinkedHashSet 也是类似的，就不赘述了。</p>
+<p>问题：HashSet 和 HashMap 之间的这种关系体现的是什么设计模式？</p>
+<p>有点像个代理模式，但代理模式要求代理类和目标类实现同一个接口，HashSet 和 HashMap 不满足这一点，装饰器模式也是这样。最接近的模式应该是适配器（Adapter，又名 Wrapper）模式。不过非得归类到某种设计模式也感觉挺无聊的。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1468371727000/" itemprop="url">
+                  Java 源码分析之 LinkedHashMap
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T09:02:07+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468371727000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468371727000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>LinkedHashMap 继承自 HashMap，它在功能上增加了双向链表的实现。它有两种顺序访问方式：插入序（insertion-order）或访问序（access-order）。插入序和普通的链表是一致的，类似 FIFO，而访问序实际就是 LRU(least-recently-used) 顺序，这点在后面的 LRUCache 会提到。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedHashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</div><div class="line">    <span class="keyword">extends</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</div><div class="line">    <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="存储结构-字段"><a href="#存储结构-字段" class="headerlink" title="存储结构-字段"></a>存储结构-字段</h2><p>我们只关注扩展的部分，这里面值得注意的是 head 和 tail 字段，以及扩展后的内部节点类中的 before 和 after 字段。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1468371727000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1468371713000/" itemprop="url">
+                  Java 源码分析之 LinkedList
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T09:01:53+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468371713000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468371713000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>LinkedList 也是一个很常用的容器类，从它实现的接口来看，它实现了 List 和 Deque，而 Deque 又继承了 Queue，因此，LinkedList 可以当做链表、队列、栈来使用，很全能。我们接下来就剖析下 JDK 1.8 中的 LinkedList 源码。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</div><div class="line">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</div><div class="line">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1468371713000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1468306271000/" itemprop="url">
                   Java 源码分析之 ArrayList
                 </a>
@@ -809,454 +1235,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1467269308000/" itemprop="url">
-                  Spring Data 深入解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-30T14:48:28+08:00" content="2016-06-30">
-              2016-06-30
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1467269308000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467269308000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Spring 数据访问层可以分成三个部分：</p>
-<ol>
-<li><p>统一的数据访问异常层次体系：Spring 框架会把所有特定于数据访问技术的异常（Exception）都进行转译，然后封装为一套标准的异常层次体系。这样我们只要处理这一套封装之后的异常体系就可以了。</p>
-</li>
-<li><p>JDBC API 的最佳实践：说白了就是对 JDBC API 的封装。</p>
-</li>
-<li><p>以统一的方式对各种 ORM 方案的集成：这一部分内容以后会用 MyBatis 作为例子单独进行阐述。</p>
-</li>
-</ol>
-<p>这三个部分本质上都是一种封装，第一部分是对各种异常的封装，第二部分是对 JDBC API 的封装，第三部分是都多种 ORM 技术的封装。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1467269308000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1467268596000/" itemprop="url">
-                  Spring AOP 深入解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-30T14:36:36+08:00" content="2016-06-30">
-              2016-06-30
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1467268596000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467268596000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="AOP-简介"><a href="#AOP-简介" class="headerlink" title="AOP 简介"></a>AOP 简介</h2><p>AOP 可以看成是针对 OOP 的一个补充或增强。有些系统需求，例如：安全检查、事务管理，如果把这些功能的代码写到业务模块里，会产生很多业务无关的代码，给调试、重构带来很大的复杂度。AOP 在这里的作用就是关注点分离，将业务模块和基础设施模块进行解耦。</p>
-<p>但 AOP 本身不能独立于 OOP 而存在，AOP 的实现一般都要「寄生」在 OOP 的领土之中，这个「寄生」的过程用 AOP 中的黑话来说就是「织入」：把 AOP 的组件集成到 OOP 的组件之中，获得一个新的、能力更强的 OOP 组件。</p>
-<p>我们在这里约定没被增强的原始类称为 POJO，织入的 AOP 组件称为 Aspect，织入后的新的类称为增强类。</p>
-<p>一个 POJO 被「织入」Aspect 之后，得到的增强类对于 POJO 的使用者来说应该是透明的，否则这种增强就是侵入式的了。对于不同的 AOP 的实现方式，如何对使用者透明，采取的方式也不一样。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1467268596000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1467262787000/" itemprop="url">
-                  Spring IoC 深入解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-30T12:59:47+08:00" content="2016-06-30">
-              2016-06-30
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1467262787000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467262787000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>IoC 的基本概念在这篇文章里先略过了，我们在这里主要探究一下实现的原理。</p>
-<h2 id="IoC-Service-Provider"><a href="#IoC-Service-Provider" class="headerlink" title="IoC Service Provider"></a>IoC Service Provider</h2><p>当我们写好了一个个 POJO，就需要有个对象来把这些相互之间有依赖关系的 Bean 组织在一起，这个对象就是 IoC Service Provider，提供 IoC 相关的服务。Spring IoC 容器就是一个提供依赖注入服务的 IoC Service Provider。</p>
-<p>它有两个职责：</p>
-<ol>
-<li>业务对象的构建管理：当我们调用某个对象时，我们不需要去关心如何去构建它，IoC Service Provider 应当负责这件事</li>
-<li>业务对象之间的依赖绑定</li>
-</ol>
-<p>IoC Service Provider 使用的注册对象管理信息的方式主要有以下几种：</p>
-<ol>
-<li>直接编码方式：也就是写在 Java 代码中，例如构建一个 Container 类，然后调用它的 register 方法来注册 Bean</li>
-<li>配置文件方式：最为常见的就是用 XML 文件</li>
-<li>元数据方式：最场景的就是使用注解，当然，注解最终也要通过代码处理来确定最终的注入关系，所以注解方式也可以算作编码方式的一种特殊情况。</li>
-</ol>
-<p>以上三种方式在 Spring 提供的 IoC 容器中都是支持的，所以接下来我们主要来探究下 Spring 的 IoC 容器。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1467262787000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1466091213000/" itemprop="url">
-                  LeetCode 解题思路汇总
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-16T23:33:33+08:00" content="2016-06-16">
-              2016-06-16
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1466091213000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1466091213000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。</p>
-<p>当前免费的题目有 286 题（2016/07/07），各难度总数统计：</p>
-<ul>
-<li>Easy: 78</li>
-<li>Medium: 142</li>
-<li>Hard: 66</li>
-</ul>
-<p>当前已完成的统计（2016/07/07）：</p>
-<ul>
-<li>Easy: 48</li>
-<li>Medium: 49</li>
-<li>Hard: 3</li>
-</ul>
-<p>未完成统计：</p>
-<ul>
-<li>Easy: 30</li>
-<li>Medium: 93</li>
-<li>Hard: 63</li>
-</ul>
-<p>按照每天 1 Easy, 3 Medium, 1 Hard 的题量，30 天可以清空所有免费的 Easy 和 Medium。</p>
-<h2 id="总结一些技巧和注意点"><a href="#总结一些技巧和注意点" class="headerlink" title="总结一些技巧和注意点"></a>总结一些技巧和注意点</h2><h3 id="注意处理特殊情况"><a href="#注意处理特殊情况" class="headerlink" title="注意处理特殊情况"></a>注意处理特殊情况</h3><p>除数为零，输入为 null，数组/列表长度为零，int 溢出</p>
-<h3 id="列表问题的技巧"><a href="#列表问题的技巧" class="headerlink" title="列表问题的技巧"></a>列表问题的技巧</h3><ul>
-<li>runner 和 walker 用来探测闭环</li>
-<li>用 sentinel 来记录头部，适当的时候也记录下尾部。</li>
-</ul>
-<h3 id="数组问题"><a href="#数组问题" class="headerlink" title="数组问题"></a>数组问题</h3><ul>
-<li>用若干个指针来记录和移动</li>
-<li>先排序试试(一般 nlgn 复杂度)</li>
-</ul>
-<h3 id="数字问题技巧"><a href="#数字问题技巧" class="headerlink" title="数字问题技巧"></a>数字问题技巧</h3><ul>
-<li>x &amp; (x - 1) 来判断是否为 2 的 n 次方</li>
-<li>利用 Prime Number 的性质
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1466091213000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1302,7 +1280,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">122</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1312,7 +1290,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -98,7 +98,7 @@ Easy: 30
 Medium: 93
 Hard">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg">
-<meta property="og:updated_time" content="2016-07-11T09:23:42.000Z">
+<meta property="og:updated_time" content="2016-07-13T00:53:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
 <meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
@@ -341,6 +341,7 @@ Hard">
 <h3 id="数组问题"><a href="#数组问题" class="headerlink" title="数组问题"></a>数组问题</h3><ul>
 <li>用若干个指针来记录和移动</li>
 <li>先排序试试(一般 nlgn 复杂度)</li>
+<li><a href="https://en.wikipedia.org/wiki/Maximum_subarray_problem" target="_blank" rel="external">Maximum subarray problem</a></li>
 </ul>
 <h3 id="数字问题技巧"><a href="#数字问题技巧" class="headerlink" title="数字问题技巧"></a>数字问题技巧</h3><ul>
 <li>x &amp; (x - 1) 来判断是否为 2 的 n 次方</li>
@@ -459,6 +460,8 @@ Hard">
 <p><strong>121. Best Time to Buy and Sell Stock</strong></p>
 <p><strong>53. Maximum Subarray</strong></p>
 <p>以上两题参照：<a href="https://en.wikipedia.org/wiki/Maximum_subarray_problem" target="_blank" rel="external">Maximum subarray problem</a></p>
+<p><strong>122. Best Time to Buy and Sell Stock II</strong></p>
+<p>改动之后这题很简单，如果我们把股价变动的图画出来，只要将所有的正数求和就可以了。</p>
 <p><strong>62. Unique Paths</strong></p>
 <p>有两个方法：</p>
 <ol>
@@ -607,6 +610,23 @@ Hard">
 <p>递归检查两棵子树的高度是否差值大于 1</p>
 <p><strong>112. Path Sum</strong></p>
 <p>递归</p>
+<p><strong>113. Path Sum II</strong></p>
+<p>dfs，反复利用 Stack 形式的 path 变量（用来存储路径）</p>
+<p><strong>114. Flatten Binary Tree to Linked List</strong></p>
+<p>用 preorder 遍历一遍，递归的函数返回最后一个节点，这样可以把左右两个分支连接起来。</p>
+<p>更简单的方法是用反向的 preorder，先探到末端，再从方法栈中一级级退出并连接之前的节点。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Solution &#123;</div><div class="line">    TreeNode prev;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="keyword">flatten</span>(TreeNode root) &#123;</div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line">        <span class="keyword">flatten</span>(root.right);</div><div class="line">        <span class="keyword">flatten</span>(root.left);</div><div class="line">        root.right = prev;</div><div class="line">        root.left = <span class="keyword">null</span>;</div><div class="line">        prev = root;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>118. Pascal’s Triangle</strong></p>
+<p><strong>119. Pascal’s Triangle II</strong></p>
+<p>简单地迭代或递归。</p>
+<p><strong>120. Triangle</strong></p>
+<p>用递归的 DP 很简单，不过效率太低，很多重复计算。所以要改成迭代，我们从下向上计算，每次只需要保存前一行的结果，所以空间复杂度是 O(n)</p>
+<p><strong>125. Valid Palindrome</strong></p>
+<p>取头取尾，略过非字母或数字（用 Character.isLetterOrDigit 判断），迭代验证。比较简单。</p>
+<p><strong>129. Sum Root to Leaf Numbers</strong></p>
+<p>递归</p>
+<p><strong>130. Surrounded Regions</strong></p>
+<p>用 Union-Find</p>
 
       
     </div>
@@ -706,7 +726,7 @@ Hard">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">122</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -716,7 +736,7 @@ Hard">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
