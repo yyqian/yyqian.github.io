@@ -251,6 +251,18 @@ JDK 1.8 中对扩容过程做了优化，利用了 table 数组大小永远是 2
     }
 ```
 
+## HashMap 的使用
+
+这里主要说下正确遍历 HashMap 的方法（不要单独遍历 Key，然后通过 get 方法再去取 Value）：
+
+```
+Map m = new HashMap();
+for (Map.Entry<? extends K, ? extends V> e : m.entrySet()) {
+    K key = e.getKey();
+    V value = e.getValue();
+}
+```
+
 ## 总结
 
 1. HashMap 不是线程安全的，在多线程情况下应当使用 ConcurrentHashMap 代替。

@@ -12,7 +12,7 @@ tags: Java
 - 内部数据存储是通过 HashMap<E,Object> 存储的
 - 准备了一个没有实际内容的 Object
 - 构造实例的时候在内部构造了一个 HashMap 实例
-
+<!-- more -->
 ```
 private transient HashMap<E,Object> map;
 
