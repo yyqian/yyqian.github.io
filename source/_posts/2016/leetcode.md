@@ -52,11 +52,16 @@ tags:
 ### 常见算法应用
 
 1. DP
-2. dfs 和 bfs（dfs 有个技巧：把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用）
+2. dfs 和 bfs
 3. 二分搜索
 4. 分治
 5. hashtable
 6. 用迭代 + stack/queue/array 来取代递归
+
+### 技巧
+
+- dfs: 把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用
+- bfs: 对于深度，可以用 queue，进入下一层的时候，先获取当前 queue 的大小 n，然后循环 n 次，把这一层的元素都处理完，这时候层级++，进入下层迭代。见 127 题。
 
 ## 各个题目的解题思路
 
@@ -675,4 +680,19 @@ public class Solution {
 
 类似 DP，我们从头部开始在不同的地方做第一次切分，右半部分递归地继续切分，左半部分不用再切分，但必须保证是 Palindrome
 
+**134. Gas Station**
+
+本质上和 Maximum subarray problem 类似，见 121 和 53
+
+**127. Word Ladder**
+
+推荐，典型的 BFS
+
+**133. Clone Graph**
+
+DFS，可以用 map 缓存访问过的节点
+
+**136. Single Number**
+
+推荐，微软面试那本书上有，XOR 满足交换率，A ^ A = 0, A ^ 0 = A
 
