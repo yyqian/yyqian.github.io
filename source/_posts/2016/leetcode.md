@@ -60,7 +60,7 @@ tags:
 
 经典题目汇集：
 
-137
+137, 148
 
 ### 技巧
 
@@ -715,3 +715,11 @@ DP 或分治，递归版本会超时，用迭代
 **147. Insertion Sort List**
 
 就是插入排序，从头开始一个个检查。
+
+**148. Sort List**
+
+推荐，List 版本的 Merge Sort
+
+**153. Find Minimum in Rotated Sorted Array**
+
+二分搜索
