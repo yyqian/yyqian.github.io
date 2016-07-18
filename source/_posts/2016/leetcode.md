@@ -723,3 +723,19 @@ DP 或分治，递归版本会超时，用迭代
 **153. Find Minimum in Rotated Sorted Array**
 
 二分搜索
+
+**155. Min Stack**
+
+用偏差
+
+**152. Maximum Product Subarray**
+
+除了全局最大值，还需要记录局部最大值、最小值
+
+**160. Intersection of Two Linked Lists**
+
+一条遍历完之后就遍历另外一条，这样下一次就会在交点汇合
+
+**165. Compare Version Numbers**
+
+先 split，然后遍历，如果超过数组大小的，按 0 处理
