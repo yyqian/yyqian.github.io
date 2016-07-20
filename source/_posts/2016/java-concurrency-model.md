@@ -25,7 +25,7 @@ private static class SynchronizedMap<K,V>
     private final Map<K,V> m;     // Backing Map
 
     // 私有锁
-    final Object      mutex;        // Object on which to synchronize
+    final Object mutex;        // Object on which to synchronize
 
     // 两种构造方式，使用内置互斥锁或指定的互斥锁
     SynchronizedMap(Map<K,V> m) {
@@ -46,7 +46,7 @@ private static class SynchronizedMap<K,V>
     }
 }
 ```
-
+<!-- more -->
 从以上代码可以看出，这些同步容器实际是使用的装饰器模式，在原容器的各个方法上都用 `synchronized (mutex)` 来包裹，实现同步访问。
 
 这个容器在复合操作下仍然需要额外的加锁机制，例如：

@@ -50,5 +50,5 @@ Spring AOP 的实现也有 JDK 动态代理和 CGLIB 字节码生成两种方式
 
 ## 装饰器模式（Decorator）
 
-Java Collections 类中的 synchronizedXXX 方法参数为对应的容器类，包装器将接口的每个方法都加上 `synchronized (mutex) {}` 来实现为同步类。unmodifiableXXX 也类似。
+Java Collections 类中的 synchronizedXXX 方法可以构造同步容器类，包装器在构造的时候接受一个容器参数，然后在这个容器参数的每个方法上都包裹 `synchronized (mutex) {}` 来实现为同步类。unmodifiableXXX 方法构造的 Immutable 容器也类似。
 
