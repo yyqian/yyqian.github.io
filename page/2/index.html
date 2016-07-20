@@ -216,6 +216,112 @@
             
               
                 
+                <a class="post-title-link" href="/post/1467342453000/" itemprop="url">
+                  Spring Transaction 深入解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-01T11:07:33+08:00" content="2016-07-01">
+              2016-07-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1467342453000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467342453000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h2><p>事务指的是一组数据操作的集合。事务必须包含 ACID 四个属性：</p>
+<ul>
+<li>原子性，Atomicity</li>
+<li>一致性，Consistency</li>
+<li>隔离性，Isolation</li>
+<li>持久性，Durability</li>
+</ul>
+<h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>就是把事务包含的全部操作看作是一个不可分割的整体（就像一颗无法再继续分裂的原子），事务操作的结果只有整体成功和整体失败两种，不能是部分操作成功、部分操作失败（一旦有一个操作失败，事务就要中断并回滚之前的操作）。这样从外部来看，一个事务就像一个独立的操作一样。</p>
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>一个事务执行完之后，要保持数据间的一致性状态。这是什么意思呢？例如账户 A 有 10 万元，账户 B 有 10 万元，我们要从账户 A 转账到账户 B 5 万元，这里的一致性要求是两者的总和要保持不变。如果一个事务只包含从 A 扣除 5 万元的一个操作，那么结果就是 A 有 5 万元，B 有 10 万元，这时候总和发生了变化，数据就不一致了，所以这个事务不满足一致性的要求。在这里，满足一致性要求的事务应当包含扣款和充值两个操作，并且数值相等。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1467342453000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1467269308000/" itemprop="url">
                   Spring Data 深入解析
                 </a>
@@ -1168,179 +1274,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1461905231000/" itemprop="url">
-                  让 Mac 操作行云流水
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-29T12:47:11+08:00" content="2016-04-29">
-              2016-04-29
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1461905231000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1461905231000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>使用快捷键可以大大提高工作效率，可能一开始有点困难，需要查一下或回忆一下对应的快捷键是什么，但习惯了之后操作起来就行云流水了。如果从此爱上键盘操作的话，建议用一下 Alfred。这里主要是搜罗一些 Mac 下自己常用的快捷键，以便查询。</p>
-<p>以下快捷键是比较通用的快捷键，适用于系统本身以及大多数应用。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Command-X, C, V</td>
-<td style="text-align:left">剪切，复制，粘贴</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-Z</td>
-<td style="text-align:left">撤销</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-A</td>
-<td style="text-align:left">全选</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-F</td>
-<td style="text-align:left">查找</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-H, M</td>
-<td style="text-align:left">隐藏，最小化</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-N</td>
-<td style="text-align:left">新建：对于编辑器来说一般是新建个文档，对于应用来说一般是新建一个进程</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-O</td>
-<td style="text-align:left">打开：在 Finder 中是打开选中的文件，在应用中是弹出打开文件的对话框</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-P</td>
-<td style="text-align:left">打印</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-S</td>
-<td style="text-align:left">保存</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-T</td>
-<td style="text-align:left">新建一个当前应用的 Tab</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-W, Q</td>
-<td style="text-align:left">关闭：关闭当前窗口，彻底关闭应用的所有进程</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-Shift-3, 4</td>
-<td style="text-align:left">截屏：截全屏，截取选择部分</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-,</td>
-<td style="text-align:left">配置当前应用</td>
-</tr>
-<tr>
-<td style="text-align:left">Command-Backspace 或 Del</td>
-<td style="text-align:left">删除，多数应用都支持至少这两种方式之一，Finder 可以用前者</td>
-</tr>
-<tr>
-<td style="text-align:left">Command–Any Arrow</td>
-<td style="text-align:left">把光标移到上下左右最末端</td>
-</tr>
-<tr>
-<td style="text-align:left">Command–[, ]</td>
-<td style="text-align:left">后退，前进</td>
-</tr>
-</tbody>
-</table>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1461905231000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1386,7 +1319,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">126</span>
+              <span class="site-state-item-count">127</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -67,7 +67,7 @@ Java 的 Collections 工具">
 <meta property="og:description" content="这篇文章将搜集本人在 Spring 和 Java 核心库中遇到过的设计模式，尽量只包含很典型的例子，生搬硬套往上凑的就不计入了。
 工厂模式Spring IoC 容器 BeanFactory(ApplicationContext 继承了它) 就是一个 Bean 工厂，只需要调用它的 getBean 方法就可以得到实例对象，不需要我们自己 new 一个实例。
 Java 的 Collections 工具">
-<meta property="og:updated_time" content="2016-07-11T06:15:17.000Z">
+<meta property="og:updated_time" content="2016-07-19T07:59:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring 和 Java 中的设计模式">
 <meta name="twitter:description" content="这篇文章将搜集本人在 Spring 和 Java 核心库中遇到过的设计模式，尽量只包含很典型的例子，生搬硬套往上凑的就不计入了。
@@ -280,6 +280,7 @@ Java 的 Collections 工具">
 <h2 id="策略模式（Strategy）"><a href="#策略模式（Strategy）" class="headerlink" title="策略模式（Strategy）"></a>策略模式（Strategy）</h2><p>该模式封装的一般都是具体的算法。</p>
 <p>Spring 中 Bean 的初始化有两种方式：反射和动态字节码生成。Spring 采用策略模式来决定使用哪种。</p>
 <p>Spring AOP 的实现也有 JDK 动态代理和 CGLIB 字节码生成两种方式，也使用策略模式进行选择。</p>
+<h2 id="装饰器模式（Decorator）"><a href="#装饰器模式（Decorator）" class="headerlink" title="装饰器模式（Decorator）"></a>装饰器模式（Decorator）</h2><p>Java Collections 类中的 synchronizedXXX 方法参数为对应的容器类，包装器将接口的每个方法都加上 <code>synchronized (mutex) {}</code> 来实现为同步类。unmodifiableXXX 也类似。</p>
 
       
     </div>
@@ -385,7 +386,7 @@ Java 的 Collections 工具">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">126</span>
+              <span class="site-state-item-count">127</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -455,7 +456,7 @@ Java 的 Collections 工具">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式"><span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模版模式"><span class="nav-text">模版模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略模式（Strategy）"><span class="nav-text">策略模式（Strategy）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式"><span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模版模式"><span class="nav-text">模版模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略模式（Strategy）"><span class="nav-text">策略模式（Strategy）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装饰器模式（Decorator）"><span class="nav-text">装饰器模式（Decorator）</span></a></li></ol></div>
             
           </div>
         </section>

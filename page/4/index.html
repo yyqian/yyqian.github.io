@@ -216,6 +216,119 @@
             
               
                 
+                <a class="post-title-link" href="/post/1455872592672/" itemprop="url">
+                  深入理解 Java 虚拟机 - 程序编译与代码优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-19T17:03:12+08:00" content="2016-02-19">
+              2016-02-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1455872592672/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455872592672/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
+<ul>
+<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
+<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
+<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
+<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
+</ul>
+<h2 id="10-早期（编译期）优化"><a href="#10-早期（编译期）优化" class="headerlink" title="10. 早期（编译期）优化"></a>10. 早期（编译期）优化</h2><hr>
+<p>Java 语言中「编译期」以及「编译器」有可能有两种含义：</p>
+<ol>
+<li>前端编译器：例如 Javac，这是个把 .java 文件转化成 .class 文件的过程</li>
+<li>JIT 编译器（后端运行期编译器）：例如 HotSpot VM 的 C1、C2 编译器，把字节码转变成机器码的过程</li>
+</ol>
+<p>还有可能是 AOT 编译器，直接把 Java 代码转变成机器码。</p>
+<p>JVM 设计团队把对性能的优化都集中到了 JIT 编译器中，这样可以让所有产生 Class 文件的语言都能享受到性能的优化。</p>
+<p>前段编译器的优化措施主要是改善开发人员的编码风格和提高编码效率。相当多新生的 Java 语法特性，都是靠编译器的「语法糖」来实现的，而不是依赖于 JVM 底层的改进支持。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1455872592672/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1455864579129/" itemprop="url">
                   深入理解 Java 虚拟机 - 虚拟机执行子系统
                 </a>
@@ -1162,106 +1275,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1441950579342/" itemprop="url">
-                  koa 框架以及 ES6 的分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-09-11T13:49:39+08:00" content="2015-09-11">
-              2015-09-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1441950579342/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1441950579342/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>随着今年ECMAScript 6的发布和最近Node.js v4.0.0的发布，node.js又得到了一次加强。以往node.js在性能上有着优越的表现，但是JavaScript的语法却常常遭人诟病，譬如回调地狱、无块级作用域等等。这些一部分确实是设计上的问题，另一部分也源于JS其实是“披着C外衣的LISP”，虽然JS很容易使用，但大家并不真的了解它，在这种情况下，很容易写出糟糕的代码。</p>
-<p>ES6的推进一定程度上解决了部分问题，譬如用Generator函数和Promise对象改善异步的处理，用let和const来缓解大家对JS词法作用域的不适应，还有Class类来适应面向对象设计。这些改动都让JS语言变得更强大。Node.js 4.0支持了部分ES6的新特性并在逐步覆盖所有特性，并使用了最新的Chrome V8引擎，由于不像浏览器端存在兼容性的问题，也不用去操作糟糕的DOM树，所以Node应该是拥抱ES6带来的改变的最佳试炼场。</p>
-<p>接下来主要是分析Node.js的下一代web框架：koa，同时看下ES6的新特性是如何在实际环境中运用的。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1441950579342/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1307,7 +1320,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">126</span>
+              <span class="site-state-item-count">127</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

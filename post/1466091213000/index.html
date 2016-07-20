@@ -98,7 +98,7 @@ Easy: 30
 Medium: 93
 Hard">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg">
-<meta property="og:updated_time" content="2016-07-13T00:53:20.000Z">
+<meta property="og:updated_time" content="2016-07-18T08:54:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
 <meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
@@ -350,12 +350,18 @@ Hard">
 </ul>
 <ol>
 <li>DP</li>
-<li>dfs 和 bfs（dfs 有个技巧：把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用）</li>
+<li>dfs 和 bfs</li>
 <li>二分搜索</li>
 <li>分治</li>
 <li>hashtable</li>
 <li>用迭代 + stack/queue/array 来取代递归</li>
 </ol>
+<p>经典题目汇集：</p>
+<p>137, 148</p>
+<h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ul>
+<li>dfs: 把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用</li>
+<li>bfs: 对于深度，可以用 queue，进入下一层的时候，先获取当前 queue 的大小 n，然后循环 n 次，把这一层的元素都处理完，这时候层级++，进入下层迭代。见 127 题。</li>
+</ul>
 <h2 id="各个题目的解题思路"><a href="#各个题目的解题思路" class="headerlink" title="各个题目的解题思路"></a>各个题目的解题思路</h2><p><strong>202. Happy Number</strong></p>
 <p>这个题目难点在于寻找闭环，有三个解法：</p>
 <ol>
@@ -626,7 +632,37 @@ Hard">
 <p><strong>129. Sum Root to Leaf Numbers</strong></p>
 <p>递归</p>
 <p><strong>130. Surrounded Regions</strong></p>
-<p>用 Union-Find</p>
+<p>只有 O 连到边界上时，才不会被 X 包围，所以当遍历到边界上的 O 时，用 BFS 探索所有与之连接的 O，标记为 B。完事之后，再遍历一次，把 B 变成 O，O 变成 X。</p>
+<p><strong>131. Palindrome Partitioning</strong></p>
+<p>类似 DP，我们从头部开始在不同的地方做第一次切分，右半部分递归地继续切分，左半部分不用再切分，但必须保证是 Palindrome</p>
+<p><strong>134. Gas Station</strong></p>
+<p>本质上和 Maximum subarray problem 类似，见 121 和 53</p>
+<p><strong>127. Word Ladder</strong></p>
+<p>推荐，典型的 BFS</p>
+<p><strong>133. Clone Graph</strong></p>
+<p>DFS，可以用 map 缓存访问过的节点</p>
+<p><strong>136. Single Number</strong></p>
+<p>推荐，微软面试那本书上有，XOR 满足交换率，A ^ A = 0, A ^ 0 = A</p>
+<p><strong>137. Single Number II</strong></p>
+<p>推荐，这个题很精彩，用数字电路设计以及状态机的思路来解，整体思路就是设计个计数器</p>
+<p><strong>139. Word Break</strong></p>
+<p>DP 或分治，递归版本会超时，用迭代</p>
+<p><strong>143. Reorder List</strong></p>
+<p>一个技巧是用 walker 和 runner 去找中间点</p>
+<p><strong>147. Insertion Sort List</strong></p>
+<p>就是插入排序，从头开始一个个检查。</p>
+<p><strong>148. Sort List</strong></p>
+<p>推荐，List 版本的 Merge Sort</p>
+<p><strong>153. Find Minimum in Rotated Sorted Array</strong></p>
+<p>二分搜索</p>
+<p><strong>155. Min Stack</strong></p>
+<p>用偏差</p>
+<p><strong>152. Maximum Product Subarray</strong></p>
+<p>除了全局最大值，还需要记录局部最大值、最小值</p>
+<p><strong>160. Intersection of Two Linked Lists</strong></p>
+<p>一条遍历完之后就遍历另外一条，这样下一次就会在交点汇合</p>
+<p><strong>165. Compare Version Numbers</strong></p>
+<p>先 split，然后遍历，如果超过数组大小的，按 0 处理</p>
 
       
     </div>
@@ -726,7 +762,7 @@ Hard">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">126</span>
+              <span class="site-state-item-count">127</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -796,7 +832,7 @@ Hard">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结一些技巧和注意点"><span class="nav-text">总结一些技巧和注意点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意处理特殊情况"><span class="nav-text">注意处理特殊情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表问题的技巧"><span class="nav-text">列表问题的技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组问题"><span class="nav-text">数组问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字问题技巧"><span class="nav-text">数字问题技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见算法应用"><span class="nav-text">常见算法应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个题目的解题思路"><span class="nav-text">各个题目的解题思路</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结一些技巧和注意点"><span class="nav-text">总结一些技巧和注意点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意处理特殊情况"><span class="nav-text">注意处理特殊情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表问题的技巧"><span class="nav-text">列表问题的技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组问题"><span class="nav-text">数组问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字问题技巧"><span class="nav-text">数字问题技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见算法应用"><span class="nav-text">常见算法应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技巧"><span class="nav-text">技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个题目的解题思路"><span class="nav-text">各个题目的解题思路</span></a></li></ol></div>
             
           </div>
         </section>

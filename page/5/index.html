@@ -216,6 +216,106 @@
             
               
                 
+                <a class="post-title-link" href="/post/1441950579342/" itemprop="url">
+                  koa 框架以及 ES6 的分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-11T13:49:39+08:00" content="2015-09-11">
+              2015-09-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1441950579342/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1441950579342/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>随着今年ECMAScript 6的发布和最近Node.js v4.0.0的发布，node.js又得到了一次加强。以往node.js在性能上有着优越的表现，但是JavaScript的语法却常常遭人诟病，譬如回调地狱、无块级作用域等等。这些一部分确实是设计上的问题，另一部分也源于JS其实是“披着C外衣的LISP”，虽然JS很容易使用，但大家并不真的了解它，在这种情况下，很容易写出糟糕的代码。</p>
+<p>ES6的推进一定程度上解决了部分问题，譬如用Generator函数和Promise对象改善异步的处理，用let和const来缓解大家对JS词法作用域的不适应，还有Class类来适应面向对象设计。这些改动都让JS语言变得更强大。Node.js 4.0支持了部分ES6的新特性并在逐步覆盖所有特性，并使用了最新的Chrome V8引擎，由于不像浏览器端存在兼容性的问题，也不用去操作糟糕的DOM树，所以Node应该是拥抱ES6带来的改变的最佳试炼场。</p>
+<p>接下来主要是分析Node.js的下一代web框架：koa，同时看下ES6的新特性是如何在实际环境中运用的。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1441950579342/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1441610207606/" itemprop="url">
                   新西兰签证 DIY 攻略
                 </a>
@@ -1184,105 +1284,6 @@ date &gt;&gt; /PATH/TO/ip.log</code></p>
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1414428180000/" itemprop="url">
-                  Continuous Wavelet Transform (CWT)简述
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-28T00:43:00+08:00" content="2014-10-28">
-              2014-10-28
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1414428180000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1414428180000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在傅立叶变换中，我们将各个频率的三角波与信号作积分，积分值即为对应频率的强度。在这里，改变三角波的频率可以看作是在时间域对三角波进行拉伸或压缩。由于小波变换中的“小波”不是周期信号，所以没有频率一说，实际对应的是拉伸或压缩，以haar小波为例:<br>scale 2的haar wavelet filter是[1 -1]<br>scale 3 = [1 0 -1]<br>scale 4 = [1 1 -1 -1]<br>scale 5 = [1 1 0 -1 -1]<br>scale 6 = [1 1 1 -1 -1 -1]<br>…<br>最后补充一个scale 1 = [0]，这是因为wavelet的平均值要求为0。</p>
-<p>好，频率的问题解决了。小波由于其长度有限，它还能引入一个三角波做不到的事，这就是平移，这个平移+积分的操作实际就是数字信号处理中的correlation，对小波作时间反演可以将correlation变为convolution，所以这个wavelet可以看作是一个filter，只不过它是一个长度可变（或者说“频率”可变）的filter。前面说到wavelet filter的平均值要求为0，这么要求的一个原因是这种filter与直流信号correlation得到的结果为0，相当于去除了直流偏置。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1414428180000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1328,7 +1329,7 @@ date &gt;&gt; /PATH/TO/ip.log</code></p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">126</span>
+              <span class="site-state-item-count">127</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
