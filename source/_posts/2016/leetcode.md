@@ -739,3 +739,12 @@ DP 或分治，递归版本会超时，用迭代
 **165. Compare Version Numbers**
 
 先 split，然后遍历，如果超过数组大小的，按 0 处理
+
+**168. Excel Sheet Column Title**
+
+注意并不是从 0 开始的
+
+**172. Factorial Trailing Zeroes**
+
+只有可能 2 * 5 才能得到 0，由于 2 的数量原大于 5，所以 0 的数量取决于 5 的数量，5 的数量计算公式为 n/5 + n/(5^2) + n/(5^3) + ...
+
