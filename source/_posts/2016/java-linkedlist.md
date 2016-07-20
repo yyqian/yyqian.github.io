@@ -1,5 +1,5 @@
 ---
-title: Java 源码分析之 LinkedList
+title: Java 源码分析 - LinkedList
 date: 2016-07-13 09:01:53
 permalink: 1468371713000
 tags: Java

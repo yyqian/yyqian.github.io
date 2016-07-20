@@ -47,3 +47,8 @@ Spring IoC 中大量使用，其中的 Bean 大多数是 singleton 类型的 Bea
 Spring 中 Bean 的初始化有两种方式：反射和动态字节码生成。Spring 采用策略模式来决定使用哪种。
 
 Spring AOP 的实现也有 JDK 动态代理和 CGLIB 字节码生成两种方式，也使用策略模式进行选择。
+
+## 装饰器模式（Decorator）
+
+Java Collections 类中的 synchronizedXXX 方法参数为对应的容器类，包装器将接口的每个方法都加上 `synchronized (mutex) {}` 来实现为同步类。unmodifiableXXX 也类似。
+

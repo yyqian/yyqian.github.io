@@ -1,5 +1,5 @@
 ---
-title: Java 源码分析之 ArrayList
+title: Java 源码分析 - ArrayList
 date: 2016-07-12 14:51:11
 permalink: 1468306271000
 tags: Java

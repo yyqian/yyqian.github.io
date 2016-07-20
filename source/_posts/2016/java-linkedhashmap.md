@@ -1,5 +1,5 @@
 ---
-title: Java 源码分析之 LinkedHashMap
+title: Java 源码分析 - LinkedHashMap
 date: 2016-07-13 09:02:07
 permalink: 1468371727000
 tags: Java

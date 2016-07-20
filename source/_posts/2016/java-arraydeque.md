@@ -1,5 +1,5 @@
 ---
-title: Java 源码分析之 ArrayDeque
+title: Java 源码分析 - ArrayDeque
 date: 2016-07-13 14:38:56
 permalink: 1468391936000
 tags: Java
