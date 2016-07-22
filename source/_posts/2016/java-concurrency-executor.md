@@ -140,7 +140,7 @@ public class TaskExecutionWebServer {
 
 ## ExecutorService
 
-ExecutorService 接口是 Executor 接口的扩展，它主扩展了一些生命周期管理的方法和任务提交的方法
+ExecutorService 接口是 Executor 接口的扩展，它主要扩展了一些生命周期管理的方法和任务提交的方法
 
 ```
 public interface ExecutorService extends Executor {
@@ -173,5 +173,80 @@ public interface Callable<V> {
 }
 ```
 
-它有返回值，也能抛出受检异常。ExecutorService 的 submit 方法可以接受 Callable<T> 作为参数，并且会返回一个 Future<T> 对象（Future 对象这里就不介绍了）。因此在之后的代码中就可以调用 Future 的 get 方法来阻塞地等待计算结果。这一个功能是 Executor 无法实现的。
+它有返回值，也能抛出受检异常。ExecutorService 的 submit 方法可以接受 Callable<T> 作为参数，并且会返回一个 Future<T> 对象（Future 对象这里就不介绍了）。因此在之后的代码中就可以调用 Future 的 get 方法来阻塞地等待计算结果。这一功能在 Executor 中是无法实现的。
 
+### CompletionService
+
+以上我们用 ExecutorService 提交 Callable 任务，然后从返回的 Future 对象中阻塞地等待返回结果。如果我们的 Callable 任务可以进一步并行化，我们可以将它分割成多个独立的 Callable 来执行。
+
+例如我们的任务是下载一组图片，如果用单个 Callable 任务，那么这些下载任务是在单个进程中挨个完成的，然后再把所有的图片一并通过 Future 对象返回。虽然我们已经把下载任务从主线程 delegate 给了 ExecutorService 中的线程，但这样做性能依然不是很好，因为串行下载所有图片的时间也很长。
+
+因此，我们可以考虑把每个图片下载作为单独的任务，并且每下完一个图片，就对该图片做进一步处理。z这里我们可以考虑用一个 BlockingQueue，把单个图片下载任务的执行结果放到队列中，然后我们从队列中获取结果（被封装为 Future 对象）。
+
+CompletionService 就是 Executor 和 BlockingQueue 的融合，接口定义如下，它有一个实现类：ExecutorCompletionService。
+
+```
+public interface CompletionService<V> {
+    Future<V> submit(Callable<V> task);
+    Future<V> submit(Runnable task, V result);
+    Future<V> take() throws InterruptedException;
+    Future<V> poll();
+    Future<V> poll(long timeout, TimeUnit unit) throws InterruptedException;
+}
+```
+
+我们可以遍历所有的图片下载链接，通过 submit 方法反复提交下载任务（抛弃立即返回的 Future）；然后在这之后反复调用 take 方法阻塞地等待每个返回的图片，然后处理图片。
+
+### 任务限时
+
+有时，我们需要实现当任务超过某个限定时间，就不再需要它的结果，该任务也就可以取消了。我们有以下实现措施：
+
+#### 使用 Future 的 get 和 cancel 方法
+
+示例代码如下：
+
+```
+Future<Ad> f = executor.submit(new FetchAdTask());
+try {
+  ad = f.get(timeInNanoseconds, NANOSECONDS);
+} catch (ExecutionException e) {
+  ad = DEFAULT_ad;
+} catch (TimeoutException e) {
+  ad = DEFAULT_ad;
+  f.cancel(true);
+}
+```
+
+这里执行的逻辑是，尝试阻塞地等待 timeInNanoseconds 纳秒，如果任务超时，就抛出 TimeoutException，将结果设置为默认值，并取消任务（这点一定要注意）；如果任务执行出现其他 ExecutionException 异常，也将结果设置为默认值。
+
+### 使用 ExecutorService 的 invokeAll 方法
+
+在处理一组有限时要求的任务时，ExecutorService 的 invokeAll 方法更简便，它的逻辑是：我们提交一组任务，这组任务有相同的时限，当以下三种情况发生时 invokeAll 将返回：
+
+1. 所有任务都执行完毕
+2. 调用线程被中断
+3. 超过指定时限
+
+在超过时限的情况下，未完成的任务都会被取消，因此省去了我们自己 catch TimeoutException 然后 cancel 任务的烦恼。
+
+当 invokeAll 返回后，我们可以通过调用 get 或 isCancelled 来判断任务是正常完成还是被取消了。
+
+## 总结
+
+在 Java 中，我们用 Runnable 或 Callable 来作为任务的封装，用 Future 来作为异步任务返回结果的封装。
+
+相比为每个异步任务创建一个 Thread 来执行，Executor 框架提供了更好的线程管理机制，我们可以利用线程池来获得更好的伸缩性。
+
+除此之外，ExecutorService 扩展了 Executor 接口，提供了：
+
+1. 生命周期管理功能
+2. 获取异步任务返回结果功能（返回结果由 Future 来封装）
+3. 通过 CompletionService 实现一个基于 Future 的生产者 - 消费者队列
+4. 任务限时
+
+因此，当我们遇到 `new Thread(runnable).start();` 这样的代码的时候，可以考虑用 Executor 来代替。
+
+---
+
+参考：
+- [Java 并发编程实战](https://book.douban.com/subject/10484692/)
