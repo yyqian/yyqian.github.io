@@ -216,6 +216,413 @@
             
               
                 
+                <a class="post-title-link" href="/post/1468291694000/" itemprop="url">
+                  Java 源码分析 - HashMap
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-12T10:48:14+08:00" content="2016-07-12">
+              2016-07-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468291694000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468291694000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>HashMap 是最常用的 Map 实现类。本文将深入分析 Java 8 的 HashMap，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。</p>
+<h2 id="存储结构-字段"><a href="#存储结构-字段" class="headerlink" title="存储结构-字段"></a>存储结构-字段</h2><p>Java 中的 HashMap 在碰撞处理方面主要采用的是<a href="https://en.wikipedia.org/wiki/Hash_table#Separate_chaining_with_list_head_cells">Separate chaining with list head cells</a>方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现主体采用的是数组 + 链表，当某个链表长度大于 8 的时候，该链表就被替换成红黑树。如下图所示：</p>
+<p><img src="http://tech.meituan.com/img/java-hashmap/hashMap%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt=""><br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1468291694000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1468206055000/" itemprop="url">
+                  Java 中的容器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T11:00:55+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468206055000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468206055000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本文主要简单介绍下 Java 中有哪些容器接口以及它们的实现，并且给出选择它们的合适的场景。不建议使用的 Vector、Hashtable、Stack 等容器类在这里都不提了。</p>
+<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><p>我们先来看看整个 Collection 下面有哪些接口：</p>
+<p><img src="http://docs.oracle.com/javase/tutorial/figures/collections/colls-coreInterfaces.gif" alt=""></p>
+<p>这几个接口对应了我们常用的一些抽象数据类型(Abstract Data Type)：链表、队列、栈、集合、映射表。</p>
+<p>其中的 Deque 实际上是继承自 Queue 的，它可以代替 Stack 类来使用（以前的 Stack 类已经不建议使用了）。Set 可以看作是 Map 的一种特例（每个节点只有 key，没有 value），SortedSet 和 SortedMap 在你需要维持顺序的时候使用。</p>
+<p>选择某个接口应该很简单，根据你需要的 ADT 进行选择就可以了。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1468206055000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1468202793000/" itemprop="url">
+                  Spring 和 Java 中的设计模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T10:06:33+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468202793000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468202793000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这篇文章将搜集本人在 Spring 和 Java 核心库中遇到过的设计模式，尽量只包含很典型的例子，生搬硬套往上凑的就不计入了。</p>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>Spring IoC 容器 BeanFactory(ApplicationContext 继承了它) 就是一个 Bean 工厂，只需要调用它的 getBean 方法就可以得到实例对象，不需要我们自己 new 一个实例。</p>
+<p>Java 的 Collections 工具类有很多工厂方法（factory method），例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K,V&gt; <span class="title">synchronizedMap</span><span class="params">(Map&lt;K,V&gt; m)</span></span>; <span class="comment">// 用于生成同步的 Map</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K, V&gt; <span class="title">unmodifiableMap</span><span class="params">(Map&lt;? extends K, ? extends V&gt; m)</span></span>; <span class="comment">// 用于生成不可变的 Map</span></div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1468202793000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1467766655000/" itemprop="url">
+                  Spring MVC 深入解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-06T08:57:35+08:00" content="2016-07-06">
+              2016-07-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1467766655000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467766655000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Spring-MVC-史前时代"><a href="#Spring-MVC-史前时代" class="headerlink" title="Spring MVC 史前时代"></a>Spring MVC 史前时代</h2><p>这里我们主要回顾一下 Java 平台上的 Web 开发历程。</p>
+<p>最早的时候，我们用的是 Servlet，它运行于 Web 容器之内，提供了 Session 和对象生命周期管理等功能。它本身是 Java 类，所以可以调用 Java 平台各种 API。</p>
+<p>如果单单依靠这一种技术，我们就会把所有代码全部写在 Servlet 中，包括视图渲染的代码，例如 <code>out.println(&quot;&lt;td&gt;&quot; + rs.getString(2) + &quot;&lt;/td&gt;&quot;)</code> 。但这样不满足我们关注点分离的要求，会导致系统难以重构、需求更改和维护。</p>
+<p>除此之外，我们还一般使用「一个 Servlet 对应处理一个 Web 请求」，所以会有大量的散乱的 Servlet。</p>
+<p>为了能将 Servlet 中视图渲染的逻辑提取出来，让业务逻辑和视图渲染逻辑分离，我们就有了 JSP。JSP 可以看作是现在 Java 平台各种模版引擎的鼻祖，它看上去和 HTML 代码差不多，只是有一些自己独特的命名空间和变量。但它与现在的模版技术有一个主要区别：它最终是编译为 Servlet 来运行的。由于这一点，JSP 中还可以写 Java 代码，可以写复杂的逻辑处理，它的能力更强大。</p>
+<p>在使用 Servlet 的时候，我们要在 web.xml 中配置请求 URL 和 Servlet 的映射关系。有些开发人员为了省去这些繁琐的配置，就把所有的逻辑都写入了 JSP，完全抛弃了 Servlet，这个时候 JSP 已经不只是一个视图模版了。前面我们使用单一 Servlet 带来的困扰，在 JSP 中又重现了，唯一改善的只是配置变得比以前容易了。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1467766655000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1467342453000/" itemprop="url">
                   Spring Transaction 深入解析
                 </a>
@@ -849,436 +1256,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1465440721000/" itemprop="url">
-                  Redis 核心功能解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-09T10:52:01+08:00" content="2016-06-09">
-              2016-06-09
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1465440721000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1465440721000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>Redis 持久化有两种选择：</p>
-<ol>
-<li>Snapshot（快照），把内存中的数据转存到文件</li>
-<li>AOF（append-only file），把所有写命令存储到日志文件中，跟 mysql binlog 类似，但是它不是 bin 而是 text</li>
-</ol>
-<h3 id="快照"><a href="#快照" class="headerlink" title="快照"></a>快照</h3><p>快照相关的 Redis 参数设置：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">save</span> <span class="number">60</span> <span class="number">1000</span></div><div class="line">stop-writes-<span class="literal">on</span>-bgsave-<span class="literal">error</span> <span class="literal">no</span></div><div class="line">rdbcompression <span class="literal">yes</span></div><div class="line">dbfilename dump.rdb</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1465440721000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1463461156000/" itemprop="url">
-                  Elasticsearch 学习笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-17T12:59:16+08:00" content="2016-05-17">
-              2016-05-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1463461156000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1463461156000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本文将分析 Elasticsearch 中的一些关键概念</p>
-<h2 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h2><p>倒排索引是搜索引擎中核心的数据结构。以下的列表左侧是数据库中存储的数据结构，右侧是搜索引擎中的数据结构。</p>
-<p><img src="http://cdn.yyqian.com/201605171312-FitMXe_LTsHD0ikgm2toEVviCEbH?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 1.11.52 PM.png"></p>
-<p>在数据库中，如果我们要搜索 tag 含有 peace 的 blog，就需要遍历整个表，以及比对 tag 列中的多个值，这种做法开销非常大。而如果数据格式是上图右侧所示，则非常迅速。因此，搜素引擎中采用的是后者，称为 Inverted index，它把 ID - Keywords 的索引方式进行了反转，变成 Keyword - IDs 的方式。</p>
-<p>接下来，我们用一个实例来看下如何建立倒排索引:<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1463461156000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1462945087000/" itemprop="url">
-                  配置 GPU 加速的 Tensorflow
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-11T13:38:07+08:00" content="2016-05-11">
-              2016-05-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1462945087000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1462945087000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近想了解下热门的深度学习、神经网络，于是选择了 Tensorflow 作为工具。这里我们就先来安装下 Tensorflow。</p>
-<p>Tensorflow 本身安装很容易，不过想要利用 GPU 多核的优势来加速计算，就要先安装显卡驱动和 CUDA，这两者的安装是有点麻烦的。</p>
-<p>前提条件：</p>
-<ul>
-<li>操作系统：Centos 7</li>
-<li>硬件环境：Nvidia 的显卡（请自行查询是否支持 CUDA）</li>
-</ul>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>yum 更新下，安装 Development Tools 软件包</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum <span class="keyword">update</span></div><div class="line">sudo yum <span class="keyword">group</span> <span class="keyword">install</span> <span class="string">'Development Tools'</span></div></pre></td></tr></table></figure>
-<h2 id="安装-Nvidia-驱动"><a href="#安装-Nvidia-驱动" class="headerlink" title="安装 Nvidia 驱动"></a>安装 Nvidia 驱动</h2><p>Nvidia 官网上有显卡驱动的软件包下载，但安装前需要繁琐的配置，这里我们选择更简单的方式，通过软件源来安装：</p>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># 安装 elrepo 源</span></div><div class="line">sudo rpm --import https:<span class="comment">//www.elrepo.org/RPM-GPG-KEY-elrepo.org</span></div><div class="line">sudo rpm -Uvh http:<span class="comment">//www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span></div><div class="line"><span class="meta"># 探测要安装的包</span></div><div class="line">sudo yum install nvidia-detect</div><div class="line">nvidia-detect</div><div class="line"><span class="meta"># 安装</span></div><div class="line">sudo yum install kmod-nvidia</div><div class="line"><span class="meta"># 最后重启，然后检查是否安装成功</span></div><div class="line">ls -la /dev | grep nvidia</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1462945087000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1462519709000/" itemprop="url">
-                  Let's Encrypt 在 Centos 和 Nginx 中的部署
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-06T15:28:29+08:00" content="2016-05-06">
-              2016-05-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1462519709000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1462519709000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流浏览器都已经把这个项目的证书添加到了信任列表。</p>
-<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><ul>
-<li>把你想要加到证书中的域名和子域名都解析到主机的 IP 上</li>
-<li>已经安装好 Nginx</li>
-</ul>
-<h2 id="安装-Let’s-Encrypt-客户端"><a href="#安装-Let’s-Encrypt-客户端" class="headerlink" title="安装 Let’s Encrypt 客户端"></a>安装 Let’s Encrypt 客户端</h2><p>首先安装 git 和 bc，然后克隆 Let’s Encrypt 的代码到 /opt/letsencrypt 文件夹</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum -y install git bc</div><div class="line">sudo git <span class="keyword">clone</span> <span class="title">https</span>://github.com/letsencrypt/letsencrypt /opt/letsencrypt</div></pre></td></tr></table></figure>
-<p>安装所有的依赖</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto --<span class="keyword">help</span></div></pre></td></tr></table></figure>
-<h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><p>Let’s Encrypt 在给你颁发证书的时候，首先会检查你想要加到证书中的域名是否都是你持有的，因此它会挨个访问这些域名，并做一些操作来进行检验。</p>
-<p>这里我们将使用 standalone 的方式来获取证书。这种方式需要我们先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let’s Encrypt 服务端的验证。</p>
-<p>我们假设你的域名是 example.com，你需要在这把子域名也写上</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo systemctl <span class="keyword">stop</span> nginx</div><div class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto certonly --standalone -d example.<span class="keyword">com</span> -d www.example.<span class="keyword">com</span> -d foo.example.<span class="keyword">com</span></div><div class="line">sudo systemctl start nginx</div></pre></td></tr></table></figure>
-<p>获取成功的证书会存放在 /etc/letsencrypt/live/example.com 文件夹中<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1462519709000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1319,7 +1301,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">127</span>
+              <span class="site-state-item-count">131</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

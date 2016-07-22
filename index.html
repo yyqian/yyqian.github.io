@@ -216,6 +216,411 @@
             
               
                 
+                <a class="post-title-link" href="/post/1469151096000/" itemprop="url">
+                  Java 并发 - JMM
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-22T09:31:36+08:00" content="2016-07-22">
+              2016-07-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1469151096000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1469151096000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这一篇文章主要围绕「可见性」来展开，讲述如何正确发布对象。对于 Java 内存模型，在这里只是简单介绍一下，详细的请见之前的文章 <a href="https://yyqian.com/post/1455874363073/">深入理解 Java 虚拟机 - 高效并发</a>。</p>
+<h2 id="内存模型"><a href="#内存模型" class="headerlink" title="内存模型"></a>内存模型</h2><p>JMM 中有两点会给我们带来很多困扰：</p>
+<p>源代码中的指令顺序和实际运行时的指令顺序可能是不同的，编译器出于优化的目的，会对指令进行「重排序」，会采用乱序或并行等方式来执行指令，它只要满足一个条件即可：「程序的最终结果与在严格串行环境中执行的结果相同」。在这种情形下，如果另一个线程坐在那观察某个执行过程中的线程，会发现该线程的执行过程是不可预测的，在这个时候得到的状态也是无效的，这就是安全发布的必要性。</p>
+<p>除此之外，JMM 中每个线程有自己的本地的缓存（也就是下图中的工作内存），如果某个线程更新变量之后没有及时同步到主内存，其他线程是看不到更新后的值的，这就带来可见性的问题，但这在缓存一致性的要求上是满足最小保证的：允许不同的处理器再任意时刻从同一个存储位置上看到不同的值。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1469151096000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1469151088000/" itemprop="url">
+                  Java 并发 - 原子变量
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-22T09:31:28+08:00" content="2016-07-22">
+              2016-07-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1469151088000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1469151088000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在 java.util.concurrent 包的许多类中（例如 Semaphore 和 ConcurrentLinkedQueue），都提供了比基于 synchronized 机制更高的性能和可伸缩性。这些优化的根源是：「原子变量」和「非阻塞的同步机制」。</p>
+<p>synchronized 机制是基于互斥锁的，锁会阻塞进程，继而带来一系列可能导致的问题。近年来，并发算法领域的多数研究都侧重于非阻塞算法，这种算法用原子机器指令（例如后面会说的 CAS 指令）代替锁来保证数据在并发访问中的一致性。因此，原子变量是非阻塞算法的基石。</p>
+<p>并发访问要关注两个问题：「互斥性」和「可见性」。原子变量除了能满足以上「互斥性」的要求，还能满足「可见性」。在没有原子变量之前，如果不需要「互斥性」只需要「可见性」，我们可以使用 volatile（如果使用了 synchronized，可见性自动满足）；在有了原子变量之后，我们可以用它来代替 volatile，同时还能获得额外的原子操作。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1469151088000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1469151020000/" itemprop="url">
+                  Java 并发 - ReentrantLock
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-22T09:30:20+08:00" content="2016-07-22">
+              2016-07-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1469151020000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1469151020000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>ReentrantLock 是 Java 5.0 中新增的，是对 synchronized 使用的内置锁的一种补充。</p>
+<p>传统的加锁方式如下：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">synchronized</span> (lockObject) &#123;   </div><div class="line">  <span class="comment">// 操作状态等</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>它在进入代码块时获得锁，在离开代码块时释放锁，所以不可能在获取锁之后忘了释放锁，但同时这也带来一定局限性，获取和释放必须在同一代码块中。</p>
+<p>而 ReentrantLock 的使用如下：</p>
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Lock</span> <span class="keyword">lock</span> = <span class="keyword">new</span> ReentrantLock()<span class="comment">;  </span></div><div class="line"><span class="keyword">lock</span>.<span class="keyword">lock</span>()<span class="comment">;  </span></div><div class="line"><span class="keyword">try</span> &#123;   </div><div class="line">  <span class="comment">// update object state  </span></div><div class="line">&#125;  </div><div class="line">finally &#123;  </div><div class="line">  <span class="keyword">lock</span>.unlock()<span class="comment">;   </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1469151020000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1469087760000/" itemprop="url">
+                  Java 并发 - Executor
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-21T15:56:00+08:00" content="2016-07-21">
+              2016-07-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1469087760000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1469087760000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>大多数并发程序都是围绕「任务执行」来构造的，例如 Web 应用，我们的服务端需要响应用户的访问请求，这些请求就是我们要处理的任务。</p>
+<p>围绕「任务执行」来设计应用程序架构的时候，第一步就是找出清晰的任务边界。在理想情况下，各个任务之间应当是相互独立的：一个任务并不依赖其他任务的状态、结果或边界效应。例如在 Web 应用中，用户的每个访问请求，都是相互独立的，因此，我们可以将独立的请求作为任务边界，这样既可以实现任务的独立性，又可以控制合理的任务规模。</p>
+<p>在介绍这篇文章的主角之前，我们先看下常见的两种多任务执行模式。</p>
+<h2 id="在线程中执行任务"><a href="#在线程中执行任务" class="headerlink" title="在线程中执行任务"></a>在线程中执行任务</h2><h3 id="串行执行所有任务"><a href="#串行执行所有任务" class="headerlink" title="串行执行所有任务"></a>串行执行所有任务</h3><p>最直接的方式是将所有任务挨个执行，也就是下面的串行执行。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1469087760000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1468976534000/" itemprop="url">
                   Java 并发 - 基础构建模块
                 </a>
@@ -799,418 +1204,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1468291694000/" itemprop="url">
-                  Java 源码分析 - HashMap
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-12T10:48:14+08:00" content="2016-07-12">
-              2016-07-12
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1468291694000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468291694000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>HashMap 是最常用的 Map 实现类。本文将深入分析 Java 8 的 HashMap，主要解读它的存储结构以及四个关键的方法：hash, put, get, resize。</p>
-<h2 id="存储结构-字段"><a href="#存储结构-字段" class="headerlink" title="存储结构-字段"></a>存储结构-字段</h2><p>Java 中的 HashMap 在碰撞处理方面主要采用的是<a href="https://en.wikipedia.org/wiki/Hash_table#Separate_chaining_with_list_head_cells">Separate chaining with list head cells</a>方式，JDK 1.8 中加入红黑树部分。也就是说，JDK 1.8 实现主体采用的是数组 + 链表，当某个链表长度大于 8 的时候，该链表就被替换成红黑树。如下图所示：</p>
-<p><img src="http://tech.meituan.com/img/java-hashmap/hashMap%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt=""><br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1468291694000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1468206055000/" itemprop="url">
-                  Java 中的容器
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-11T11:00:55+08:00" content="2016-07-11">
-              2016-07-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1468206055000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468206055000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本文主要简单介绍下 Java 中有哪些容器接口以及它们的实现，并且给出选择它们的合适的场景。不建议使用的 Vector、Hashtable、Stack 等容器类在这里都不提了。</p>
-<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><p>我们先来看看整个 Collection 下面有哪些接口：</p>
-<p><img src="http://docs.oracle.com/javase/tutorial/figures/collections/colls-coreInterfaces.gif" alt=""></p>
-<p>这几个接口对应了我们常用的一些抽象数据类型(Abstract Data Type)：链表、队列、栈、集合、映射表。</p>
-<p>其中的 Deque 实际上是继承自 Queue 的，它可以代替 Stack 类来使用（以前的 Stack 类已经不建议使用了）。Set 可以看作是 Map 的一种特例（每个节点只有 key，没有 value），SortedSet 和 SortedMap 在你需要维持顺序的时候使用。</p>
-<p>选择某个接口应该很简单，根据你需要的 ADT 进行选择就可以了。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1468206055000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1468202793000/" itemprop="url">
-                  Spring 和 Java 中的设计模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-11T10:06:33+08:00" content="2016-07-11">
-              2016-07-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1468202793000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468202793000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这篇文章将搜集本人在 Spring 和 Java 核心库中遇到过的设计模式，尽量只包含很典型的例子，生搬硬套往上凑的就不计入了。</p>
-<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>Spring IoC 容器 BeanFactory(ApplicationContext 继承了它) 就是一个 Bean 工厂，只需要调用它的 getBean 方法就可以得到实例对象，不需要我们自己 new 一个实例。</p>
-<p>Java 的 Collections 工具类有很多工厂方法（factory method），例如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K,V&gt; <span class="title">synchronizedMap</span><span class="params">(Map&lt;K,V&gt; m)</span></span>; <span class="comment">// 用于生成同步的 Map</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; <span class="function">Map&lt;K, V&gt; <span class="title">unmodifiableMap</span><span class="params">(Map&lt;? extends K, ? extends V&gt; m)</span></span>; <span class="comment">// 用于生成不可变的 Map</span></div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1468202793000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1467766655000/" itemprop="url">
-                  Spring MVC 深入解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-06T08:57:35+08:00" content="2016-07-06">
-              2016-07-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1467766655000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467766655000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Spring-MVC-史前时代"><a href="#Spring-MVC-史前时代" class="headerlink" title="Spring MVC 史前时代"></a>Spring MVC 史前时代</h2><p>这里我们主要回顾一下 Java 平台上的 Web 开发历程。</p>
-<p>最早的时候，我们用的是 Servlet，它运行于 Web 容器之内，提供了 Session 和对象生命周期管理等功能。它本身是 Java 类，所以可以调用 Java 平台各种 API。</p>
-<p>如果单单依靠这一种技术，我们就会把所有代码全部写在 Servlet 中，包括视图渲染的代码，例如 <code>out.println(&quot;&lt;td&gt;&quot; + rs.getString(2) + &quot;&lt;/td&gt;&quot;)</code> 。但这样不满足我们关注点分离的要求，会导致系统难以重构、需求更改和维护。</p>
-<p>除此之外，我们还一般使用「一个 Servlet 对应处理一个 Web 请求」，所以会有大量的散乱的 Servlet。</p>
-<p>为了能将 Servlet 中视图渲染的逻辑提取出来，让业务逻辑和视图渲染逻辑分离，我们就有了 JSP。JSP 可以看作是现在 Java 平台各种模版引擎的鼻祖，它看上去和 HTML 代码差不多，只是有一些自己独特的命名空间和变量。但它与现在的模版技术有一个主要区别：它最终是编译为 Servlet 来运行的。由于这一点，JSP 中还可以写 Java 代码，可以写复杂的逻辑处理，它的能力更强大。</p>
-<p>在使用 Servlet 的时候，我们要在 web.xml 中配置请求 URL 和 Servlet 的映射关系。有些开发人员为了省去这些繁琐的配置，就把所有的逻辑都写入了 JSP，完全抛弃了 Servlet，这个时候 JSP 已经不只是一个视图模版了。前面我们使用单一 Servlet 带来的困扰，在 JSP 中又重现了，唯一改善的只是配置变得比以前容易了。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1467766655000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1251,7 +1249,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">127</span>
+              <span class="site-state-item-count">131</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
