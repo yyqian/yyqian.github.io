@@ -751,3 +751,19 @@ DP 或分治，递归版本会超时，用迭代
 **173. Binary Search Tree Iterator**
 
 用 stack 实现中序遍历，相当于是迭代版的中序遍历
+
+**179. Largest Number**
+
+定义一个 Comparator，用 Arrays.sort 来排序
+
+**187. Repeated DNA Sequences**
+
+用 tail substring 会超过限制 memory。可以用两个 set，一个存出现过的，一个存结果
+
+**189. Rotate Array**
+
+in-place 的一种做法是三次倒序。
+
+**199. Binary Tree Right Side View**
+
+BFS

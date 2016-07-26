@@ -127,9 +127,9 @@ public class TaskExecutionWebServer {
 
 我们有若干个静态方法来创建带线程池的 Executor：
 
-- newFixedThreadPool
-- newCachedThreadPool
-- newSingleThreadPool
+- newFixedThreadPool：有界的，可以实现对资源使用的限制，使用 LinkedBlockingQueue 来实现等待线程的排队策略
+- newCachedThreadPool：无界的，使用 SynchronousQueue 来管理队列任务（不是真正的任务队列，只是移交任务），性能最好
+- newSingleThreadPool：这种线程池可以用来实现对非线程安全对象的线程封闭访问，以此来满足线程安全
 - newScheduledThreadPool：这个类可以代替 Timer 类来管理延迟任务和周期任务
 
 用基于线程池的策略代替「每个任务分配一个线程」，有几点好处：
@@ -137,6 +137,20 @@ public class TaskExecutionWebServer {
 - 不会在高负载情况下失败
 - 不会创建数千条线程来争夺有限的 CPU 和内存资源
 - 通过 Executor 可以实现额外的调优、管理、监视等功能
+
+线程池使用的注意事项：
+
+- 当任务都是同类型，并且相互独立的时候，线程池的性能达到最佳
+- 如果线程池中各个任务之间存在依赖（例如调用子方法），最好使用无界的线程池（例如 newCachedThreadPool），否则容易造成线程饥饿死锁
+- 将长时间运行的任务和短时间运行的任务放入同一个线程池的话，容易发生「拥塞」，这个时候可以用多个线程池来分配执行
+
+线程池有大量可调节的选项：
+
+- 线程池大小：一般设置为 N_cpu + 1
+- 创建线程和关闭线程的策略
+- 队列任务的策略：也就是线程池满载，任务在队列中排队等待时的策略
+- 饱和策略：任务队列也被填满时的策略
+- 用钩子方法来扩展 ThreadPoolExecutor
 
 ## ExecutorService
 
