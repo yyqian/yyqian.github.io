@@ -767,3 +767,16 @@ in-place 的一种做法是三次倒序。
 **199. Binary Tree Right Side View**
 
 BFS
+
+**190. Reverse Bits**
+
+先挪到最低位与 1 进行 AND 操作，再挪到正确的位置
+
+**200. Number of Islands**
+
+用 DFS，标记走过的路径
+
+**201. Bitwise AND of Numbers Range**
+
+如果两者不等，说明至少最后一位会被置零，然后两个数字
+

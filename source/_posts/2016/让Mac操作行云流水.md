@@ -56,5 +56,6 @@ Command-Shift-N | Chrome 新建匿名访问窗口
 :--- | :---
 Control-K | Terminal 删除光标到行尾的内容
 Control-A, E | Terminal 光标移到行首，行尾
+Command-Shift-左右光标 | Terminal 切换 tab
 
 注：以上 Alt 等同于 Option，Win 等同于 Command，根据键盘来定。
