@@ -30,7 +30,7 @@ SHOW GLOBAL VARIABLES LIKE 'slow_query_%';
 SHOW GLOBAL VARIABLES LIKE 'long_query_time';
 ```
 
-### 单条查询
+### SHOW PROFILE
 
 开启单条的剖析
 
@@ -48,5 +48,25 @@ SHOW PROFILES;
 
 ```
 SHOW PROFILE FOR QUERY 1;
+```
+
+### performance_schema
+
+默认是启用的
+
+```
+[mysqld]
+performance_schema=ON
+```
+
+检查是否启用
+
+```
+mysql> SHOW VARIABLES LIKE 'performance_schema';
++--------------------+-------+
+| Variable_name      | Value |
++--------------------+-------+
+| performance_schema | ON    |
++--------------------+-------+
 ```
 
