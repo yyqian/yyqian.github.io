@@ -60,7 +60,7 @@ tags:
 
 经典题目汇集：
 
-137, 148
+137, 148, 207
 
 ### 技巧
 
@@ -779,4 +779,16 @@ BFS
 **201. Bitwise AND of Numbers Range**
 
 如果两者不等，说明至少最后一位会被置零，然后两个数字
+
+**203. Remove Linked List Elements**
+
+很简单
+
+**198. House Robber**
+
+标准的 DP，注意要用迭代，不要用递归。
+
+**207. Course Schedule**
+
+推荐。寻找有向图的闭环。
 
