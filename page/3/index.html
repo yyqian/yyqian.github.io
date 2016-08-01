@@ -1064,7 +1064,8 @@
 
       
         
-          <ul>
+          <p><em>2016/8/1 更新：基于 Jenkins 2.7.1</em></p>
+<ul>
 <li>目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。</li>
 <li>工具：Jenkins、Docker、Git</li>
 <li>环境：Centos 7</li>
@@ -1075,9 +1076,10 @@
 <li>Java</li>
 <li>Docker</li>
 </ul>
-<h2 id="安装和运行-Jenkins"><a href="#安装和运行-Jenkins" class="headerlink" title="安装和运行 Jenkins"></a>安装和运行 Jenkins</h2><p>具体参照：<a href="httpss://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions">官方说明</a></p>
-<p>安装 LTS 版本：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> https:<span class="comment">//pkg.jenkins-ci.org/redhat-stable/jenkins.repo</span></div><div class="line">sudo rpm --import httpss:<span class="comment">//jenkins-ci.org/redhat/jenkins-ci.org.key</span></div><div class="line">sudo yum install jenkins</div></pre></td></tr></table></figure>
+<h2 id="安装和运行-Jenkins"><a href="#安装和运行-Jenkins" class="headerlink" title="安装和运行 Jenkins"></a>安装和运行 Jenkins</h2><p>这里不建议用 Docker 镜像，因为下面 Jenkins 自身会需要调用 Docker 来启动任务。</p>
+<p>具体参照：<a href="http://pkg.jenkins-ci.org/redhat-stable/">官方说明</a></p>
+<p>安装 LTS 版本（当前是2.7.1）：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> http:<span class="comment">//pkg.jenkins.io/redhat-stable/jenkins.repo</span></div><div class="line">sudo rpm --import http:<span class="comment">//pkg.jenkins.io/redhat-stable/jenkins.io.key</span></div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/post/1460773574738/" rel="contents">
               阅读全文 &raquo;

@@ -57,20 +57,24 @@
 
 
 
-<meta name="description" content="目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。
+<meta name="description" content="2016/8/1 更新：基于 Jenkins 2.7.1
+
+目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。
 工具：Jenkins、Docker、Git
 环境：Centos 7
 
-下面我示例用的项目是用 Java 下的 Spring Boot 框架写的，在编译的时候实际还需要 JDK、Maven，如果是其他语言的项目，部分环节上会有出入，但大致的流程应该是一致的。另外，这里主要是介绍下 Jenkins 的配置，其">
+下面我示例用的项目是用 Java 下的 Spring Boot 框架写的，在编译的时候实际还需要 JDK、Maven，如果是其他语言的项目，部分环节上会有出入，但大致的流程应该是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="持续集成环境的搭建（基于 Jenkins、Docker、Git）">
 <meta property="og:url" content="https://yyqian.com/post/1460773574738/index.html">
 <meta property="og:site_name" content="YYQIAN">
-<meta property="og:description" content="目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。
+<meta property="og:description" content="2016/8/1 更新：基于 Jenkins 2.7.1
+
+目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。
 工具：Jenkins、Docker、Git
 环境：Centos 7
 
-下面我示例用的项目是用 Java 下的 Spring Boot 框架写的，在编译的时候实际还需要 JDK、Maven，如果是其他语言的项目，部分环节上会有出入，但大致的流程应该是一致的。另外，这里主要是介绍下 Jenkins 的配置，其">
+下面我示例用的项目是用 Java 下的 Spring Boot 框架写的，在编译的时候实际还需要 JDK、Maven，如果是其他语言的项目，部分环节上会有出入，但大致的流程应该是">
 <meta property="og:image" content="http://cdn.yyqian.com/201604181456-Fp_QGJEmPcvN5kvpHd_M3Xrv1Y4Q?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201604181450-FinCuE8tcMOBrOYrY21IvSMSOGoB?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201604181450-FvTTuY_oBnvWI2NtEyBlbWV_FpRn?imageView2/2/w/800/h/600">
@@ -81,14 +85,16 @@
 <meta property="og:image" content="http://cdn.yyqian.com/201604181456-Fp-qIUgSof1mXtb53Q9k8_5eammk?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201604181450-FjJKOEistf0u-YlgZ5q5irrokmg_?imageView2/2/w/800/h/600">
 <meta property="og:image" content="http://cdn.yyqian.com/201604181450-Fna4uRxkfdVIYvLpJg64GsvCGu9b?imageView2/2/w/800/h/600">
-<meta property="og:updated_time" content="2016-05-09T08:20:54.000Z">
+<meta property="og:updated_time" content="2016-08-01T09:03:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="持续集成环境的搭建（基于 Jenkins、Docker、Git）">
-<meta name="twitter:description" content="目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。
+<meta name="twitter:description" content="2016/8/1 更新：基于 Jenkins 2.7.1
+
+目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。
 工具：Jenkins、Docker、Git
 环境：Centos 7
 
-下面我示例用的项目是用 Java 下的 Spring Boot 框架写的，在编译的时候实际还需要 JDK、Maven，如果是其他语言的项目，部分环节上会有出入，但大致的流程应该是一致的。另外，这里主要是介绍下 Jenkins 的配置，其">
+下面我示例用的项目是用 Java 下的 Spring Boot 框架写的，在编译的时候实际还需要 JDK、Maven，如果是其他语言的项目，部分环节上会有出入，但大致的流程应该是">
 <meta name="twitter:image" content="http://cdn.yyqian.com/201604181456-Fp_QGJEmPcvN5kvpHd_M3Xrv1Y4Q?imageView2/2/w/800/h/600">
 
 
@@ -283,7 +289,8 @@
       
 
       
-        <ul>
+        <p><em>2016/8/1 更新：基于 Jenkins 2.7.1</em></p>
+<ul>
 <li>目标：在代码发生变动后，持续集成系统（CI）自动在服务器端重新编译、打包、发布、重启服务。</li>
 <li>工具：Jenkins、Docker、Git</li>
 <li>环境：Centos 7</li>
@@ -294,33 +301,17 @@
 <li>Java</li>
 <li>Docker</li>
 </ul>
-<h2 id="安装和运行-Jenkins"><a href="#安装和运行-Jenkins" class="headerlink" title="安装和运行 Jenkins"></a>安装和运行 Jenkins</h2><p>具体参照：<a href="httpss://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions" target="_blank" rel="external">官方说明</a></p>
-<p>安装 LTS 版本：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> https:<span class="comment">//pkg.jenkins-ci.org/redhat-stable/jenkins.repo</span></div><div class="line">sudo rpm --import httpss:<span class="comment">//jenkins-ci.org/redhat/jenkins-ci.org.key</span></div><div class="line">sudo yum install jenkins</div></pre></td></tr></table></figure>
+<h2 id="安装和运行-Jenkins"><a href="#安装和运行-Jenkins" class="headerlink" title="安装和运行 Jenkins"></a>安装和运行 Jenkins</h2><p>这里不建议用 Docker 镜像，因为下面 Jenkins 自身会需要调用 Docker 来启动任务。</p>
+<p>具体参照：<a href="http://pkg.jenkins-ci.org/redhat-stable/" target="_blank" rel="external">官方说明</a></p>
+<p>安装 LTS 版本（当前是2.7.1）：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo wget -O /etc/yum<span class="selector-class">.repos</span><span class="selector-class">.d</span>/jenkins<span class="selector-class">.repo</span> http:<span class="comment">//pkg.jenkins.io/redhat-stable/jenkins.repo</span></div><div class="line">sudo rpm --import http:<span class="comment">//pkg.jenkins.io/redhat-stable/jenkins.io.key</span></div></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>更改端口：修改 <code>/etc/sysconfig/jenkins</code> 中的 <code>JENKINS_PORT</code></p>
 <p>启动服务和设置开机自启动：</p>
 <figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo<span class="keyword"> system</span>ctl start jenkins</div><div class="line">sudo<span class="keyword"> system</span>ctl enable jenkins</div></pre></td></tr></table></figure>
-<p>这个时候就能访问 Jenkins 了。（我实际上还配置了一下 Nginx，做个反向代理）</p>
-<h2 id="Configure-Global-Security"><a href="#Configure-Global-Security" class="headerlink" title="Configure Global Security"></a>Configure Global Security</h2><p>我做了以下操作：</p>
-<ul>
-<li>勾选 <code>Disable remember me</code></li>
-<li>选择 <code>Jenkins’ own user database</code></li>
-<li>选择 <code>Logged-in users can do anything</code></li>
-</ul>
-<p>完成之后先注册个用户，然后登录进去再进到 security 页面</p>
-<ul>
-<li>把 <code>Allow users to sign up</code> 取消勾选</li>
-<li>选择 <code>Matrix-based security</code>，添加自己的账户，给予所有的权限</li>
-<li>勾选 <code>Enable Slave → Master Access Control</code></li>
-</ul>
-<h2 id="更新插件和安装-Git-插件"><a href="#更新插件和安装-Git-插件" class="headerlink" title="更新插件和安装 Git 插件"></a>更新插件和安装 Git 插件</h2><p>进入插件管理页面：</p>
-<ul>
-<li>在 Advanced 中配置 https 代理</li>
-<li>然后更新所有插件，重启服务</li>
-<li>安装 Git plugin，重启服务</li>
-</ul>
-<h2 id="生成-jenkins-用户的-ssh-key"><a href="#生成-jenkins-用户的-ssh-key" class="headerlink" title="生成 jenkins 用户的 ssh key"></a>生成 jenkins 用户的 ssh key</h2><p>Jenkins 服务是由 jenkins 这个用户启动的，所有操作都是用的这个用户。所以我们有必要给 jenkins 用户生成一个 ssh key，这样就能方便的处理 Git 鉴权的问题。</p>
+<p>Jenkins 服务默认端口是 8080，自行确保防火墙、SELINUX 没有屏蔽该端口。我这里还配置了一下 Nginx，做个反向代理。这个时候就能访问 Jenkins 了。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>我选择的是推荐的插件，后面要用到的 Git 插件什么的都包含了。</p>
+<h2 id="生成-jenkins-用户的-ssh-key（跳过）"><a href="#生成-jenkins-用户的-ssh-key（跳过）" class="headerlink" title="生成 jenkins 用户的 ssh key（跳过）"></a>生成 jenkins 用户的 ssh key（跳过）</h2><p><em>这一步比较复杂，可以略过，不影响后面的操作</em></p>
+<p>Jenkins 服务是由 jenkins 这个用户启动的，所有操作都是用的这个用户。所以我们有必要给 jenkins 用户生成一个 ssh key，这样就能方便的处理 Git 鉴权的问题。</p>
 <ul>
 <li><code>cat /etc/passwd</code> 检查以下 jenkins 用户是否有 /bin/bash，默认有可能是 /bin/false</li>
 <li>如果没有登录权限，则 <code>sudo usermod -s /bin/bash jenkins</code></li>
@@ -335,7 +326,7 @@
 <p><img src="http://cdn.yyqian.com/201604181456-Fp_QGJEmPcvN5kvpHd_M3Xrv1Y4Q?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.55.31 PM.png"></p>
 <h2 id="将-jenkins-加入-docker-用户组"><a href="#将-jenkins-加入-docker-用户组" class="headerlink" title="将 jenkins 加入 docker 用户组"></a>将 jenkins 加入 docker 用户组</h2><p>跟上面同样的原因，如果不把 jenkins 加入 docker 组，就需要 sudo 来执行 docker 命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo usermod <span class="_">-a</span>G docker jenkins</div><div class="line">sudo systemctl restart jenkins</div></pre></td></tr></table></figure>
-<h2 id="配置-Jenkins"><a href="#配置-Jenkins" class="headerlink" title="配置 Jenkins"></a>配置 Jenkins</h2><p>JDK: 勾选 Install automatically，同意条款，输入自己的 Oracle 账户</p>
+<h2 id="Global-Tool-Configuration"><a href="#Global-Tool-Configuration" class="headerlink" title="Global Tool Configuration"></a>Global Tool Configuration</h2><p>JDK: 勾选 Install automatically，同意条款，输入自己的 Oracle 账户</p>
 <p><img src="http://cdn.yyqian.com/201604181450-FinCuE8tcMOBrOYrY21IvSMSOGoB?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.47.11 PM.png"></p>
 <p>Maven: 勾选 Install automatically</p>
 <p><img src="http://cdn.yyqian.com/201604181450-FvTTuY_oBnvWI2NtEyBlbWV_FpRn?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.47.26 PM.png"></p>
@@ -354,12 +345,11 @@
 <h2 id="Git-触发-Jenkins-任务"><a href="#Git-触发-Jenkins-任务" class="headerlink" title="Git 触发 Jenkins 任务"></a>Git 触发 Jenkins 任务</h2><p>前面的 Jenkins 任务是手动触发的，这里将利用 GitHub 的 webhook 来触发 Jenkins 任务，这样每次代码更新就会自动重新编译、打包、发布、重启服务了。</p>
 <p>首先进入 Github 项目的 Settings 页面添加一个 Webhook</p>
 <p><img src="http://cdn.yyqian.com/201604181527-Frhe_gixvym3kCUrPr7DERX4yyvw?imageView2/2/w/800/h/600" alt="hook.png"></p>
-<p>然后进入 Jenkins，首先要在 Jenkins 中安装下 Github Plugin</p>
-<p>然后 Jenkins 中配置 Github Server，这个时候要去 Github 生成一个 personal access token，scope 勾选 repo 和 admin:repo_hook</p>
+<p>然后生成一个 personal access token，scope 勾选 repo 和 admin:repo_hook</p>
 <p><img src="http://cdn.yyqian.com/201604181450-FhFr9FGdeHvqPU-cwadoGYi_APZP?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.49.34 PM.png"></p>
 <p>把 token 在 Jenkins 中添加为 Secret text 类型的密钥</p>
 <p><img src="http://cdn.yyqian.com/201604181456-Fp-qIUgSof1mXtb53Q9k8_5eammk?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.55.58 PM.png"></p>
-<p>然后 Test connection，成功的话就是配置好了</p>
+<p>然后 Jenkins 中配置 Github Server。Test connection，成功的话就是配置好了</p>
 <p><img src="http://cdn.yyqian.com/201604181450-FjJKOEistf0u-YlgZ5q5irrokmg_?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.47.48 PM.png"></p>
 <p>然后进入 Task 的设置页面，Build Triggers 项勾选 <code>Build when a change is pushed to GitHub</code></p>
 <p><img src="http://cdn.yyqian.com/201604181450-Fna4uRxkfdVIYvLpJg64GsvCGu9b?imageView2/2/w/800/h/600" alt="Screen Shot 2016-04-18 at 2.48.37 PM.png"></p>
@@ -542,7 +532,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装和运行-Jenkins"><span class="nav-text">安装和运行 Jenkins</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configure-Global-Security"><span class="nav-text">Configure Global Security</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新插件和安装-Git-插件"><span class="nav-text">更新插件和安装 Git 插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成-jenkins-用户的-ssh-key"><span class="nav-text">生成 jenkins 用户的 ssh key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将-jenkins-加入-docker-用户组"><span class="nav-text">将 jenkins 加入 docker 用户组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-Jenkins"><span class="nav-text">配置 Jenkins</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建项目"><span class="nav-text">创建项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建和开始-Jenkins-任务"><span class="nav-text">创建和开始 Jenkins 任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-触发-Jenkins-任务"><span class="nav-text">Git 触发 Jenkins 任务</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装和运行-Jenkins"><span class="nav-text">安装和运行 Jenkins</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成-jenkins-用户的-ssh-key（跳过）"><span class="nav-text">生成 jenkins 用户的 ssh key（跳过）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将-jenkins-加入-docker-用户组"><span class="nav-text">将 jenkins 加入 docker 用户组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Global-Tool-Configuration"><span class="nav-text">Global Tool Configuration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建项目"><span class="nav-text">创建项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建和开始-Jenkins-任务"><span class="nav-text">创建和开始 Jenkins 任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-触发-Jenkins-任务"><span class="nav-text">Git 触发 Jenkins 任务</span></a></li></ol></div>
             
           </div>
         </section>
