@@ -98,7 +98,7 @@ Easy: 30
 Medium: 93
 Hard">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg">
-<meta property="og:updated_time" content="2016-07-21T01:35:32.000Z">
+<meta property="og:updated_time" content="2016-07-29T10:36:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
 <meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
@@ -357,7 +357,7 @@ Hard">
 <li>用迭代 + stack/queue/array 来取代递归</li>
 </ol>
 <p>经典题目汇集：</p>
-<p>137, 148</p>
+<p>137, 148, 207, 208</p>
 <h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ul>
 <li>dfs: 把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用</li>
 <li>bfs: 对于深度，可以用 queue，进入下一层的时候，先获取当前 queue 的大小 n，然后循环 n 次，把这一层的元素都处理完，这时候层级++，进入下层迭代。见 127 题。</li>
@@ -669,6 +669,30 @@ Hard">
 <p>只有可能 2 * 5 才能得到 0，由于 2 的数量原大于 5，所以 0 的数量取决于 5 的数量，5 的数量计算公式为 n/5 + n/(5^2) + n/(5^3) + …</p>
 <p><strong>173. Binary Search Tree Iterator</strong></p>
 <p>用 stack 实现中序遍历，相当于是迭代版的中序遍历</p>
+<p><strong>179. Largest Number</strong></p>
+<p>定义一个 Comparator，用 Arrays.sort 来排序</p>
+<p><strong>187. Repeated DNA Sequences</strong></p>
+<p>用 tail substring 会超过限制 memory。可以用两个 set，一个存出现过的，一个存结果</p>
+<p><strong>189. Rotate Array</strong></p>
+<p>in-place 的一种做法是三次倒序。</p>
+<p><strong>199. Binary Tree Right Side View</strong></p>
+<p>BFS</p>
+<p><strong>190. Reverse Bits</strong></p>
+<p>先挪到最低位与 1 进行 AND 操作，再挪到正确的位置</p>
+<p><strong>200. Number of Islands</strong></p>
+<p>用 DFS，标记走过的路径</p>
+<p><strong>201. Bitwise AND of Numbers Range</strong></p>
+<p>如果两者不等，说明至少最后一位会被置零，然后两个数字</p>
+<p><strong>203. Remove Linked List Elements</strong></p>
+<p>很简单</p>
+<p><strong>198. House Robber</strong></p>
+<p>标准的 DP，注意要用迭代，不要用递归。</p>
+<p><strong>207. Course Schedule</strong></p>
+<p>推荐。寻找有向图的闭环。</p>
+<p><strong>208. Implement Trie (Prefix Tree)</strong></p>
+<p>标准的 Trie 树</p>
+<p><strong>209. Minimum Size Subarray Sum</strong></p>
+<p>两根指针，分别指头尾，一直维持范围最小</p>
 
       
     </div>
@@ -778,7 +802,7 @@ Hard">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
