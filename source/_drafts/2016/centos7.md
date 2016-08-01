@@ -12,9 +12,17 @@ sudo vim /etc/default/grub
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
-## 安装 Docker
+## 软件安装
 
-[Docker](https://docs.docker.com/engine/installation/linux/centos/)
+以下软件都建议用各自官网的 repo：
+
+- docker
+- nginx
+- jenkins(不建议用 Docker 版本的)
+
+以下用默认的 repo：
+
+- Java OpenJDK 1.8
 
 ## 增加新用户
 
@@ -63,22 +71,10 @@ LANG=en_US.utf-8
 LC_ALL=en_US.utf-8
 ```
 
-### AWS
-
-nginx: yum-nginx
-docker: yum-docker
-jenkins: docker
-
 ### SELINUX
 
-`sestatus` 检查状态
+AWS 的 centos 7 镜像默认启用了 SELINUX，如果不会用的话要手动禁用它
 
  `/etc/selinux/config` set to `SELINUX=disabled`
 
-#### docker
-
-docker run -d \
--p 8080:8080 \
--p 50000:50000 \
--v /home/centos/docker/jenkins_home:/var/jenkins_home \
-jenkins
+`sestatus` 检查状态
