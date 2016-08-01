@@ -62,3 +62,23 @@ exit，然后用新端口登录：ssh USER@xxx.xxx.xxx.xxx -p 1234
 LANG=en_US.utf-8
 LC_ALL=en_US.utf-8
 ```
+
+### AWS
+
+nginx: yum-nginx
+docker: yum-docker
+jenkins: docker
+
+### SELINUX
+
+`sestatus` 检查状态
+
+ `/etc/selinux/config` set to `SELINUX=disabled`
+
+#### docker
+
+docker run -d \
+-p 8080:8080 \
+-p 50000:50000 \
+-v /home/centos/docker/jenkins_home:/var/jenkins_home \
+jenkins
