@@ -216,6 +216,112 @@
             
               
                 
+                <a class="post-title-link" href="/post/1450333289904/" itemprop="url">
+                  网页 URI/URL 设计
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-17T14:21:29+08:00" content="2015-12-17">
+              2015-12-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1450333289904/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1450333289904/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近自己在学习 Spring 框架，做了一个 Hacker News 的克隆版，见 <a href="https://github.com/yyqian/imagine">Github</a> ，随手写的 URI 比较混乱，所以想起来要对 URI 重构一下。</p>
+<p>之前介绍过 <a href="http://yyqian.com/post/1432535189699">RESTful API</a> 的设计，这里主要思考下网站 URL/URI 的设计，只想知道结论的就直接看最后一句就行。</p>
+<h3 id="URI-和-URL-的区分"><a href="#URI-和-URL-的区分" class="headerlink" title="URI 和 URL 的区分"></a>URI 和 URL 的区分</h3><p>首先，两者的全称分别是：</p>
+<ul>
+<li>Uniform Resource Identifier (URI)</li>
+<li>Uniform Resource Locator (URL)</li>
+</ul>
+<p>URL 是 URI 的子集，除了要标识资源，还必须提供获取资源的方式，譬如说：</p>
+<p><code>yyqian.com/post/1432535189699</code> 标识了在 yyqian.com 这个网站上 id 为 1432535189699 的一个 post，这个是 URI，因为它标识了一个资源，但它不是 URL，因为获取这个资源的方式没有说明，可能是通过 http，https，也可能是通过 ftp, telnet 等。因此 <code>http://yyqian.com/post/1432535189699</code> 才是一个完整的 URL。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1450333289904/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1449555296031/" itemprop="url">
                   Spring Data JPA 笔记
                 </a>
@@ -1150,110 +1256,6 @@ console.log(module.exports === this); //true
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1437635544279/" itemprop="url">
-                  JavaScript 笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-23T15:12:24+08:00" content="2015-07-23">
-              2015-07-23
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1437635544279/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1437635544279/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="零碎的知识"><a href="#零碎的知识" class="headerlink" title="零碎的知识"></a>零碎的知识</h2><hr>
-<p>不要比较两个浮点数是否相等，因为存在精度的问题，例如：<code>0.3 - 0.2 === 0.1</code>为<code>false</code></p>
-<p>定义变量一定要带var，如果要定义全局变量，定义在程序顶部</p>
-<p>JS的Namespace采用的是Function Scope：{}中定义的变量为全局变量，function () {}中用var定义的变量对外隐藏，不用var定义的变量为全局变量</p>
-<p>使用//注释</p>
-<p>JS只有一个数字类型：64位的浮点数</p>
-<p>JS所有字符都是16位的，可以用<code>\u[4 hex digits]</code>表示一个unicode字符<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1437635544279/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1299,7 +1301,7 @@ console.log(module.exports === this); //true
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">131</span>
+              <span class="site-state-item-count">132</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

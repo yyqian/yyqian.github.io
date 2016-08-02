@@ -216,6 +216,107 @@
             
               
                 
+                <a class="post-title-link" href="/post/1470100810000/" itemprop="url">
+                  MySQL 索引优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-02T09:20:10+08:00" content="2016-08-02">
+              2016-08-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1470100810000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1470100810000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><em>本文的内容整理自「高性能 MySQL」一书。</em></p>
+<p>索引优化是对查询性能优化最有效的手段，这篇文章就来研究下 MySQL 的索引。在介绍优化索引的方法之前，会先介绍索引是如何工作的，因为我们应当根据这些理解来创建最合适的索引，而不是一些经验法则。</p>
+<h2 id="索引类型"><a href="#索引类型" class="headerlink" title="索引类型"></a>索引类型</h2><p>MySQL 中不同存储引擎使用的索引不同，支持的索引的类型也不同。</p>
+<h3 id="B-Tree-索引"><a href="#B-Tree-索引" class="headerlink" title="B-Tree 索引"></a>B-Tree 索引</h3><p>InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数少，适用于硬盘这种瓶颈在于 IO 的设备。B+Tree 的非叶子节点存的是 key（不包含指向数据的指针）。我们学数据结构的时候，这个 key 一般是个整数，这样就能自然地进行排序；但实际应用中，key 不一定非得是整数，我们也还可以组合多个 key 成为一个组合的 key，这就是所谓的索引，例如某个索引可以由 last_name, first_name, date_of_birth 三个键组成。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1470100810000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1469151096000/" itemprop="url">
                   Java 并发 - JMM
                 </a>
@@ -1103,107 +1204,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1468306271000/" itemprop="url">
-                  Java 源码分析 - ArrayList
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-12T14:51:11+08:00" content="2016-07-12">
-              2016-07-12
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1468306271000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468306271000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>ArrayList 是最常用的集合类，它可以当做一种可变长度的数组来使用，最大的区别就是元素不能是 primitive type，只能是 Object。</p>
-<p>ArrayList 实现了以下四个接口，后三个都是标记接口，不需要实现任何方法，其中 RandomAccess 接口表明 ArrayList 支持随机访问（因为它基于数组）</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ArrayList&lt;E&gt;</span> <span class="keyword">extends</span> <span class="title">AbstractList&lt;E&gt;</span></span></div><div class="line">        implements <span class="type">List</span>&lt;<span class="type">E</span>&gt;, <span class="type">RandomAccess</span>, <span class="type">Cloneable</span>, java.io.<span class="type">Serializable</span></div></pre></td></tr></table></figure>
-<p>接下来，我们从存储结构和功能实现两部分来对 ArrayList 进行剖析。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1468306271000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1249,7 +1249,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">131</span>
+              <span class="site-state-item-count">132</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
