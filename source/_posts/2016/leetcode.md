@@ -60,7 +60,7 @@ tags:
 
 经典题目汇集：
 
-137, 148, 207, 208
+137, 148, 210, 208
 
 ### 技巧
 
@@ -790,7 +790,57 @@ BFS
 
 **207. Course Schedule**
 
-推荐。寻找有向图的闭环。
+**210. Course Schedule II**
+
+推荐。我用的是 DFS，也是 algorithm 红书上的算法。
+
+```
+public class Solution {
+    private boolean[] marked;
+    private boolean[] onStack;
+    private boolean hasCycle = false;
+    private List<List<Integer>> graph;
+    
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        Queue<Integer> queue = new LinkedList<>();
+        marked = new boolean[numCourses];
+        onStack = new boolean[numCourses];
+        graph = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            graph.add(new ArrayList<Integer>());
+        }
+        for (int[] edge : prerequisites) {
+            graph.get(edge[0]).add(edge[1]);
+        }
+        // 这个循环是真正的 dfs 操作
+        for (int i = 0; i < numCourses; i++) {
+            if (!marked[i]) dfs(i, queue);
+        }
+        int[] result = new int[queue.size()];
+        int i = 0;
+        while (!queue.isEmpty()) {
+            result[i] = queue.poll();
+            i++;
+        }
+        return hasCycle ? new int[0] : result;
+    }
+    private void dfs(int v, Queue<Integer> queue) {
+        onStack[v] = true;
+        marked[v] = true;
+        for (int i : graph.get(v)) {
+            if (hasCycle) {
+                return;
+            } else if (onStack[i]) {
+                hasCycle = true;
+            } else if (!marked[i]) {
+                dfs(i, queue);
+            }
+        }
+        queue.offer(v);
+        onStack[v] = false;
+    }
+}
+```
 
 **208. Implement Trie (Prefix Tree)**
 
@@ -799,3 +849,55 @@ BFS
 **209. Minimum Size Subarray Sum**
 
 两根指针，分别指头尾，一直维持范围最小
+
+**205. Isomorphic Strings**
+
+用一个数组存储最近一次出现该字母的位置
+
+**211. Add and Search Word - Data structure design**
+
+推荐，Trie 树的实现，用递归比较容易做，因为遇到 . 需要产生多个递归操作，如果迭代的话就需要使用一个队列了。
+
+```
+public class WordDictionary {
+    
+    private Node root = new Node();
+    
+    private class Node {
+        boolean hasWord = false;
+        Node[] next = new Node[26];
+    }
+
+    // Adds a word into the data structure.
+    public void addWord(String word) {
+        Node node = root;
+        for (char c : word.toCharArray()) {
+            int i = c - 'a';
+            if (node.next[i] == null) node.next[i] = new Node();
+            node = node.next[i];
+        }
+        node.hasWord = true;
+    }
+
+    // Returns if the word is in the data structure. A word could
+    // contain the dot character '.' to represent any one letter.
+    public boolean search(String word) {
+        if (word == null || word.length() == 0) return false;
+        return search(word.toCharArray(), 0, root);
+    }
+    
+    private boolean search(char[] word, int start, Node head) {
+        if (start == word.length) return head.hasWord;
+        char c = word[start];
+        if (c == '.') {
+            for (Node x : head.next) {
+                if (x != null && search(word, start + 1, x)) return true;
+            }
+            return false;
+        } else {
+            return (head.next[c - 'a'] != null) && search(word, start + 1, head.next[c - 'a']);
+        }
+    }
+
+}
+```
