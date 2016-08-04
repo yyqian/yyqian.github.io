@@ -60,7 +60,7 @@ tags:
 
 经典题目汇集：
 
-137, 148, 210, 208
+137, 148, 210, 208, 215
 
 ### 技巧
 
@@ -784,9 +784,11 @@ BFS
 
 很简单
 
+**213. House Robber II**
+
 **198. House Robber**
 
-标准的 DP，注意要用迭代，不要用递归。
+标准的 DP，注意要用迭代，不要用递归。迭代只需要保存前两项：include, exclude
 
 **207. Course Schedule**
 
@@ -901,3 +903,7 @@ public class WordDictionary {
 
 }
 ```
+
+**215. Kth Largest Element in an Array**
+
+推荐。这个是用 QuickSelect 算法，类似 QuickSort，细节需要好好处理，
