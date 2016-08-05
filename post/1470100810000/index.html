@@ -57,25 +57,22 @@
 
 
 
-<meta name="description" content="本文的内容整理自「高性能 MySQL」一书。
-索引优化是对查询性能优化最有效的手段，这篇文章就来研究下 MySQL 的索引。在介绍优化索引的方法之前，会先介绍索引是如何工作的，因为我们应当根据这些理解来创建最合适的索引，而不是一些经验法则。
+<meta name="description" content="索引优化是对查询性能优化最有效的手段，这篇文章就来研究下 MySQL 的索引。在介绍优化索引的方法之前，会先介绍索引是如何工作的，我们应当根据这些理解来创建最合适的索引，而不是一些经验法则。
 索引类型MySQL 中不同存储引擎使用的索引不同，支持的索引的类型也不同。
-B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数">
+B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数少，适用于硬盘这种瓶颈在于 IO 的设备。B+Tr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL 索引优化">
 <meta property="og:url" content="https://yyqian.com/post/1470100810000/index.html">
 <meta property="og:site_name" content="YYQIAN">
-<meta property="og:description" content="本文的内容整理自「高性能 MySQL」一书。
-索引优化是对查询性能优化最有效的手段，这篇文章就来研究下 MySQL 的索引。在介绍优化索引的方法之前，会先介绍索引是如何工作的，因为我们应当根据这些理解来创建最合适的索引，而不是一些经验法则。
+<meta property="og:description" content="索引优化是对查询性能优化最有效的手段，这篇文章就来研究下 MySQL 的索引。在介绍优化索引的方法之前，会先介绍索引是如何工作的，我们应当根据这些理解来创建最合适的索引，而不是一些经验法则。
 索引类型MySQL 中不同存储引擎使用的索引不同，支持的索引的类型也不同。
-B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数">
-<meta property="og:updated_time" content="2016-08-02T09:29:56.000Z">
+B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数少，适用于硬盘这种瓶颈在于 IO 的设备。B+Tr">
+<meta property="og:updated_time" content="2016-08-03T01:44:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 索引优化">
-<meta name="twitter:description" content="本文的内容整理自「高性能 MySQL」一书。
-索引优化是对查询性能优化最有效的手段，这篇文章就来研究下 MySQL 的索引。在介绍优化索引的方法之前，会先介绍索引是如何工作的，因为我们应当根据这些理解来创建最合适的索引，而不是一些经验法则。
+<meta name="twitter:description" content="索引优化是对查询性能优化最有效的手段，这篇文章就来研究下 MySQL 的索引。在介绍优化索引的方法之前，会先介绍索引是如何工作的，我们应当根据这些理解来创建最合适的索引，而不是一些经验法则。
 索引类型MySQL 中不同存储引擎使用的索引不同，支持的索引的类型也不同。
-B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数">
+B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数少，适用于硬盘这种瓶颈在于 IO 的设备。B+Tr">
 
 
 
@@ -269,10 +266,9 @@ B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数">
       
 
       
-        <p><em>本文的内容整理自「高性能 MySQL」一书。</em></p>
-<p>索引优化是对查询性能优化最有效的手段，这篇文章就来研究下 MySQL 的索引。在介绍优化索引的方法之前，会先介绍索引是如何工作的，因为我们应当根据这些理解来创建最合适的索引，而不是一些经验法则。</p>
+        <p>索引优化是对查询性能优化最有效的手段，这篇文章就来研究下 MySQL 的索引。在介绍优化索引的方法之前，会先介绍索引是如何工作的，我们应当根据这些理解来创建最合适的索引，而不是一些经验法则。</p>
 <h2 id="索引类型"><a href="#索引类型" class="headerlink" title="索引类型"></a>索引类型</h2><p>MySQL 中不同存储引擎使用的索引不同，支持的索引的类型也不同。</p>
-<h3 id="B-Tree-索引"><a href="#B-Tree-索引" class="headerlink" title="B-Tree 索引"></a>B-Tree 索引</h3><p>InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数少，适用于硬盘这种瓶颈在于 IO 的设备。B+Tree 的非叶子节点存的是 key（不包含指向数据的指针）。我们学数据结构的时候，这个 key 一般是个整数，这样就能自然地进行排序；但实际应用中，key 不一定非得是整数，我们也还可以组合多个 key 成为一个组合的 key，这就是所谓的索引，例如某个索引可以由 last_name, first_name, date_of_birth 三个键组成。<br><a id="more"></a><br>这里需要关注的一点就是索引列的顺序，简单理解就是只能按顺序一个个索引下来，不能跳过某个索引列。以索引 ABC 为例，我们可以查询：</p>
+<h3 id="B-Tree-索引"><a href="#B-Tree-索引" class="headerlink" title="B-Tree 索引"></a>B-Tree 索引</h3><p>InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数少，适用于硬盘这种瓶颈在于 IO 的设备。B+Tree 的非叶子节点存的是 key（不包含指向数据的指针）。我们学数据结构的时候，这个 key 一般是个整数，这样就能自然地进行排序；但实际应用中，key 不一定非得是整数，我们也还可以组合多个 key 成为一个组合的 key，这就是所谓的索引，例如某个索引可以由 last_name, first_name, date_of_birth 三个键组成。<br><a id="more"></a><br>这里需要关注的一点就是索引列的顺序，因为查询只能使用索引的最左前缀，直到遇到第一个范围条件列，不能跳过某个索引列。以索引 ABC 为例，我们可以查询：</p>
 <ol>
 <li>严格匹配 ABC 三个列</li>
 <li>严格匹配 A</li>
@@ -280,7 +276,7 @@ B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数">
 <li>严格匹配 A，范围匹配 B</li>
 </ol>
 <p>所以对于同样的三个索引列，有时我们可能需要 ABC, BAC, CAB 等多个不同组合顺序的索引来满足我们的查询优化。</p>
-<p>除此之外，B+Tree 有个特殊的地方是索引和实际的数据是分开存储的，所以我们可以只访问索引，不访问数据，这样对于类似 COUNT 的操作来说效率更高。</p>
+<p>除此之外，B+Tree 有个特殊的地方是索引和实际的数据是分开存储的，所以我们可以只访问索引，不访问数据，这样可以实现后面要讲的索引覆盖查询，可以大大提高查询效率。</p>
 <h3 id="哈希索引"><a href="#哈希索引" class="headerlink" title="哈希索引"></a>哈希索引</h3><p>学数据结构的时候，我们知道实现 Map 有哈希表和搜索树两种方式（前面 B-Tree 也是一种搜索树），并且根据经验，哈希表一般要比搜索树更高效，但这些比较都是脱离了 IO 等因素来说的，也就是说，更准确的说法是只在内存中操作的话，哈希表比搜索树更高效（如果是基于硬盘，前面的 B-Tree 更高效）。由于这些原因，MySQL 中只有 Memory 引擎显示支持哈希索引。</p>
 <p>哈希表中存的键是索引列的哈希值（并不是索引列本身的内容），表也是按照哈希值的顺序存储的，所以哈希索引只适用于快速的随机读取，不能按索引列的值的顺序进行排序、匹配、范围查询等顺序操作。</p>
 <p>除此之外，我们可以按照这个思路在 InnoDB 等引擎中自定义哈希索引列来加快某些列的查询速度。例如 url，对 url 这种长的字符串进行匹配比较耗时，我们可以增加一个 url_crc=CRC32(url) 的列存放 url 的哈希值，查询的时候使用以下语句：</p>
@@ -305,9 +301,9 @@ B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数">
 <li>索引中的数据顺序和查询中的排列顺序一致</li>
 <li>索引中的列包含了查询中需要的全部列</li>
 </ol>
-<h2 id="高性能的索引策略"><a href="#高性能的索引策略" class="headerlink" title="高性能的索引策略"></a>高性能的索引策略</h2><h3 id="前缀索引和索引选择性"><a href="#前缀索引和索引选择性" class="headerlink" title="前缀索引和索引选择性"></a>前缀索引和索引选择性</h3><figure class="highlight fix"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">索引选择性 </span>=<span class="string"> 不重复的索引值数目 / 记录总数</span></div></pre></td></tr></table></figure>
+<h2 id="高性能的索引策略"><a href="#高性能的索引策略" class="headerlink" title="高性能的索引策略"></a>高性能的索引策略</h2><h3 id="前缀索引和索引选择性"><a href="#前缀索引和索引选择性" class="headerlink" title="前缀索引和索引选择性"></a>前缀索引和索引选择性</h3><figure class="highlight fix"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">索引选择性 </span>=<span class="string"> 不重复的索引值数目（Cardinality） / 记录总数</span></div></pre></td></tr></table></figure>
 <p>例如，我们有 10 组有关年龄的数据：</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">年龄，其他列</div><div class="line"><span class="number">12</span></div><div class="line"><span class="number">23</span></div><div class="line"><span class="number">23</span></div><div class="line"><span class="number">40</span></div><div class="line"><span class="number">51</span></div><div class="line"><span class="number">54</span></div><div class="line"><span class="number">62</span></div><div class="line"><span class="number">62</span></div><div class="line"><span class="number">71</span></div><div class="line"><span class="number">93</span></div></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">年龄, 其他列</div><div class="line">12, <span class="emphasis">***</span></div><div class="line">23, <span class="emphasis">***</span></div><div class="line">23, <span class="emphasis">***</span></div><div class="line">40, <span class="emphasis">***</span></div><div class="line">51, <span class="emphasis">***</span></div><div class="line">54, <span class="emphasis">***</span></div><div class="line">62, <span class="emphasis">***</span></div><div class="line">62, <span class="emphasis">***</span></div><div class="line">71, <span class="emphasis">***</span></div><div class="line">93, <span class="emphasis">***</span></div></pre></td></tr></table></figure>
 <p>如果用年龄作为索引，那么以上不重复的索引的个数是 8，索引选择性就等于 0.8。</p>
 <p>如果记录总数记为 T，那么索引选择性的取值范围就是 1/T 到 1 之间。1 代表没有重复的索引，这种索引选择性最高，性能也就最好。</p>
 <p>对于字符串，我们经常要用前缀索引，这个时候就需要截断。如果截得太短，例如只截一个字母，那么对于英文来说不重复的索引值数目就只有 26 个，这时候索引选择性就不好（相当于很多哈希碰撞），所以我们要尝试各种截取的长度，来测试索引选择性如何，最后得到一个既保证较高选择性，又不太长的前缀索引。</p>
@@ -316,13 +312,13 @@ B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数">
 <h3 id="多列索引中的索引列的顺序"><a href="#多列索引中的索引列的顺序" class="headerlink" title="多列索引中的索引列的顺序"></a>多列索引中的索引列的顺序</h3><p>对于 <code>WHERE A=*** AND B=***</code> 这样的 SQL 语句，SQL 语句中的 A 和 B 的顺序是无所谓的，最主要的是在建立 AB 多列索引的时候，A 和 B 的先后顺序是有讲究的。</p>
 <p>如果只用于优化上面的 WHERE 语句，那么应当把索引选择性高的那个列放在前面。除此之外，为满足 ORDER BY, GROUP BY, DISTINCT 等子句的查询需求，我们应当根据这些查询语句，来确定正确的索引列的顺序，来满足排序和分组的需要。</p>
 <h3 id="聚簇索引（Clustered-Index）"><a href="#聚簇索引（Clustered-Index）" class="headerlink" title="聚簇索引（Clustered Index）"></a>聚簇索引（Clustered Index）</h3><p>聚簇索引是一种数据存储方式，这里只讨论 InnoDb 的实现，它的存储类似于 B-Tree。当有聚簇索引的时候，数据在物理上是按照该索引的顺序连续存储的。因此，当按照聚簇索引进行遍历的时候，系统可以一次 I/O 读取一整页的数据（包括很多行数据），这样就大大节省了 I/O 的次数。</p>
-<p>用户是无法指定那个列作为聚簇索引的。InnoDB 会根据以下优先级选择聚簇索引：</p>
+<p>用户是无法指定哪个列作为聚簇索引的。InnoDB 会根据以下优先级选择聚簇索引：</p>
 <ol>
 <li>PRIMARY KEY</li>
 <li>被 UNIQUE 和 NOT NULL 修饰的索引</li>
 <li>InnoDB 自己隐式定义的主键</li>
 </ol>
-<p>因此，对于大多数有主键的表，聚簇索引和主键两者是相同的列。</p>
+<p>因此，对于大多数有主键的表，聚簇索引和主键两者是相同的。</p>
 <p>聚簇索引的主要优点有：</p>
 <ol>
 <li>相关数据可以在物理上保存在一起</li>
@@ -369,6 +365,8 @@ B-Tree 索引InnoDB 使用的是 B+Tree，它的优点是 IO 读取次数">
 <li>维护准确的索引统计信息：使用 ANALYZE TABLE</li>
 <li>减少碎片：使用 OPTIMIZE TABLE</li>
 </ol>
+<hr>
+<p>参考资料：「高性能 MySQL」</p>
 
       
     </div>
