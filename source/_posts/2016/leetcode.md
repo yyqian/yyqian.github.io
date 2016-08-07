@@ -907,3 +907,11 @@ public class WordDictionary {
 **215. Kth Largest Element in an Array**
 
 推荐。这个是用 QuickSelect 算法，类似 QuickSort，细节需要好好处理，
+
+**216. Combination Sum III**
+
+bakctracking, 跟 dfs 类似，用一个 stack 来记录 path。
+
+**219. Contains Duplicate II**
+
+用 Map 或 Set 都可以，Set 更高效：把超出范围的删除，如果新增元素不成功，说明范围内有重复。
