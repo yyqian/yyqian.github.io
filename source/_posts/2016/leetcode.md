@@ -60,7 +60,7 @@ tags:
 
 经典题目汇集：
 
-137, 148, 210, 208, 215
+137, 148, 210, 208, 215, 221
 
 ### 技巧
 
@@ -919,3 +919,15 @@ bakctracking, 跟 dfs 类似，用一个 stack 来记录 path。
 **220. Contains Duplicate III**
 
 可以用 TreeSet，借助它的 ceiling, floor 方法，复杂度是 Nlgk。
+
+**221. Maximal Square**
+
+推荐。DP 的思路
+
+**222. Count Complete Tree Nodes**
+
+我们在递归暴力求解的基础上进行改进。用二分查找的思路（但不是真正的二分查找），我们检查最左和最右的深度，如果相等，说明是满的，这时可以直接返回整颗树的节点数目。
+
+**223. Rectangle Area**
+
+关键是 overlaping 区域的坐标计算。
