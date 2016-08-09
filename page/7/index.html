@@ -216,6 +216,207 @@
             
               
                 
+                <a class="post-title-link" href="/post/1409906040000/" itemprop="url">
+                  统计学习方法 - 决策树
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-09-05T16:34:00+08:00" content="2014-09-05">
+              2014-09-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1409906040000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1409906040000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>决策树模型一个比较容易理解的例子就是信用卡申请：当我们申请信用卡时，会被问一堆问题，其中包括是否有房子、有工作，月收入，教育程度，是否结婚等等，你的这些每项个人信息都会影响你申请的结果（通过或拒绝）。然而，这些各项信息对于结果的影响权重是不同的，譬如说现在有房子比有工作更能说明你财务状况不错。因此，在评估的过程中应当首先考虑权重大的因素，如果几个权重大的因素都满足要求，我们可以忽略剩余的其他因素，提前结束评估让申请通过，反之亦然，这样在一定程度上能加快评估过程。</p>
+<p>基于这个想法，我们可以考察一个测试数据集，通过计算这个数据集各个因素的权重，构造一个树形结构，每个节点都是一个因素（譬如：工作，教育程度），节点的分支代表这个因素的取值（譬如：有/没有，本科/硕士/博士），节点分支连接的子节点是满足该分支条件的样本。这样我们把权重最大的因素放在根节点，然后按权重从大到小生出各个节点，当该节点所包含的样本都是同一类的时，这个节点就是叶节点，可以唯一地确定结果。（这个决策树的生成过程建议参考书本，我想不出通俗的语句来解释。）</p>
+<p>这里比较重要的一点是“权重”到底是什么？如何来定量地计算它？书本从信息论和概率统计的角度引入了“熵(entropy)”，用于计算这个”权重”。熵是衡量系统混乱度/不确定性的量，它跟信息量是有一定关联的（成正比关系还是反比关系个人认为是取决于如何定义信息量）。我们所要做的是先计算出整个数据集的熵，再计算出给定某个因素之后的数据集的熵，前者和后者的差被称为“信息增益”。这是因为给定该因素后，系统的熵减小了，也就是说不确定性小了，更容易分类了（相当于获得了更多信息量），因此熵的差值等价于信息量的增益。所以以上在构造决策树的过程中，我们需要不断地计算各种因素条件下的“信息增益”来作为“权重”，并进行对比选择。</p>
+<p>最后，当完整的决策树构造好后，我们还有可能需要进行“剪枝”。这是因为完整的决策树往往过于复杂，对于测试数据的分类过程中可能导致过拟合现象，因此我们需要降低模型复杂度，剪去一些分支，在对训练数据和测试数据的拟合程度上找到一个平衡点。</p>
+<p>CART算法：这个算法个人认为是决策树的简化版，这里的“权重”用Gini指数来代替，并且生成的决策树是一棵二叉树，即一个节点只有两个分支。对于有多个分支的，譬如说年龄（可分为青年，中年，老年），我们可以分别计算以下三种分类的Gini指数：青年和非青年，中年和非中年，老年和非老年。通过比较这三种分类的Gini指数，选指数最小的分类方法来生成两个分支。</p>
+<p>程序方面，感觉结合数据库会更方便，我自己没有写相应的代码。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1409646660000/" itemprop="url">
+                  统计学习方法 - EM算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-09-02T16:31:00+08:00" content="2014-09-02">
+              2014-09-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1409646660000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1409646660000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>EM算法貌似是个比较重要的算法，推导了一遍公式，但感觉理解的还不够透彻，所以就不多写什么了。</p>
+<p>“9.1.2 EM算法的导出”这一小节中的联合概率分布P(Y,Z|\theta)其实没必要展开，这样推导看起来能更简洁一点。</p>
+<p>这里主要给出一段演示代码，主要用于高斯混合模型。用3组不同参数下的高斯分布随机函数产生观测数据（2维的），用EM算法通过这些数据反推出系统参数。图中黑点为观测数据，红绿蓝三色椭圆分别为计算所得的三个高斯分布生成函数的半波宽位置。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1409646660000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1409282580000/" itemprop="url">
                   统计学习方法 – 朴素贝叶斯法
                 </a>
@@ -1021,214 +1222,6 @@ sudo fc-cache -fv
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1334584342000/" itemprop="url">
-                  LAWSON GARDENS WEDDING | JING KE + ZHE ZHANG | PULLMAN, WA
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2012-04-16T21:52:22+08:00" content="2012-04-16">
-              2012-04-16
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1334584342000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1334584342000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>My first wedding shoot for my best friends. Congratulations to you both. Wishing you a lifetime of happiness.</p>
-<p><img src="http://farm8.staticflickr.com/7192/7086378365_d58c98aed9_b.jpg" alt="" /></p>
-<p><img src="http://farm6.staticflickr.com/5467/7086379689_a42a338b5f_b.jpg" alt="" /><br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1334584342000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1331056396000/" itemprop="url">
-                  2012 APS March Meeting, Boston
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2012-03-07T01:53:16+08:00" content="2012-03-07">
-              2012-03-07
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1331056396000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1331056396000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>先把照片贴一下，内容过两天再填。</p>
-
-<p>最近比较在意照片的色彩，调不好的照片就都转黑白了，省事又保险</p>
-
-<p>会场中心对面</p>
-
-<p><img src="http://farm8.staticflickr.com/7208/6961000155_ffb72b2c52_b.jpg" /></p>
-
-<p>我就是在这个会场做报告的</p>
-
-<p><img src="http://farm8.staticflickr.com/7207/6815147488_2af4218b80_b.jpg" /></p><br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1331056396000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1274,7 +1267,7 @@ sudo fc-cache -fv
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">132</span>
+              <span class="site-state-item-count">134</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

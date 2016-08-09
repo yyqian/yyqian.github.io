@@ -216,6 +216,221 @@
             
               
                 
+                <a class="post-title-link" href="/post/1440471988201/" itemprop="url">
+                  SICP 笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-25T11:06:28+08:00" content="2015-08-25">
+              2015-08-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1440471988201/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1440471988201/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>看完第一章，我觉得这就是一本关于<strong>抽象</strong>的书。</p>
+<p>我的习题解答见：<a href="https://github.com/yyqian/sicp-solutions">https://github.com/yyqian/sicp-solutions</a></p>
+<h1 id="Chapter-1"><a href="#Chapter-1" class="headerlink" title="Chapter 1"></a>Chapter 1</h1><p>应用序和正则序的差别：正则序先展开，再求值；应用序先求值，再代入。Lisp采用应用序求值。如果遇到if条件判断，正则序也应当立即求值。</p>
+<p>习题1.6用函数的方式定义了一个new-if，这个和if的区别是：new-if的then-clause和else-clause都会被执行，而if则只会根据predicate判断结果执行其中一个。原因是new-if是个普通函数，并且Lisp采用应用序求值，因此then-clause和else-clause作为表达式代入的时候回先求值再代入。</p>
+<p>迭代过程一般优于递归过程。迭代过程需要有以下几个要素：</p>
+<ol>
+<li>状态变量</li>
+<li>一套规则，用于描述迭代过程中从一个状态到下一个状态的转换</li>
+<li>结束检测，用于判断边界
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1440471988201/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1438060629760/" itemprop="url">
+                  Node.js 中的 module.exports，exports，this
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-28T13:17:09+08:00" content="2015-07-28">
+              2015-07-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1438060629760/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1438060629760/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Node.js和Core JS有一点重要的不同是，Node.js多了Module对象，Node会为每一个js文件创建一个Module对象，module之间无法直接访问各自的variable或function，需要通过module.exports来开放接口，然后通过require来引用这些接口，这样就可以实现模块化。</p>
+<p>但这里有一点令人感到疑惑的是module.exports和exports的区别是什么？</p>
+<p>首先，在默认情况下，这两者以及this都指向同一个引用，这个可以通过这两句来判断：</p>
+<pre><code>console.log(module.exports === exports); //true
+console.log(module.exports === this); //true
+</code></pre><p>然后要注意的另一点是，require()返回的是module.exports。</p>
+<p>因此，如果要通过exports或this来暴露接口，要确保各自和module.exports是指向同一个引用的，但这样比较容易出错，因为既要保证exports或this在模块中没有指向新的对象，也要保证module.exports没有指向新的对象。个人比较喜欢的做法是</p>
+<pre><code>module.exports = {
+    x: 1,
+    f: function () {}
+};
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1438060629760/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1437635544279/" itemprop="url">
                   JavaScript 笔记
                 </a>
@@ -1053,207 +1268,6 @@ arm-linux-gnueabihf-g++ test.cpp -o test.exe  #写一个test.cpp并尝试编译�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1409906040000/" itemprop="url">
-                  统计学习方法 - 决策树
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-09-05T16:34:00+08:00" content="2014-09-05">
-              2014-09-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1409906040000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1409906040000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>决策树模型一个比较容易理解的例子就是信用卡申请：当我们申请信用卡时，会被问一堆问题，其中包括是否有房子、有工作，月收入，教育程度，是否结婚等等，你的这些每项个人信息都会影响你申请的结果（通过或拒绝）。然而，这些各项信息对于结果的影响权重是不同的，譬如说现在有房子比有工作更能说明你财务状况不错。因此，在评估的过程中应当首先考虑权重大的因素，如果几个权重大的因素都满足要求，我们可以忽略剩余的其他因素，提前结束评估让申请通过，反之亦然，这样在一定程度上能加快评估过程。</p>
-<p>基于这个想法，我们可以考察一个测试数据集，通过计算这个数据集各个因素的权重，构造一个树形结构，每个节点都是一个因素（譬如：工作，教育程度），节点的分支代表这个因素的取值（譬如：有/没有，本科/硕士/博士），节点分支连接的子节点是满足该分支条件的样本。这样我们把权重最大的因素放在根节点，然后按权重从大到小生出各个节点，当该节点所包含的样本都是同一类的时，这个节点就是叶节点，可以唯一地确定结果。（这个决策树的生成过程建议参考书本，我想不出通俗的语句来解释。）</p>
-<p>这里比较重要的一点是“权重”到底是什么？如何来定量地计算它？书本从信息论和概率统计的角度引入了“熵(entropy)”，用于计算这个”权重”。熵是衡量系统混乱度/不确定性的量，它跟信息量是有一定关联的（成正比关系还是反比关系个人认为是取决于如何定义信息量）。我们所要做的是先计算出整个数据集的熵，再计算出给定某个因素之后的数据集的熵，前者和后者的差被称为“信息增益”。这是因为给定该因素后，系统的熵减小了，也就是说不确定性小了，更容易分类了（相当于获得了更多信息量），因此熵的差值等价于信息量的增益。所以以上在构造决策树的过程中，我们需要不断地计算各种因素条件下的“信息增益”来作为“权重”，并进行对比选择。</p>
-<p>最后，当完整的决策树构造好后，我们还有可能需要进行“剪枝”。这是因为完整的决策树往往过于复杂，对于测试数据的分类过程中可能导致过拟合现象，因此我们需要降低模型复杂度，剪去一些分支，在对训练数据和测试数据的拟合程度上找到一个平衡点。</p>
-<p>CART算法：这个算法个人认为是决策树的简化版，这里的“权重”用Gini指数来代替，并且生成的决策树是一棵二叉树，即一个节点只有两个分支。对于有多个分支的，譬如说年龄（可分为青年，中年，老年），我们可以分别计算以下三种分类的Gini指数：青年和非青年，中年和非中年，老年和非老年。通过比较这三种分类的Gini指数，选指数最小的分类方法来生成两个分支。</p>
-<p>程序方面，感觉结合数据库会更方便，我自己没有写相应的代码。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1409646660000/" itemprop="url">
-                  统计学习方法 - EM算法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-09-02T16:31:00+08:00" content="2014-09-02">
-              2014-09-02
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1409646660000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1409646660000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>EM算法貌似是个比较重要的算法，推导了一遍公式，但感觉理解的还不够透彻，所以就不多写什么了。</p>
-<p>“9.1.2 EM算法的导出”这一小节中的联合概率分布P(Y,Z|\theta)其实没必要展开，这样推导看起来能更简洁一点。</p>
-<p>这里主要给出一段演示代码，主要用于高斯混合模型。用3组不同参数下的高斯分布随机函数产生观测数据（2维的），用EM算法通过这些数据反推出系统参数。图中黑点为观测数据，红绿蓝三色椭圆分别为计算所得的三个高斯分布生成函数的半波宽位置。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1409646660000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1299,7 +1313,7 @@ arm-linux-gnueabihf-g++ test.cpp -o test.exe  #写一个test.cpp并尝试编译�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">132</span>
+              <span class="site-state-item-count">134</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
