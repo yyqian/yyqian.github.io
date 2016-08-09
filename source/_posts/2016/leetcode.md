@@ -915,3 +915,7 @@ bakctracking, 跟 dfs 类似，用一个 stack 来记录 path。
 **219. Contains Duplicate II**
 
 用 Map 或 Set 都可以，Set 更高效：把超出范围的删除，如果新增元素不成功，说明范围内有重复。
+
+**220. Contains Duplicate III**
+
+可以用 TreeSet，借助它的 ceiling, floor 方法，复杂度是 Nlgk。
