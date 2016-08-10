@@ -48,7 +48,8 @@ Spring 中 Bean 的初始化有两种方式：反射和动态字节码生成。S
 
 Spring AOP 的实现也有 JDK 动态代理和 CGLIB 字节码生成两种方式，也使用策略模式进行选择。
 
-## 装饰器模式（Decorator）
+## 装饰器模式（Decorator/Wrapper）
 
 Java Collections 类中的 synchronizedXXX 方法可以构造同步容器类，包装器在构造的时候接受一个容器参数，然后在这个容器参数的每个方法上都包裹 `synchronized (mutex) {}` 来实现为同步类。unmodifiableXXX 方法构造的 Immutable 容器也类似。
 
+Java IO 相关的类使用了大量的装饰器模式，例如 BufferedReader 包装了 Reader，而 InputStreamReader 又包装了 InputStream。
