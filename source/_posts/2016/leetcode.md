@@ -931,3 +931,7 @@ bakctracking, 跟 dfs 类似，用一个 stack 来记录 path。
 **223. Rectangle Area**
 
 关键是 overlaping 区域的坐标计算。
+
+**225. Implement Stack using Queues**
+
+感觉这题没啥意义，push 的时候把需要把元素都全部挪动一遍
