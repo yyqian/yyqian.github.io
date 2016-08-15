@@ -216,6 +216,109 @@
             
               
                 
+                <a class="post-title-link" href="/post/1468377874000/" itemprop="url">
+                  Java 源码分析 - HashSet/TreeSet/LinkedHashSet
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T10:44:34+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468377874000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468377874000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这篇文章把各种 Set 放在一起讲的原因是：它们实际都是穿着马甲的各种 Map，它们用一个 dummy object 来填充 Map 中的 value，剩下的事全部由 Map 来代劳。眼见为实，耳听为虚，下面就通过源码来证明这一点。</p>
+<p>首先从下面的两个字段和构造函数，我们就能看到：</p>
+<ul>
+<li>内部数据存储是通过 HashMap<E,Object> 存储的</li>
+<li>准备了一个没有实际内容的 Object</li>
+<li>构造实例的时候在内部构造了一个 HashMap 实例
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1468377874000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1468371727000/" itemprop="url">
                   Java 源码分析 - LinkedHashMap
                 </a>
@@ -1115,107 +1218,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1467268596000/" itemprop="url">
-                  Spring AOP 深入解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-30T14:36:36+08:00" content="2016-06-30">
-              2016-06-30
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1467268596000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467268596000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="AOP-简介"><a href="#AOP-简介" class="headerlink" title="AOP 简介"></a>AOP 简介</h2><p>AOP 可以看成是针对 OOP 的一个补充或增强。有些系统需求，例如：安全检查、事务管理，如果把这些功能的代码写到业务模块里，会产生很多业务无关的代码，给调试、重构带来很大的复杂度。AOP 在这里的作用就是关注点分离，将业务模块和基础设施模块进行解耦。</p>
-<p>但 AOP 本身不能独立于 OOP 而存在，AOP 的实现一般都要「寄生」在 OOP 的领土之中，这个「寄生」的过程用 AOP 中的黑话来说就是「织入」：把 AOP 的组件集成到 OOP 的组件之中，获得一个新的、能力更强的 OOP 组件。</p>
-<p>我们在这里约定没被增强的原始类称为 POJO，织入的 AOP 组件称为 Aspect，织入后的新的类称为增强类。</p>
-<p>一个 POJO 被「织入」Aspect 之后，得到的增强类对于 POJO 的使用者来说应该是透明的，否则这种增强就是侵入式的了。对于不同的 AOP 的实现方式，如何对使用者透明，采取的方式也不一样。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1467268596000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1261,7 +1263,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">134</span>
+              <span class="site-state-item-count">135</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

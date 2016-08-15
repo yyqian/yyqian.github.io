@@ -216,6 +216,128 @@
             
               
                 
+                <a class="post-title-link" href="/post/1455605122895/" itemprop="url">
+                  深入理解 Java 虚拟机 - 自动内存管理机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-16T14:45:22+08:00" content="2016-02-16">
+              2016-02-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1455605122895/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455605122895/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
+<ul>
+<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
+<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
+<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
+<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
+</ul>
+<h2 id="1-走近-Java"><a href="#1-走近-Java" class="headerlink" title="1. 走近 Java"></a>1. 走近 Java</h2><hr>
+<p>JDK（Java Development Kit）包含三部分：Java、JVM、Java API 类库</p>
+<p>JRE（Java Runtime Enviroment）包含两部分：Java API 类库中的 Java SE API 子集、JVM</p>
+<p>最常见的 Java 虚拟机有：</p>
+<ul>
+<li>HotSpot VM：最常用的 JVM，有热点代码探测和 OSR（栈上替换）功能，可以在运行时触发 JIT 编译器进行优化和产生本地机器代码。Oracle 公司在收购了 JRockit 之后，还移植了一些 JRockit 的特性到 HotSpot VM 中。</li>
+<li>JRockit VM：JRockit 专门用于服务器端，不包含解析器，全靠 JIT 编译器。</li>
+<li>J9 VM：IBM 的产品，与 HotSpot 的定位类似。</li>
+</ul>
+<p>除此之外，还有特定硬件平台专有的「高性能」JVM：Azul VM、Liquid VM。</p>
+<p>还有个特殊的 VM 是 Dalvik VM，用于 Android 平台。它不是一个 JVM，没有遵守 JVM 的规范，不能直接运行 Java 的 Class 文件，使用的是寄存器架构而不是 JVM 中常见的栈架构。</p>
+<p>Java 技术未来的几个方向：</p>
+<ul>
+<li>模块化：主要的技术有 OSGi 和 Java 9 中的 Jigsaw（拼图）</li>
+<li>混合语言：JVM 上可以运行多种语言，譬如：Clojure、Scala、Groovy，因为它们都会被编译成统一的字节码</li>
+<li>多核并行：JDK 1.5 中引入了 java.util.concurrent，JDK 1.7 中加入了 java.util.concurrent.forkjoin，Java 8 中的 Lambda</li>
+<li>进一步丰富语法：譬如自动装箱、泛型、动态注解、可变长参数、遍历循环，还有 Coin 项目</li>
+<li>64 位虚拟机：现在的 64 位 JVM 比 32 位的内存消耗更多，性能差大约 15%，还有改进空间
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1455605122895/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1454576036902/" itemprop="url">
                   2015 年读过的那些书
                 </a>
@@ -1158,106 +1280,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1440776862271/" itemprop="url">
-                  一个值得玩味的 bug
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-08-28T23:47:42+08:00" content="2015-08-28">
-              2015-08-28
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1440776862271/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1440776862271/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近在看<a href="http://book.douban.com/subject/1148282/">SICP</a>这本书时，发现书中2.1.4节讨论的区间算术很有启发性，问题的描述大概是这样的（这里没有按书上的方式来写）：</p>
-<p>我们在现实中测量任何物理量时，一般得到的都不是一个确定的值，而是需要多次测量得到平均值和均方差，一般记录为(x ± dx)。这种记录形式也可以用区间来表示[a, b] = [x - dx, x+ dx]。接下来，我们需要定义一套算术规则来对这个区间进行一些计算，因为我们通常需要将这些直接测量量代入表达式进行计算，来得到一些间接测量量的平均值和误差。</p>
-<p>接下来，用面向对象程序设计的思维，我们将这个区间封装为一个对象，用大写字母表示，例如X = [a, b], Y = [c, d]，接下来可以根据下面的运算规则，添加一些用于区间对象的方法，实现区间的四则运算：<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1440776862271/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1303,7 +1325,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">134</span>
+              <span class="site-state-item-count">135</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

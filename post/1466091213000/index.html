@@ -98,7 +98,7 @@ Easy: 30
 Medium: 93
 Hard">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg">
-<meta property="og:updated_time" content="2016-08-08T01:10:26.000Z">
+<meta property="og:updated_time" content="2016-08-12T06:40:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
 <meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
@@ -357,7 +357,7 @@ Hard">
 <li>用迭代 + stack/queue/array 来取代递归</li>
 </ol>
 <p>经典题目汇集：</p>
-<p>137, 148, 210, 208, 215</p>
+<p>137, 148, 210, 208, 215, 221</p>
 <h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ul>
 <li>dfs: 把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用</li>
 <li>bfs: 对于深度，可以用 queue，进入下一层的时候，先获取当前 queue 的大小 n，然后循环 n 次，把这一层的元素都处理完，这时候层级++，进入下层迭代。见 127 题。</li>
@@ -707,6 +707,16 @@ Hard">
 <p>bakctracking, 跟 dfs 类似，用一个 stack 来记录 path。</p>
 <p><strong>219. Contains Duplicate II</strong></p>
 <p>用 Map 或 Set 都可以，Set 更高效：把超出范围的删除，如果新增元素不成功，说明范围内有重复。</p>
+<p><strong>220. Contains Duplicate III</strong></p>
+<p>可以用 TreeSet，借助它的 ceiling, floor 方法，复杂度是 Nlgk。</p>
+<p><strong>221. Maximal Square</strong></p>
+<p>推荐。DP 的思路</p>
+<p><strong>222. Count Complete Tree Nodes</strong></p>
+<p>我们在递归暴力求解的基础上进行改进。用二分查找的思路（但不是真正的二分查找），我们检查最左和最右的深度，如果相等，说明是满的，这时可以直接返回整颗树的节点数目。</p>
+<p><strong>223. Rectangle Area</strong></p>
+<p>关键是 overlaping 区域的坐标计算。</p>
+<p><strong>225. Implement Stack using Queues</strong></p>
+<p>感觉这题没啥意义，push 的时候把需要把元素都全部挪动一遍</p>
 
       
     </div>
@@ -806,7 +816,7 @@ Hard">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">134</span>
+              <span class="site-state-item-count">135</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

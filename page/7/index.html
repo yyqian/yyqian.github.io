@@ -216,6 +216,121 @@
             
               
                 
+                <a class="post-title-link" href="/post/1413449580000/" itemprop="url">
+                  Raspberry Pi 交叉编译配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-16T16:53:00+08:00" content="2014-10-16">
+              2014-10-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1413449580000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1413449580000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>以下所用的配置环境：</p>
+<ul>
+<li>PC端: Ubuntu 14.04 LTS 64-bit</li>
+<li>Raspberry Pi(RPi)端: Raspbian</li>
+</ul>
+<p>Raspbian的安装配置参照：<a href="http://blog.yyqian.com/117.html">Raspbian安装配置记录</a></p>
+<p><a href="http://hertaville.com/2012/09/28/development-environment-raspberry-pi-cross-compiler/">配置C/C++交叉编译环境</a></p>
+<p>请仔细阅读以上链接内容，以下仅仅是个人操作记录。</p>
+<p>PC端：</p>
+<pre><code>sudo apt-get install build-essential git
+mkdir ~/rpi
+cd ~/rpi
+git clone git://github.com/raspberrypi/tools.git
+vi ~/.bashrc    #最后一行添加export PATH=$PATH:$HOME/Work/RPi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin
+source ~/.bashrc
+arm-linux-gnueabihf-gcc -v                    #检查是否安装成功
+arm-linux-gnueabihf-g++ test.cpp -o test.exe  #写一个test.cpp并尝试编译，生成的test.exe需要拷贝到RPi运行
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1413449580000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1409906040000/" itemprop="url">
                   统计学习方法 - 决策树
                 </a>
@@ -1123,105 +1238,6 @@ sudo fc-cache -fv
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1335156353000/" itemprop="url">
-                  第一卷120黑白
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2012-04-23T12:45:53+08:00" content="2012-04-23">
-              2012-04-23
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1335156353000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1335156353000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>之前过生日朋友送了一卷120黑白胶卷，最近天气渐好，于是拿我的Rolleiflex拍了一下，拍完了邮寄到店里冲印扫描的。</p>
-<p><img src="http://farm8.staticflickr.com/7185/7095149417_737251c461_z.jpg" alt=""></p>
-<p>再show一下我的Rolleiflex</p>
-<p><img src="http://static.flickr.com/5189/5688637055_7043885d28.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1267,7 +1283,7 @@ sudo fc-cache -fv
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">134</span>
+              <span class="site-state-item-count">135</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
