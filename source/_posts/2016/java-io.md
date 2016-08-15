@@ -1,10 +1,12 @@
 ---
-title: Java 中的 IO
+title: Java 中的 I/O 类
 date: 2016-08-10 11:50:58
 permalink: 1470801058000
 tags: Java
 ---
 
+这篇文章首先将着重介绍下 Byte Streams 和 Character Streams，然后结合装饰器模式，介绍在字节流和字符流基础上通过包装而衍生出来的 Buffered Streams、Scanning 和 Formatting 相关的 I/O 类、与 Command Line 交互的 I/O 类、以及能够将基本类型和对象序列化的 I/O 类。
+<!-- more -->
 ## Byte Streams
 
 所有的 Byte Stream 都继承自 InputStream 和 OutputStream 抽象类。
