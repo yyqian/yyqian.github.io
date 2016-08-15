@@ -60,7 +60,7 @@ tags:
 
 经典题目汇集：
 
-137, 148, 210, 208, 215, 221
+137, 148, 210, 208, 215, 221, 236, 238
 
 ### 技巧
 
@@ -934,4 +934,38 @@ bakctracking, 跟 dfs 类似，用一个 stack 来记录 path。
 
 **225. Implement Stack using Queues**
 
-感觉这题没啥意义，push 的时候把需要把元素都全部挪动一遍
+**232. Implement Queue using Stacks**
+
+感觉这两题没啥意义，都只要改 push 方法：每次 push 都要借助另外一个容器把数据整体挪动一遍，目的是自行维护需要的数据结构。
+
+**228. Summary Ranges**
+不难，挨个检查就是了
+
+**230. Kth Smallest Element in a BST**
+
+in-order traversal, 等同于中序遍历
+
+**234. Palindrome Linked List**
+
+用 walker 和 runner 的技巧找出中间节点，然后把后半段反转，再从两端进行挨个比对。
+
+**236. Lowest Common Ancestor of a Binary Tree**
+
+推荐。我们一旦遇到 p 或者 q 就认为它是 LCA，然后将它向上传播，如果某个节点左右分支都有 LCA，说明它自己是真正的 LCA，如果只有一个分支有 LCA，那就返回那个分支的 LCA。
+
+```
+public class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left != null && right != null) return root;
+        return left == null ? right : left;
+    }
+}
+```
+
+**238. Product of Array Except Self**
+
+推荐。从左累积一遍，然后从右累积一遍，再把这两个数组相乘
+
