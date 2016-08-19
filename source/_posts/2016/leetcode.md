@@ -60,7 +60,7 @@ tags:
 
 经典题目汇集：
 
-137, 148, 210, 208, 215, 221, 236, 238
+(137 & 260), 148, 210, 208, 215, 221, 236, 238, 257, 264
 
 ### 技巧
 
@@ -704,6 +704,10 @@ DFS，可以用 map 缓存访问过的节点
 
 推荐，这个题很精彩，用数字电路设计以及状态机的思路来解，整体思路就是设计个计数器
 
+**260. Single Number III**
+
+推荐。关键在于区分两个数
+
 **139. Word Break**
 
 DP 或分治，递归版本会超时，用迭代
@@ -973,3 +977,36 @@ public class Solution {
 
 用右上角的元素进行对比，每次可以消除一整行或者一整列。
 
+**257. Binary Tree Paths**
+
+推荐，DFS，path 可以不用 stack，用 String 每次都新建一个对象
+
+**167. Two Sum II - Input array is sorted**
+
+头尾两个指针
+
+**241. Different Ways to Add Parentheses**
+
+分治递归
+
+**264. Ugly Number II**
+
+挺精巧的
+
+```
+public class Solution {
+    public int nthUglyNumber(int n) {
+        if (n == 1) return 1;
+        int[] ugly = new int[n];
+        ugly[0] = 1;
+        int p2 = 0, p3 = 0, p5 = 0;
+        for (int i = 1; i < n; i++) {
+            ugly[i] = Math.min(Math.min(2*ugly[p2], 3*ugly[p3]), 5*ugly[p5]);
+            if (ugly[i] == 2*ugly[p2]) p2++;
+            if (ugly[i] == 3*ugly[p3]) p3++;
+            if (ugly[i] == 5*ugly[p5]) p5++;
+        }
+        return ugly[n-1];
+    }
+}
+```
