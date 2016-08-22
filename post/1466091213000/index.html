@@ -98,7 +98,7 @@ Easy: 30
 Medium: 93
 Hard">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg">
-<meta property="og:updated_time" content="2016-08-12T06:40:35.000Z">
+<meta property="og:updated_time" content="2016-08-19T09:33:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
 <meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
@@ -357,7 +357,7 @@ Hard">
 <li>用迭代 + stack/queue/array 来取代递归</li>
 </ol>
 <p>经典题目汇集：</p>
-<p>137, 148, 210, 208, 215, 221</p>
+<p>(137 &amp; 260), 148, 210, 208, 215, 221, 236, 238, 257, 264</p>
 <h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ul>
 <li>dfs: 把路径集合传到递归函数中，在递归之前 push 元素，递归之后 pop 元素，这个路径就可以反复利用</li>
 <li>bfs: 对于深度，可以用 queue，进入下一层的时候，先获取当前 queue 的大小 n，然后循环 n 次，把这一层的元素都处理完，这时候层级++，进入下层迭代。见 127 题。</li>
@@ -645,6 +645,8 @@ Hard">
 <p>推荐，微软面试那本书上有，XOR 满足交换率，A ^ A = 0, A ^ 0 = A</p>
 <p><strong>137. Single Number II</strong></p>
 <p>推荐，这个题很精彩，用数字电路设计以及状态机的思路来解，整体思路就是设计个计数器</p>
+<p><strong>260. Single Number III</strong></p>
+<p>推荐。关键在于区分两个数</p>
 <p><strong>139. Word Break</strong></p>
 <p>DP 或分治，递归版本会超时，用迭代</p>
 <p><strong>143. Reorder List</strong></p>
@@ -716,8 +718,29 @@ Hard">
 <p><strong>223. Rectangle Area</strong></p>
 <p>关键是 overlaping 区域的坐标计算。</p>
 <p><strong>225. Implement Stack using Queues</strong></p>
-<p>感觉这题没啥意义，push 的时候把需要把元素都全部挪动一遍</p>
-
+<p><strong>232. Implement Queue using Stacks</strong></p>
+<p>感觉这两题没啥意义，都只要改 push 方法：每次 push 都要借助另外一个容器把数据整体挪动一遍，目的是自行维护需要的数据结构。</p>
+<p><strong>228. Summary Ranges</strong><br>不难，挨个检查就是了</p>
+<p><strong>230. Kth Smallest Element in a BST</strong></p>
+<p>in-order traversal, 等同于中序遍历</p>
+<p><strong>234. Palindrome Linked List</strong></p>
+<p>用 walker 和 runner 的技巧找出中间节点，然后把后半段反转，再从两端进行挨个比对。</p>
+<p><strong>236. Lowest Common Ancestor of a Binary Tree</strong></p>
+<p>推荐。我们一旦遇到 p 或者 q 就认为它是 LCA，然后将它向上传播，如果某个节点左右分支都有 LCA，说明它自己是真正的 LCA，如果只有一个分支有 LCA，那就返回那个分支的 LCA。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="type">TreeNode</span> lowestCommonAncestor(<span class="type">TreeNode</span> root, <span class="type">TreeNode</span> p, <span class="type">TreeNode</span> q) &#123;</div><div class="line">        <span class="keyword">if</span> (root == null || root == p || root == q) <span class="keyword">return</span> root;</div><div class="line">        <span class="type">TreeNode</span> <span class="keyword">left</span> = lowestCommonAncestor(root.<span class="keyword">left</span>, p, q);</div><div class="line">        <span class="type">TreeNode</span> <span class="keyword">right</span> = lowestCommonAncestor(root.<span class="keyword">right</span>, p, q);</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">left</span> != null &amp;&amp; <span class="keyword">right</span> != null) <span class="keyword">return</span> root;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">left</span> == null ? <span class="keyword">right</span> : <span class="keyword">left</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>238. Product of Array Except Self</strong></p>
+<p>推荐。从左累积一遍，然后从右累积一遍，再把这两个数组相乘</p>
+<p><strong>240. Search a 2D Matrix II</strong></p>
+<p>用右上角的元素进行对比，每次可以消除一整行或者一整列。</p>
+<p><strong>257. Binary Tree Paths</strong></p>
+<p>推荐，DFS，path 可以不用 stack，用 String 每次都新建一个对象</p>
+<p><strong>167. Two Sum II - Input array is sorted</strong></p>
+<p>头尾两个指针</p>
+<p><strong>241. Different Ways to Add Parentheses</strong></p>
+<p>分治递归</p>
+<p><strong>264. Ugly Number II</strong></p>
+<p>挺精巧的</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">   <span class="keyword"> public</span><span class="built_in"> int </span>nthUglyNumber(int n) &#123;</div><div class="line">       <span class="built_in"> if </span>(n == 1)<span class="built_in"> return </span>1;</div><div class="line">        int[] ugly =<span class="built_in"> new </span>int[n];</div><div class="line">        ugly[0] = 1;</div><div class="line">       <span class="built_in"> int </span>p2 = 0, p3 = 0, p5 = 0;</div><div class="line">        for (int i = 1; i &lt; n; i++) &#123;</div><div class="line">            ugly[i] = Math.min(Math.min(2*ugly[p2], 3*ugly[p3]), 5*ugly[p5]);</div><div class="line">           <span class="built_in"> if </span>(ugly[i] == 2*ugly[p2]) p2++;</div><div class="line">           <span class="built_in"> if </span>(ugly[i] == 3*ugly[p3]) p3++;</div><div class="line">           <span class="built_in"> if </span>(ugly[i] == 5*ugly[p5]) p5++;</div><div class="line">        &#125;</div><div class="line">       <span class="built_in"> return </span>ugly[n-1];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -816,7 +839,7 @@ Hard">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">135</span>
+              <span class="site-state-item-count">136</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

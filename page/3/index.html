@@ -216,6 +216,113 @@
             
               
                 
+                <a class="post-title-link" href="/post/1467269308000/" itemprop="url">
+                  Spring Data 深入解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-30T14:48:28+08:00" content="2016-06-30">
+              2016-06-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1467269308000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467269308000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Spring 数据访问层可以分成三个部分：</p>
+<ol>
+<li><p>统一的数据访问异常层次体系：Spring 框架会把所有特定于数据访问技术的异常（Exception）都进行转译，然后封装为一套标准的异常层次体系。这样我们只要处理这一套封装之后的异常体系就可以了。</p>
+</li>
+<li><p>JDBC API 的最佳实践：说白了就是对 JDBC API 的封装。</p>
+</li>
+<li><p>以统一的方式对各种 ORM 方案的集成：这一部分内容以后会用 MyBatis 作为例子单独进行阐述。</p>
+</li>
+</ol>
+<p>这三个部分本质上都是一种封装，第一部分是对各种异常的封装，第二部分是对 JDBC API 的封装，第三部分是都多种 ORM 技术的封装。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1467269308000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1467268596000/" itemprop="url">
                   Spring AOP 深入解析
                 </a>
@@ -1234,106 +1341,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1461405609750/" itemprop="url">
-                  transient 和 @JsonIgnore
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-23T18:00:09+08:00" content="2016-04-23">
-              2016-04-23
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1461405609750/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1461405609750/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>一般在遇到到远程过程调用（Remote Procedure Call，RPC）或者 Restful API 的时候，我们就会涉及到对象序列化的问题。RMI 中只要让类实现 Serializable 接口，然后使用 ObjectOutputStream 就可以完成序列化为二进制的过程。而 Restful API 一般用 JSON 格式较为普遍，我个人习惯用 Jackson 2 类库来完成序列化为 JSON 字符串的过程。</p>
-<p>在序列化的过程中，我们可能会遇到一些 fields，我们并不希望把它们传输出去，例如用户的密码、银行卡号等，这时候我们就会用到 transient 或 @JsonIgnore，前者是 Java 中的一个描述符，后者是 Jackson 2 类库中的一个注释，下面我们分开来讨论这两个东西的用法。</p>
-<h2 id="transient"><a href="#transient" class="headerlink" title="transient"></a>transient</h2><p>transient 可以修饰于 field 上，这样在序列化为二进制的时候，这个 field 就会被忽略掉。例如以下 User 类的 password 字段：<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1461405609750/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1379,7 +1386,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">135</span>
+              <span class="site-state-item-count">136</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
