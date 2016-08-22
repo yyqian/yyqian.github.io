@@ -20,7 +20,7 @@ Machine Learning 这个概念有两种定义：
 2. unsupervised learning
 
 前者的学习需要以往数据给出一定的「指导」，而后者可以自发地从数据中摸索出一定的「规律」。
-
+<!-- more -->
 ### Supervised learning
 
 Supervised learning 的问题又可以分为两类问题：regression 和 classification。前者预测的值一般是连续的，例如根据以往的运营情况预测未来的盈利；后者预测的值是离散的，例如预测是否得癌症。
