@@ -1010,3 +1010,8 @@ public class Solution {
     }
 }
 ```
+
+**268. Missing Number**
+
+有 XOR 和 SUM 两种方法
+
