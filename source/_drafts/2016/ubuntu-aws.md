@@ -18,7 +18,9 @@ LC_ALL=en_US.UTF-8
 
 配置时区：
 
-http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html
+```
+sudo dpkg-reconfigure tzdata # 选择 Asia/Shanghai
+```
 
 装一些常用的软件(Java, Nginx)：
 
