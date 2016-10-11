@@ -12,8 +12,8 @@ tags:
 然后 SSH 登录，先设置下 locale，在`/etc/environment` 文件中添加并重启：
 
 ```
-LANG=en_US.UTF-8
-LC_ALL=en_US.UTF-8
+LANG=en_US.utf-8
+LC_ALL=en_US.utf-8
 ```
 
 配置时区：
@@ -22,23 +22,18 @@ LC_ALL=en_US.UTF-8
 sudo dpkg-reconfigure tzdata # 选择 Asia/Shanghai
 ```
 
-装一些常用的软件(Java, Nginx)：
+装一些常用的软件(Nginx, Docker)：
 
 ```
-sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade
 sudo reboot
-sudo apt-get install default-jdk nginx
+sudo apt-get install docker.io nginx
 ```
 
-装 nvm 和 nodejs：
+配置 Docker:
 
 ```
-sudo apt-get install build-essential libssl-dev
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
-exit
-nvm install ****
-
+sudo usermod -aG docker $USER
 ```
 
 配置 Nginx:
