@@ -22,12 +22,12 @@ LC_ALL=en_US.utf-8
 sudo dpkg-reconfigure tzdata # 选择 Asia/Shanghai
 ```
 
-装一些常用的软件(Nginx, Docker)：
+装一些常用的软件(Nginx, Docker, JDK, maven)：
 
 ```
 sudo apt-get update && sudo apt-get upgrade
 sudo reboot
-sudo apt-get install docker.io nginx
+sudo apt-get install docker.io nginx default-jdk maven
 ```
 
 配置 Docker:
