@@ -1,5 +1,5 @@
 ---
-title: CSAPP - Bomblab
+title: CS:APP3e - Bomblab
 date: 2016-11-28 19:54:16
 permalink: 1480334056000
 tags:
@@ -36,7 +36,7 @@ stepi        # 运行下一行汇编代码，直到运行到 phase_1 的汇编�
 0x400ef0 <phase_1+16>   je     0x400ef7 <phase_1+23>
 0x400ef2 <phase_1+18>   callq  0x40143a <explode_bomb>
 ```
-
+<!-- more -->
 这里关键的是 strings_not_equal 方法，返回值如果是非零（也就是真）的话，就会触发 explode_bomb。
 
 call strings_not_equal 方法之前的一句是把立即数 0x402400 存入 %esi（也就是方法的第二个参数），这里可以推论 strings_not_equal 有两个输入参数，第一个是前面输入的字符串的指针，第二个是待比较的字符串的指针。所以我们尝试看一下指针 0x402400 中存的是什么：
