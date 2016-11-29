@@ -1,5 +1,5 @@
 ---
-title: CSAPP: Bomblab
+title: CSAPP - Bomblab
 date: 2016-11-28 19:54:16
 permalink: 1480334056000
 tags:
