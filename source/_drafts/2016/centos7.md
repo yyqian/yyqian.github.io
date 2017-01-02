@@ -58,7 +58,7 @@ PasswordAuthentication no //这个不要轻易设置，禁止使用基于口令�
 
 exit，然后用新端口登录：ssh USER@xxx.xxx.xxx.xxx -p 1234
 
-### 解决阿里云上的问题
+### 解决 LC_CTYPE 的问题
 
 ```
 -bash: warning: setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory
