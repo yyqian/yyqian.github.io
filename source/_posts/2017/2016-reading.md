@@ -37,80 +37,80 @@ tags:
 <!-- more -->
 ---
 
-### 一月、二月
+一月、二月
 
-**[深入理解 Java 虚拟机](http://book.douban.com/subject/24722612/)**
+### [深入理解 Java 虚拟机](http://book.douban.com/subject/24722612/)
 
 推荐。国内有关 JVM 最好的书籍了。JVM 是多个语言的基石（Java，Scala，Clojure 等），并且 JVM 调优是在 Java 这条路上必然会碰到的。除此之外，了解 JVM 也能使你更深入理解 Java 的很多特性。
 
-**[Java 并发编程实践](http://book.douban.com/subject/10484692/)**
+### [Java 并发编程实践](http://book.douban.com/subject/10484692/)
 
 推荐。这本书有些难度，需要一定基础。二月份看了一遍，七月份又看了一遍，有些内容最好要对 JVM 有一定的了解。翻译得有些晦涩，需要自己稍微揣摩一下。
 
-[MySQL 技术内幕](http://book.douban.com/subject/26436525/)
+### [MySQL 技术内幕](http://book.douban.com/subject/26436525/)
 
 不推荐。只有前面 220 页值得看，其余的不如看官方文档。作者同一个东西翻来覆去讲，不过这有好有坏吧。
 建议看 SQL 必知必会 + 官方文档 + 高性能 MySQL
 
-[深入分析 Java Web 技术内幕](http://book.douban.com/subject/19965586/)
+### [深入分析 Java Web 技术内幕](http://book.douban.com/subject/19965586/)
 
 不推荐。这本书我就花了两三个小时大致扫了一下，只能用作了解 Java Web 有些什么相关的知识点。内容上很难读懂，用了一堆代码、时序图、类关系图，没有深入浅出的感觉。不过期望一本书能把这些知识点都讲清楚应该也是不现实的。分解到每个知识点基本都有更好的书来解读。
 
-**[设计模式](http://book.douban.com/subject/1052241/)**
+### [设计模式](http://book.douban.com/subject/1052241/)
 
 推荐。虽然有一部分人是反对设计模式的滥用的，但是我觉得了解每个设计模式的理念还是很有必要的，即使自己不用这些设计模式，但在看一些框架的文档或源代码时，经常会蹦出一些设计模式的名字，如果能理解这个设计模式的工作机制的话，就能很快速地理解这个框架内部的工作机制，省去很多钻研代码、文档的时间。
 
 另外，至于如何使用设计模式，首先我觉得这些设计模式还是跟语言有关的，设计模式更多的像是对语言的一种补充，有些语言本身就能自带一些模式，譬如 Lambda 表达式可以代替 Command 模式。这本书还是针对 OOP 写的，函数式语言基本都不适用。另外，我觉得心里有这些模式总是比没有的好，这就好比有信仰总比什么信仰都没有的好。但也不能变成书呆子，随便什么代码都得套个设计模式。
 
-**[TCP/IP详解 卷1：协议](http://book.douban.com/subject/1088054/)**
+### [TCP/IP详解 卷1：协议](http://book.douban.com/subject/1088054/)
 
 推荐。都是一些基础知识，想要深入理解网络方面的内容还是很有必要了解的，http 和 socket 都是在 tcp/ip 协议上的一个封装。不过这本书读起来很枯燥，看完后还是感觉一知半解的，只能说大体有个了解了。
 
-### 三月
+三月
 
-**[Effective Java](http://book.douban.com/subject/3360807/)**
+### [Effective Java](http://book.douban.com/subject/3360807/)
 
 推荐。这本讲的就是 Java 的最佳实践，各种语言貌似都有同类的书。适合经常翻翻，有利于养成良好的编码习惯。
 
-### 四月
+四月
 
-[淘宝十年产品事](https://book.douban.com/subject/25732463/)
+### [淘宝十年产品事](https://book.douban.com/subject/25732463/)
 
 推荐。一本小巧的书，半天就能看完的。这本书是在做一个电商项目的时候，到处搜罗商品系统设计相关的资源找到的。主要就讲了淘宝的商品分类和属性，以及搜索引擎是如何设计的。做电商系统的同学可以看下这本书，毕竟淘宝是这个领域的标杆，看看淘宝这么多年的商品系统是如何演变的、在这个过程遇到的问题以及解决的方案。
 
-### 五月
+五月
 
-[Netty in Action](https://book.douban.com/subject/24700704/)
+### [Netty in Action](https://book.douban.com/subject/24700704/)
 
-[Elasticsearch in Action](https://book.douban.com/subject/26691915/)
+### [Elasticsearch in Action](https://book.douban.com/subject/26691915/)
 
 推荐。上面两本书都是 Manning 的 in Action 系列的，内容上既介绍这两个框架/工具核心的概念，又给出了很多使用的例子，这个系列的书都挺推荐的。Netty 是 Java 平台的一个高性能的异步和事件驱动的网络框架，Elasticsearch 是一个基于 Lucence 搜索引擎，在它们各自的领域都是很好的选择。
 
-[浪潮之巅](https://book.douban.com/subject/6709783/)
+### [浪潮之巅](https://book.douban.com/subject/6709783/)
 
 推荐。我觉得搞 IT 的都应该看一下这书，这个像一本 IT 行业的史书，讲了硅谷各个 IT 公司的兴衰史。所谓「读史可以使人明智，鉴以往可以知未来」，如果能对自己的前路有个更清晰的了解的话，就能更有效地把时间精力投入到有价值的地方，否则一门心思埋头苦干并不一定会迎来一个美好的未来。
 
-### 六月
+六月
 
-[大型网站技术架构](https://book.douban.com/subject/25723064/)
+### [大型网站技术架构](https://book.douban.com/subject/25723064/)
 
 一般。科普类读物，草草读了一遍，对于没有大型网站工作经验的人来说，是个拓宽视野的渠道。不过感觉这书性价比不高，看个电子书就行了。
 
-[Redis in Action](https://book.douban.com/subject/10597898/)
+### [Redis in Action](https://book.douban.com/subject/10597898/)
 
 推荐。Redis 有点像一把瑞士军刀，它的几种数据结构组合起来用之后，就可以实现很多功能。这本书第一部分除了介绍每种数据结构的基本操作，也讲了持久化、事务等进阶的功能。第二部分主要是实战示例，我只挑了几个并发、锁相关的示例仔细看了下，都还不错，配合自己实践应该会比较好，干看感觉有点累。最后一部分暂时用不上，也就没读。
 
-**[算法](https://book.douban.com/subject/10432347/)**
+### [算法](https://book.douban.com/subject/10432347/)
 
 推荐。今年花时间最多的一本书了，补上了之前一直欠下的算法功底。选这本书而不是「算法导论」是因为这本书讲得更详细透彻，而且有 Java 代码实现，照着码一遍代码更有利于对各个细节都有所了解。除此之外，「算法导论」有很大篇幅花在算法分析上面，时间花在这上面个人觉得性价比有点低。这书主要讲了排序、查找、图、字符串这四个主题相关的算法，动态规划、贪心算法等同样也很重要的算法可以看「算法导论」补一下。
 
-### 七月
+七月
 
-**[Spring 揭秘](https://book.douban.com/subject/3897837/)**
+### [Spring 揭秘](https://book.douban.com/subject/3897837/)
 
 推荐。看过的 Spring 相关的书中讲解得最好的一本，国内人写的，读起来比国外翻译过来的书顺畅的多，作者也善于把晦涩的内容以生动的形式讲出来，把 Spring 核心的几块内容讲得很透彻，如果再想深入的话就扒 Spring 源码吧。
 
-[Clojure for the Brave and True](https://book.douban.com/subject/26363669/)
+### [Clojure for the Brave and True](https://book.douban.com/subject/26363669/)
 
 推荐。Clojure 入门书，作者比较逗，内容很生动，这书有完整的网页版，免费的，良心之作。正如书上所说：
 
@@ -118,39 +118,39 @@ tags:
 
 虽然用 Clojure 的公司了然无几，但学习这门语言可以学到很多新鲜的理念，并且能把 Lisp 语言用到实际项目中也是很有乐趣的一件事。
 
-### 八月
+八月
 
-[Maven 实战](https://book.douban.com/subject/5345682/)
+### [Maven 实战](https://book.douban.com/subject/5345682/)
 
 推荐。Maven 是 Java 平台事实上的项目构建工具标准，这本书比较全面地介绍了 Maven 核心的一些东西：坐标、依赖、仓库、生命周期、插件、聚合和继承等，还有一些周边的功能。内容以工具的使用介绍为主，没有什么复杂的理论和概念，所以可以轻松读完。Maven 是 Java 开发日常使用的工具之一，所以还是有必要全面了解一下它的。
 
-[Java 8 函数式编程](https://book.douban.com/subject/26346017/)
+### [Java 8 函数式编程](https://book.douban.com/subject/26346017/)
 
 推荐。Java 8 最大的改动应该就是引入函数式编程了，这个改动包含了 Lambda 表达式、Stream 类、原有集合接口 API 的增强，接口的默认方法等等。引入函数式可以在很多方面增强 Java 的抽象能力，改变大家以往对于 Java 冗长繁杂的印象，所以值得好好了解一下这些新的特性。这本书内容上比较简练，但除了介绍几个新增类、API 的使用，同时也从架构层面来阐述函数式编程适用的场景。
 
-**[高性能 MySQL](https://book.douban.com/subject/23008813/)**
+### [高性能 MySQL](https://book.douban.com/subject/23008813/)
 
 推荐。MySQL 方面比较有名的书了，我主要看了 Schema 优化、索引优化、查询优化以及缓存相关的内容。对于非 DBA 这几部分内容应该都是值得深入了解的。内容上各个知识点感觉比较分散，毕竟是以优化为主题的，所以不会讲得面面俱到，有一定开发经验再看应该会更有收获。
 
-### 九月、十月
+九月、十月
 
-[剑指 offer](https://book.douban.com/subject/25910559/)
+### [剑指 offer](https://book.douban.com/subject/25910559/)
 
-[编程之美](https://book.douban.com/subject/3004255/)
+### [编程之美](https://book.douban.com/subject/3004255/)
 
 推荐。个人觉得要应付大公司面试的算法环节，学点这里面的套路还是很有必要的，免得当场翻车。看以上两本，再加上 LeetCode 练习，应该就能横扫大多数公司了。
 
-[图解 Http](https://book.douban.com/subject/25863515/)
+### [图解 Http](https://book.douban.com/subject/25863515/)
 
 不推荐。虽然通俗易懂的风格挺喜欢的，但讲得有点浅了，没什么收获。
 
-### 十一月、十二月、一月
+十一月、十二月、一月
 
-**[深入理解计算机系统](https://book.douban.com/subject/26912767/)**
+### [深入理解计算机系统](https://book.douban.com/subject/26912767/)
 
 推荐。很有名的 CSAPP，这本也是今年花了大量精力读的一本书，目的就是补下计算机基础，2017 年还打算继续还债，把欠下的操作系统、网络、计算机原理、编译原理这些核心课程的知识都还上。
 
-[微服务设计](https://book.douban.com/subject/26772677/)
+### [微服务设计](https://book.douban.com/subject/26772677/)
 
 推荐。因为工作需要看的，讲微服务比较权威的一本小书。因为微服务设计 2014 年才开始流行，所以这方面资料其实还不算多，可能大家都还处在摸着石头过河的阶段。
 
