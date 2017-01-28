@@ -216,6 +216,336 @@
             
               
                 
+                <a class="post-title-link" href="/post/1485602725000/" itemprop="url">
+                  2016 年读过的那些书
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-28T19:25:25+08:00" content="2017-01-28">
+              2017-01-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1485602725000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1485602725000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>又到回顾一年工作学习的日子，相比<a href="http://yyqian.com/post/1454576036902/">去年</a>，今年工作上因为一些限制，没有什么起色，但业余时间较多，有较多的时间花在自我提升上，所以读的书也比去年翻了一倍。基本上去年的小目标也算实现了，就是深入学习 Java 体系的工具/框架以及后端开发涉及的一些知识。还是和去年一样，给出一些书评，今年有好几本书都给我带来了很大收获。</p>
+<p>2016 年的书单：</p>
+<ul>
+<li>深入理解 Java 虚拟机</li>
+<li>Java 并发编程实践</li>
+<li>MySQL 技术内幕</li>
+<li>深入分析 Java Web 技术内幕</li>
+<li>设计模式</li>
+<li>TCP/IP详解 卷1：协议</li>
+<li>Effective Java</li>
+<li>淘宝十年产品事</li>
+<li>Netty in Action</li>
+<li>Elasticsearch in Action</li>
+<li>浪潮之巅</li>
+<li>大型网站技术架构</li>
+<li>Redis in Action</li>
+<li>算法</li>
+<li>Spring 揭秘</li>
+<li>Clojure for the Brave and True</li>
+<li>Maven 实战</li>
+<li>Java 8 函数式编程</li>
+<li>高性能 MySQL</li>
+<li>剑指 offer</li>
+<li>编程之美</li>
+<li>图解 Http</li>
+<li>深入理解计算机系统</li>
+<li>微服务设计</li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1485602725000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1480399733000/" itemprop="url">
+                  生产者 - 消费者模式的多种实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-29T14:08:53+08:00" content="2016-11-29">
+              2016-11-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1480399733000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1480399733000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这篇文章将借助生产者 - 消费者模式的几种实现，来探究 wait/notify、显式锁、Condition 的使用。</p>
+<h2 id="使用现成的-BlockingQueue-实现"><a href="#使用现成的-BlockingQueue-实现" class="headerlink" title="使用现成的 BlockingQueue 实现"></a>使用现成的 BlockingQueue 实现</h2><p>我们先给出一个使用了 <code>java.util.concurrent.BlockingQueue</code> 的实现。</p>
+<p>这个版本在逻辑上最清晰，我们有两个线程：Producer 和 Consumer，它们共享一个阻塞队列，在这个队列上完成两个线程的交互。这个队列的特点是如果队列为空，take() 方法会阻塞，如果队列满了，put() 方法会阻塞。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Producer&lt;T&gt; implements Runnable &#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> final BlockingQueue&lt;T&gt; <span class="built_in">queue</span>;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Producer</span><span class="params">(BlockingQueue&lt;T&gt; <span class="built_in">queue</span>)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.<span class="built_in">queue</span> = <span class="built_in">queue</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @<span class="function">Override</div><div class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">        T item = (T)<span class="keyword">new</span> Object(); <span class="comment">// produce item here</span></div><div class="line">        <span class="built_in">queue</span>.put(item);</div><div class="line">        System.out.println(<span class="string">"I produced an item: "</span> + item.toString());</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">      e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Consumer&lt;T&gt; implements Runnable &#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> final BlockingQueue&lt;T&gt; <span class="built_in">queue</span>;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Consumer</span><span class="params">(BlockingQueue&lt;T&gt; <span class="built_in">queue</span>)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.<span class="built_in">queue</span> = <span class="built_in">queue</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @<span class="function">Override</div><div class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">        T item = <span class="built_in">queue</span>.take();</div><div class="line">        System.out.println(<span class="string">"I consumed an item: "</span> + item.toString()); <span class="comment">// process item here</span></div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">      e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> ProducerConsumerExample &#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    BlockingQueue&lt;Object&gt; <span class="built_in">queue</span> = <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;(<span class="number">10</span>);</div><div class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> Producer&lt;&gt;(<span class="built_in">queue</span>)).start();</div><div class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> Consumer&lt;&gt;(<span class="built_in">queue</span>)).start();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1480399733000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1480334056000/" itemprop="url">
+                  CS:APP3e - Bomblab
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-28T19:54:16+08:00" content="2016-11-28">
+              2016-11-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1480334056000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1480334056000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Phase-1"><a href="#Phase-1" class="headerlink" title="Phase 1"></a>Phase 1</h2><p>解题过程：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">gdb <span class="keyword">bomb </span>    <span class="comment"># 用 gdb 来追踪程序的运行</span></div><div class="line"><span class="keyword">b </span><span class="number">73</span>         <span class="comment"># 源代码 73 行位置加 breakpoint</span></div><div class="line">r            <span class="comment"># 运行 bomb</span></div><div class="line">n            <span class="comment"># 运行下一行源代码</span></div><div class="line">             <span class="comment"># 随便输入个字符串</span></div><div class="line">stepi        <span class="comment"># 运行下一行汇编代码，直到运行到 phase_1 的汇编代码</span></div></pre></td></tr></table></figure>
+<p>这边截取两段可以给出提示的汇编代码：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">0x400e32</span> &lt;main+<span class="number">146</span>&gt;     callq  <span class="number">0x40149e</span> &lt;read_line&gt;</div><div class="line"><span class="number">0x400e37</span> &lt;main+<span class="number">151</span>&gt;     mov    %rax,%rdi</div><div class="line"><span class="number">0x400e3a</span> &lt;main+<span class="number">154</span>&gt;     callq  <span class="number">0x400ee0</span> &lt;phase_1&gt;</div></pre></td></tr></table></figure>
+<p>这里我们可以看到 %rax 中存的是 read_line 方法的返回值，然后再被存到 %rdi 中，也就是方法的第一个参数，传递并 call phase_1 方法。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="number">0x400ee0</span> &lt;phase_1&gt;      sub    $<span class="number">0x8</span>,%rsp</div><div class="line"><span class="number">0x400ee4</span> &lt;phase_1+<span class="number">4</span>&gt;    mov    $<span class="number">0x402400</span>,%esi</div><div class="line"><span class="number">0x400ee9</span> &lt;phase_1+<span class="number">9</span>&gt;    callq  <span class="number">0x401338</span> &lt;strings_not_equal&gt;</div><div class="line"><span class="number">0x400eee</span> &lt;phase_1+<span class="number">14</span>&gt;   test   %eax,%eax</div><div class="line"><span class="number">0x400ef0</span> &lt;phase_1+<span class="number">16</span>&gt;   je     <span class="number">0x400ef7</span> &lt;phase_1+<span class="number">23</span>&gt;</div><div class="line"><span class="number">0x400ef2</span> &lt;phase_1+<span class="number">18</span>&gt;   callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1480334056000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1471831725000/" itemprop="url">
                   Machine Learning 课程小结
                 </a>
@@ -913,311 +1243,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1469151020000/" itemprop="url">
-                  Java 并发 - ReentrantLock
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-22T09:30:20+08:00" content="2016-07-22">
-              2016-07-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1469151020000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1469151020000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>ReentrantLock 是 Java 5.0 中新增的，是对 synchronized 使用的内置锁的一种补充。</p>
-<p>传统的加锁方式如下：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">synchronized</span> (lockObject) &#123;   </div><div class="line">  <span class="comment">// 操作状态等</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>它在进入代码块时获得锁，在离开代码块时释放锁，所以不可能在获取锁之后忘了释放锁，但同时这也带来一定局限性，获取和释放必须在同一代码块中。</p>
-<p>而 ReentrantLock 的使用如下：</p>
-<figure class="highlight cos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Lock</span> <span class="keyword">lock</span> = <span class="keyword">new</span> ReentrantLock()<span class="comment">;  </span></div><div class="line"><span class="keyword">lock</span>.<span class="keyword">lock</span>()<span class="comment">;  </span></div><div class="line"><span class="keyword">try</span> &#123;   </div><div class="line">  <span class="comment">// update object state  </span></div><div class="line">&#125;  </div><div class="line">finally &#123;  </div><div class="line">  <span class="keyword">lock</span>.unlock()<span class="comment">;   </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1469151020000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1469087760000/" itemprop="url">
-                  Java 并发 - Executor
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-21T15:56:00+08:00" content="2016-07-21">
-              2016-07-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1469087760000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1469087760000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>大多数并发程序都是围绕「任务执行」来构造的，例如 Web 应用，我们的服务端需要响应用户的访问请求，这些请求就是我们要处理的任务。</p>
-<p>围绕「任务执行」来设计应用程序架构的时候，第一步就是找出清晰的任务边界。在理想情况下，各个任务之间应当是相互独立的：一个任务并不依赖其他任务的状态、结果或边界效应。例如在 Web 应用中，用户的每个访问请求，都是相互独立的，因此，我们可以将独立的请求作为任务边界，这样既可以实现任务的独立性，又可以控制合理的任务规模。</p>
-<p>在介绍这篇文章的主角之前，我们先看下常见的两种多任务执行模式。</p>
-<h2 id="在线程中执行任务"><a href="#在线程中执行任务" class="headerlink" title="在线程中执行任务"></a>在线程中执行任务</h2><h3 id="串行执行所有任务"><a href="#串行执行所有任务" class="headerlink" title="串行执行所有任务"></a>串行执行所有任务</h3><p>最直接的方式是将所有任务挨个执行，也就是下面的串行执行。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1469087760000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1468976534000/" itemprop="url">
-                  Java 并发 - 基础构建模块
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-20T09:02:14+08:00" content="2016-07-20">
-              2016-07-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1468976534000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468976534000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Java 平台类库包含丰富的并发基础构建模块，这里将列举一些最有用的模块。</p>
-<h2 id="同步容器类"><a href="#同步容器类" class="headerlink" title="同步容器类"></a>同步容器类</h2><p>已经不建议使用的 Vector 和 Hashtable 这里就不说了。它们的替代者是 Collections.synchronizedXxxx 等工厂方法创建的容器。</p>
-<p>我们以 synchronizedMap 方法为例，部分源码如下：</p>
-<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K,V&gt; Map&lt;K,V&gt; synchronizedMap(Map&lt;K,V&gt; m) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SynchronizedMap&lt;&gt;(m);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> class SynchronizedMap&lt;K,V&gt;</div><div class="line">    implements Map&lt;K,V&gt;, Serializable &#123;</div><div class="line"></div><div class="line">    <span class="comment">// 装饰器模式，外部传入的 map</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;K,V&gt; m;     <span class="comment">// Backing Map</span></div><div class="line"></div><div class="line">    <span class="comment">// 私有锁</span></div><div class="line">    <span class="keyword">final</span> <span class="keyword">Object</span> mutex;        <span class="comment">// Object on which to synchronize</span></div><div class="line"></div><div class="line">    <span class="comment">// 两种构造方式，使用内置互斥锁或指定的互斥锁</span></div><div class="line">    SynchronizedMap(Map&lt;K,V&gt; m) &#123;</div><div class="line">        <span class="keyword">this</span>.m = Objects.requireNonNull(m);</div><div class="line">        mutex = <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">    SynchronizedMap(Map&lt;K,V&gt; m, <span class="keyword">Object</span> mutex) &#123;</div><div class="line">        <span class="keyword">this</span>.m = m;</div><div class="line">        <span class="keyword">this</span>.mutex = mutex;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 在原有方法上用 synchronized (mutex) 来包裹，实现同步访问</span></div><div class="line">    <span class="keyword">public</span> V <span class="built_in">get</span>(<span class="keyword">Object</span> <span class="built_in">key</span>) &#123;</div><div class="line">        <span class="keyword">synchronized</span> (mutex) &#123;<span class="keyword">return</span> m.<span class="built_in">get</span>(<span class="built_in">key</span>);&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">public</span> V put(K <span class="built_in">key</span>, V value) &#123;</div><div class="line">        <span class="keyword">synchronized</span> (mutex) &#123;<span class="keyword">return</span> m.put(<span class="built_in">key</span>, value);&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1468976534000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1263,7 +1288,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-count">139</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1273,7 +1298,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1341,7 +1366,7 @@
         <div class="copyright" >
   
   &copy;  2008 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

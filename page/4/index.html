@@ -216,6 +216,398 @@
             
               
                 
+                <a class="post-title-link" href="/post/1462945087000/" itemprop="url">
+                  配置 GPU 加速的 Tensorflow
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-11T13:38:07+08:00" content="2016-05-11">
+              2016-05-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1462945087000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1462945087000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近想了解下热门的深度学习、神经网络，于是选择了 Tensorflow 作为工具。这里我们就先来安装下 Tensorflow。</p>
+<p>Tensorflow 本身安装很容易，不过想要利用 GPU 多核的优势来加速计算，就要先安装显卡驱动和 CUDA，这两者的安装是有点麻烦的。</p>
+<p>前提条件：</p>
+<ul>
+<li>操作系统：Centos 7</li>
+<li>硬件环境：Nvidia 的显卡（请自行查询是否支持 CUDA）</li>
+</ul>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>yum 更新下，安装 Development Tools 软件包</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum <span class="keyword">update</span></div><div class="line">sudo yum <span class="keyword">group</span> <span class="keyword">install</span> <span class="string">'Development Tools'</span></div></pre></td></tr></table></figure>
+<h2 id="安装-Nvidia-驱动"><a href="#安装-Nvidia-驱动" class="headerlink" title="安装 Nvidia 驱动"></a>安装 Nvidia 驱动</h2><p>Nvidia 官网上有显卡驱动的软件包下载，但安装前需要繁琐的配置，这里我们选择更简单的方式，通过软件源来安装：</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># 安装 elrepo 源</span></div><div class="line">sudo rpm --import https:<span class="comment">//www.elrepo.org/RPM-GPG-KEY-elrepo.org</span></div><div class="line">sudo rpm -Uvh http:<span class="comment">//www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span></div><div class="line"><span class="meta"># 探测要安装的包</span></div><div class="line">sudo yum install nvidia-detect</div><div class="line">nvidia-detect</div><div class="line"><span class="meta"># 安装</span></div><div class="line">sudo yum install kmod-nvidia</div><div class="line"><span class="meta"># 最后重启，然后检查是否安装成功</span></div><div class="line">ls -la /dev | grep nvidia</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1462945087000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1462519709000/" itemprop="url">
+                  Let's Encrypt 在 Centos 和 Nginx 中的部署
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-06T15:28:29+08:00" content="2016-05-06">
+              2016-05-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1462519709000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1462519709000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Let’s Encrypt项目旨在让每个网站都能使用HTTPS加密，现在主流浏览器都已经把这个项目的证书添加到了信任列表。</p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><ul>
+<li>把你想要加到证书中的域名和子域名都解析到主机的 IP 上</li>
+<li>已经安装好 Nginx</li>
+</ul>
+<h2 id="安装-Let’s-Encrypt-客户端"><a href="#安装-Let’s-Encrypt-客户端" class="headerlink" title="安装 Let’s Encrypt 客户端"></a>安装 Let’s Encrypt 客户端</h2><p>首先安装 git 和 bc，然后克隆 Let’s Encrypt 的代码到 /opt/letsencrypt 文件夹</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum -y install git bc</div><div class="line">sudo git <span class="keyword">clone</span> <span class="title">https</span>://github.com/letsencrypt/letsencrypt /opt/letsencrypt</div></pre></td></tr></table></figure>
+<p>安装所有的依赖</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto --<span class="keyword">help</span></div></pre></td></tr></table></figure>
+<h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><p>Let’s Encrypt 在给你颁发证书的时候，首先会检查你想要加到证书中的域名是否都是你持有的，因此它会挨个访问这些域名，并做一些操作来进行检验。</p>
+<p>这里我们将使用 standalone 的方式来获取证书。这种方式需要我们先把 Nginx 服务停掉，让 standalone 服务器直接占用 80 端口来等待 Let’s Encrypt 服务端的验证。</p>
+<p>我们假设你的域名是 example.com，你需要在这把子域名也写上</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo systemctl <span class="keyword">stop</span> nginx</div><div class="line">sudo /<span class="keyword">opt</span>/letsencrypt/letsencrypt-auto certonly --standalone -d example.<span class="keyword">com</span> -d www.example.<span class="keyword">com</span> -d foo.example.<span class="keyword">com</span></div><div class="line">sudo systemctl start nginx</div></pre></td></tr></table></figure>
+<p>获取成功的证书会存放在 /etc/letsencrypt/live/example.com 文件夹中<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1462519709000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1461905231000/" itemprop="url">
+                  让 Mac 操作行云流水
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-29T12:47:11+08:00" content="2016-04-29">
+              2016-04-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1461905231000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1461905231000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>使用快捷键可以大大提高工作效率，可能一开始有点困难，需要查一下或回忆一下对应的快捷键是什么，但习惯了之后操作起来就行云流水了。如果从此爱上键盘操作的话，建议用一下 Alfred。这里主要是搜罗一些 Mac 下自己常用的快捷键，以便查询。</p>
+<p>以下快捷键是比较通用的快捷键，适用于系统本身以及大多数应用。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Command-X, C, V</td>
+<td style="text-align:left">剪切，复制，粘贴</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-Z</td>
+<td style="text-align:left">撤销</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-A</td>
+<td style="text-align:left">全选</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-F</td>
+<td style="text-align:left">查找</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-H, M</td>
+<td style="text-align:left">隐藏，最小化</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-N</td>
+<td style="text-align:left">新建：对于编辑器来说一般是新建个文档，对于应用来说一般是新建一个进程</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-O</td>
+<td style="text-align:left">打开：在 Finder 中是打开选中的文件，在应用中是弹出打开文件的对话框</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-P</td>
+<td style="text-align:left">打印</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-S</td>
+<td style="text-align:left">保存</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-T</td>
+<td style="text-align:left">新建一个当前应用的 Tab</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-W, Q</td>
+<td style="text-align:left">关闭：关闭当前窗口，彻底关闭应用的所有进程</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-Shift-3, 4</td>
+<td style="text-align:left">截屏：截全屏，截取选择部分</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-,</td>
+<td style="text-align:left">配置当前应用</td>
+</tr>
+<tr>
+<td style="text-align:left">Command-Backspace 或 Del</td>
+<td style="text-align:left">删除，多数应用都支持至少这两种方式之一，Finder 可以用前者</td>
+</tr>
+<tr>
+<td style="text-align:left">Command–Any Arrow</td>
+<td style="text-align:left">把光标移到上下左右最末端</td>
+</tr>
+<tr>
+<td style="text-align:left">Command–[, ]</td>
+<td style="text-align:left">后退，前进</td>
+</tr>
+</tbody>
+</table>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1461905231000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1461405609750/" itemprop="url">
                   transient 和 @JsonIgnore
                 </a>
@@ -936,329 +1328,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1456761600000/" itemprop="url">
-                  Thymeleaf 调用参数的几种方式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-01T00:00:00+08:00" content="2016-03-01">
-              2016-03-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1456761600000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1456761600000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="模版中调用参数的方法："><a href="#模版中调用参数的方法：" class="headerlink" title="模版中调用参数的方法："></a>模版中调用参数的方法：</h2><p>(1) 使用 Model</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"message"</span>, method = RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">messages</span><span class="params">(Model model)</span> </span>&#123;</div><div class="line">    model.addAttribute(<span class="string">"messages"</span>, messageRepository.findAll());</div><div class="line">    <span class="keyword">return</span> <span class="string">"message/list"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"message : $&#123;messages&#125;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.id&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.title&#125;"</span>&gt;</span>Title ...<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.text&#125;"</span>&gt;</span>Text ...<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>(2) 用 URL 中的查询参数<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1456761600000/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1455874363073/" itemprop="url">
-                  深入理解 Java 虚拟机 - 高效并发
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-19T17:32:43+08:00" content="2016-02-19">
-              2016-02-19
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1455874363073/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455874363073/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
-<ul>
-<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
-<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
-<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
-<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
-</ul>
-<h2 id="12-Java-内存模型与线程"><a href="#12-Java-内存模型与线程" class="headerlink" title="12. Java 内存模型与线程"></a>12. Java 内存模型与线程</h2><hr>
-<h3 id="12-2-硬件的效率与一致性"><a href="#12-2-硬件的效率与一致性" class="headerlink" title="12.2 硬件的效率与一致性"></a>12.2 硬件的效率与一致性</h3><p>计算机的 CPU 与 内存之间有几个数量级的速度差距，因此需要有一层高速缓存（Cache）来作为内存与 CPU 之间的缓冲。</p>
-<p>但是这个高速缓存（Cache）会带来缓存一致性（Cache Coherence）的问题：多核处理器中，每个核心有各自的高速缓存，因此它们各自缓存的数据可能是不一样的，但它们又共享同一主内存，所以缓存和主内存之间的读写访问需要遵循一种协议，称为缓存一致性协议。</p>
-<p><img src="http://cdn.yyqian.com/1455874363073_a.jpg?imageView2/2/w/500" alt="image"></p>
-<p>除了高速缓存外，还存在一种不一致性，来源于 CPU 可能会对指令进行乱序执行优化，它只保证执行的结果和顺序执行的结果是相同的，中间结果是不可预测的。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1455874363073/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1455872592672/" itemprop="url">
-                  深入理解 Java 虚拟机 - 程序编译与代码优化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-19T17:03:12+08:00" content="2016-02-19">
-              2016-02-19
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1455872592672/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455872592672/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
-<ul>
-<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
-<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
-<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
-<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
-</ul>
-<h2 id="10-早期（编译期）优化"><a href="#10-早期（编译期）优化" class="headerlink" title="10. 早期（编译期）优化"></a>10. 早期（编译期）优化</h2><hr>
-<p>Java 语言中「编译期」以及「编译器」有可能有两种含义：</p>
-<ol>
-<li>前端编译器：例如 Javac，这是个把 .java 文件转化成 .class 文件的过程</li>
-<li>JIT 编译器（后端运行期编译器）：例如 HotSpot VM 的 C1、C2 编译器，把字节码转变成机器码的过程</li>
-</ol>
-<p>还有可能是 AOT 编译器，直接把 Java 代码转变成机器码。</p>
-<p>JVM 设计团队把对性能的优化都集中到了 JIT 编译器中，这样可以让所有产生 Class 文件的语言都能享受到性能的优化。</p>
-<p>前段编译器的优化措施主要是改善开发人员的编码风格和提高编码效率。相当多新生的 Java 语法特性，都是靠编译器的「语法糖」来实现的，而不是依赖于 JVM 底层的改进支持。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1455872592672/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1304,7 +1373,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-count">139</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1314,7 +1383,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1382,7 +1451,7 @@
         <div class="copyright" >
   
   &copy;  2008 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

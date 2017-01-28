@@ -98,7 +98,7 @@ Easy: 30
 Medium: 93
 Hard">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c1/Binary-reflected_Gray_code_construction.svg">
-<meta property="og:updated_time" content="2016-08-19T09:33:38.000Z">
+<meta property="og:updated_time" content="2016-09-07T06:27:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 解题思路汇总">
 <meta name="twitter:description" content="最近在用零碎的时间做做 LeetCode，锻炼下算法功底，这里把做过的题目的解题思路汇总一下。
@@ -741,6 +741,9 @@ Hard">
 <p><strong>264. Ugly Number II</strong></p>
 <p>挺精巧的</p>
 <figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">   <span class="keyword"> public</span><span class="built_in"> int </span>nthUglyNumber(int n) &#123;</div><div class="line">       <span class="built_in"> if </span>(n == 1)<span class="built_in"> return </span>1;</div><div class="line">        int[] ugly =<span class="built_in"> new </span>int[n];</div><div class="line">        ugly[0] = 1;</div><div class="line">       <span class="built_in"> int </span>p2 = 0, p3 = 0, p5 = 0;</div><div class="line">        for (int i = 1; i &lt; n; i++) &#123;</div><div class="line">            ugly[i] = Math.min(Math.min(2*ugly[p2], 3*ugly[p3]), 5*ugly[p5]);</div><div class="line">           <span class="built_in"> if </span>(ugly[i] == 2*ugly[p2]) p2++;</div><div class="line">           <span class="built_in"> if </span>(ugly[i] == 3*ugly[p3]) p3++;</div><div class="line">           <span class="built_in"> if </span>(ugly[i] == 5*ugly[p5]) p5++;</div><div class="line">        &#125;</div><div class="line">       <span class="built_in"> return </span>ugly[n-1];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>268. Missing Number</strong></p>
+<p>有 XOR 和 SUM 两种方法</p>
+
       
     </div>
 
@@ -839,7 +842,7 @@ Hard">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-count">139</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -849,7 +852,7 @@ Hard">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -928,7 +931,7 @@ Hard">
         <div class="copyright" >
   
   &copy;  2008 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

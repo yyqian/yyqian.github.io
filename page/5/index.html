@@ -216,6 +216,329 @@
             
               
                 
+                <a class="post-title-link" href="/post/1456761600000/" itemprop="url">
+                  Thymeleaf 调用参数的几种方式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-01T00:00:00+08:00" content="2016-03-01">
+              2016-03-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1456761600000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1456761600000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="模版中调用参数的方法："><a href="#模版中调用参数的方法：" class="headerlink" title="模版中调用参数的方法："></a>模版中调用参数的方法：</h2><p>(1) 使用 Model</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"message"</span>, method = RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">messages</span><span class="params">(Model model)</span> </span>&#123;</div><div class="line">    model.addAttribute(<span class="string">"messages"</span>, messageRepository.findAll());</div><div class="line">    <span class="keyword">return</span> <span class="string">"message/list"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"message : $&#123;messages&#125;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.id&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.title&#125;"</span>&gt;</span>Title ...<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message.text&#125;"</span>&gt;</span>Text ...<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>(2) 用 URL 中的查询参数<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1456761600000/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1455874363073/" itemprop="url">
+                  深入理解 Java 虚拟机 - 高效并发
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-19T17:32:43+08:00" content="2016-02-19">
+              2016-02-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1455874363073/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455874363073/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
+<ul>
+<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
+<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
+<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
+<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
+</ul>
+<h2 id="12-Java-内存模型与线程"><a href="#12-Java-内存模型与线程" class="headerlink" title="12. Java 内存模型与线程"></a>12. Java 内存模型与线程</h2><hr>
+<h3 id="12-2-硬件的效率与一致性"><a href="#12-2-硬件的效率与一致性" class="headerlink" title="12.2 硬件的效率与一致性"></a>12.2 硬件的效率与一致性</h3><p>计算机的 CPU 与 内存之间有几个数量级的速度差距，因此需要有一层高速缓存（Cache）来作为内存与 CPU 之间的缓冲。</p>
+<p>但是这个高速缓存（Cache）会带来缓存一致性（Cache Coherence）的问题：多核处理器中，每个核心有各自的高速缓存，因此它们各自缓存的数据可能是不一样的，但它们又共享同一主内存，所以缓存和主内存之间的读写访问需要遵循一种协议，称为缓存一致性协议。</p>
+<p><img src="http://cdn.yyqian.com/1455874363073_a.jpg?imageView2/2/w/500" alt="image"></p>
+<p>除了高速缓存外，还存在一种不一致性，来源于 CPU 可能会对指令进行乱序执行优化，它只保证执行的结果和顺序执行的结果是相同的，中间结果是不可预测的。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1455874363073/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/post/1455872592672/" itemprop="url">
+                  深入理解 Java 虚拟机 - 程序编译与代码优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-19T17:03:12+08:00" content="2016-02-19">
+              2016-02-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1455872592672/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455872592672/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
+<ul>
+<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
+<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
+<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
+<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
+</ul>
+<h2 id="10-早期（编译期）优化"><a href="#10-早期（编译期）优化" class="headerlink" title="10. 早期（编译期）优化"></a>10. 早期（编译期）优化</h2><hr>
+<p>Java 语言中「编译期」以及「编译器」有可能有两种含义：</p>
+<ol>
+<li>前端编译器：例如 Javac，这是个把 .java 文件转化成 .class 文件的过程</li>
+<li>JIT 编译器（后端运行期编译器）：例如 HotSpot VM 的 C1、C2 编译器，把字节码转变成机器码的过程</li>
+</ol>
+<p>还有可能是 AOT 编译器，直接把 Java 代码转变成机器码。</p>
+<p>JVM 设计团队把对性能的优化都集中到了 JIT 编译器中，这样可以让所有产生 Class 文件的语言都能享受到性能的优化。</p>
+<p>前段编译器的优化措施主要是改善开发人员的编码风格和提高编码效率。相当多新生的 Java 语法特性，都是靠编译器的「语法糖」来实现的，而不是依赖于 JVM 底层的改进支持。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/post/1455872592672/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/post/1455864579129/" itemprop="url">
                   深入理解 Java 虚拟机 - 虚拟机执行子系统
                 </a>
@@ -960,308 +1283,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1446792395444/" itemprop="url">
-                  Thinking in Java 笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-06T14:46:35+08:00" content="2015-11-06">
-              2015-11-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1446792395444/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1446792395444/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这段是草草看完一遍之后写的。Java确实在“安全性”上要比我之前学过的语言好一点，在大型项目、多人合作时优点应该会比较突出，可以降低普通程序员犯傻的几率，可扩展性也不错。但除次之外感觉优点不多，首先语法实在太繁琐，Everything is object也是把双刃剑，况且也不真的是“Everything”。另外，要说这语言简单，深究下去也并不简单，一些高级特性像inner class、反射机制这种使用起来很复杂，代码也很难读，只能说作为Class的使用者来说还是比较简单的，但作为Class的作者就比较有挑战了。功能上，Java应该是比较全面的，并且相信是有保障的；Node.js在这方面还是显得有些嫩，虽然node的核心小而美是件好事，npm上的模块也很多，但不少是个人维护的，稳定性以及将来持续维护的可能性都不确定，我个人就遇到过node版本更新导致模块安装错误或是依赖的模块安装错误，而且作者也没及时修复的意思，所以在真正大项目中使用node.js还是要谨慎。当然，这些也与Node本身快速变化有关，希望4.2版本作为LTS可以稳定下来。但如果做做小项目，个人还是很喜欢Node.js的，虽然Java也号称可以像搭积木一样堆模块，但前置的准备还是有点多，不如Node.js写起来畅快淋漓。《黑客与画家》的作者唱衰Java，觉得以后很有可能会消失在历史长流，但现有的替代者们要是真发展到Java这个规模，很难说还能保持优雅的特性。</p>
-<h2 id="1-Introduction-to-Objects"><a href="#1-Introduction-to-Objects" class="headerlink" title="1. Introduction to Objects"></a>1. Introduction to Objects</h2><h3 id="The-progress-of-abstraction"><a href="#The-progress-of-abstraction" class="headerlink" title="The progress of abstraction"></a>The progress of abstraction</h3><p>当我们用程序去解决一个问题的时候，我们要面对的一个问题就是抽象，怎么把现实的问题抽象到一定层面来跟计算机打交道。程序语言可以说是计算机和现实沟通的一个桥梁或翻译，但程序语言本身抽象的程度是不同的。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1446792395444/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1445391938365/" itemprop="url">
-                  新西兰南岛蜜月旅行（多图预警）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-10-21T09:45:38+08:00" content="2015-10-21">
-              2015-10-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1445391938365/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1445391938365/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><em>图片、文字版权所有，严禁用于商业用途，转载请注明出处。</em></p>
-<p>我们这次是10.1出行，乘坐的是新西兰航空，上海直飞奥克兰，然后转机基督城，去的时候没在奥克兰逗留，回去的时候在奥克兰待了一天，简单逛了下。新西兰航空的飞机很好，一架很新的波音787，娱乐设施是一块平板电脑，里面的电影很新，影院还在上映的都有，需要补习下魔戒的话也可以看下，魔戒和霍比特人的全集都有。吃的只能算还行，特色么就是有几种白/红葡萄酒可以选择。座位有USB充电和家用电器充电的插口，手机电脑应该都能充电使用，家用电器插口的电压印象中是110V。下面就主要说下我们南岛的行程：</p>
-<p>我们的自驾路线（点击看大图）：</p>
-<p><a href="http://cdn.yyqian.com/1445391396856.jpg"><img src="http://cdn.yyqian.com/1445391396856.jpg" alt="route"></a></p>
-<p>最近翻不了墙，所以只能用bing地图凑活，最好还是用Google Map查路线，否则有的景点查不到。</p>
-<p>地图给出的全程是1967.5km，22小时45分钟开车时间。实际的路程会更长一点，而且开车时间估计要乘以1.5，因为要算上中途休息、拍照、吃东西以及我们房车实际行驶速度大约只有限速的85%-90%样子。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1445391938365/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/post/1441950579342/" itemprop="url">
-                  koa 框架以及 ES6 的分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-09-11T13:49:39+08:00" content="2015-09-11">
-              2015-09-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1441950579342/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1441950579342/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>随着今年ECMAScript 6的发布和最近Node.js v4.0.0的发布，node.js又得到了一次加强。以往node.js在性能上有着优越的表现，但是JavaScript的语法却常常遭人诟病，譬如回调地狱、无块级作用域等等。这些一部分确实是设计上的问题，另一部分也源于JS其实是“披着C外衣的LISP”，虽然JS很容易使用，但大家并不真的了解它，在这种情况下，很容易写出糟糕的代码。</p>
-<p>ES6的推进一定程度上解决了部分问题，譬如用Generator函数和Promise对象改善异步的处理，用let和const来缓解大家对JS词法作用域的不适应，还有Class类来适应面向对象设计。这些改动都让JS语言变得更强大。Node.js 4.0支持了部分ES6的新特性并在逐步覆盖所有特性，并使用了最新的Chrome V8引擎，由于不像浏览器端存在兼容性的问题，也不用去操作糟糕的DOM树，所以Node应该是拥抱ES6带来的改变的最佳试炼场。</p>
-<p>接下来主要是分析Node.js的下一代web框架：koa，同时看下ES6的新特性是如何在实际环境中运用的。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/post/1441950579342/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1307,7 +1328,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-count">139</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1317,7 +1338,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1385,7 +1406,7 @@
         <div class="copyright" >
   
   &copy;  2008 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
