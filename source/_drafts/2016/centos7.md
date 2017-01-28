@@ -78,3 +78,21 @@ AWS 的 centos 7 镜像默认启用了 SELINUX，如果不会用的话要手动�
  `/etc/selinux/config` set to `SELINUX=disabled`
 
 `sestatus` 检查状态
+
+### Helpful
+
+```
+ip addr show
+visudo
+```
+
+### docker
+
+```
+sudo mkdir /etc/systemd/system/docker.service.d
+sudo vi /etc/systemd/system/docker.service.d/docker.conf
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/docker --insecure-registry local-dtr.patsnap.com
+```
