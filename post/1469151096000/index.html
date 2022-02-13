@@ -61,7 +61,7 @@
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java 并发 - JMM">
-<meta property="og:url" content="https://yyqian.com/post/1469151096000/index.html">
+<meta property="og:url" content="http://yyqian.github.io/post/1469151096000/index.html">
 <meta property="og:site_name" content="YYQIAN">
 <meta property="og:description" content="这一篇文章主要围绕「可见性」来展开，讲述如何正确发布对象。对于 Java 内存模型，在这里只是简单介绍一下，详细的请见之前的文章 深入理解 Java 虚拟机 - 高效并发。 内存模型JMM 中有两点会给我们带来很多困扰： 源代码中的指令顺序和实际运行时的指令顺序可能是不同的，编译器出于优化的目的，会对指令进行「重排序」，会采用乱序或并行等方式来执行指令，它只要满足一个条件即可：「程序的最终结果与在">
 <meta property="og:locale" content="zh-Hans">
@@ -96,16 +96,6 @@
   
 
 
-
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
 
 
 
@@ -239,13 +229,6 @@
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/post/1469151096000/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1469151096000/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -359,9 +342,6 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="post/1469151096000/" data-title="Java 并发 - JMM" data-url="https://yyqian.com/post/1469151096000/">
-      </div>
-    
   </div>
 
 
@@ -395,7 +375,7 @@
 
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <img class="site-author-image" itemprop="image" src="/images/default_avatar.jpg" alt="Yinyin Qian">
           <p class="site-author-name" itemprop="name">Yinyin Qian</p>
           <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
         </div>
@@ -574,28 +554,9 @@
 
   
 
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"yyqian"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-  
 
 
+  
 
 
 
