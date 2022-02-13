@@ -1,0 +1,591 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Node.js,koa,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="随着今年ECMAScript 6的发布和最近Node.js v4.0.0的发布，node.js又得到了一次加强。以往node.js在性能上有着优越的表现，但是JavaScript的语法却常常遭人诟病，譬如回调地狱、无块级作用域等等。这些一部分确实是设计上的问题，另一部分也源于JS其实是“披着C外衣的LISP”，虽然JS很容易使用，但大家并不真的了解它，在这种情况下，很容易写出糟糕的代码。 ES6的">
+<meta name="keywords" content="Node.js,koa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="koa 框架以及 ES6 的分析">
+<meta property="og:url" content="https://yyqian.com/post/1441950579342/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="随着今年ECMAScript 6的发布和最近Node.js v4.0.0的发布，node.js又得到了一次加强。以往node.js在性能上有着优越的表现，但是JavaScript的语法却常常遭人诟病，譬如回调地狱、无块级作用域等等。这些一部分确实是设计上的问题，另一部分也源于JS其实是“披着C外衣的LISP”，虽然JS很容易使用，但大家并不真的了解它，在这种情况下，很容易写出糟糕的代码。 ES6的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="koa 框架以及 ES6 的分析">
+<meta name="twitter:description" content="随着今年ECMAScript 6的发布和最近Node.js v4.0.0的发布，node.js又得到了一次加强。以往node.js在性能上有着优越的表现，但是JavaScript的语法却常常遭人诟病，譬如回调地狱、无块级作用域等等。这些一部分确实是设计上的问题，另一部分也源于JS其实是“披着C外衣的LISP”，虽然JS很容易使用，但大家并不真的了解它，在这种情况下，很容易写出糟糕的代码。 ES6的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> koa 框架以及 ES6 的分析 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                koa 框架以及 ES6 的分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-11T13:49:39+08:00" content="2015-09-11">
+              2015-09-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1441950579342/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1441950579342/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>随着今年ECMAScript 6的发布和最近Node.js v4.0.0的发布，node.js又得到了一次加强。以往node.js在性能上有着优越的表现，但是JavaScript的语法却常常遭人诟病，譬如回调地狱、无块级作用域等等。这些一部分确实是设计上的问题，另一部分也源于JS其实是“披着C外衣的LISP”，虽然JS很容易使用，但大家并不真的了解它，在这种情况下，很容易写出糟糕的代码。</p>
+<p>ES6的推进一定程度上解决了部分问题，譬如用Generator函数和Promise对象改善异步的处理，用let和const来缓解大家对JS词法作用域的不适应，还有Class类来适应面向对象设计。这些改动都让JS语言变得更强大。Node.js 4.0支持了部分ES6的新特性并在逐步覆盖所有特性，并使用了最新的Chrome V8引擎，由于不像浏览器端存在兼容性的问题，也不用去操作糟糕的DOM树，所以Node应该是拥抱ES6带来的改变的最佳试炼场。</p>
+<p>接下来主要是分析Node.js的下一代web框架：koa，同时看下ES6的新特性是如何在实际环境中运用的。<br><a id="more"></a></p>
+<h3 id="中间件（middleware）"><a href="#中间件（middleware）" class="headerlink" title="中间件（middleware）"></a>中间件（middleware）</h3><p>koa延用了express的中间件（middleware），但两者中间件的形式是不一样的：</p>
+<p>express中：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title"></span>(req, res, next) &#123;</span><br><span class="line">  if (req.<span class="keyword">is</span>Authenticated()) &#123;<span class="keyword">return</span> next();&#125;</span><br><span class="line">  <span class="keyword">return</span> res.redirect(<span class="string">'/'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>koa中：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>*(<span class="params">next</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.isAuthenticated()) &#123;</span><br><span class="line">      <span class="keyword">yield</span> next;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.redirect(<span class="string">'/'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一个是传递req, res的function，一个是返回Generator function的function</p>
+<p>以下是一些常用中间件的介绍：</p>
+<p>无需验证用户身份的中间件流程：</p>
+<p><code>gzip --&gt; fresh --&gt; etag --&gt; favicon --&gt; logger --&gt; static --&gt; route &lt;--|回溯</code></p>
+<p>koa-gzip用于压缩任何传输的数据，所以应当放在出入口。<br>koa-fresh根据etag来判断待传输的数据有没有更新，如果没有更新则返回304 Not Modified，不传输数据。<br>koa-etag用于给传输的数据打tag。<br>koa-favicon用于处理favicon.ico的请求，这个请求会非常频繁，所以单独处理。<br>koa-logger记录所有访问记录，可以放在static后面，或者省略掉。<br>koa-static用于处理静态文件访问，譬如js，css文件。<br>route就是路由表，可以用koa-route或koa-router。  </p>
+<p>用于验证登录的中间件流程：</p>
+<p><code>gzip --&gt; fresh --&gt; etag --&gt; favicon --&gt; logger --&gt; static --&gt; bodyparser --&gt; session --&gt; passport --&gt; authenticate --&gt; private-route &lt;--|回溯</code></p>
+<p>koa-bodyparser用于解析请求的body部分，但是解析请求在koa中不推荐用中间件来处理，因为多数访问都是http get访问，无需解析，可以用co-body，在必要的地方用一个函数来解析。这里使用中间件这种方式主要是配合passport使用。<br>session用于处理session，有多种选择选择，passport中间件必需的<br>koa-passport用于用户验证，需要先配置passport实例，然后调用：<code>app.use(passport.initialize()); app.use(passport.session());</code><br>authenticate用于处理passport验证的结果，一般验证失败则返回，验证通过进入下一步，这一步可以自己写<br>private-route由于必须要通过authenticate才能访问到，所以是受保护的  </p>
+<p>以上两者结合起来的流程如下：</p>
+<p><code>gzip --&gt; fresh --&gt; etag --&gt; favicon --&gt; logger --&gt; static --&gt; public-route --&gt; bodyparser --&gt; session --&gt; passport --&gt; login-route --&gt; authenticate --&gt; private-route &lt;--|回溯</code></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node-js/" rel="tag">#Node.js</a>
+          
+            <a href="/tags/koa/" rel="tag">#koa</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1441610207606/" rel="next" title="新西兰签证 DIY 攻略">
+                <i class="fa fa-chevron-left"></i> 新西兰签证 DIY 攻略
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1445391938365/" rel="prev" title="新西兰南岛蜜月旅行（多图预警）">
+                新西兰南岛蜜月旅行（多图预警） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1441950579342/" data-title="koa 框架以及 ES6 的分析" data-url="https://yyqian.com/post/1441950579342/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#中间件（middleware）"><span class="nav-text">中间件（middleware）</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

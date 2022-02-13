@@ -1,0 +1,745 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Elasticsearch,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="本文将分析 Elasticsearch 中的一些关键概念 倒排索引倒排索引是搜索引擎中核心的数据结构。以下的列表左侧是数据库中存储的数据结构，右侧是搜索引擎中的数据结构。  在数据库中，如果我们要搜索 tag 含有 peace 的 blog，就需要遍历整个表，以及比对 tag 列中的多个值，这种做法开销非常大。而如果数据格式是上图右侧所示，则非常迅速。因此，搜素引擎中采用的是后者，称为 Inver">
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch 学习笔记">
+<meta property="og:url" content="https://yyqian.com/post/1463461156000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="本文将分析 Elasticsearch 中的一些关键概念 倒排索引倒排索引是搜索引擎中核心的数据结构。以下的列表左侧是数据库中存储的数据结构，右侧是搜索引擎中的数据结构。  在数据库中，如果我们要搜索 tag 含有 peace 的 blog，就需要遍历整个表，以及比对 tag 列中的多个值，这种做法开销非常大。而如果数据格式是上图右侧所示，则非常迅速。因此，搜素引擎中采用的是后者，称为 Inver">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdn.yyqian.com/201605171312-FitMXe_LTsHD0ikgm2toEVviCEbH?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605171429-FrwxpI-IuJQs-4h290-Zx_NxvAuj?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605171440-Flj9j1tUPCbcUBQky4XQAVie0QvC?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605171446-Fm6dAaZd_xL7DClreWYZkdZZuxCb?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605171500-Fp9Z1XdInN7XzFGynLsdcULqVKE3?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605171523-FtXMLEAMbSAa8KiinizqxACUzVD7?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605171553-FhQzI29pVq9EhXberLDeFR_b9xJ5?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605171645-FgLtXTfbLVuXpzSjKcxwxUToJLR9?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605101356-FmwudfY99Z293y-IaLIaGH8MxN_2?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605101358-FkGV_AvkH7QsfwtV_joO_Ezmfl7_?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605101401-FhKYDhqMQyVWrfYbhghyPRjfpryY?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605101405-FrS_ElQ0GJ0-hOqDxxRj5lNzmS2q?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201605101405-FgGQatAPHpdwNlsW5naP8y5L_I2U?imageView2/2/w/800/h/600">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch 学习笔记">
+<meta name="twitter:description" content="本文将分析 Elasticsearch 中的一些关键概念 倒排索引倒排索引是搜索引擎中核心的数据结构。以下的列表左侧是数据库中存储的数据结构，右侧是搜索引擎中的数据结构。  在数据库中，如果我们要搜索 tag 含有 peace 的 blog，就需要遍历整个表，以及比对 tag 列中的多个值，这种做法开销非常大。而如果数据格式是上图右侧所示，则非常迅速。因此，搜素引擎中采用的是后者，称为 Inver">
+<meta name="twitter:image" content="http://cdn.yyqian.com/201605171312-FitMXe_LTsHD0ikgm2toEVviCEbH?imageView2/2/w/800/h/600">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Elasticsearch 学习笔记 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Elasticsearch 学习笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-17T12:59:16+08:00" content="2016-05-17">
+              2016-05-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1463461156000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1463461156000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文将分析 Elasticsearch 中的一些关键概念</p>
+<h2 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h2><p>倒排索引是搜索引擎中核心的数据结构。以下的列表左侧是数据库中存储的数据结构，右侧是搜索引擎中的数据结构。</p>
+<p><img src="http://cdn.yyqian.com/201605171312-FitMXe_LTsHD0ikgm2toEVviCEbH?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 1.11.52 PM.png"></p>
+<p>在数据库中，如果我们要搜索 tag 含有 peace 的 blog，就需要遍历整个表，以及比对 tag 列中的多个值，这种做法开销非常大。而如果数据格式是上图右侧所示，则非常迅速。因此，搜素引擎中采用的是后者，称为 Inverted index，它把 ID - Keywords 的索引方式进行了反转，变成 Keyword - IDs 的方式。</p>
+<p>接下来，我们用一个实例来看下如何建立倒排索引:<br><a id="more"></a><br>首先，我们获取两个需要进行倒排索引的文档：</p>
+<ol>
+<li>The quick brown fox jumped over the lazy dog</li>
+<li>Quick brown foxes leap over lazy dogs in summer</li>
+</ol>
+<p>然后，我们进行 tokenize，把内容分割成一个一个关键词（称为 token 或 term）：</p>
+<ol>
+<li>The, quick, brown, fox, jumped, over, lazy, dog</li>
+<li>Quick, brown, foxes, leap, over, lazy, dogs, in, summer</li>
+</ol>
+<p>紧接着，我们需要进行 normalize token 的过程，例如：转换为小写，复数转换为单数，同义词转换等：</p>
+<ol>
+<li>the, quick, brown, fox, jump, over, lazy, dog</li>
+<li>quick, brown, fox, jump, over, lazy, dog, in, summer</li>
+</ol>
+<p>最后，建立 Inverted index:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>IDs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>brown</td>
+<td>1, 2</td>
+</tr>
+<tr>
+<td>dog</td>
+<td>1, 2</td>
+</tr>
+<tr>
+<td>fox</td>
+<td>1, 2</td>
+</tr>
+<tr>
+<td>in</td>
+<td>2</td>
+</tr>
+<tr>
+<td>jump</td>
+<td>1, 2</td>
+</tr>
+<tr>
+<td>lazy</td>
+<td>1, 2</td>
+</tr>
+<tr>
+<td>over</td>
+<td>1, 2</td>
+</tr>
+<tr>
+<td>quick</td>
+<td>1, 2</td>
+</tr>
+<tr>
+<td>summer</td>
+<td>2</td>
+</tr>
+<tr>
+<td>the</td>
+<td>1, 2</td>
+</tr>
+</tbody>
+</table>
+<p>这里，中文和英文的处理有较大差别：英文 tokenize 过程可以通过标点符号进行分割，而中文则复杂得多，中文的这一过程一般称为分词；并且，normalize token 的过程也有差别，例如中文就没有大小写，单复数，时态等概念。</p>
+<p>除此之外，Inverted index 也适合计算相关度。当我们搜索单词 in 的时候，我们会发现几乎所有文档都有这个单词，这说明查询得到的结果跟我们期望的结果并不相关；但如果我们搜索 fox，可能数目就很少，这说明搜索的结果和我们期望的结果相关度较大。</p>
+<p>采用 Inverted index 可以提高搜索的效率和相关度，但代价是需要更多的存储空间，以及写入时间变长（因为需要更新 Inverted index）</p>
+<h2 id="计算-Relevancy-Score-的算法"><a href="#计算-Relevancy-Score-的算法" class="headerlink" title="计算 Relevancy Score 的算法"></a>计算 Relevancy Score 的算法</h2><p>在默认情况下，Elasticsearch 采用 TF-IDF (term frequency–inverse document frequency) 算法。从命名我们可以看出：</p>
+<ul>
+<li>Term frequency：某个 term 在一个文档中出现的次数越多，这个文档的分值就越高</li>
+<li>Inverse document frequency：如果包含有某个 term 的文档越少，这个 term 的权重就越高</li>
+</ul>
+<p>除此之外，你有多个选择来对这个算法进行改动。例如：</p>
+<ul>
+<li>增加某个 field 的权重，例如 blog 的 title 比 content 权重更高</li>
+<li>严格匹配的分值比部分匹配的分值更高</li>
+</ul>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>作为单独的数据源，完成数据存储和查询。要注意的是，Elasticsearch 是一种 NoSQL DB，不支持事务，但是支持并发控制（使用 version 实现，不使用锁）。它也可以被当作 NoSQL DB 来使用，但需要有所取舍。它提供了强大的搜索能力，但其他方面不一定比得上其他的 NoSQL DB。</p>
+<p><img src="http://cdn.yyqian.com/201605171429-FrwxpI-IuJQs-4h290-Zx_NxvAuj?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 2.28.56 PM.png"></p>
+<p>和 SQL DB 配合使用。由于 ES 不支持事务和复杂的关系处理，所以一般需要和 SQL DB 配合使用。可以将 SQL DB 作为主数据库，然后通过工具将数据同步到 ES 中。</p>
+<p><img src="http://cdn.yyqian.com/201605171440-Flj9j1tUPCbcUBQky4XQAVie0QvC?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 2.39.48 PM.png"></p>
+<p>使用 ELK 组合进行日志分析。Logstash 传输日志，ES 存储和分析，Kibana 进行数据可视化、以图表形式展现。</p>
+<p><img src="http://cdn.yyqian.com/201605171446-Fm6dAaZd_xL7DClreWYZkdZZuxCb?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 2.46.24 PM.png"></p>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>不管是 indexing 还是 searching，都要将输入的 text 进行 analyze，获得 normalized token。下图的 Indexed Data 中既包含了原始的数据，也包含了倒排索引之后的数据。</p>
+<p><img src="http://cdn.yyqian.com/201605171500-Fp9Z1XdInN7XzFGynLsdcULqVKE3?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 3.00.01 PM.png"></p>
+<h2 id="并发处理机制"><a href="#并发处理机制" class="headerlink" title="并发处理机制"></a>并发处理机制</h2><p>处理并发通常有两种方式：</p>
+<ul>
+<li>悲观的：使用锁，一般数据库中都使用这个。例如，锁定一行，确保只有一个线程能进行修改操作。</li>
+<li>乐观的：Elasticsearch 中使用，这个是基于竞态并不是经常发生的条件。如果数据在读和写这两步中间被更改了，更新操作就失败了，然后取决于程序怎么处理这个失败，可以是用新的数据重新操作，或者把失败通知用户。</li>
+</ul>
+<p>乐观机制的实现主要依靠 version 字段，我们可以在修改或删除的时候附带 version 参数，指定修改某一个版本的数据。如果当前的 version 和我们请求的 version 不同，说明在这读写的期间数据被更改了，就会操作失败，返回错误。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUT <span class="string">/website/blog/1</span>?<span class="keyword">version</span>=1</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"title"</span>: <span class="string">"My first blog entry"</span>,</span><br><span class="line">  <span class="string">"text"</span>:  <span class="string">"Starting to get the hang of this..."</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>retry_on_conflict 参数可以用来使得在发生冲突时，进行重试</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST <span class="regexp">/website/</span>pageviews<span class="regexp">/1/</span>_update?retry_on_conflict=<span class="number">5</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="string">"script"</span> : <span class="string">"ctx._source.views+=1"</span>,</span><br><span class="line">   <span class="string">"upsert"</span>: &#123;</span><br><span class="line">       <span class="string">"views"</span>: <span class="number">0</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="分布式的数据存储"><a href="#分布式的数据存储" class="headerlink" title="分布式的数据存储"></a>分布式的数据存储</h2><p>我们可以从逻辑和物理两个角度来看 ES 的数据存储。</p>
+<p>从逻辑的角度来看，ES 的数据存储和 SQL DB 类似，index 对应 database，type 对应 table，document 对应 row。</p>
+<p>从物理的角度来看，ES 会把一个 index 的 documents 分配到多个 shards 中，同一个 shard 中的 documents 在逻辑上并没有关系。这些 shards 可以有多份拷贝，然后这些 primary shards 和 replica shards 又会被分配到多个 Node 中，分配的规则会保证当有一个 Node down 的时候，数据还是完整的。</p>
+<p><img src="http://cdn.yyqian.com/201605171523-FtXMLEAMbSAa8KiinizqxACUzVD7?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 3.23.24 PM.png"></p>
+<h3 id="从逻辑的角度来看-ES"><a href="#从逻辑的角度来看-ES" class="headerlink" title="从逻辑的角度来看 ES"></a>从逻辑的角度来看 ES</h3><p><img src="http://cdn.yyqian.com/201605171553-FhQzI29pVq9EhXberLDeFR_b9xJ5?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 3.52.50 PM.png"></p>
+<p>Document 对应于 SQL DB 的 row，它的数据结构和其他 NoSQL DB 的相同：</p>
+<ul>
+<li>一个 Document 同时包含 key(field) 和 value（SQL DB 的 row 只有 value，而 key 的定义在 table 中）</li>
+<li>可以有层级关系，和 JSON 表现的形式相同</li>
+<li>scheme-free，不像 SQL DB 那样需要预先定义 table 的结构（因为 document 本身就存了 field），但是 document 的每个 field 对应的数据类型是需要知道的，因此这种 mapping 是特定于某个 index 的某个 type</li>
+</ul>
+<p>Type 对应于 SQL DB 的 table，但是概念上有一定差别：</p>
+<ul>
+<li>type 中所有 fields 与其数据类型的对应关系组成的集合叫 mapping，这个是特定于某个 type 的，这一点看上去貌似不那么 scheme-free</li>
+<li>mapping 包含了这个 type 中所有 documents 的 fields，但是反过来则不是，某个 document 可以只包含某几个 field，因此从这个意义上来讲，还是 scheme-free 的</li>
+<li>如果新增的一个 document 含有新的 field，ES 会通过这个 field 的 value 来猜测数据类型，这种方式是不靠谱的，因此在生成环境要在 indexing 之前预先定义 mapping</li>
+</ul>
+<p>要注意的是， Type 仅仅提供逻辑上的隔离，在物理上同一个 index 中的 documents 的分布情况跟 type 无关，这里如果同一个 shard 中的两个不同 type 包含同名的 field，这两个 fields 应该是相同数据类型的，否则 ES 会有额外的开销来区分这两个 fields。</p>
+<p>Index 是多个 types 的集合，它有一些自身的设置，譬如：</p>
+<ul>
+<li>refresh_interval，这个表示 indexing 的频率，新增数据一般不是立即进行 indexing，而是有一定的时间间隔，否则开销太大，所以 ES 自称是 near-real-time，这个说法就是从这来的</li>
+<li>设置 primary shards 的数量、replica 的数量</li>
+</ul>
+<h3 id="从物理的角度来看-ES"><a href="#从物理的角度来看-ES" class="headerlink" title="从物理的角度来看 ES"></a>从物理的角度来看 ES</h3><p>一个 ES 进程就是一个 Node，一个服务器如果跑多个 ES 进程，就有多个 Nodes，如果这些 Nodes 的 Cluster name 相同，那么它们就自动组成了一个 Cluster。访问 Cluster 中任何一个 Node 都是等同的。</p>
+<p>前面说了 ES 会把一个 index 的数据分配到多个 shards 中，那具体是如何分配的呢？默认情况下，shard number 会用以下公式计算，其中 routing 一般是 document id。</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shard = hash<span class="comment">(routing)</span> <span class="meta">%</span> <span class="symbol">number_of_primary_shards</span></span><br></pre></td></tr></table></figure>
+<p>所有的 API 都接受 routing 参数，用来控制 document-to-shard mapping。例如，如果我们用 type id 作为 routing 参数，这样就能使得相同 type 的数据在同一个 shard 中。</p>
+<p>primary_shards 的数量一般是不可更改的，而 replica 的数量是可以随意改变的。</p>
+<p>ES 中的每个 shard 都是一个 Lucene index（inverted index）。它包含了 Documents 的原始数据，以及额外的数据，例如 term dictionary 和 term frequencies：</p>
+<ul>
+<li>term dictionary 用来定位相关的 documents</li>
+<li>term frequencies 用来计算 relevancy score of results</li>
+</ul>
+<p><img src="http://cdn.yyqian.com/201605171645-FgLtXTfbLVuXpzSjKcxwxUToJLR9?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-17 at 4.45.41 PM.png"></p>
+<h2 id="各个-API-背后的运作机制"><a href="#各个-API-背后的运作机制" class="headerlink" title="各个 API 背后的运作机制"></a>各个 API 背后的运作机制</h2><p>Creating, Indexing, and Deleting a Document</p>
+<p><img src="http://cdn.yyqian.com/201605101356-FmwudfY99Z293y-IaLIaGH8MxN_2?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-10 at 1.55.25 PM.png"></p>
+<p>Retrieving a Document</p>
+<p>下图中第二步的 forwards the request to Node 2 用了 round-robin 算法</p>
+<p><img src="http://cdn.yyqian.com/201605101358-FkGV_AvkH7QsfwtV_joO_Ezmfl7_?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-10 at 1.58.06 PM.png"></p>
+<p>Partial Updates to a Document</p>
+<p><img src="http://cdn.yyqian.com/201605101401-FhKYDhqMQyVWrfYbhghyPRjfpryY?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-10 at 2.00.38 PM.png"></p>
+<p>mget</p>
+<p><img src="http://cdn.yyqian.com/201605101405-FrS_ElQ0GJ0-hOqDxxRj5lNzmS2q?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-10 at 2.05.11 PM.png"></p>
+<p>bulk</p>
+<p><img src="http://cdn.yyqian.com/201605101405-FgGQatAPHpdwNlsW5naP8y5L_I2U?imageView2/2/w/800/h/600" alt="Screen Shot 2016-05-10 at 2.05.40 PM.png"></p>
+<h2 id="预定义的-fields"><a href="#预定义的-fields" class="headerlink" title="预定义的 fields"></a>预定义的 fields</h2><p>ES 中有一些预定义的字段，所有预定义的字段都是以下划线开头。</p>
+<p>document 的 <code>_source</code> 和 <code>_all</code> 字段将这个 document 所有的内容都聚合在了一起：</p>
+<ul>
+<li><code>_source</code>：这个字段存储了原始的、JSON 格式的、待索引的数据，原始数据在部分更新等操作的时候是必须的</li>
+<li><code>_all</code>：这个字段存储了原始数据倒排索引之后的、所有字段聚合在一起的数据，因此当搜索某个 document、但没指明搜索的字段的时候，ES 就会搜索 <code>_all</code> 字段。<code>_all</code> 字段是可以配置的，可以选择启用/不启用，或者指定某个字段不被包含在 <code>_all</code> 字段中</li>
+</ul>
+<hr>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://nlp.stanford.edu/IR-book/html/htmledition/a-first-take-at-building-an-inverted-index-1.html" target="_blank" rel="noopener">A first take at building an inverted index</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/inverted-index.html" target="_blank" rel="noopener">Elasticsearch: The Definitive Guide</a></li>
+<li>Elasticsearch in Action</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/elasticsearch/" rel="tag">#Elasticsearch</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1462945087000/" rel="next" title="配置 GPU 加速的 Tensorflow">
+                <i class="fa fa-chevron-left"></i> 配置 GPU 加速的 Tensorflow
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1465440721000/" rel="prev" title="Redis 核心功能解析">
+                Redis 核心功能解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1463461156000/" data-title="Elasticsearch 学习笔记" data-url="https://yyqian.com/post/1463461156000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#倒排索引"><span class="nav-text">倒排索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算-Relevancy-Score-的算法"><span class="nav-text">计算 Relevancy Score 的算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发处理机制"><span class="nav-text">并发处理机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式的数据存储"><span class="nav-text">分布式的数据存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从逻辑的角度来看-ES"><span class="nav-text">从逻辑的角度来看 ES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从物理的角度来看-ES"><span class="nav-text">从物理的角度来看 ES</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个-API-背后的运作机制"><span class="nav-text">各个 API 背后的运作机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预定义的-fields"><span class="nav-text">预定义的 fields</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

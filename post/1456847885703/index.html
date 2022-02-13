@@ -1,0 +1,720 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="设计模式,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。 Chain of Responsibility（职责链）意图：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。 参与者：  Handler，接口 ConcreteHandler Client  Clien">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式 - 行为模式">
+<meta property="og:url" content="https://yyqian.com/post/1456847885703/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。 Chain of Responsibility（职责链）意图：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。 参与者：  Handler，接口 ConcreteHandler Client  Clien">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.256Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式 - 行为模式">
+<meta name="twitter:description" content="这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。 Chain of Responsibility（职责链）意图：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。 参与者：  Handler，接口 ConcreteHandler Client  Clien">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 设计模式 - 行为模式 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                设计模式 - 行为模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-01T23:58:05+08:00" content="2016-03-01">
+              2016-03-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1456847885703/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1456847885703/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。</p>
+<h2 id="Chain-of-Responsibility（职责链）"><a href="#Chain-of-Responsibility（职责链）" class="headerlink" title="Chain of Responsibility（职责链）"></a>Chain of Responsibility（职责链）</h2><p>意图：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。</p>
+<p>参与者：</p>
+<ul>
+<li>Handler，接口</li>
+<li>ConcreteHandler</li>
+<li>Client</li>
+</ul>
+<p>Client 在发送一个命令的时候，它可以发给多个 ConcreteHandler 其中的一个，这些 ConcreteHandler 如果能自己处理，则自己处理，不行的话就一层层往后面转发，直到有 ConcreteHandler 处理。</p>
+<p>职责链通常与 Composite 一起使用，这样一个构件的父构件可作为它的后继。<br><a id="more"></a></p>
+<h2 id="Command（命令）"><a href="#Command（命令）" class="headerlink" title="Command（命令）"></a>Command（命令）</h2><p>这个设计模式可以被 Lambda 表达式代替，现在已经没有实际使用的价值，所以不细看了。</p>
+<p>意图：将一个请求封装为一个对象，从而使你可用不同的请求对客户进行参数化。</p>
+<p>参与者：</p>
+<ul>
+<li>Command – Declares an interface for executing an operation.</li>
+<li>ConcreteCommand – Defines a binding between a Receiver object and an action.</li>
+<li>Client – Creates a ConcreteCommand instance and sets its receiver.</li>
+<li>Invoker – Controls the command(s) to carry out the request(s).</li>
+<li>Receiver – Performs the actual work.</li>
+</ul>
+<p>JavaScript ES5 中 Array 的很多新增方法都是这个模式的。</p>
+<h2 id="Interpreter（解释器）"><a href="#Interpreter（解释器）" class="headerlink" title="Interpreter（解释器）"></a>Interpreter（解释器）</h2><p>意图：给定一个语言，定义它的文法的一种表示，并定义一个解释器，这个解释器使用该表示来解释语言中的句子。</p>
+<p>正则表达式是一个例子，还有程序语言的编译器里也都有解释器。</p>
+<p>这个模式适用于一个语言需要解释执行，并且可将该语言中的句子表示为一个抽象语法树（AST）。感觉实现起来难度很大。</p>
+<h2 id="Iterator（迭代器）"><a href="#Iterator（迭代器）" class="headerlink" title="Iterator（迭代器）"></a>Iterator（迭代器）</h2><p>意图：提供一种方法顺序访问一个聚合对象中各个元素，而又不需要暴露该对象的内部表示。</p>
+<p>别名：Cursor 游标</p>
+<p>参与者：</p>
+<ul>
+<li>Iterator</li>
+<li>ConcreteIterator</li>
+<li>Aggregate</li>
+<li>ConcreteAggregate</li>
+</ul>
+<p>实例化迭代器的时候，需要提供待遍历的集合对象作为参数。</p>
+<p>优点：</p>
+<ul>
+<li>迭代器可以以不同的方式遍历一个集合，只需要创建一个新的迭代器</li>
+<li>集合类自身可以不实现遍历的接口</li>
+<li>在同一个集合上可以有多个遍历，每个可以保持它自己的遍历状态。</li>
+</ul>
+<p>基本上所有的集合类都有迭代器。</p>
+<h2 id="Mediator（中介者）"><a href="#Mediator（中介者）" class="headerlink" title="Mediator（中介者）"></a>Mediator（中介者）</h2><p>意图：用一个中介对象来封装一系列的对象交互。中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。</p>
+<p>例子：用户界面有很多按钮、输入框、下拉菜单等，它们之间直接交互的话会产生很强的耦合，如果有个中介者处理这些交互的话就能解耦。</p>
+<p>参与者：</p>
+<ul>
+<li>Mediator，接口</li>
+<li>ConcreteMediator</li>
+<li>Colleague class</li>
+</ul>
+<p>如果只有一个 Mediator 实现的话就可以不定义接口，直接定义一个实际的类</p>
+<p>优点：</p>
+<ul>
+<li>解耦 Colleague</li>
+<li>简化交互的协议</li>
+<li>控制集中化</li>
+</ul>
+<p>Facade 和 Mediator 的区别是：Facade 对象与子系统的交互是单向的，只能 Facade 提出请求，子系统回应请求，反之则不行。而 Mediator 与各个 Colleague 之间的交互是双向的，而且一般是比较复杂的。</p>
+<h2 id="Memento（备忘录）"><a href="#Memento（备忘录）" class="headerlink" title="Memento（备忘录）"></a>Memento（备忘录）</h2><p>意图：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样就可将该对象恢复到原先保存的状态。</p>
+<p>别名：Token</p>
+<p>参与者：</p>
+<ul>
+<li>Memento</li>
+<li>Originator</li>
+<li>Caretaker</li>
+</ul>
+<p>一般 Originator 有两个方法：SetMemento 和 CreateMemento，分别用于从 Memento 恢复状态和导出一个 Memento。Caretaker 负责保存好 Mementos。</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">import java.util.List;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">class Originator &#123;</span><br><span class="line">    private String <span class="keyword">state</span>;</span><br><span class="line">    // The class could also contain additional data that is not part of the</span><br><span class="line">    // <span class="keyword">state</span> saved <span class="keyword">in</span> the memento..</span><br><span class="line"></span><br><span class="line">    public void <span class="built_in">set</span>(String <span class="keyword">state</span>) &#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"Originator: Setting state to "</span> + <span class="keyword">state</span>);</span><br><span class="line">        this.<span class="keyword">state</span> = <span class="keyword">state</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Memento saveToMemento() &#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"Originator: Saving to Memento."</span>);</span><br><span class="line">        return new Memento(this.<span class="keyword">state</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void restoreFromMemento(Memento memento) &#123;</span><br><span class="line">        this.<span class="keyword">state</span> = memento.getSavedState();</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">"Originator: State after restoring from Memento: "</span> + <span class="keyword">state</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static class Memento &#123;</span><br><span class="line">        private final String <span class="keyword">state</span>;</span><br><span class="line"></span><br><span class="line">        public Memento(String <span class="keyword">state</span>ToSave) &#123;</span><br><span class="line">            <span class="keyword">state</span> = <span class="keyword">state</span>ToSave;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public String getSavedState() &#123;</span><br><span class="line">            return <span class="keyword">state</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Caretaker &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        List<span class="variable">&lt;Originator.Memento&gt;</span> savedStates = new ArrayList<span class="variable">&lt;Originator.Memento&gt;</span>();</span><br><span class="line"></span><br><span class="line">        Originator originator = new Originator();</span><br><span class="line">        originator.<span class="built_in">set</span>(<span class="string">"State1"</span>);</span><br><span class="line">        originator.<span class="built_in">set</span>(<span class="string">"State2"</span>);</span><br><span class="line">        savedStates.add(originator.saveToMemento());</span><br><span class="line">        originator.<span class="built_in">set</span>(<span class="string">"State3"</span>);</span><br><span class="line">        // We can request multiple mementos, and choose which one <span class="keyword">to</span> roll back <span class="keyword">to</span>.</span><br><span class="line">        savedStates.add(originator.saveToMemento());</span><br><span class="line">        originator.<span class="built_in">set</span>(<span class="string">"State4"</span>);</span><br><span class="line"></span><br><span class="line">        originator.restoreFromMemento(savedStates.get(<span class="number">1</span>));   </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Observer（观察者）"><a href="#Observer（观察者）" class="headerlink" title="Observer（观察者）"></a>Observer（观察者）</h2><p>意图：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并自动更新。</p>
+<p>别名：Dependents 依赖，Publish-Subscribe 发布-订阅</p>
+<p>譬如说同一组数据，分别用于画柱状图、饼图、折线图。如果数据变化了，那么就需要立即通知这三个图的对象，让它们重画。这里面数据是目标（Subject），那些图表是观察者（Observer）。</p>
+<p>Subject 必须要提供注册和删除 Observer 对象的功能，这样 Subject 就知道应该去通知哪些观察者。一般 Subject 会定义 Attach，Detach，Notify 三个方法，当 Subject 的 SetState 方法被调用，状态改变了，就会调用 Notify 方法，这个方法会遍历所有已经注册的 Observer 并且调用它们的 Update 方法。Observer 在接收到 Update 方法之后，可能会再调用 Subject 的 GetState 方法来更新状态。</p>
+<p>Subject 通知 Observer 更新数据有两种方法：推，直接把更新的数据放在 Update 方法里，推送过去；拉，只告诉 Observer 来拉取数据，不主动提交数据。前者需要 Subject 知道 Observer 想要什么数据，而后者耦合度更低，但多一次方法调用。</p>
+<h2 id="State（状态）"><a href="#State（状态）" class="headerlink" title="State（状态）"></a>State（状态）</h2><p>意图：允许一个对象在其内部状态改变时改变它的行为。对象看起来似乎修改了它的类。</p>
+<p>最典型的例子就是 TCPConnection，一个 TCP 连接会根据它当前所处的状态表现出不同的行为</p>
+<p>参与者：</p>
+<ul>
+<li>Context</li>
+<li>State，接口</li>
+<li>ConcreteState</li>
+</ul>
+<p>State 封装了与特定状态相关的一系列方法，ConcreteState 根据特定的状态实现 State 接口。Context 维护一个 ConcreteState 实例，这个实例代表当前状态。</p>
+<h2 id="Strategy（策略）"><a href="#Strategy（策略）" class="headerlink" title="Strategy（策略）"></a>Strategy（策略）</h2><p>意图：定义一系列的算法，把它们一个个封装起来，并且使它们可相互替换。本模式使得算法可独立于使用它的客户而变化。</p>
+<p>别名：Policy</p>
+<p>这个典型例子是 Validator。</p>
+<p>参与者：</p>
+<ul>
+<li>Strategy</li>
+<li>ConcreteStrategy</li>
+<li>Context</li>
+</ul>
+<p>Context 维护一个 Strategy，可以选用特定的 ConcreteStrategy 来实现特定的算法。</p>
+<p>含有许多条件语句的代码通常意味着需要使用该模式。</p>
+<p>车子和刹车方式的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Encapsulated family of Algorithms</span></span><br><span class="line"><span class="comment"> * Interface and its implementations</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBrakeBehavior</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">brake</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BrakeWithABS</span> <span class="keyword">implements</span> <span class="title">IBrakeBehavior</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">brake</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Brake with ABS applied"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Brake</span> <span class="keyword">implements</span> <span class="title">IBrakeBehavior</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">brake</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Simple Brake applied"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Client which can use the algorithms above interchangeably */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> IBrakeBehavior brakeBehavior;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyBrake</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        brakeBehavior.brake();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBrakeBehavior</span><span class="params">(IBrakeBehavior brakeType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.brakeBehavior = brakeType;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Client 1 uses one algorithm (Brake) in the constructor */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sedan</span> <span class="keyword">extends</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Sedan</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.brakeBehavior = <span class="keyword">new</span> Brake();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Client 2 uses another algorithm (BrakeWithABS) in the constructor */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SUV</span> <span class="keyword">extends</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SUV</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.brakeBehavior = <span class="keyword">new</span> BrakeWithABS();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Using the Car Example */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarExample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Car sedanCar = <span class="keyword">new</span> Sedan();</span><br><span class="line">        sedanCar.applyBrake();  <span class="comment">// This will invoke class "Brake"</span></span><br><span class="line"></span><br><span class="line">        Car suvCar = <span class="keyword">new</span> SUV();</span><br><span class="line">        suvCar.applyBrake();    <span class="comment">// This will invoke class "BrakeWithABS"</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// set brake behavior dynamically</span></span><br><span class="line">        suvCar.setBrakeBehavior( <span class="keyword">new</span> Brake() );</span><br><span class="line">        suvCar.applyBrake();    <span class="comment">// This will invoke class "Brake"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Template-Method（模版方法）"><a href="#Template-Method（模版方法）" class="headerlink" title="Template Method（模版方法）"></a>Template Method（模版方法）</h2><p>意图：定义一个操作中的算法的骨架，而将一些步骤延迟到子类中。TemplateMethod 使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。</p>
+<p>参与者：</p>
+<ul>
+<li>AbstractClass</li>
+<li>ConcreteClass</li>
+</ul>
+<p>这个模式是普遍存在的，Java 中 Abstract Class 就是为此而存在的。模板方法会导致一种反向的控制结构，即父类调用一个子类的操作，也被称为「好莱坞法则」（别找我们，我们找你）。</p>
+<h2 id="Visitor（访问者）"><a href="#Visitor（访问者）" class="headerlink" title="Visitor（访问者）"></a>Visitor（访问者）</h2><p>意图：表示一个作用于某对象结构中的各元素的操作。它使你可以在不改变各元素的类的前提下定义作用于这些元素的新操作。</p>
+<p>这个算法的关键是 Visitor 和 Element 之间是双分派的关系，两者都是动态的。</p>
+<p>分派的问题：如果有以下代码：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SuperClass a = new SubA();</span><br><span class="line">SuperClass <span class="keyword">parameter</span> = new <span class="comment">SubB()</span>;</span><br><span class="line">a.commonMethod(<span class="keyword">parameter</span>);</span><br></pre></td></tr></table></figure>
+<p>由于动态类型绑定，虽然 a 声明为 SuperClass，但是运行时实际的类型是 SubA，这就是多态的一种体现。如果 SubA 中重载了这些方法：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">commonMethod</span><span class="params">(SuperClass arg)</span></span> &#123;  &#125;</span><br><span class="line"><span class="function"><span class="title">commonMethod</span><span class="params">(SubA arg)</span></span> &#123;  &#125;</span><br><span class="line"><span class="function"><span class="title">commonMethod</span><span class="params">(SubB arg)</span></span> &#123;  &#125;</span><br></pre></td></tr></table></figure>
+<p>我们会发现 a.commonMethod(parameter) 调用的是第一个方法，也就是说：动态类型绑定只会体现在方法的调用者身上，而方法的参数类型则会在编译期由编译器决定。</p>
+<p>SuperClass 是 a 和 parameter 的静态类型，这个编译期就可知的，但 a 和 parameter 的实际类型是运行时才能得知的，a 调用的是它的实际类型重载的方法，但是这些方法的参数不能是动态的，而是在编译期就定下来的，所以只能是 parameter 的静态类型 SuperClass。</p>
+<p>访问者模式的参与者：</p>
+<ul>
+<li>Visitor</li>
+<li>ConcreteVisitor</li>
+<li>Element</li>
+<li>ConcreteElement</li>
+<li>ObjectStructure</li>
+</ul>
+<p>下面的例子里 Element 是各个零部件，ObjectStructure 是 Car，Visitor 定义了一系列针对各个零部件的 visit 方法。Element 定义的 accept 是一个双分派的操作，它的操作取决于 Visitor 和 Element 两者的实际类型（动态的、运行时决定的）。</p>
+<p>例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ICarElementVisitor</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">visit</span><span class="params">(Wheel wheel)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">visit</span><span class="params">(Engine engine)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">visit</span><span class="params">(Body body)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">visit</span><span class="params">(Car car)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ICarElement</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(ICarElementVisitor visitor)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Wheel</span> <span class="keyword">implements</span> <span class="title">ICarElement</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Wheel</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(ICarElementVisitor visitor)</span> </span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * accept(ICarElementVisitor) in Wheel implements</span></span><br><span class="line"><span class="comment">         * accept(ICarElementVisitor) in ICarElement, so the call</span></span><br><span class="line"><span class="comment">         * to accept is bound at run time. This can be considered</span></span><br><span class="line"><span class="comment">         * the first dispatch. However, the decision to call</span></span><br><span class="line"><span class="comment">         * visit(Wheel) (as opposed to visit(Engine) etc.) can be</span></span><br><span class="line"><span class="comment">         * made during compile time since 'this' is known at compile</span></span><br><span class="line"><span class="comment">         * time to be a Wheel. Moreover, each implementation of</span></span><br><span class="line"><span class="comment">         * ICarElementVisitor implements the visit(Wheel), which is</span></span><br><span class="line"><span class="comment">         * another decision that is made at run time. This can be</span></span><br><span class="line"><span class="comment">         * considered the second dispatch.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        visitor.visit(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engine</span> <span class="keyword">implements</span> <span class="title">ICarElement</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(ICarElementVisitor visitor)</span> </span>&#123;</span><br><span class="line">        visitor.visit(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Body</span> <span class="keyword">implements</span> <span class="title">ICarElement</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(ICarElementVisitor visitor)</span> </span>&#123;</span><br><span class="line">        visitor.visit(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span> <span class="keyword">implements</span> <span class="title">ICarElement</span> </span>&#123;</span><br><span class="line">    ICarElement[] elements;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.elements = <span class="keyword">new</span> ICarElement[] &#123; <span class="keyword">new</span> Wheel(<span class="string">"front left"</span>),</span><br><span class="line">            <span class="keyword">new</span> Wheel(<span class="string">"front right"</span>), <span class="keyword">new</span> Wheel(<span class="string">"back left"</span>) ,</span><br><span class="line">            <span class="keyword">new</span> Wheel(<span class="string">"back right"</span>), <span class="keyword">new</span> Body(), <span class="keyword">new</span> Engine() &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(ICarElementVisitor visitor)</span> </span>&#123;    </span><br><span class="line">        <span class="keyword">for</span>(ICarElement elem : elements) &#123;</span><br><span class="line">            elem.accept(visitor);</span><br><span class="line">        &#125;</span><br><span class="line">        visitor.visit(<span class="keyword">this</span>);    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CarElementPrintVisitor</span> <span class="keyword">implements</span> <span class="title">ICarElementVisitor</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Wheel wheel)</span> </span>&#123;      </span><br><span class="line">        System.out.println(<span class="string">"Visiting "</span> + wheel.getName() + <span class="string">" wheel"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Engine engine)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Visiting engine"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Body body)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Visiting body"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Car car)</span> </span>&#123;      </span><br><span class="line">        System.out.println(<span class="string">"Visiting car"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CarElementDoVisitor</span> <span class="keyword">implements</span> <span class="title">ICarElementVisitor</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Wheel wheel)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Kicking my "</span> + wheel.getName() + <span class="string">" wheel"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Engine engine)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Starting my engine"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Body body)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Moving my body"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Car car)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Starting my car"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VisitorDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ICarElement car = <span class="keyword">new</span> Car();</span><br><span class="line">        car.accept(<span class="keyword">new</span> CarElementPrintVisitor());</span><br><span class="line">        car.accept(<span class="keyword">new</span> CarElementDoVisitor());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="行为模式的讨论"><a href="#行为模式的讨论" class="headerlink" title="行为模式的讨论"></a>行为模式的讨论</h2><ul>
+<li>Chain of Responsibility</li>
+<li>Command</li>
+<li>Interpreter</li>
+<li>Iterator</li>
+<li>Mediator</li>
+<li>Memento</li>
+<li>Observer</li>
+<li>State</li>
+<li>Strategy</li>
+<li>Template Method</li>
+<li>Visitor</li>
+</ul>
+<p>前面的模式通常都定义了一个抽象类来描述封装变化的对象，并且以这个模式命名：</p>
+<ul>
+<li>一个 Strategy 对象封装一个算法</li>
+<li>一个 State 对象封装一个与状态相关的行为</li>
+<li>一个 Mediator 对象封装对象间的协议</li>
+<li>一个 Iterator 对象封装访问和遍历一个集合中的各个元素的方法</li>
+</ul>
+<p>命令、观察者、中介者和职责链这四个模式都涉及到如何对发送者和接收者进行解耦，但它们解耦的方式是不同的，目标也是不同的。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>面向对象软件的生命周期可以分为三个阶段：</p>
+<ol>
+<li>原型阶段，首先建立一个快速原型，在此基础上进行增量式修改，直至能满足基本需求</li>
+<li>扩展阶段，满足更多的需求，更易于复用</li>
+<li>巩固阶段，重构</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag">#设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1456847723338/" rel="next" title="设计模式 - 结构型模式">
+                <i class="fa fa-chevron-left"></i> 设计模式 - 结构型模式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1460014446333/" rel="prev" title="自己实现动态域名解析">
+                自己实现动态域名解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1456847885703/" data-title="设计模式 - 行为模式" data-url="https://yyqian.com/post/1456847885703/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Chain-of-Responsibility（职责链）"><span class="nav-text">Chain of Responsibility（职责链）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Command（命令）"><span class="nav-text">Command（命令）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Interpreter（解释器）"><span class="nav-text">Interpreter（解释器）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterator（迭代器）"><span class="nav-text">Iterator（迭代器）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mediator（中介者）"><span class="nav-text">Mediator（中介者）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memento（备忘录）"><span class="nav-text">Memento（备忘录）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Observer（观察者）"><span class="nav-text">Observer（观察者）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#State（状态）"><span class="nav-text">State（状态）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Strategy（策略）"><span class="nav-text">Strategy（策略）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Template-Method（模版方法）"><span class="nav-text">Template Method（模版方法）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Visitor（访问者）"><span class="nav-text">Visitor（访问者）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行为模式的讨论"><span class="nav-text">行为模式的讨论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-text">结论</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

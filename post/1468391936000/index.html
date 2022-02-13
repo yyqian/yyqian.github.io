@@ -1,0 +1,599 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Java,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="概览ArrayDeque 在实现上类似于 ArrayList，在功能上类似于 LinkedList，实现上比 ArrayList 稍复杂一点，功能上比 LinkedList 更强大一点。它实现了 Deque 接口，所以是个双端队列，可以被当做 FIFO 和 LIFO 两种队列来使用。 存储结构-字段和 ArrayList 的区别就是从一个指针变成两个指针 12345transient Object">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 源码分析 - ArrayDeque">
+<meta property="og:url" content="https://yyqian.com/post/1468391936000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="概览ArrayDeque 在实现上类似于 ArrayList，在功能上类似于 LinkedList，实现上比 ArrayList 稍复杂一点，功能上比 LinkedList 更强大一点。它实现了 Deque 接口，所以是个双端队列，可以被当做 FIFO 和 LIFO 两种队列来使用。 存储结构-字段和 ArrayList 的区别就是从一个指针变成两个指针 12345transient Object">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdn.yyqian.com/201607131506-FpHXwz6zhztfrq8-fsrYJMu6WfTE?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201607131523-FmjLWYxwkB9luBtJuOcZW3bSeZWA?imageView2/2/w/800/h/600">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 源码分析 - ArrayDeque">
+<meta name="twitter:description" content="概览ArrayDeque 在实现上类似于 ArrayList，在功能上类似于 LinkedList，实现上比 ArrayList 稍复杂一点，功能上比 LinkedList 更强大一点。它实现了 Deque 接口，所以是个双端队列，可以被当做 FIFO 和 LIFO 两种队列来使用。 存储结构-字段和 ArrayList 的区别就是从一个指针变成两个指针 12345transient Object">
+<meta name="twitter:image" content="http://cdn.yyqian.com/201607131506-FpHXwz6zhztfrq8-fsrYJMu6WfTE?imageView2/2/w/800/h/600">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Java 源码分析 - ArrayDeque | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java 源码分析 - ArrayDeque
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T14:38:56+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468391936000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468391936000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>ArrayDeque 在实现上类似于 ArrayList，在功能上类似于 LinkedList，实现上比 ArrayList 稍复杂一点，功能上比 LinkedList 更强大一点。它实现了 Deque 接口，所以是个双端队列，可以被当做 FIFO 和 LIFO 两种队列来使用。</p>
+<h2 id="存储结构-字段"><a href="#存储结构-字段" class="headerlink" title="存储结构-字段"></a>存储结构-字段</h2><p>和 ArrayList 的区别就是从一个指针变成两个指针</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> <span class="keyword">Object</span>[] elements; <span class="comment">// non-private to simplify nested class access</span></span><br><span class="line"><span class="comment">// 头部元素的索引</span></span><br><span class="line"><span class="keyword">transient</span> <span class="built_in">int</span> head;</span><br><span class="line"><span class="comment">// 尾部元素的下一个空位的索引，也就是说下一个被加入元素的位置</span></span><br><span class="line"><span class="keyword">transient</span> <span class="built_in">int</span> tail;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="容量相关操作"><a href="#容量相关操作" class="headerlink" title="容量相关操作"></a>容量相关操作</h2><p>从下面的函数可以看出，数组大小必须是 2 次幂，这个要求和 HashMap 中的桶数组是相同的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">allocateElements</span><span class="params">(<span class="keyword">int</span> numElements)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> initialCapacity = MIN_INITIAL_CAPACITY;</span><br><span class="line">    <span class="comment">// Find the best power of two to hold elements.</span></span><br><span class="line">    <span class="comment">// Tests "&lt;=" because arrays aren't kept full.</span></span><br><span class="line">    <span class="keyword">if</span> (numElements &gt;= initialCapacity) &#123;</span><br><span class="line">        initialCapacity = numElements;</span><br><span class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt;  <span class="number">1</span>);</span><br><span class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt;  <span class="number">2</span>);</span><br><span class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt;  <span class="number">4</span>);</span><br><span class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt;  <span class="number">8</span>);</span><br><span class="line">        initialCapacity |= (initialCapacity &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">        initialCapacity++;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)   <span class="comment">// Too many elements, must back off</span></span><br><span class="line">            initialCapacity &gt;&gt;&gt;= <span class="number">1</span>;<span class="comment">// Good luck allocating 2 ^ 30 elements</span></span><br><span class="line">    &#125;</span><br><span class="line">    elements = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>扩容，由于数组大小是 2 次幂，所以每次扩容实际就是容量翻倍。扩容只有当数组满的时候再扩，见下图。这个地方用的是 System.arraycopy 实现的数据移动，而 ArrayList 中的 grow 方法是用 Arrays.copyOf 在原地实现的。</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void doubleCapacity() &#123;</span><br><span class="line">    <span class="comment">// 因为这个数组是环形的（尾巴连着头部），所以当数组满的时候，head == tail</span></span><br><span class="line">    assert head == tail;</span><br><span class="line">    int p = head;</span><br><span class="line">    int n = elements.length;</span><br><span class="line">    int r = n - p; <span class="comment">// number of elements to the right of p</span></span><br><span class="line">    <span class="comment">// 容量翻倍</span></span><br><span class="line">    int <span class="keyword">new</span><span class="type">Capacity</span> = n &lt;&lt; <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// 小于零说明溢出</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">new</span><span class="type">Capacity</span> &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">IllegalStateException</span>(<span class="string">"Sorry, deque too big"</span>);</span><br><span class="line">    <span class="comment">// 分配新的空间</span></span><br><span class="line">    Object[] a = <span class="keyword">new</span> <span class="type">Object</span>[<span class="keyword">new</span><span class="type">Capacity</span>];</span><br><span class="line">    <span class="comment">// 这次 copy 对应于下图中的红线部分</span></span><br><span class="line">    System.arraycopy(elements, p, a, <span class="number">0</span>, r);</span><br><span class="line">    <span class="comment">// 这次 copy 对应于下图中的绿线部分</span></span><br><span class="line">    System.arraycopy(elements, <span class="number">0</span>, a, r, p);</span><br><span class="line">    <span class="comment">// elements 字段指向扩容后的数组</span></span><br><span class="line">    elements = a;</span><br><span class="line">    <span class="comment">// head 和 tail 索引的位置也重置了</span></span><br><span class="line">    head = <span class="number">0</span>;</span><br><span class="line">    tail = n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.yyqian.com/201607131506-FpHXwz6zhztfrq8-fsrYJMu6WfTE?imageView2/2/w/800/h/600" alt="56e97f8c98931.png"></p>
+<h2 id="添加、移除操作"><a href="#添加、移除操作" class="headerlink" title="添加、移除操作"></a>添加、移除操作</h2><p>在哪个位置添加、删除都是差不多的，我们只以 push 和 pop 为例分析下源码：</p>
+<figure class="highlight stan"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">void</span> push(E <span class="built_in">e</span>) &#123;</span><br><span class="line">    addFirst(<span class="built_in">e</span>);</span><br><span class="line">&#125;</span><br><span class="line">public <span class="keyword">void</span> addFirst(E <span class="built_in">e</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">e</span> == null)</span><br><span class="line">        throw new NullPointerException();</span><br><span class="line">    elements[<span class="built_in">head</span> = (<span class="built_in">head</span> - <span class="number">1</span>) &amp; (elements.length - <span class="number">1</span>)] = <span class="built_in">e</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">head</span> == <span class="built_in">tail</span>)</span><br><span class="line">        doubleCapacity();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function">E <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="title">removeFirst</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="function">E <span class="title">removeFirst</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    E x = pollFirst();</span><br><span class="line">    <span class="keyword">if</span> (x == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="function">E <span class="title">pollFirst</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h = head;</span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">    E result = (E) elements[h];</span><br><span class="line">    <span class="comment">// Element is null if deque empty</span></span><br><span class="line">    <span class="keyword">if</span> (result == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    elements[h] = <span class="keyword">null</span>;     <span class="comment">// Must null out slot</span></span><br><span class="line">    head = (h + <span class="number">1</span>) &amp; (elements.length - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码中值得注意的是这两个操作：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">head</span> - <span class="number">1</span>) &amp; (<span class="name">elements</span>.length - <span class="number">1</span>)</span><br><span class="line">(<span class="name">h</span> + <span class="number">1</span>) &amp; (<span class="name">elements</span>.length - <span class="number">1</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>它的目的是让数组变成一个等效的环形数组，在数组大小为 2 次幂的情况下，上面两个操作等效为取模操作，这一点和 JDK 1.8 的 HashMap 相同，可以大幅提高取模的效率，具体解释见我的 HashMap 源码分析。</p>
+<p><img src="http://cdn.yyqian.com/201607131523-FmjLWYxwkB9luBtJuOcZW3bSeZWA?imageView2/2/w/800/h/600" alt="56e97c2195747.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>ArrayDeque 是基于环形数组实现的双向队列，通过两个指针标记头尾，并且由于环形的实现需求，我们需要进行频繁的取模操作，在这点上作者使用了 HashMap 中相同的优化：把数组大小限定为 2 次幂，用 AND 运算来代替取模操作，获得效率上的提升。</p>
+<p>它的效率高于双向链表 LinkedList，但要注意 ArrayDeque 不支持为 null 的元素。</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="http://blog.jrwang.me/2016/java-collections-deque-arraydeque/" target="_blank" rel="noopener">Java 容器源码分析之 Deque 与 ArrayDeque</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#Java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1468377874000/" rel="next" title="Java 源码分析 - HashSet/TreeSet/LinkedHashSet">
+                <i class="fa fa-chevron-left"></i> Java 源码分析 - HashSet/TreeSet/LinkedHashSet
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1468976534000/" rel="prev" title="Java 并发 - 基础构建模块">
+                Java 并发 - 基础构建模块 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1468391936000/" data-title="Java 源码分析 - ArrayDeque" data-url="https://yyqian.com/post/1468391936000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储结构-字段"><span class="nav-text">存储结构-字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容量相关操作"><span class="nav-text">容量相关操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加、移除操作"><span class="nav-text">添加、移除操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

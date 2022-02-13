@@ -1,0 +1,671 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Java,JVM,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。  深入理解 Java 虚拟机 - 自动内存管理机制 深入理解 Java 虚拟机 - 虚拟机执行子系统 深入理解 Java 虚拟机 - 程序编译与代码优化 深入理解 Java 虚拟机 - 高效并发  10. 早期（编译期）优化 Java 语言中「编译期」以及「编译器」有可能有两种含义：">
+<meta name="keywords" content="Java,JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解 Java 虚拟机 - 程序编译与代码优化">
+<meta property="og:url" content="https://yyqian.com/post/1455872592672/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。  深入理解 Java 虚拟机 - 自动内存管理机制 深入理解 Java 虚拟机 - 虚拟机执行子系统 深入理解 Java 虚拟机 - 程序编译与代码优化 深入理解 Java 虚拟机 - 高效并发  10. 早期（编译期）优化 Java 语言中「编译期」以及「编译器」有可能有两种含义：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdn.yyqian.com/1455872592672_a.jpg">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.251Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解 Java 虚拟机 - 程序编译与代码优化">
+<meta name="twitter:description" content="本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。  深入理解 Java 虚拟机 - 自动内存管理机制 深入理解 Java 虚拟机 - 虚拟机执行子系统 深入理解 Java 虚拟机 - 程序编译与代码优化 深入理解 Java 虚拟机 - 高效并发  10. 早期（编译期）优化 Java 语言中「编译期」以及「编译器」有可能有两种含义：">
+<meta name="twitter:image" content="http://cdn.yyqian.com/1455872592672_a.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 深入理解 Java 虚拟机 - 程序编译与代码优化 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                深入理解 Java 虚拟机 - 程序编译与代码优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-19T17:03:12+08:00" content="2016-02-19">
+              2016-02-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1455872592672/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455872592672/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
+<ul>
+<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
+<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
+<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
+<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
+</ul>
+<h2 id="10-早期（编译期）优化"><a href="#10-早期（编译期）优化" class="headerlink" title="10. 早期（编译期）优化"></a>10. 早期（编译期）优化</h2><hr>
+<p>Java 语言中「编译期」以及「编译器」有可能有两种含义：</p>
+<ol>
+<li>前端编译器：例如 Javac，这是个把 .java 文件转化成 .class 文件的过程</li>
+<li>JIT 编译器（后端运行期编译器）：例如 HotSpot VM 的 C1、C2 编译器，把字节码转变成机器码的过程</li>
+</ol>
+<p>还有可能是 AOT 编译器，直接把 Java 代码转变成机器码。</p>
+<p>JVM 设计团队把对性能的优化都集中到了 JIT 编译器中，这样可以让所有产生 Class 文件的语言都能享受到性能的优化。</p>
+<p>前段编译器的优化措施主要是改善开发人员的编码风格和提高编码效率。相当多新生的 Java 语法特性，都是靠编译器的「语法糖」来实现的，而不是依赖于 JVM 底层的改进支持。<br><a id="more"></a></p>
+<h3 id="10-2-Javac-编译器"><a href="#10-2-Javac-编译器" class="headerlink" title="10.2 Javac 编译器"></a>10.2 Javac 编译器</h3><p>Javac 编译器本身就是由 Java 语言编写的。Javac 的编译过程如下：</p>
+<p><img src="http://cdn.yyqian.com/1455872592672_a.jpg" alt></p>
+<h4 id="解析与填充符号表"><a href="#解析与填充符号表" class="headerlink" title="解析与填充符号表"></a>解析与填充符号表</h4><p>解析步骤包括了经典编译原理中的「词法分析」和「语法分析」两个过程。</p>
+<p>「词法分析」是将源代码的字符流转变为 Token 集合。例如：<code>int a=b+2</code> 包含了六个 token：int、a、=、b、+、2.</p>
+<p>「语法分析」是根据 Token 序列构造抽象语法树（Abstract Sytax Tree，AST）的过程。</p>
+<p>「填充符号表」是将前面分析的结构填入符号表（Symbol Table）的过程</p>
+<h4 id="注解处理器"><a href="#注解处理器" class="headerlink" title="注解处理器"></a>注解处理器</h4><p>JDK 1.5 之后，Java 提供了 Annotation 的支持。注解处理器可以看作是编译器的插件，它可以根据我们的注解，修改 AST 的任意元素，修改完之后会再回到前面的过程，反复直到没有再对 AST 的修改为止。</p>
+<p>开发人员可以通过注解处理器完成很多原本需要在编码中完成的事情。</p>
+<h4 id="语义分析和字节码生成"><a href="#语义分析和字节码生成" class="headerlink" title="语义分析和字节码生成"></a>语义分析和字节码生成</h4><p>获得的 AST 只能保证结构正确，语义分析的主要任务就是对源程序上下文有关的性质进行审查。</p>
+<p>语义分析中有个过程叫「常量折叠」，例如代码中定义的 <code>int a = 1 + 2;</code>，在前段编译之后，得到的是 <code>int a = 3;</code>。因此在代码里定义前者不会有任何运行时的性能损失，但有时能带来更好的阅读性。</p>
+<p>还有个过程叫解语法糖（desugar），Java 中的泛型、变长参数、自动装箱/拆箱等语法糖，在 JVM 运行期都是不支持的，只有在前段编译器还原为基础的语法结构，才能正确运行。</p>
+<p>在字节码生成阶段，前段编译器不仅仅把前面的获得的信息转化为字节码，还会添加少量的代码。譬如类构造器 <code>&lt;clinit&gt;()</code> 方法和实例构造器 <code>&lt;init&gt;()</code>。完成了所有的调整之后，最后可以用 com.sun.tools.javac.jvm.ClassWrite 类的 writeClass() 方法输出字节码，生成最终的 Class 文件。</p>
+<h3 id="10-3-Java-语法糖"><a href="#10-3-Java-语法糖" class="headerlink" title="10.3 Java 语法糖"></a>10.3 Java 语法糖</h3><p>语法糖不会提供实质性的功能改进，但是它们或能提高效率，或能提升语法的严谨性，或能减少编码出错的机会。</p>
+<h4 id="泛型与类型擦除"><a href="#泛型与类型擦除" class="headerlink" title="泛型与类型擦除"></a>泛型与类型擦除</h4><p>没有泛型之前，程序员通过 Object 是所有类型的父类和类型强制转换两个特点来实现泛型。</p>
+<p>Java 的泛型是伪泛型，是一种语法糖，因为它对泛型的支持不像 C# 是在运行期生成的一种真实的类型。Java 源代码在编译之后，类型会被擦除，例如 <code>ArrayList&lt;int&gt;</code> 和 <code>ArrayList&lt;String&gt;</code> 在前端编译之后，类型是同一个类 <code>ArrayList</code>，两者在运行期是没有差别的。所以泛型也不能用来重载，因为类型会被擦除。</p>
+<h4 id="自动装箱、拆箱与遍历循环"><a href="#自动装箱、拆箱与遍历循环" class="headerlink" title="自动装箱、拆箱与遍历循环"></a>自动装箱、拆箱与遍历循环</h4><p>一个包含泛型、自动装箱/拆箱、遍历循环、变长参数的例子，编译前：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123;  </span><br><span class="line">    List&lt;Integer&gt; <span class="built_in">list</span> = Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>);  </span><br><span class="line">    <span class="comment">//如果是在 JDK 1.7 还有另外一颗语法糖  </span></span><br><span class="line">    <span class="comment">// List&lt;Integer&gt; list = [1,2,3,4];  </span></span><br><span class="line">    <span class="keyword">int</span> sum =<span class="number">0</span>;  </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : <span class="built_in">list</span>)&#123;  </span><br><span class="line">        sum+=i;  </span><br><span class="line">    &#125;  </span><br><span class="line">    System.out.<span class="built_in">print</span>(sum);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解释后等效的源代码：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> static void main(String args[]) &#123;  </span><br><span class="line">    List list = Arrays.asList(new <span class="keyword">Integer</span>[] &#123;   </span><br><span class="line">            <span class="keyword">Integer</span>.valueOf(<span class="number">1</span>),  </span><br><span class="line">            <span class="keyword">Integer</span>.valueOf(<span class="number">2</span>),   </span><br><span class="line">            <span class="keyword">Integer</span>.valueOf(<span class="number">3</span>),   </span><br><span class="line">            <span class="keyword">Integer</span>.valueOf(<span class="number">4</span>) &#125;);  </span><br><span class="line">    <span class="built_in">int</span> <span class="built_in">sum</span> = <span class="number">0</span>;  </span><br><span class="line">    for (Iterator iterator = list.iterator(); iterator.hasNext();) &#123;  </span><br><span class="line">        <span class="built_in">int</span> i = ((<span class="keyword">Integer</span>) iterator.next()).intValue();  </span><br><span class="line">        <span class="built_in">sum</span> += i;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    System.<span class="keyword">out</span>.<span class="built_in">print</span>(<span class="built_in">sum</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除此之外，还有条件编译、内部类、枚举类、断言语句等语法糖，可以通过反编译 Class 文件来了解它们的本质实现。</p>
+<h2 id="11-晚期（运行期）优化"><a href="#11-晚期（运行期）优化" class="headerlink" title="11. 晚期（运行期）优化"></a>11. 晚期（运行期）优化</h2><hr>
+<h3 id="11-2-HotSpot-VM-内的-JIT-编译器"><a href="#11-2-HotSpot-VM-内的-JIT-编译器" class="headerlink" title="11.2 HotSpot VM 内的 JIT 编译器"></a>11.2 HotSpot VM 内的 JIT 编译器</h3><p>HotSpot 中有两个 JIT 编译器：</p>
+<ul>
+<li>Client Compiler：C1 编译器</li>
+<li>Server Compiler：C2 编译器</li>
+</ul>
+<p>可以使用 -client 或 -server 参数去强制 JVM 运行在 Client 模式或 Server 模式。</p>
+<p>解释器与编译器搭配使用的方式称为「Mixed Mode」，可以用 -Xint 强制运行在「Interpreted Mode」，用 -Xcomp 强制运行在「Compiled Mode」。</p>
+<p>HotSpot 采用分层编译的概念：</p>
+<ul>
+<li>第 0 层：解释执行，可以触发第 1 层编译</li>
+<li>第 1 层：C1 编译，将字节码编译为本地代码，进行简单、可靠的优化</li>
+<li>第 2 层：C2 编译，将字节码编译为本地代码，启用耗时较长的优化，甚至激进的优化</li>
+</ul>
+<p>会触发 JIT 编译器的「热点代码」有两类：</p>
+<ul>
+<li>被多次调用的方法，这种是标准的 JIT 编译方式，可以通过计数器来进行热点探测，触发的阈值以及衰减是可以设置的</li>
+<li>被多次执行的循环体，这种编译方式发生在代码执行过程中，被称为栈上替换（简称 OSR 编译）</li>
+</ul>
+<h3 id="11-3-编译优化技术"><a href="#11-3-编译优化技术" class="headerlink" title="11.3 编译优化技术"></a>11.3 编译优化技术</h3><p>以一段代码为例子：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title">B</span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="keyword">value</span>；</span><br><span class="line">    final <span class="keyword">int</span> <span class="keyword">get</span>（）&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">value</span>；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.<span class="keyword">get</span>（）；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    z=b.<span class="keyword">get</span>（）；</span><br><span class="line">    sum=y+z；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在「方法内联（Method Inlining）」之后，一是省去方法的调用成本，二是为其他优化建立良好基础：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.<span class="keyword">value</span>；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    z=b.<span class="keyword">value</span>；</span><br><span class="line">    sum=y+z；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在「冗余访问消除（Redundant Loads Elimination）」之后：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.value；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    z=y；</span><br><span class="line">    <span class="keyword">sum</span>=y+z；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在「复写传播（Copy Propagation）」之后，用 y 来代替 z：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.value；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    y=y；</span><br><span class="line">    <span class="keyword">sum</span>=y+y；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在「无用代码消除（Dead Code Elimination）」之后：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> foo（）&#123;</span><br><span class="line">    y=b.value；</span><br><span class="line">    <span class="comment">//……do stuff……</span></span><br><span class="line">    <span class="keyword">sum</span>=y+y；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他的经典优化技术还有：</p>
+<h4 id="公共子表达式消除"><a href="#公共子表达式消除" class="headerlink" title="公共子表达式消除"></a>公共子表达式消除</h4><p>譬如有源代码：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">int</span> d =（c * <span class="keyword">b）* </span><span class="number">12</span> + a +（a + <span class="keyword">b </span>* c）；</span><br></pre></td></tr></table></figure>
+<p>由于 <code>c * b</code> 和 <code>b * c</code> 是相同的，并且运算期是不变的，因此可以简化为：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int d= E * <span class="number">12</span> + <span class="keyword">a</span> +（<span class="keyword">a</span> + E）；</span><br></pre></td></tr></table></figure>
+<p>然后还可能进行一种「代数化简」：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int d= E * <span class="number">13</span> + a * <span class="number">2</span>；</span><br></pre></td></tr></table></figure>
+<h4 id="数据边界检查消除"><a href="#数据边界检查消除" class="headerlink" title="数据边界检查消除"></a>数据边界检查消除</h4><p>由于 Java 访问数组时会自动进行边界检查，但频繁的数组元素访问，会导致频繁的边界检查，造成性能负担。因此 JIT 编译优化的时候，会在某些貌似安全的情况下取消这个检查。譬如说在循环之中，如果循环变量的取值范围在边界以内，就可以取消对访问的边界检查。</p>
+<h4 id="逃逸分析（Escape-Analysis）"><a href="#逃逸分析（Escape-Analysis）" class="headerlink" title="逃逸分析（Escape Analysis）"></a>逃逸分析（Escape Analysis）</h4><p>逃逸分析（Escape Analysis）是目前 JVM 中比较前沿的优化技术。</p>
+<p>逃逸分析的基本行为就是分析对象动态作用域：当一个对象在方法中被定义后，它可能被外部方法所引用，例如作为调用参数传递到其他方法中，称为方法逃逸。甚至还有可能被外部线程访问到，譬如赋值给类变量或可以在其他线程中访问的实例变量，称为线程逃逸。</p>
+<p>如果能证明一个对象不会逃逸到方法或线程之外，也就是别的方法或线程无法通过任何途径访问到这个对象，则可能为这个变量进行一些高效的优化，譬如：</p>
+<ul>
+<li><p>栈上分配（Stack Allocation）：JVM 中创建的对象一般是分配在 Heap 中的，GC 对这些对象的回收和整理都需要耗费时间。如果确定一个对象不会逃逸出方法之外，那让这个对象在 Stack 上分配内存空间，这样对象所占用的内存空间就可以随栈帧出栈而销毁。在一般应用中，不会逃逸的局部对象所占的比例很大，如果能使用栈上分配，那大量的对象就会随着方法的结束而自动销毁了，垃圾收集系统的压力将会小很多。</p>
+</li>
+<li><p>同步消除（Synchronization Elimination）：线程同步本身是一个相对耗时的过程，如果逃逸分析能够确定一个变量不会逃逸出线程，无法被其他线程访问，那这个变量的读写肯定就不会有竞争，对这个变量实施的同步措施也就可以消除掉。</p>
+</li>
+<li><p>标量替换（Scalar Replacement）：标量（Scalar）是指一个数据已经无法再分解成更小的数据来表示了，JVM 中的原始数据类型都不能再进一步分解，它们就可以称为标量。相对的，如果一个可以分解，则称作聚合量（Aggregate），对象就是最典型的聚合量。如果把一个对象拆散，根据程序访问的情况，将其使用到的成员变量恢复原始类型来访问就叫做标量替换。如果证明一个对象不会方法逃逸，并且这个对象可以被拆散的话，那程序真正执行的时候将可能不创建这个对象，而改为直接创建若干成员变量来代替。将对象拆分后，除了可以让对象的成员变量在栈上（栈上存储的数据，有很大的概率会被虚拟机分配至物理机器的高速寄存器中存储）分配和读写之外，还可以为后续进一步的优化手段创建条件。</p>
+</li>
+</ul>
+<p>目前逃逸分析技术还不是很成熟，有时分析的性能耗费大于优化得到的提升，因此需要这些选项需要手动开启。</p>
+<h3 id="11-4-Java-与-C-C-的编译器对比"><a href="#11-4-Java-与-C-C-的编译器对比" class="headerlink" title="11.4 Java 与 C/C++ 的编译器对比"></a>11.4 Java 与 C/C++ 的编译器对比</h3><p>Java 与 C/C++ 的编译器对比实际上是即时编译器与静态编译器的对比。</p>
+<p>即时编译器在性能上有可能有以下劣势：</p>
+<ol>
+<li>JIT 编译器运行时编译会占有资源，因此不敢随便引入大规模的优化技术</li>
+<li>Java 有很多动态检查行为</li>
+<li>Java 没有 virtual 关键字，但虚方法的使用频率远大于 C/C++</li>
+<li>Java 动态可扩展，运行时加载的新类可能改变程序的继承关系，因此有些优化难以开展</li>
+<li>Java 中对象的内存分配正常是在堆上进行的，只有方法的局部变量才能在栈上进行</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#Java</a>
+          
+            <a href="/tags/jvm/" rel="tag">#JVM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1455864579129/" rel="next" title="深入理解 Java 虚拟机 - 虚拟机执行子系统">
+                <i class="fa fa-chevron-left"></i> 深入理解 Java 虚拟机 - 虚拟机执行子系统
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1455874363073/" rel="prev" title="深入理解 Java 虚拟机 - 高效并发">
+                深入理解 Java 虚拟机 - 高效并发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1455872592672/" data-title="深入理解 Java 虚拟机 - 程序编译与代码优化" data-url="https://yyqian.com/post/1455872592672/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#10-早期（编译期）优化"><span class="nav-text">10. 早期（编译期）优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2-Javac-编译器"><span class="nav-text">10.2 Javac 编译器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解析与填充符号表"><span class="nav-text">解析与填充符号表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注解处理器"><span class="nav-text">注解处理器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语义分析和字节码生成"><span class="nav-text">语义分析和字节码生成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-3-Java-语法糖"><span class="nav-text">10.3 Java 语法糖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#泛型与类型擦除"><span class="nav-text">泛型与类型擦除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动装箱、拆箱与遍历循环"><span class="nav-text">自动装箱、拆箱与遍历循环</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-晚期（运行期）优化"><span class="nav-text">11. 晚期（运行期）优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#11-2-HotSpot-VM-内的-JIT-编译器"><span class="nav-text">11.2 HotSpot VM 内的 JIT 编译器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-3-编译优化技术"><span class="nav-text">11.3 编译优化技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#公共子表达式消除"><span class="nav-text">公共子表达式消除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据边界检查消除"><span class="nav-text">数据边界检查消除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逃逸分析（Escape-Analysis）"><span class="nav-text">逃逸分析（Escape Analysis）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-4-Java-与-C-C-的编译器对比"><span class="nav-text">11.4 Java 与 C/C++ 的编译器对比</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="钱寅垠, Yinyin Qian, yyqian">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="周末花了一天的时间把网站又建起来了，把手上一个废弃已久的Pogoplug Pro刷了Arch linux，装了apache、mysql、php，貌似速度还没慢到发指，这种arm系统还挺有意思的，先这样用着吧。之前的数据还没从原来的服务器上的拷过来，就把前几天在人人上的一篇日志转过来吧：最近一个月一直在到处转悠，先带爸妈去NY、DC玩了一圈，之后又带他们去了Glacier National Park">
+<meta property="og:type" content="article">
+<meta property="og:title" content="亲爱的Pullman">
+<meta property="og:url" content="https://yyqian.com/post/1343469507000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="周末花了一天的时间把网站又建起来了，把手上一个废弃已久的Pogoplug Pro刷了Arch linux，装了apache、mysql、php，貌似速度还没慢到发指，这种arm系统还挺有意思的，先这样用着吧。之前的数据还没从原来的服务器上的拷过来，就把前几天在人人上的一篇日志转过来吧：最近一个月一直在到处转悠，先带爸妈去NY、DC玩了一圈，之后又带他们去了Glacier National Park">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://farm8.staticflickr.com/7259/7619289558_f9b8c81251_b.jpg">
+<meta property="og:image" content="http://farm9.staticflickr.com/8146/7619285898_64f65b7743_b.jpg">
+<meta property="og:image" content="http://farm9.staticflickr.com/8287/7619287714_d5ca3d9230_b.jpg">
+<meta property="og:image" content="http://farm9.staticflickr.com/8023/7620254006_2a02d20019_b.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7248/7619276204_625e72a618_c.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7267/7619275464_da55c04d61_b.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7122/7619283198_8e4816bd36_b.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7121/7619284716_436b66f0af_b.jpg">
+<meta property="og:image" content="http://farm9.staticflickr.com/8292/7619280568_88a8f2edc5_b.jpg">
+<meta property="og:image" content="http://farm9.staticflickr.com/8159/7619279202_659a2e1e8b_b.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7130/7619278158_bc19b44d5a_b.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7131/7619276906_1fe53cebfe_c.jpg">
+<meta property="og:image" content="http://farm9.staticflickr.com/8159/7619274422_41edd7aa29_b.jpg">
+<meta property="og:image" content="http://farm9.staticflickr.com/8168/7619273496_8c4b84bacf_b.jpg">
+<meta property="og:image" content="http://farm9.staticflickr.com/8015/7619272858_a18b35aec0_b.jpg">
+<meta property="og:image" content="http://farm9.staticflickr.com/8289/7619272006_c1c3b9a155_b.jpg">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="亲爱的Pullman">
+<meta name="twitter:description" content="周末花了一天的时间把网站又建起来了，把手上一个废弃已久的Pogoplug Pro刷了Arch linux，装了apache、mysql、php，貌似速度还没慢到发指，这种arm系统还挺有意思的，先这样用着吧。之前的数据还没从原来的服务器上的拷过来，就把前几天在人人上的一篇日志转过来吧：最近一个月一直在到处转悠，先带爸妈去NY、DC玩了一圈，之后又带他们去了Glacier National Park">
+<meta name="twitter:image" content="http://farm8.staticflickr.com/7259/7619289558_f9b8c81251_b.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 亲爱的Pullman | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                亲爱的Pullman
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-07-28T17:58:27+08:00" content="2012-07-28">
+              2012-07-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1343469507000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1343469507000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>周末花了一天的时间把网站又建起来了，把手上一个废弃已久的Pogoplug Pro刷了Arch linux，装了apache、mysql、php，貌似速度还没慢到发指，这种arm系统还挺有意思的，先这样用着吧。之前的数据还没从原来的服务器上的拷过来，就把前几天在人人上的一篇日志转过来吧：</p><br><br><br><p>最近一个月一直在到处转悠，先带爸妈去NY、DC玩了一圈，之后又带他们去了Glacier National Park，最后送走他们之后，也轮到我要离开亲爱的Pullman了。</p>
+
+<p>跟爸妈一起的那半个月的旅程其实没多少好说的，主要就是和爸妈聚聚。提前订好了所有的旅馆和机票，很庆幸期间没出任何差错，旅途很顺利。不过想要看照片的同学肯定要失望了，以往出去都是大家等我一个在那慢吞吞地拍照，这次我得当小导游，一路上边看地图，边盯着爸妈，基本上没拍照片，所以只能简单放几张了。</p>
+
+<p><br></p>
+<p>中央车站</p>
+
+<p><img src="http://farm8.staticflickr.com/7259/7619289558_f9b8c81251_b.jpg" alt border="0"><br><br></p>
+<p>从爱丽丝岛看曼哈顿</p><br><img src="http://farm9.staticflickr.com/8146/7619285898_64f65b7743_b.jpg" alt border="0"><br><a id="more"></a><br><br><br><p>Glacier National Park</p>
+
+<p><img src="http://farm9.staticflickr.com/8287/7619287714_d5ca3d9230_b.jpg" alt border="0"></p>
+<p><br><br><strong>在Pullman</strong></p>
+<p>回想刚来Pullman的时候，是夏天，蓝天白云，麦田一片翠绿，跟Windows xp的bliss壁纸一个模样，像进了世外桃源。但一段时间之后觉得这儿的生活也是和世外桃源一样，单调无聊。那时候还惦记着转学，想去更好的地方，对这个地方没有一丝“归属感”，觉得只是路过的一站。后来日复一日地在这儿待着，认识了不少朋友，project做得也还算顺利，导师人不错，就决定在这念完PHD。都说PHD是permanent head damage之类的种种，我在这儿却没想到时间能过这么快，一晃就四年了，小镇的生活真是安逸。每次出去开会回来，摇下车窗呼吸下新鲜空气的时候，就会觉得回家的感觉真好。</p>
+
+
+<p><br><br><strong>离开Pullman</strong></p>
+<p>大概2，3月份的时候，导师某天突然找我谈话说要去UT Dallas了，让我回去考虑考虑。其实我没怎么考虑，跟着转去Dallas是唯一的选择。</p>
+
+
+
+<p>本科的时候看《天堂电影院》，印象最深的只是Alfredo跟Toto讲士兵和公主的故事，那时候还不解Alfredo为什么要拆散Toto和他的初恋，后来才慢慢地理解他对Toto的爱：小镇的恬淡平静只会限制Toto的潜力，他希望Toto能去更广阔的一片天空，所以说“不准回来，不准想我们，不准回头，不准写信，不准妥协，忘了我们！如果你办不到回来了，我是不会让你进我屋子的，明白吗？不论你做什么工作，要去爱它，就像你爱放映机一样。”</p>
+
+
+
+<p>初中之后，我就一直在学校寄宿，也很少回家，觉得当惯了游子，不会有什么留恋的了。在Pullman待了四年，身旁不少人都已离开，现在轮到我。有次钓鱼回来何倩问我想不想离开这儿，当时其实没什么感觉，最后大家都会离开这的吧，只是想不到我是你们中走得最早的。引用天堂电影院里另外一句话“日复一日生活在这儿，你会以为这里就是世界中心，事情不会有任何改变”，和你们最后一次吃饭，我都还觉得是和往日同样的一次欢聚。直到最后和你们一一告别，独自回房间整理东西的时候，才意识到我是真正要离开这儿熟悉的一切了，想着想着就万般地不舍，万般地想挽留。</p>
+
+
+<p><br><br><strong>从Pullman到Dallas</strong></p>
+<p>这次大搬家，选择了开车过去，从Washington到Texas纵穿美国的公路旅行，也算了了一个小心愿。行前除了把车子好好修整了一番，行程上其实没做什么功课，时间预算只有5-6天，大致定了Great Salt Lake, Arches NP和Grand Canyon NP这三个必经的地方。最后开下来总行程是2300 miles，开车时间41小时，平均每天8小时。这里要衷心感谢下曾伯隆同学陪我走完这条路，虽然最后几天风很大，我一直担心车况，硬撑着不敢让你多开车，但没你陪伴这段旅程肯定是risky的。</p>
+
+
+<p><br></p>
+<p>路线图</p>
+
+<p><img src="http://farm9.staticflickr.com/8023/7620254006_2a02d20019_b.jpg" alt border="0"></p>
+<p>这段旅程有趣的地方很多，只是大多数时间在开车赶路，停下来拍照的机会很少，所以就文字大致描述一下啦。</p>
+
+
+
+<p>第一天我们轮流开了将近12个小时，穿过了Idaho，在盐湖城附近一个叫Tremonton的小镇住下。沿途会经过Boise, ID，到Boise之前的路是从若干National Forest中穿过来的，沿着小溪，风景很漂亮，极品飞车什么的真应该拿这儿的路当赛道。但过了Boise之后的路让人觉得非常压抑，路两旁到处是烧焦的枯草，天空总是灰蒙蒙的，像被严重污染过。当地人告诉我们这儿每天都有大大小小的wildfire，整个地区都是烟尘笼罩。查的日落时间是9点半，我们开到Idaho和Utah边境的地方大概9点，本想就在这休息下来，GPS一查才发现附近根本没有小镇，最近的有2小时路程，于是只好硬着头皮继续开夜路。开了一段还看到路旁有警示牌写着”Sandstorm Area. Do Not Stop In Road.”，周围却又黑漆漆看不清状况，当时真是心里一凉…</p>
+
+
+
+<p>第二天一早去了盐湖城附近的Antelope Island State Park，位于Great Salt Lake的一个岛上，大盐湖和普通的湖确实不同，周围的生物种类比较奇特，岛上都是沙漠里的动植物，湖边鸟群很多，并且到处是密密麻麻的飞虫，有密集恐怖症的做好心理准备。。。但应该不咬人。</p><br><br><br><p>大盐湖</p>
+
+<p><img src="http://farm8.staticflickr.com/7248/7619276204_625e72a618_c.jpg" alt border="0"></p>
+<p><img src="http://farm8.staticflickr.com/7267/7619275464_da55c04d61_b.jpg" alt border="0"></p>
+<p><br></p>
+<p>傍晚的时候到了拱石国家公园，那个时间点到那还正合适，不是特别热，而且正好多云，否则在那里面Hiking会被晒成人干的。。。当时第一次看到这些大石头还是相当震撼的，真应该有个地质系的朋友给我们讲解下这种石头的形成。拱石公园出来3 mile就有个小镇，我们就在那住下，不过旅馆不便宜。</p><br><br><br><p>拱石公园</p>
+
+<p><img src="http://farm8.staticflickr.com/7122/7619283198_8e4816bd36_b.jpg" alt border="0"></p>
+<p><img src="http://farm8.staticflickr.com/7121/7619284716_436b66f0af_b.jpg" alt border="0"></p>
+<p><img src="http://farm9.staticflickr.com/8292/7619280568_88a8f2edc5_b.jpg" alt border="0"></p>
+<p><br></p>
+<p>第三天我们前往大峡谷国家公园，大概有6个小时左右的路程，这条路旁都是荒漠，后面的路都得握紧方向盘小心横风。从Utah进入Arizona之后，沿途会经过很大的一片Indian reservations，那儿能见到的几乎都是印第安人，我们在一个叫Tuba City的小镇上停留了一会，这儿印第安人的生活虽然不像电视上看到的那么原始，但跟外界相比，真是相当于中国的山村，美国的贫民窟，周围都是寸草不生的土石，无法种植和畜牧，看着就觉得他们过得很穷困。美国津津乐道地谈人权民主，却又把这些真正的Native Americans逼到了这种地方。</p>
+
+
+<p><br></p>
+<p>在Arizona，公路前方</p>
+
+<p><img src="http://farm9.staticflickr.com/8159/7619279202_659a2e1e8b_b.jpg" alt border="0"></p>
+<p><br></p>
+<p>公路两侧的地貌</p>
+
+<p><img src="http://farm8.staticflickr.com/7130/7619278158_bc19b44d5a_b.jpg" alt border="0"></p>
+<p><br></p>
+<p>开到大峡谷也是傍晚时分，我们从公园东侧的一条山路开进Grand Canyon NP South Rim，但建议大家不要从那进出。可能山体的原因，那条路风特别大，吹得我车子一直在飘，期间还为了看个景点泊车，底盘被路面磕了一下，进入公园的时候手都握麻了。公园里面当时有点下雨，雾蒙蒙的，可见度低，也没拍什么照片，就把一条线上的景点都停下来看了一眼。但感觉远观这些大峡谷，并不如拱石公园这种可以走到景点内部带来的身临其境的震撼，不过也可能是沿路过来石头看多了。南门出口就是一个小镇，稍远一点还有Williams和flagstaff两个小镇，住的地方不愁。</p><br><br><br><p>大峡谷</p>
+
+<p><img src="http://farm8.staticflickr.com/7131/7619276906_1fe53cebfe_c.jpg" alt border="0"></p>
+<p><br></p>
+<p>最后2天基本就是赶路，沿途会穿过New Mexico，也是印第安人聚集的地方。所走的高速的前身是著名的US Route 66，被称为the Mother Road，从LA到Chicago贯穿东西，沿途的旅馆小店到处可以见到Historic Route 66的标志，可见这条公路在美国人民心中的位置。这段路旁地势也很平坦，也要小心横风。</p>
+
+<p><br><br><strong>再见Pullman</strong></p>
+<p>以前看的公路电影，都是以路途反映人生。我一路开过来，觉得很有的意义是我可以有五天的时间来离开我已经待了四年的地方，这条路不论开多远都是从Pullman延续过来的。但最后到Dallas住下时才深切地明白这条路只是one-way的，以后不知还会不会回去看看，那时候大家也都已经走了吧，想着又是难过。</p>
+
+
+<p>张喆之前问我临走前有没有什么心愿没了的，我说想给Pullman再拍一组照片。但一直没想好该从怎样一个新的角度来拍，我不想再拍一组跟去年夏天重复的片子。后来周可可让我帮她和彭菁在Pullman拍点照片留个纪念，于是有了下面这组照片，在Pullman的最后一组哦。以前看《关于莉莉周的一切》，电影里大片的麦田给我很深的印象，画面很唯美，来了这儿也想拍一组类似的人像，这组也算是了了我另一个心愿了。我不知道哪几张你同意让我post出来，那我就挑几张不露正脸的吧～</p><br><br><br><img src="http://farm9.staticflickr.com/8159/7619274422_41edd7aa29_b.jpg" alt border="0"><br><br><br><img src="http://farm9.staticflickr.com/8168/7619273496_8c4b84bacf_b.jpg" alt border="0"><br><br><br><img src="http://farm9.staticflickr.com/8015/7619272858_a18b35aec0_b.jpg" alt border="0"><br><br><br><img src="http://farm9.staticflickr.com/8289/7619272006_c1c3b9a155_b.jpg" alt border="0"><br><br><br><br><br><p>最后要衷心感谢下Pullman的朋友们，感谢往日有你们的陪伴，我就不用很长的篇幅一个个@你们啦，临别的时候我不知道该跟你们怎样表达最真实的感受，也不想和你们说什么客套的话，所以回头写了这么长的一篇日志。相信以后还能再见面的，以后你们在Dallas也有落脚点啦。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1339424747000/" rel="next" title="EMMANUEL BAPTIST CHURCH WEDDING | WENJIA + SHUAI">
+                <i class="fa fa-chevron-left"></i> EMMANUEL BAPTIST CHURCH WEDDING | WENJIA + SHUAI
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1347832652000/" rel="prev" title="Dallas初印象">
+                Dallas初印象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1343469507000/" data-title="亲爱的Pullman" data-url="https://yyqian.com/post/1343469507000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

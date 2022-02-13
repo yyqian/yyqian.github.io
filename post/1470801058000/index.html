@@ -1,0 +1,657 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Java,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="这篇文章首先将着重介绍下 Byte Streams 和 Character Streams，然后结合装饰器模式，介绍在字节流和字符流基础上通过包装而衍生出来的 Buffered Streams、Scanning 和 Formatting 相关的 I/O 类、与 Command Line 交互的 I/O 类、以及能够将基本类型和对象序列化的 I/O 类。">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 中的 I&#x2F;O 类">
+<meta property="og:url" content="https://yyqian.com/post/1470801058000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="这篇文章首先将着重介绍下 Byte Streams 和 Character Streams，然后结合装饰器模式，介绍在字节流和字符流基础上通过包装而衍生出来的 Buffered Streams、Scanning 和 Formatting 相关的 I/O 类、与 Command Line 交互的 I/O 类、以及能够将基本类型和对象序列化的 I/O 类。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 中的 I&#x2F;O 类">
+<meta name="twitter:description" content="这篇文章首先将着重介绍下 Byte Streams 和 Character Streams，然后结合装饰器模式，介绍在字节流和字符流基础上通过包装而衍生出来的 Buffered Streams、Scanning 和 Formatting 相关的 I/O 类、与 Command Line 交互的 I/O 类、以及能够将基本类型和对象序列化的 I/O 类。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Java 中的 I/O 类 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java 中的 I/O 类
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-10T11:50:58+08:00" content="2016-08-10">
+              2016-08-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1470801058000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1470801058000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章首先将着重介绍下 Byte Streams 和 Character Streams，然后结合装饰器模式，介绍在字节流和字符流基础上通过包装而衍生出来的 Buffered Streams、Scanning 和 Formatting 相关的 I/O 类、与 Command Line 交互的 I/O 类、以及能够将基本类型和对象序列化的 I/O 类。<br><a id="more"></a></p>
+<h2 id="Byte-Streams"><a href="#Byte-Streams" class="headerlink" title="Byte Streams"></a>Byte Streams</h2><p>所有的 Byte Stream 都继承自 InputStream 和 OutputStream 抽象类。</p>
+<p>InputStream 关键的几个方法定义如下：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">InputStream</span> <span class="keyword">implements</span> <span class="title">Closeable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span> b[], <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (b == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        &#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> <span class="params">(off &lt; <span class="number">0</span> || len &lt; <span class="number">0</span> || len &gt; b.length - off)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</span><br><span class="line">        &#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> <span class="params">(len == <span class="number">0</span>)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> c = read();</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        b[off] = (<span class="keyword">byte</span>)c;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (; i &lt; len ; i++) &#123;</span><br><span class="line">                c = read();</span><br><span class="line">                <span class="keyword">if</span> (c == <span class="number">-1</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                b[off + i] = (<span class="keyword">byte</span>)c;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException ee) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span> b[])</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">return</span> <span class="title">read</span><span class="params">(b, <span class="number">0</span>, b.length)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>read()方法是最基本的方法，它在子类 FileInputStream 中是通过 Native 方法来实现的：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="title">read0</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">native</span> <span class="function"><span class="keyword">int</span> <span class="title">read0</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br></pre></td></tr></table></figure>
+<p>虽然 <code>read()</code> 的返回值是 int 类型的，但它的取值范围只有 0 - 255，就是一个 byte 的取值范围，在另外一个方法的源代码中也可以看到，<code>(byte)c</code> 这样的强制转换是安全的。除此之外，在遇到 EOF 的时候该方法会返回 -1。</p>
+<p><code>read(byte b[], int off, int len)</code> 方法可以控制字节流从 b[] 的哪个位置开始填充，填充的长度是多少。我们从这段源代码中也可以看下 read() 方法是如何使用的。</p>
+<p>OutputStream 抽象类的部分定义如下：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">OutputStream</span> <span class="keyword">implements</span> <span class="title">Closeable</span>, <span class="title">Flushable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">int</span> b)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">byte</span> b[], <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (b == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((off &lt; <span class="number">0</span>) || (off &gt; b.length) || (len &lt; <span class="number">0</span>) ||</span><br><span class="line">                   ((off + len) &gt; b.length) || ((off + len) &lt; <span class="number">0</span>)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</span><br><span class="line">        &#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> <span class="params">(len == <span class="number">0</span>)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; len ; i++) &#123;</span><br><span class="line">            write(b[off + i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">byte</span> b[])</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        write(b, <span class="number">0</span>, b.length);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与 InputStream 类似，write(int b) 也是 OutputStream 最基本的方法，在 FileOutputStream 是通过 Native 方法实现的。</p>
+<p>对于参数 int b，源代码的注释中说明了只会取参数的低8位，高24位都会被舍弃。这一点和 InputStream 的 read() 方法也是相互对应的。其他两个方法不做解释了。</p>
+<p>Byte Stream 在实际应用中用得不多，因为它操作的最小单位是 Byte，是个较为底层的 IO，但其他 Stream 类都是构建在 Byte Stream 之上的。</p>
+<h2 id="Character-Streams"><a href="#Character-Streams" class="headerlink" title="Character Streams"></a>Character Streams</h2><p>所有的 Character Stream 都继承自 Reader 和 Writer 抽象类。</p>
+<p>如果比较 FileInputStream/FileOutputStream 和 FileReader/FileWriter 的使用，你会发现两者几乎相同，其中最主要的不同在于变量 cache 持有的字节数不同，Character Stream 操作的最小单位是 16-bit（两个字节），而 Byte Stream 操作的最小单位是 8-bit（一个字节）。前者可以操作单个中文字符，但是后者不行。</p>
+<p>大多数 Character Streams 都是 Byte Streams 的「Wrapper」。真正的读写都是通过 byte stream 来操作的，character stream 只是完成中间的 byte 和 character 转换。我们来看下 FileReader 的继承关系：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">FileReader</span> <span class="keyword">extends</span> <span class="title">InputStreamReader</span> </span>&#123;</span><br><span class="line">    public <span class="type">FileReader</span>(<span class="type">String</span> fileName) <span class="keyword">throws</span> <span class="type">FileNotFoundException</span> &#123;</span><br><span class="line">        <span class="keyword">super</span>(<span class="keyword">new</span> <span class="type">FileInputStream</span>(fileName));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">InputStreamReader</span> <span class="keyword">extends</span> <span class="title">Reader</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    public <span class="type">InputStreamReader</span>(<span class="type">InputStream</span> in) &#123;</span><br><span class="line">        <span class="keyword">super</span>(in);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sd = <span class="type">StreamDecoder</span>.forInputStreamReader(in, <span class="keyword">this</span>, (<span class="type">String</span>)<span class="literal">null</span>); <span class="comment">// ## check lock object</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="type">UnsupportedEncodingException</span> e) &#123;</span><br><span class="line">            <span class="comment">// The default encoding should always be available</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="type">InputStreamReader</span>(<span class="type">InputStream</span> in, <span class="type">String</span> charsetName)</span><br><span class="line">        <span class="keyword">throws</span> <span class="type">UnsupportedEncodingException</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">super</span>(in);</span><br><span class="line">        <span class="keyword">if</span> (charsetName == <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">NullPointerException</span>(<span class="string">"charsetName"</span>);</span><br><span class="line">        sd = <span class="type">StreamDecoder</span>.forInputStreamReader(in, <span class="keyword">this</span>, charsetName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>FileReader 其实就是包装了 FileInputStream。它继承自 InputStreamReader，该类可以看作是「byte-to-character bridge」，它的构造函数除了接受 byte stream，也可以传入 charset。</p>
+<p>为了进一步方便使用，例如实现 Line-Oriented I/O，我们可以进一步对 Reader 和 Writer 进行包装，于是就有了 BufferedReader and PrintWriter。它们在构造的时候都要传入一个 Reader/Writer 实例。它们的 readLine 和 println 方法可以实现按行的输入输出。我们在下小节中将详细介绍。</p>
+<h2 id="Buffered-Streams"><a href="#Buffered-Streams" class="headerlink" title="Buffered Streams"></a>Buffered Streams</h2><p>前面涉及的 byte stream 和 character stream 都是 unbuffered I/O，也就是说它们是逐个字节或逐个字符进行读写的。如果对队列比较了解的话，它的工作模式类似于 TransferQueue，生产者是数据源，消费者是应用程序，但中间其实是没有真正意义上的 Queue 的，生产者会直接把产品交给消费者。这种模式一般是比较低效的，因为相比 buffered IO，它的读写更频繁。</p>
+<p>理解 Buffered Stream 要首先理解装饰器模式，我们把 unbuffered stream 作为被包装的对象，通过 buffered stream 的构造器传入一个实例，然后 buffered stream 内部在该实例基础上做点手脚，满足我们缓冲的需求，就得到了 Buffered Stream。我们可以看下它的构造方式：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inputStream = <span class="keyword">new</span> <span class="type">BufferedReader</span>(<span class="keyword">new</span> <span class="type">FileReader</span>(<span class="string">"xanadu.txt"</span>));</span><br><span class="line">outputStream = <span class="keyword">new</span> <span class="type">BufferedWriter</span>(<span class="keyword">new</span> <span class="type">FileWriter</span>(<span class="string">"characteroutput.txt"</span>));</span><br></pre></td></tr></table></figure>
+<p>以上演示的是对 Reader/Writer 的包装，我们总共有四种可以用的 buffered 包装器，分别对应字节流和字符流的读写：</p>
+<ul>
+<li>BufferedInputStream / BufferedOutputStream</li>
+<li>BufferedReader / BufferedWriter</li>
+</ul>
+<p>buffered stream 一般会在「关键时刻」自动 flush 缓冲区，如果我们需要手动触发的话，可以调用 flush() 方法。</p>
+<h2 id="Byte-Streams、Character-Streams-和-Buffered-Streams-三者关系"><a href="#Byte-Streams、Character-Streams-和-Buffered-Streams-三者关系" class="headerlink" title="Byte Streams、Character Streams 和 Buffered Streams 三者关系"></a>Byte Streams、Character Streams 和 Buffered Streams 三者关系</h2><p>Java IO 包含了很多的类，把握它主要的脉络较为关键，否则容易迷失方向。</p>
+<p>Byte Streams 操作的最小单位是字节，最为底层，是所有 Stream 的基础。</p>
+<p>Character Streams 通过 InputStreamReader/OutputStreamWriter 这座桥梁，来完成 byte-to-char 和 char-to-byte 的转换，继而形成 Character Streams 对 Byte Streams 包装（这里只是针对 FileReader/FileWriter 而言，其他的 Reader/Writer 实现类并不一定需要 byte 和 char 之间的转换）。</p>
+<p>Buffered Streams 则是为了满足对于缓冲区普遍的需求，实现的一种装饰器，对字节流和字符流的读写都可以进行包装。你可以把它想象成一个「马甲」或一个「壳」。</p>
+<p>从上面的关系分析也可以看出，理解它们之间关系的关键地方在于理解装饰器模式。</p>
+<h2 id="Scanning-和-Formatting"><a href="#Scanning-和-Formatting" class="headerlink" title="Scanning 和 Formatting"></a>Scanning 和 Formatting</h2><p>前面介绍的都是较为底层的 IO，这里介绍几个方便我们使用、构建在这些底层 IO 之上的几个 class。</p>
+<h3 id="Scanner"><a href="#Scanner" class="headerlink" title="Scanner"></a>Scanner</h3><p>Scanner 的实现的接口如下：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Scanner</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">String</span>&gt;, <span class="title">Closeable</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到它不是个 Stream 类，它的使用是通过迭代器模式，并且也可以进行 close 操作。它也是个装饰器，但它的作用更类似于一个工具，用来进行内容的迭代访问和最后的关闭操作。它的构造方法如下：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Scanner s = <span class="keyword">new</span> <span class="type">Scanner</span>(<span class="keyword">new</span> <span class="type">BufferedReader</span>(<span class="keyword">new</span> <span class="type">FileReader</span>(<span class="string">"xanadu.txt"</span>)));</span><br></pre></td></tr></table></figure>
+<p>这个构造方法可以接受 Readable 参数或 InputStream 参数，也就是说 byte stream 和 character stream 它都可以接受。BufferedReader 的继承关系如下：</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">B<span class="function"><span class="title">ufferedReader</span> -&gt;</span> R<span class="function"><span class="title">eader</span> -&gt;</span> Readable, Closeable</span><br></pre></td></tr></table></figure>
+<p>当然，不用 BufferedReader 包装也是可行的：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Scanner s = <span class="keyword">new</span> <span class="type">Scanner</span>(<span class="keyword">new</span> <span class="type">FileReader</span>(<span class="string">"xanadu.txt"</span>));</span><br></pre></td></tr></table></figure>
+<p>我们通过 Scanner 的迭代器来使用它：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (s.hasNext()) &#123;</span><br><span class="line">    System.<span class="keyword">out</span>.println(s.<span class="keyword">next</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它默认按照空格来拆分字符串，我们也可以自己定义分隔符。</p>
+<h3 id="PrintWriter-PrintStream"><a href="#PrintWriter-PrintStream" class="headerlink" title="PrintWriter/PrintStream"></a>PrintWriter/PrintStream</h3><p>PrintWriter 和 PrintStream 前者基于 character 后者基于 byte。PrintStream 我们实际会用到的只有 System.out 和 System.err，正常情况下我们都应当使用 PrintWriter。</p>
+<p>这两个类我们会用到的方法有：</p>
+<ol>
+<li>print 和 println</li>
+<li>format</li>
+</ol>
+<p>这个代表两种 formatting 的方式，第一种一般就是通过拼接字符串，第二种则类似 c 语言的方式。</p>
+<h2 id="Command-Line-的-IO"><a href="#Command-Line-的-IO" class="headerlink" title="Command Line 的 IO"></a>Command Line 的 IO</h2><p>Java 有两种方式和 Command Line 进行 IO 交互：</p>
+<ol>
+<li>使用 Standard Streams: System.in, System.out, System.err</li>
+<li>使用 Console 对象</li>
+</ol>
+<p>这里只讨论 Standard Streams。其中 System.out 和 System.err 实际是 byte stream（type 是 PrintStream），但它的行为和 character streams 更相像，我们可以把它当作 character streams 来使用。</p>
+<p>而 System.in 是个纯粹的 byte stream (type 是 InputStream)，在使用的时候我们可能需要用装饰器来包装它，再进行实际使用。以下演示了 System.in 的几种使用方式：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandLineIO</span> &#123;</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> throws IOException </span>&#123;</span><br><span class="line">    rwLine();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rwSingleByte</span><span class="params">()</span> throws IOException </span>&#123;</span><br><span class="line">    InputStream in = System.in;</span><br><span class="line">    <span class="keyword">int</span> unit = in.<span class="built_in">read</span>(); <span class="comment">//  System.in 是字节流, 不能读取单个中文字符（因为一个中文字符要占多个字节）</span></span><br><span class="line">    System.out.<span class="built_in">println</span>((<span class="keyword">char</span>)unit);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rwSingleChar</span><span class="params">()</span> throws IOException </span>&#123;</span><br><span class="line">    Reader in = <span class="keyword">new</span> InputStreamReader(System.in); <span class="comment">// 我们通过 InputStreamReader 这座桥梁把 InputStream 转化为 Reader</span></span><br><span class="line">    <span class="keyword">int</span> unit = in.<span class="built_in">read</span>(); <span class="comment">// 用 Reader 来读取就能正常得到完整的中文字符</span></span><br><span class="line">    System.out.<span class="built_in">println</span>((<span class="keyword">char</span>)unit);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rwLine</span><span class="params">()</span> throws IOException </span>&#123;</span><br><span class="line">    <span class="comment">// 先把 InputStream 转换为 Reader, 再把 Reader 包裹成 BufferedReader</span></span><br><span class="line">    <span class="comment">// 利用 BufferedReader 的 readLine 方法进行按行读取</span></span><br><span class="line">    BufferedReader in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</span><br><span class="line">    <span class="keyword">String</span> <span class="built_in">line</span> = in.readLine();</span><br><span class="line">    System.out.<span class="built_in">println</span>(<span class="built_in">line</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rwWord</span><span class="params">()</span> throws IOException </span>&#123;</span><br><span class="line">    <span class="comment">// 用 Scanner 来包裹 Reader</span></span><br><span class="line">    Scanner scanner = <span class="keyword">new</span> Scanner(<span class="keyword">new</span> InputStreamReader(System.in));</span><br><span class="line">    <span class="comment">// 注意要手动关闭 Scanner, 否则会一直执行下去</span></span><br><span class="line">    scanner.forEachRemaining(System.out::<span class="built_in">println</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Data-Streams-和-Object-Streams"><a href="#Data-Streams-和-Object-Streams" class="headerlink" title="Data Streams 和 Object Streams"></a>Data Streams 和 Object Streams</h2><p>前面我们讨论了多种 Stream，但总体来说都是对字节或字符的操作（也就是 8-bit 或 16-bit 大小的数据块），那些粒度更粗的操作（例如按行读写，按分隔符划分单词等）都是在字符流的基础上衍生出来的。所以我们可以想象成这些流中流淌的都是一个个 byte 或 character。</p>
+<p>但我们程序中经常使用的数据类型是 int, long, Object 等，它们的长度比 16-bit 更长，虽然我们自己也可以通过拓展 byte stream 来实现对这些数据类型原生的读写，但实际上 Java 类库中已经包含这些类了。</p>
+<h3 id="Data-Streams"><a href="#Data-Streams" class="headerlink" title="Data Streams"></a>Data Streams</h3><p>Data Streams 的实现类都实现了 DataInput/DataOutput 接口，以下是 DataInput 的部分方法定义（DataOutput 的方法类似）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DataInput</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">readBoolean</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">byte</span> <span class="title">readByte</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">short</span> <span class="title">readShort</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">char</span> <span class="title">readChar</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">readInt</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">readLong</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">float</span> <span class="title">readFloat</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">readDouble</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">String <span class="title">readLine</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">String <span class="title">readUTF</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到 Data Streams 支持所有的 primitive type，加上 String。</p>
+<p>实现类最常用的是 DataInputStream/DataOutputStream，它们都是 InputStream/OutputStream 的装饰器。以下是使用示例：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DataIO</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) throws IOException</span> &#123;</span><br><span class="line">    String filename = <span class="string">"/Users/yyqian/Downloads/transfer"</span>;</span><br><span class="line">    DataOutputStream <span class="keyword">out</span> = <span class="keyword">new</span> DataOutputStream(<span class="keyword">new</span> FileOutputStream(filename));</span><br><span class="line">    <span class="keyword">out</span>.writeFloat(<span class="number">3.2123f</span>);</span><br><span class="line">    <span class="keyword">out</span>.writeLong(<span class="number">832934L</span>);</span><br><span class="line">    <span class="keyword">out</span>.writeUTF(<span class="string">"你好, 世界"</span>);</span><br><span class="line">    <span class="keyword">out</span>.close();</span><br><span class="line">    DataInputStream <span class="keyword">in</span> = <span class="keyword">new</span> DataInputStream(<span class="keyword">new</span> FileInputStream(filename));</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="keyword">in</span>.readFloat());</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="keyword">in</span>.readLong());</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="keyword">in</span>.readUTF());</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (EOFException e) &#123;</span><br><span class="line">      System.<span class="keyword">out</span>.println(<span class="string">"EOF"</span>);</span><br><span class="line">      <span class="keyword">in</span>.close();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们有几点需要注意：</p>
+<ol>
+<li><p>在 InputStream 或 Reader 中，我们判断 EOF 是通过判断 read 方法的返回值是否为 -1。但 Data Stream 返回的数据类型有多种，我们没法通过这个特殊的返回值 -1 来判断 EOF，而是通过 EOFException，我们要 catch 这个异常来处理结束。</p>
+</li>
+<li><p>我们可以在 Data Stream 中混用各种类型的数据，但一定要注意读取时候也选择正确的类型，Java 只是把 Data Stream 看作二进制的数据流，开发人员务必自己确保数据类型的匹配。</p>
+</li>
+<li><p>不要把价格等对精度敏感的数据用 float/double 来放到 Data Stream 中使用，而是应该使用 BigDecimal，但 BigDecimal 属于 Object，所以要用到下面的 Object Stream。</p>
+</li>
+</ol>
+<h3 id="Object-Streams"><a href="#Object-Streams" class="headerlink" title="Object Streams"></a>Object Streams</h3><p>Data Streams 支持所有的 primitive type 和 String，还缺少的一大块支持就是 Object。</p>
+<p>Object Streams 的实现类是 ObjectInputStream 和 ObjectOutputStream。ObjectInputStream 的继承关系如下：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectInputStream</span></span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">InputStream</span> <span class="keyword">implements</span> <span class="title">ObjectInput</span>, <span class="title">ObjectStreamConstants</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ObjectInput</span> <span class="keyword">extends</span> <span class="title">DataInput</span>, <span class="title">AutoCloseable</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到 ObjectInput 接口还继承了 DataInput 接口，所以实际上 Object Streams 同时支持所有的 primitive type 和 Object。</p>
+<p>它的使用就是通过 writeObject 和 readObject 方法：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectStreamIO</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) throws IOException, ClassNotFoundException &#123;</span><br><span class="line">    <span class="keyword">String</span> filename = <span class="string">"/Users/yyqian/Downloads/transfer"</span>;</span><br><span class="line">    ObjectOutputStream out = <span class="keyword">new</span> <span class="type">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="type">FileOutputStream</span>(filename));</span><br><span class="line">    out.writeObject(<span class="keyword">new</span> <span class="type">BigDecimal</span>(<span class="string">"12231.432"</span>));</span><br><span class="line">    out.close();</span><br><span class="line">    ObjectInputStream <span class="keyword">in</span> = <span class="keyword">new</span> <span class="type">ObjectInputStream</span>(<span class="keyword">new</span> <span class="type">FileInputStream</span>(filename));</span><br><span class="line">    BigDecimal priceCopy = (BigDecimal)<span class="keyword">in</span>.readObject();</span><br><span class="line">    System.out.println(priceCopy.toString());</span><br><span class="line">    <span class="keyword">in</span>.close();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要注意的是 I/O 前后以及多次 I/O 之后得到的 Object reference 是否指向同一个 Object。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Java IO 中包含的类和接口众多，它们之间的关系也看似很复杂，但只要理解装饰器模式，并且抓住最基本的字节流和字符流，那么理解在此基础上构建的 buffered stream、更粗粒度的 stream 以及各种数据类型的 stream 也就容易多了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#Java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1470722850000/" rel="next" title="MySQL 之外的优化">
+                <i class="fa fa-chevron-left"></i> MySQL 之外的优化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1471831725000/" rel="prev" title="Machine Learning 课程小结">
+                Machine Learning 课程小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1470801058000/" data-title="Java 中的 I/O 类" data-url="https://yyqian.com/post/1470801058000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Byte-Streams"><span class="nav-text">Byte Streams</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Character-Streams"><span class="nav-text">Character Streams</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffered-Streams"><span class="nav-text">Buffered Streams</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Byte-Streams、Character-Streams-和-Buffered-Streams-三者关系"><span class="nav-text">Byte Streams、Character Streams 和 Buffered Streams 三者关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scanning-和-Formatting"><span class="nav-text">Scanning 和 Formatting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scanner"><span class="nav-text">Scanner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PrintWriter-PrintStream"><span class="nav-text">PrintWriter/PrintStream</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Command-Line-的-IO"><span class="nav-text">Command Line 的 IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Streams-和-Object-Streams"><span class="nav-text">Data Streams 和 Object Streams</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Streams"><span class="nav-text">Data Streams</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-Streams"><span class="nav-text">Object Streams</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

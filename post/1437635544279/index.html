@@ -1,0 +1,702 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="JavaScript,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="零碎的知识 不要比较两个浮点数是否相等，因为存在精度的问题，例如：0.3 - 0.2 === 0.1为false 定义变量一定要带var，如果要定义全局变量，定义在程序顶部 JS的Namespace采用的是Function Scope：{}中定义的变量为全局变量，function () {}中用var定义的变量对外隐藏，不用var定义的变量为全局变量 使用//注释 JS只有一个数字类型：64位的浮">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 笔记">
+<meta property="og:url" content="https://yyqian.com/post/1437635544279/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="零碎的知识 不要比较两个浮点数是否相等，因为存在精度的问题，例如：0.3 - 0.2 === 0.1为false 定义变量一定要带var，如果要定义全局变量，定义在程序顶部 JS的Namespace采用的是Function Scope：{}中定义的变量为全局变量，function () {}中用var定义的变量对外隐藏，不用var定义的变量为全局变量 使用//注释 JS只有一个数字类型：64位的浮">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript 笔记">
+<meta name="twitter:description" content="零碎的知识 不要比较两个浮点数是否相等，因为存在精度的问题，例如：0.3 - 0.2 === 0.1为false 定义变量一定要带var，如果要定义全局变量，定义在程序顶部 JS的Namespace采用的是Function Scope：{}中定义的变量为全局变量，function () {}中用var定义的变量对外隐藏，不用var定义的变量为全局变量 使用//注释 JS只有一个数字类型：64位的浮">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JavaScript 笔记 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript 笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-23T15:12:24+08:00" content="2015-07-23">
+              2015-07-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1437635544279/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1437635544279/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="零碎的知识"><a href="#零碎的知识" class="headerlink" title="零碎的知识"></a>零碎的知识</h2><hr>
+<p>不要比较两个浮点数是否相等，因为存在精度的问题，例如：<code>0.3 - 0.2 === 0.1</code>为<code>false</code></p>
+<p>定义变量一定要带var，如果要定义全局变量，定义在程序顶部</p>
+<p>JS的Namespace采用的是Function Scope：{}中定义的变量为全局变量，function () {}中用var定义的变量对外隐藏，不用var定义的变量为全局变量</p>
+<p>使用//注释</p>
+<p>JS只有一个数字类型：64位的浮点数</p>
+<p>JS所有字符都是16位的，可以用<code>\u[4 hex digits]</code>表示一个unicode字符<br><a id="more"></a></p>
+<h3 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(x);</span><br><span class="line"><span class="keyword">var</span> x = <span class="string">'Hello, world!'</span>;</span><br></pre></td></tr></table></figure>
+<p>以上代码会将var x;提升代码段开头，等价于：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x;</span><br><span class="line"><span class="built_in">console</span>.log(x);</span><br><span class="line">x = <span class="string">'Hello, world!'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>因此此时x是undefined。同上，下面的代码也会出错，会提示f不是function<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span> <span class="params">(x)</span> </span>&#123; <span class="keyword">return</span> x + <span class="number">1</span>; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>但是以下代码是ok的, Why?：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">function</span> <span class="title">f</span>(x) &#123; <span class="keyword">return</span> <span class="type">x</span> + <span class="number">1</span>; &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><hr>
+<p>JS里除了string, number, true, false, null, undefined其他都是Object，即使string, number, boolean也有对应的Wrapper Object：String, Number, Boolean。</p>
+<p>注意几个名词：</p>
+<ul>
+<li>property attributes:<ol>
+<li>writable: 可否set value</li>
+<li>enumerable：for/in loop中可否枚举</li>
+<li>configurable：可否delete该属性</li>
+</ol>
+</li>
+<li>object attributes:<ol>
+<li>prototype: 原型，其实就是父类</li>
+<li>class: type of an object，譬如：Date，Array，RegExp, Function</li>
+<li>extensible：可否增加新属性到该Object中</li>
+</ol>
+</li>
+<li>Object的三种分类：<ol>
+<li>native object: ECMAScript定义的Object，譬如：Date，Array，RegExp, Function</li>
+<li>host object: host environment，譬如浏览器、node.js中额外定义的Object</li>
+<li>user-defined object: 就是用户自己写的object</li>
+</ol>
+</li>
+<li>Property的两种分类：<ol>
+<li>own property: 该Object中定义的property，不是继承自prototype object的property</li>
+<li>inherited property: 继承自prototype object的property</li>
+</ol>
+</li>
+</ul>
+<p>避免Property Access Errors的小技巧：<code>var len = book &amp;&amp; book.subtitle &amp;&amp; book.subtitle.length;</code></p>
+<p>Creating Object的几种方法:</p>
+<ol>
+<li><code>var x = {};</code></li>
+<li><code>var x = new Object();</code></li>
+<li><code>var x = Object.create(Object.prototype);</code></li>
+</ol>
+<p>Testing Properties的几种方法，以<code>var p={x: 1, y: 2};</code>为例：</p>
+<ol>
+<li>in: <code>&quot;x&quot; in p</code>为true，<code>&quot;toString&quot; in p</code>为true</li>
+<li>hasOwnProperty(): <code>p.hasOwnProperty(&quot;x&quot;)</code>为<code>true</code>， <code>p.hasOwnProperty(&quot;toString&quot;)</code>为<code>false</code></li>
+<li>propertyIsEnumerable(): <code>p.propertyIsEnumerable(&quot;x&quot;)</code>为<code>true</code>， <code>p.propertyIsEnumerable(&quot;toString&quot;)</code>为<code>false</code></li>
+<li>直接访问: 如果不存在会返回<code>undefined</code>，<code>if (p.x)</code>可以简单地排除p.x为undefined, null, false, “”, 0, NaN的情况</li>
+</ol>
+<h3 id="Property-Attributes"><a href="#Property-Attributes" class="headerlink" title="Property Attributes"></a>Property Attributes</h3><p>Attributes of a data property: value, writable, enumerable, and configurable</p>
+<p>Attributes of an accessor property: get, set, enumerable, and configurable</p>
+<p>获取object中某个property的属性：<code>Object.getOwnPropertyDescriptor(object, property)</code></p>
+<p>设置object中某个property的属性：<code>Object.defineProperty(object, property, {value:, writable:, enumerable:, configurable:})</code></p>
+<h3 id="Object-Attributes"><a href="#Object-Attributes" class="headerlink" title="Object Attributes"></a>Object Attributes</h3><p>获取prototype: <code>Object.getPrototypeOf()</code></p>
+<p>判断是否为某个object的prototype: <code>isPrototypeOf()</code></p>
+<p>ES3和ES5都无法设置class属性，也只能间接读取class属性</p>
+<p>不建议更改extensible属性，也不建议使用相关的函数</p>
+<h3 id="Serializing-Objects"><a href="#Serializing-Objects" class="headerlink" title="Serializing Objects"></a>Serializing Objects</h3><p>Object serialization is the process of converting an object’s state to a string from which it can later be restored.</p>
+<p>JSON.stringify() <-> JSON.parse()</-></p>
+<p>例子：</p>
+<pre><code>o = {x:1, y:{z:[false,null,&quot;&quot;]}}; // Define a test object
+s = JSON.stringify(o); // s is &apos;{&quot;x&quot;:1,&quot;y&quot;:{&quot;z&quot;:[false,null,&quot;&quot;]}}&apos;
+p = JSON.parse(s); // p is a deep copy of o
+</code></pre><blockquote>
+<p>Objects, arrays, strings, finite numbers, true, false, and null are supported and can be serialized and restored. NaN, Infinity, and -Infinity are serialized to null. Date objects are serialized to ISO-formatted date strings (see the Date.toJSON() function), but JSON.parse() leaves these in string form and does not restore the original Date object. Function, RegExp, and Error objects and the undefined value cannot be serialized or restored. JSON.stringify() serializes only the enumerable own properties of an object. If a property value cannot be serialized, that property is simply omitted from the stringified output.</p>
+</blockquote>
+<h3 id="Object-Methods"><a href="#Object-Methods" class="headerlink" title="Object Methods"></a>Object Methods</h3><p>These methods are intended to be overridden by other, more specialized classes: toString(), valueOf(), toLocaleString(), toJSON()</p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><hr>
+<blockquote>
+<p>JavaScript arrays are a specialized form of JavaScript object, and array indexes are really little more than property names that happen to be integers.</p>
+</blockquote>
+<p>Array literal syntax allows an optional trailing comma, so [,,] has only two elements, not three.</p>
+<h3 id="Sparse-Arrays"><a href="#Sparse-Arrays" class="headerlink" title="Sparse Arrays"></a>Sparse Arrays</h3><p>Sparse arrays can be created with the Array() constructor or simply by assigning to an array index larger than the current array length.</p>
+<pre><code>a = new Array(5); // No elements, but a.length is 5.
+a = []; // Create an array with no elements and length = 0.
+a[1000] = 0; // Assignment adds one element but sets length to 1001.
+var a1 = [,,,]; // This array is [undefined, undefined, undefined]
+var a2 = new Array(3); // This array has no values at all
+0 in a1 // =&gt; true: a1 has an element with index 0
+0 in a2 // =&gt; false: a2 has no element with index 0
+</code></pre><p>DON’T use a for/in loop on array. Reason: it includes inherited properties (such as methods), iterates in any order</p>
+<h3 id="Array-Methods"><a href="#Array-Methods" class="headerlink" title="Array Methods"></a>Array Methods</h3><p>Array.join() <-> String.split(): 将Array转换成String, not in place</-></p>
+<p>Array.reverse(): It does the reverse in place. 所以不需要赋值给一个新的Array</p>
+<p>Array.sort(): sorts the elements of an array in place and returns the sorted array. If no arguments, it sorts the array elements in alphabetical order (temporarily converting them to strings to perform the comparison, if necessary). 如果需要按其他方式sort，可以自定义一个function做为参数</p>
+<p>Array.concat(): not in place</p>
+<p>Array.slice(): not in place</p>
+<p>Array.splice(): in place, 既可以删除指定位置的元素，也可以在指定位置插入元素</p>
+<p>push(), pop(), unshift(), shift(): 一个在堆栈底操作，一个在堆栈顶操作</p>
+<p>toString(): 输出和join()是一样的，没有方括号</p>
+<h3 id="ES5-Array-Methods"><a href="#ES5-Array-Methods" class="headerlink" title="ES5 Array Methods"></a>ES5 Array Methods</h3><p>ES5中的新方法: forEach(), map(), filter(), every(), some(), reduce(), reduceRight(), indexOf(), lastIndexOf()</p>
+<p>前面几个method都需要调用一个自定义的function，这个function的参数一般为element, index, array</p>
+<p>对于Sparse Array，nonexistent elements不会被调用</p>
+<p>这几个methods都相当于helper methods，效率应该不错，尽量使用</p>
+<p>Array.isArray()可以判断是否type为Array</p>
+<h2 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h2><hr>
+<p>解释一些名词，以一下代码为例：</p>
+<pre><code>var add = function (x, y) {
+  var val = x + y;
+  return val;
+}
+console.log(add(5,3));
+</code></pre><ul>
+<li>parameters: function定义时的输入变量x, y</li>
+<li>arguments: 调用function时提供的值5, 3</li>
+<li>return value: 返回的值val</li>
+<li>invocation context: this</li>
+</ul>
+<p>function在不同语境下有不同名字：</p>
+<ul>
+<li>methods: if a function is assigned to the property of an object</li>
+<li>constructors: functions designed to initialize a newly created object</li>
+<li>closures:</li>
+</ul>
+<p>Method Chaining: when you write a method that does not have a return value of its own, consider having the method return <code>this</code></p>
+<blockquote>
+<p>Unlike variables, the this keyword does not have a scope, and nested functions do not inherit the this value of their caller. If a nested function is invoked as a method, its this value is the object it was invoked on. If a nested function is invoked as a function then its this value will be either the global object (non-strict mode) or undefined (strict mode). It is a common mistake to assume that a nested function invoked as a function can use this to obtain the invocation context of the outer function.</p>
+</blockquote>
+<p>Constructor Invocation: ???</p>
+<p>Indirect Invocation: use call() and apply()</p>
+<p>Optional Parameters: 可以考虑用<code>a = a || [];</code>来给可能缺省的parameter设置默认值</p>
+<h3 id="Arguments-Object"><a href="#Arguments-Object" class="headerlink" title="Arguments Object"></a>Arguments Object</h3><p>function中可以用arguments来引用所有的输入参数，可以在输入参数长度变化的时候使用。但一般不需要用到，JS一般的处理方式是missing arguments are undefined and extra arguments are simply ignored.</p>
+<p>遇到输入参数长度不确定的情况，可以不写parameters，function中用arguments来引用</p>
+<p>但arguments不是Array，是Arguments object，建议不要对arguments[]进行赋值操作，有可能有side effect</p>
+<p>由于JS用的是Function Scope，可以通过定义函数再call的方式来实现私有的代码块</p>
+<p>闭包和bind()需要仔细研究一下</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1433494907104/" rel="next" title="SSH 的安全设置">
+                <i class="fa fa-chevron-left"></i> SSH 的安全设置
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1438060629760/" rel="prev" title="Node.js 中的 module.exports，exports，this">
+                Node.js 中的 module.exports，exports，this <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1437635544279/" data-title="JavaScript 笔记" data-url="https://yyqian.com/post/1437635544279/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#零碎的知识"><span class="nav-text">零碎的知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量提升"><span class="nav-text">变量提升</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object"><span class="nav-text">Object</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Property-Attributes"><span class="nav-text">Property Attributes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-Attributes"><span class="nav-text">Object Attributes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializing-Objects"><span class="nav-text">Serializing Objects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-Methods"><span class="nav-text">Object Methods</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array"><span class="nav-text">Array</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sparse-Arrays"><span class="nav-text">Sparse Arrays</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-Methods"><span class="nav-text">Array Methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES5-Array-Methods"><span class="nav-text">ES5 Array Methods</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function"><span class="nav-text">Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Arguments-Object"><span class="nav-text">Arguments Object</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

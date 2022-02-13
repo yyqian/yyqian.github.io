@@ -1,0 +1,611 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="MySQL,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="MySQL 可以缓存查询结果，一旦缓存命中，MySQL 可以立刻返回结果，跳过解析、优化和执行阶段。 查询缓存系统会跟踪查询中设计的每个表，如果这些表发生变化，那么和这个表相关的缓存数据都会失效。 查询缓存对应用程序是透明的，无论是开启或关闭 MySQL 的查询缓存，对应用程序来说调用方式和结果都是一样的。 如何判断缓存命中判断缓存命中的方法很简单，就是使用哈希表：  根据查询语句、要查询的数据库">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 的查询缓存">
+<meta property="og:url" content="https://yyqian.com/post/1470708587000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="MySQL 可以缓存查询结果，一旦缓存命中，MySQL 可以立刻返回结果，跳过解析、优化和执行阶段。 查询缓存系统会跟踪查询中设计的每个表，如果这些表发生变化，那么和这个表相关的缓存数据都会失效。 查询缓存对应用程序是透明的，无论是开启或关闭 MySQL 的查询缓存，对应用程序来说调用方式和结果都是一样的。 如何判断缓存命中判断缓存命中的方法很简单，就是使用哈希表：  根据查询语句、要查询的数据库">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 的查询缓存">
+<meta name="twitter:description" content="MySQL 可以缓存查询结果，一旦缓存命中，MySQL 可以立刻返回结果，跳过解析、优化和执行阶段。 查询缓存系统会跟踪查询中设计的每个表，如果这些表发生变化，那么和这个表相关的缓存数据都会失效。 查询缓存对应用程序是透明的，无论是开启或关闭 MySQL 的查询缓存，对应用程序来说调用方式和结果都是一样的。 如何判断缓存命中判断缓存命中的方法很简单，就是使用哈希表：  根据查询语句、要查询的数据库">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> MySQL 的查询缓存 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MySQL 的查询缓存
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-09T10:09:47+08:00" content="2016-08-09">
+              2016-08-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1470708587000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1470708587000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>MySQL 可以缓存查询结果，一旦缓存命中，MySQL 可以立刻返回结果，跳过解析、优化和执行阶段。</p>
+<p>查询缓存系统会跟踪查询中设计的每个表，如果这些表发生变化，那么和这个表相关的缓存数据都会失效。</p>
+<p>查询缓存对应用程序是透明的，无论是开启或关闭 MySQL 的查询缓存，对应用程序来说调用方式和结果都是一样的。</p>
+<h2 id="如何判断缓存命中"><a href="#如何判断缓存命中" class="headerlink" title="如何判断缓存命中"></a>如何判断缓存命中</h2><p>判断缓存命中的方法很简单，就是使用哈希表：</p>
+<ol>
+<li>根据查询语句、要查询的数据库、客户端协议的版本等信息，计算哈希值</li>
+<li>通过哈希值来查找缓存<a id="more"></a>
+对于查询语句，MySQL 不会做任何预处理（例如解析、正规化、去除空格注释等），直接使用应用层发送过来的 SQL 语句，以及其他原始信息。因此，任何字符上的不同（包括空格、注释）都会导致缓存的不命中。</li>
+</ol>
+<p>当查询语句中有不确定的数据时，也不会被缓存。例如函数 NOW()、CURRENT_USER、用户变量等等。</p>
+<p>查询缓存一般都可以提升查询性能，但也存在一定的额外开销：</p>
+<ol>
+<li>查询开始之前必须先检查是否命中缓存</li>
+<li>如果这个查询可以被缓存，而当前缓存中没有，就会将结果存入缓存</li>
+<li>一旦发生写操作，涉及到的表就被改变，这些表的所有缓存都需要被设置为失效。</li>
+</ol>
+<h2 id="查询缓存如何使用内存"><a href="#查询缓存如何使用内存" class="headerlink" title="查询缓存如何使用内存"></a>查询缓存如何使用内存</h2><p>查询缓存是存放在 MySQL 专门的一块内存块中的，由 MySQL 自己管理。</p>
+<p>MySQL 在查询返回结果之前，它就需要为缓存的数据分配空间，但是此时它不知道返回的数据有多大、需要分配多大的空间，因此，它总是分配参数 query_cache_min_res_unit 大小的缓存块。如果这个缓存块不够用，就再申请同样大小的一个缓存块；如果有剩余，就释放为空闲空间。</p>
+<p>这样做会制造内存碎片：如果有两个查询同时需要缓存，但它们没有用足预分配的缓存块，则多于的内存就会被释放，这样就造成这个两个缓存之间存在「间隙」，这个「间隙」如果小于 query_cache_min_res_unit 就无法再被重复利用，因此就是「内存碎片」。除此之外，缓存失效等情况也都会导致碎片。</p>
+<h2 id="适用查询缓存的场景"><a href="#适用查询缓存的场景" class="headerlink" title="适用查询缓存的场景"></a>适用查询缓存的场景</h2><p>缓存和失效都会带来额外的开销，因此需要权衡利弊来判断是否要启用查询缓存。</p>
+<p>一般来说，对于复杂的 SELECT 语句（例如多表 JOIN 之后再排序和分页）和需要消耗大量资源的查询（例如汇总计算），都非常适合使用查询缓存。</p>
+<p>判断查询缓存是否有效的直接数据是命中率，就是使用查询缓存直接返回结果占总查询的比率。</p>
+<p>如果查询和更新操作混杂在一起，更新会导致缓存失效，所以如果更新操作比查询更频繁，就不适合使用查询缓存，因此，我们还可以查看另一个指标：命中和写入的比率（Qcache_hits : Qcache_inserts），一般 3:1 时查询缓存是有效的，最好能达到 10:1。</p>
+<h2 id="配置和维护查询缓存"><a href="#配置和维护查询缓存" class="headerlink" title="配置和维护查询缓存"></a>配置和维护查询缓存</h2><p>查询缓存相关的配置选项较少，其中 limit 是能够缓存的最大查询结果，例如某个查询反悔了几百万条记录，就可能超限无法缓存；size 是查询缓存占用的总内存空间。<code>query_cache_wlock_invalidate</code> 这个一般保持默认配置 OFF 就行。</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE <span class="emphasis">'query_cache_%'</span>;</span><br><span class="line"><span class="code">+------------------------------+</span>---------+</span><br><span class="line">| Variable<span class="emphasis">_name                | Value   |</span></span><br><span class="line"><span class="emphasis">+------------------------------+---------+</span></span><br><span class="line"><span class="emphasis">| query_</span>cache<span class="emphasis">_limit            | 1048576 |</span></span><br><span class="line"><span class="emphasis">| query_</span>cache<span class="emphasis">_min_</span>res<span class="emphasis">_unit     | 4096    |</span></span><br><span class="line"><span class="emphasis">| query_</span>cache<span class="emphasis">_size             | 1048576 |</span></span><br><span class="line"><span class="emphasis">| query_</span>cache<span class="emphasis">_type             | OFF     |</span></span><br><span class="line"><span class="emphasis">| query_</span>cache<span class="emphasis">_wlock_</span>invalidate | OFF     |</span><br><span class="line"><span class="code">+------------------------------+</span>---------+</span><br></pre></td></tr></table></figure>
+<p>查询缓存的内存空间的碎片数量可以通过 query_cache_min_res_unit 来调节，该参数越小，浪费的空间就越少，碎片也就越少，但会造成更频繁的内存块申请。</p>
+<p>除此之外，<code>FLUSH QUERY CACHE</code> 语句可以进行碎片整理，<code>RESET QUERY CACHE</code> 语句可以清空缓存。</p>
+<h2 id="InnoDB-和查询缓存"><a href="#InnoDB-和查询缓存" class="headerlink" title="InnoDB 和查询缓存"></a>InnoDB 和查询缓存</h2><p>由于 InnoDB 的 MVVC 机制，InnoDB 和查询缓存的交互比较复杂。举例来说，如果某个表上正被任何锁锁住，那么于该表相关的查询缓存都将被临时禁用；所有有加锁操作的事务也都不使用任何查询缓存。</p>
+<h2 id="通用查询缓存优化"><a href="#通用查询缓存优化" class="headerlink" title="通用查询缓存优化"></a>通用查询缓存优化</h2><ul>
+<li>用多个小表代替一个大表对查询缓存有好处。因为对某个小表的修改只会让该表的缓存失效，不会对其他小表的缓存有影响。</li>
+<li>批量写入比单条写入效率高。因为前者缓存失效只要一次，后者要很多次</li>
+<li>缓存空间太大，会让过期操作的时候可能会导致服务器僵死。解决办法就是减小 query_cache_size 或禁用。</li>
+<li>无法在数据库或表级别控制查询缓存。但可以把 query_cache_type 设置成 DEMAND，然后通过 SQL_CACHE 和 SQL_NO_CACHE 来控制某个 SELECT 语句是否需要进行缓存。</li>
+<li>对于写密集型的应用、存在大量锁竞争的，关闭查询缓存效率更高。</li>
+</ul>
+<p>除此之外，在客户端使用缓存，可以进一步减少与 MySQL 服务器通信的开销，也能减轻 MySQL 服务器的压力，这部分内容将单独介绍。</p>
+<hr>
+<p>参考资料：「高性能 MySQL」</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag">#MySQL</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1470100810000/" rel="next" title="MySQL 索引优化">
+                <i class="fa fa-chevron-left"></i> MySQL 索引优化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1470722850000/" rel="prev" title="MySQL 之外的优化">
+                MySQL 之外的优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1470708587000/" data-title="MySQL 的查询缓存" data-url="https://yyqian.com/post/1470708587000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何判断缓存命中"><span class="nav-text">如何判断缓存命中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询缓存如何使用内存"><span class="nav-text">查询缓存如何使用内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用查询缓存的场景"><span class="nav-text">适用查询缓存的场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置和维护查询缓存"><span class="nav-text">配置和维护查询缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB-和查询缓存"><span class="nav-text">InnoDB 和查询缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用查询缓存优化"><span class="nav-text">通用查询缓存优化</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

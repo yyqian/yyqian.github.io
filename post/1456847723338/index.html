@@ -1,0 +1,641 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="设计模式,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。 Adapter（适配器）意图：将一个类的接口转换成客户希望的另外一个接口。Adapter 模式使得原本由于接口不兼容而不能一起工作的那个类可以一起工作。 别名：Wrapper 包装器 参与者：  Target Client Adaptee Adapter  Client 通过 Adapter 调用">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式 - 结构型模式">
+<meta property="og:url" content="https://yyqian.com/post/1456847723338/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。 Adapter（适配器）意图：将一个类的接口转换成客户希望的另外一个接口。Adapter 模式使得原本由于接口不兼容而不能一起工作的那个类可以一起工作。 别名：Wrapper 包装器 参与者：  Target Client Adaptee Adapter  Client 通过 Adapter 调用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.251Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式 - 结构型模式">
+<meta name="twitter:description" content="这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。 Adapter（适配器）意图：将一个类的接口转换成客户希望的另外一个接口。Adapter 模式使得原本由于接口不兼容而不能一起工作的那个类可以一起工作。 别名：Wrapper 包装器 参与者：  Target Client Adaptee Adapter  Client 通过 Adapter 调用">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 设计模式 - 结构型模式 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                设计模式 - 结构型模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-01T23:55:23+08:00" content="2016-03-01">
+              2016-03-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1456847723338/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1456847723338/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个系列主要是对「设计模式」的一些读书笔记，结合了 Wikipedia 和一些 Blog 的内容。</p>
+<h2 id="Adapter（适配器）"><a href="#Adapter（适配器）" class="headerlink" title="Adapter（适配器）"></a>Adapter（适配器）</h2><p>意图：将一个类的接口转换成客户希望的另外一个接口。Adapter 模式使得原本由于接口不兼容而不能一起工作的那个类可以一起工作。</p>
+<p>别名：Wrapper 包装器</p>
+<p>参与者：</p>
+<ul>
+<li>Target</li>
+<li>Client</li>
+<li>Adaptee</li>
+<li>Adapter</li>
+</ul>
+<p>Client 通过 Adapter 调用 Target 方法，这个 Target 方法被 Adapter 接到 Adaptee 上，实际的工作是由 Adaptee 完成的。Adapter 在这里对 Adaptee 和 Target 进行匹配。Adapter 通常是 Adaptee 的一个子类。</p>
+<p>Adapter 可以通过多重继承实现，也可以只继承一个接口，然后内部实例化和维护另外一个接口。<br><a id="more"></a></p>
+<h2 id="Bridge（桥接）"><a href="#Bridge（桥接）" class="headerlink" title="Bridge（桥接）"></a>Bridge（桥接）</h2><p>意图：将抽象部分与它的实现部分分离，使它们都可以独立地变化。</p>
+<p>别名：Handle/Body</p>
+<p>这个不太明白。大致解决的问题是，A 和 B 都是抽象类或接口，A 和 B 都有很多实现的类，这些实现的类之间如何相互调用，就是通过 Bridge。</p>
+<p>例子：电器和开关的关系，电器有电灯、电视机、路由器等，开关也有很多种类。子类之间相互调用就需要桥接</p>
+<h2 id="Composite（组合）"><a href="#Composite（组合）" class="headerlink" title="Composite（组合）"></a>Composite（组合）</h2><p>意图：将对象组合成树形结构以表示「部分 - 整体」的层次结构。Composite 使得用户对单个对象和组合对象的使用具有一致性。</p>
+<p>参与者：</p>
+<ul>
+<li>Component，接口</li>
+<li>Leaf</li>
+<li>Composite</li>
+<li>Client</li>
+</ul>
+<p>Leaf 是一些最基本的元素，Composite 是这些 Leaf 的一个组合或者容器，两者都实现 Component 的接口，这样 Client 就能利用这个接口无差别的对待 Leaf 和 Composite 了。</p>
+<h2 id="Decorator（装饰）"><a href="#Decorator（装饰）" class="headerlink" title="Decorator（装饰）"></a>Decorator（装饰）</h2><p>意图：动态地给一个对象添加一些额外的职责。就增加功能来说，Decorator 模式相比生成子类更为灵活。</p>
+<p>别名：Wrapper 包装器</p>
+<p>如果利用类继承来添加功能，这个添加的过程是静态的（编译之前的）；如果我们想让这个功能添加变成动态的，就可以把功能加到类的实例上（对象）。通常是创建一个装饰器，然后把基本的组件加进来。</p>
+<h2 id="Facade（外观）"><a href="#Facade（外观）" class="headerlink" title="Facade（外观）"></a>Facade（外观）</h2><p>意图：为子系统中的一组接口提供一个一致的界面，Facade 模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
+<p>参与者：</p>
+<ul>
+<li>Facade</li>
+<li>Subsystem classes</li>
+</ul>
+<p>实际上就是把子系统封装起来。它可以降低客户和子系统之间的耦合度。一般仅需要一个 Facade 对象，可以实现为 Singleton。</p>
+<h2 id="Flyweight（享元）"><a href="#Flyweight（享元）" class="headerlink" title="Flyweight（享元）"></a>Flyweight（享元）</h2><p>意图：运用共享技术有效地支持大量细粒度的对象。</p>
+<p>参与者：</p>
+<ul>
+<li>Flyweight</li>
+<li>FlyweightFactory</li>
+<li>Client</li>
+</ul>
+<p>一般 Flyweight 只是个接口，有两个实现：ConcreteFlyweight 和 UnsharedConcreteFlyweight，前者一般是 Leaf，后者一般是 Composite。FlyweightFactory 创建、保存和管理这些 Flyweights，并提供共享复用的服务。</p>
+<p>例子：26 个英文字母就是 ConcreteFlyweight，由英文字母组成的句子就是 UnsharedConcreteFlyweight。</p>
+<p>这是一个咖啡馆的例子：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.Vector;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Instances of CoffeeFlavour will be the Flyweights</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoffeeFlavour</span> &#123;</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">String</span> name;</span><br><span class="line"></span><br><span class="line">  CoffeeFlavour(<span class="keyword">String</span> newFlavor) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = newFlavor;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">String</span> <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Menu acts as a factory and cache for CoffeeFlavour flyweight objects</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Menu</span> &#123;</span></span><br><span class="line">  <span class="keyword">private</span> Map&lt;<span class="keyword">String</span>, CoffeeFlavour&gt; flavours = <span class="keyword">new</span> ConcurrentHashMap&lt;<span class="keyword">String</span>, CoffeeFlavour&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="function">CoffeeFlavour <span class="title">lookup</span><span class="params">(<span class="keyword">String</span> flavorName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!flavours.containsKey(flavorName))</span><br><span class="line">      flavours.<span class="built_in">put</span>(flavorName, <span class="keyword">new</span> CoffeeFlavour(flavorName));</span><br><span class="line">    <span class="keyword">return</span> flavours.<span class="built_in">get</span>(flavorName);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">totalCoffeeFlavoursMade</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> flavours.<span class="built_in">size</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Order</span> &#123;</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> tableNumber;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> CoffeeFlavour flavour;</span><br><span class="line"></span><br><span class="line">  Order(<span class="keyword">int</span> tableNumber, CoffeeFlavour flavor) &#123;</span><br><span class="line">    <span class="keyword">this</span>.tableNumber = tableNumber;</span><br><span class="line">    <span class="keyword">this</span>.flavour = flavor;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">serve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.<span class="built_in">println</span>(<span class="string">"Serving "</span> + flavour + <span class="string">" to table "</span> + tableNumber);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CoffeeShop</span> &#123;</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> List&lt;Order&gt; orders = <span class="keyword">new</span> Vector&lt;Order&gt;();</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Menu menu = <span class="keyword">new</span> Menu();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">takeOrder</span><span class="params">(<span class="keyword">String</span> flavourName, <span class="keyword">int</span> table)</span> </span>&#123;</span><br><span class="line">    CoffeeFlavour flavour = menu.lookup(flavourName);</span><br><span class="line">    Order order = <span class="keyword">new</span> Order(table, flavour);</span><br><span class="line">    orders.add(order);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">service</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (Order order : orders)</span><br><span class="line">      order.serve();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">String</span> <span class="title">report</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"\ntotal CoffeeFlavour objects made: "</span></span><br><span class="line">        + menu.totalCoffeeFlavoursMade();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123;</span><br><span class="line">    CoffeeShop shop = <span class="keyword">new</span> CoffeeShop();</span><br><span class="line"></span><br><span class="line">    shop.takeOrder(<span class="string">"Cappuccino"</span>, <span class="number">2</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Frappe"</span>, <span class="number">1</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Espresso"</span>, <span class="number">1</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Frappe"</span>, <span class="number">897</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Cappuccino"</span>, <span class="number">97</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Frappe"</span>, <span class="number">3</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Espresso"</span>, <span class="number">3</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Cappuccino"</span>, <span class="number">3</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Espresso"</span>, <span class="number">96</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Frappe"</span>, <span class="number">552</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Cappuccino"</span>, <span class="number">121</span>);</span><br><span class="line">    shop.takeOrder(<span class="string">"Espresso"</span>, <span class="number">121</span>);</span><br><span class="line"></span><br><span class="line">    shop.service();</span><br><span class="line">    System.out.<span class="built_in">println</span>(shop.report());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Proxy（代理）"><a href="#Proxy（代理）" class="headerlink" title="Proxy（代理）"></a>Proxy（代理）</h2><p>意图：为其他对象提供一种代理以控制对这个对象的访问。</p>
+<p>参与者：</p>
+<ul>
+<li>Proxy</li>
+<li>Subject，接口</li>
+<li>RealSubject</li>
+</ul>
+<p>Subject 定义了 Proxy 和 RealSubject 的公共接口，RealSubject 是 Proxy 的实体，Proxy 可以控制 RealSubject 的生命周期。</p>
+<p>例子：一个文档中需要插入图像，如果图像很大的话，可以选择不载入图像，而是放一个占位的空白图像，这个空白图像和真正的图像有类似的行为，因此真正的图像是 RealSubject，空白占位图像是 Proxy。Proxy 可以在必要的时候加载 RealSubject 来在文档中显示图像。而文档调用则是通过 Subject 接口。</p>
+<p>这个模式是在直接访问一个实体不方便或不符合需要时，为这个实体提供一个替代者。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">interface Image &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">displayImage</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//on System A</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RealImage</span> <span class="title">implements</span> <span class="title">Image</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> filename = null;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Constructor</span></span><br><span class="line"><span class="comment">     * @param filename</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RealImage</span><span class="params">(<span class="keyword">final</span> <span class="keyword">String</span> filename)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.filename = filename;</span><br><span class="line">        loadImageFromDisk();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Loads the image from the disk</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadImageFromDisk</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">"Loading   "</span> + filename);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Displays the image</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">displayImage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">"Displaying "</span> + filename);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//on System B</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProxyImage</span> <span class="title">implements</span> <span class="title">Image</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RealImage <span class="built_in">image</span> = null;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> filename = null;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Constructor</span></span><br><span class="line"><span class="comment">     * @param filename</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProxyImage</span><span class="params">(<span class="keyword">final</span> <span class="keyword">String</span> filename)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.filename = filename;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Displays the image</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">displayImage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">image</span> == null) &#123;</span><br><span class="line">           <span class="built_in">image</span> = <span class="keyword">new</span> RealImage(filename);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">image</span>.displayImage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProxyExample</span> &#123;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Test method</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Image IMAGE1 = <span class="keyword">new</span> ProxyImage(<span class="string">"HiRes_10MB_Photo1"</span>);</span><br><span class="line">        <span class="keyword">final</span> Image IMAGE2 = <span class="keyword">new</span> ProxyImage(<span class="string">"HiRes_10MB_Photo2"</span>);</span><br><span class="line"></span><br><span class="line">        IMAGE1.displayImage(); <span class="comment">// loading necessary</span></span><br><span class="line">        IMAGE1.displayImage(); <span class="comment">// loading unnecessary</span></span><br><span class="line">        IMAGE2.displayImage(); <span class="comment">// loading necessary</span></span><br><span class="line">        IMAGE2.displayImage(); <span class="comment">// loading unnecessary</span></span><br><span class="line">        IMAGE1.displayImage(); <span class="comment">// loading unnecessary</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="结构型模式的讨论"><a href="#结构型模式的讨论" class="headerlink" title="结构型模式的讨论"></a>结构型模式的讨论</h2><ul>
+<li>Adapter</li>
+<li>Bridge</li>
+<li>Composite</li>
+<li>Decorator</li>
+<li>Facade</li>
+<li>Flyweight</li>
+<li>Proxy</li>
+</ul>
+<p>Adapter 和 Bridge 类似，但是 Adapter 只是为了衔接两个现有的接口。Bridge 在设计类之前就要实施，而 Adapter 则是在设计之后的补救措施。Facade 与 Adapter 不同的是，Facade 是创建一个全新的接口来包装底层所有的功能，而 Adapter 则是复用原有的接口。</p>
+<p>Composite 旨在构造类，使多重对象能被当做一个对象来处理；Decorator 则不需要生成子类，而是在对象的外面再包装一层来添加新的功能，组成一个新的对象；Proxy 则像是一个真实类的影子，只有必要的时候才让真实类出面。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag">#设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1456847694817/" rel="next" title="设计模式 - 创建型模式">
+                <i class="fa fa-chevron-left"></i> 设计模式 - 创建型模式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1456847885703/" rel="prev" title="设计模式 - 行为模式">
+                设计模式 - 行为模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1456847723338/" data-title="设计模式 - 结构型模式" data-url="https://yyqian.com/post/1456847723338/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Adapter（适配器）"><span class="nav-text">Adapter（适配器）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bridge（桥接）"><span class="nav-text">Bridge（桥接）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Composite（组合）"><span class="nav-text">Composite（组合）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Decorator（装饰）"><span class="nav-text">Decorator（装饰）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Facade（外观）"><span class="nav-text">Facade（外观）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flyweight（享元）"><span class="nav-text">Flyweight（享元）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Proxy（代理）"><span class="nav-text">Proxy（代理）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构型模式的讨论"><span class="nav-text">结构型模式的讨论</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

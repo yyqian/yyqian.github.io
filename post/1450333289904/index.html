@@ -1,0 +1,600 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="REST,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="最近自己在学习 Spring 框架，做了一个 Hacker News 的克隆版，见 Github ，随手写的 URI 比较混乱，所以想起来要对 URI 重构一下。 之前介绍过 RESTful API 的设计，这里主要思考下网站 URL/URI 的设计，只想知道结论的就直接看最后一句就行。 URI 和 URL 的区分首先，两者的全称分别是：  Uniform Resource Identifier">
+<meta name="keywords" content="REST">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页 URI&#x2F;URL 设计">
+<meta property="og:url" content="https://yyqian.com/post/1450333289904/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="最近自己在学习 Spring 框架，做了一个 Hacker News 的克隆版，见 Github ，随手写的 URI 比较混乱，所以想起来要对 URI 重构一下。 之前介绍过 RESTful API 的设计，这里主要思考下网站 URL/URI 的设计，只想知道结论的就直接看最后一句就行。 URI 和 URL 的区分首先，两者的全称分别是：  Uniform Resource Identifier">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页 URI&#x2F;URL 设计">
+<meta name="twitter:description" content="最近自己在学习 Spring 框架，做了一个 Hacker News 的克隆版，见 Github ，随手写的 URI 比较混乱，所以想起来要对 URI 重构一下。 之前介绍过 RESTful API 的设计，这里主要思考下网站 URL/URI 的设计，只想知道结论的就直接看最后一句就行。 URI 和 URL 的区分首先，两者的全称分别是：  Uniform Resource Identifier">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 网页 URI/URL 设计 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                网页 URI/URL 设计
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-17T14:21:29+08:00" content="2015-12-17">
+              2015-12-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1450333289904/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1450333289904/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近自己在学习 Spring 框架，做了一个 Hacker News 的克隆版，见 <a href="https://github.com/yyqian/imagine" target="_blank" rel="noopener">Github</a> ，随手写的 URI 比较混乱，所以想起来要对 URI 重构一下。</p>
+<p>之前介绍过 <a href="http://yyqian.com/post/1432535189699">RESTful API</a> 的设计，这里主要思考下网站 URL/URI 的设计，只想知道结论的就直接看最后一句就行。</p>
+<h3 id="URI-和-URL-的区分"><a href="#URI-和-URL-的区分" class="headerlink" title="URI 和 URL 的区分"></a>URI 和 URL 的区分</h3><p>首先，两者的全称分别是：</p>
+<ul>
+<li>Uniform Resource Identifier (URI)</li>
+<li>Uniform Resource Locator (URL)</li>
+</ul>
+<p>URL 是 URI 的子集，除了要标识资源，还必须提供获取资源的方式，譬如说：</p>
+<p><code>yyqian.com/post/1432535189699</code> 标识了在 yyqian.com 这个网站上 id 为 1432535189699 的一个 post，这个是 URI，因为它标识了一个资源，但它不是 URL，因为获取这个资源的方式没有说明，可能是通过 http，https，也可能是通过 ftp, telnet 等。因此 <code>http://yyqian.com/post/1432535189699</code> 才是一个完整的 URL。<br><a id="more"></a><br>URL 的 sytax 必须符合 generic URI:<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scheme:[<span class="string">//[user:password@</span>]host[<span class="string">:port</span>]][<span class="string">/</span>]path[<span class="string">?query</span>][<span class="symbol">#fragment</span>]</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>scheme</code>：常见的有 <code>http</code>，<code>https</code>，<code>ftp</code>，<code>mailto</code>，<code>telnet</code>，<code>ssh</code></li>
+<li><code>//</code>：这个有的 scheme 是需要的，譬如 <code>http://</code>，有的是不需要的，譬如 <code>mailto</code></li>
+<li><code>user:password@</code>：譬如 <code>ssh://qian@yyqian.com:8080/home/git/swiftwind.git</code>，其中 <code>qian@</code> 是用来鉴权的，password 一般不会明文写出来</li>
+<li><code>host</code>，<code>port</code>，<code>path</code>，<code>query</code>，<code>fragment</code> 以 http URL 为例应该很好理解，http的默认 port 是 80，所以一般都省略了<code>:80</code></li>
+</ul>
+<p>具体见：<a href="http://www.rfc-base.org/txt/rfc-3986.txt" target="_blank" rel="noopener">RFC 3986</a></p>
+<p>接下来为了讨论方便，我们限定下面提到的 URL 都特指 scheme 为 http，port 缺省，无需鉴权的 URI，例如：<br><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">http:</span>//yyqian.com/post?page=<span class="number">1</span>&amp;size=<span class="number">20</span><span class="meta">#top</span></span><br></pre></td></tr></table></figure></p>
+<p>而 URI 特指在此基础上省略了 scheme, host, fragment 的特例，例如：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/post?page=<span class="number">1</span>&amp;size=<span class="number">20</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="URI-设计"><a href="#URI-设计" class="headerlink" title="URI 设计"></a>URI 设计</h3><p>网页 URI 设计个人比较推崇 RESTful 风格，见 <a href="http://yyqian.com/post/1432535189699">RESTful API</a> 的设计，也就是说要结合 HTTP Method 和 URI 的 path 这两点进行设计。</p>
+<p>而网页 URI 的设计和 API 设计有一点不同的是：网页无法灵活使用所有的 HTTP Methods，浏览器默认是使用 GET，form 表单提交可以用 GET 或 POST（当然，为了防范 CSRF 攻击必须用 POST），而 PUT，DELETE 等其他方法只有在借助 Ajax 的情况下才能使用。</p>
+<p>另外，如果采用 RESTful 风格，在网站安全方面必须结合路径和 HTTP 方法两者进行访问控制，不能单单依靠路径的字符串匹配。</p>
+<p>对于第二点，一般技术上都可以实现，至少我接触过的 Node.js 和 Java EE 下面的框架都可以做到。对于第一点，个人觉得缺点就是如果网站有很多提供修改，删除操作的页面，就会比较繁琐，无法简单地通过表单来解决，但这类网站也不是多数。但优点也是明显的：</p>
+<ol>
+<li>多数增删改操作都需要处理返回的状态和出错信息，因此在这种使用场景下，用 JavaScript 来处理这些请求是必需的</li>
+<li>正因为浏览器无法发起 PUT，DELETE 这种“危险”操作，因此也可以利用这一点来提升安全性，加大 CSRF 攻击的难度</li>
+</ol>
+<p>因此，结论就是还是按照 RESTful API 的风格来设计网页 URI。。。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/rest/" rel="tag">#REST</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1449555296031/" rel="next" title="Spring Data JPA 笔记">
+                <i class="fa fa-chevron-left"></i> Spring Data JPA 笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1454224599679/" rel="prev" title="Spring in Action 笔记">
+                Spring in Action 笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1450333289904/" data-title="网页 URI/URL 设计" data-url="https://yyqian.com/post/1450333289904/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#URI-和-URL-的区分"><span class="nav-text">URI 和 URL 的区分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URI-设计"><span class="nav-text">URI 设计</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

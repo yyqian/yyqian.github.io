@@ -1,0 +1,704 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Spring,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="Spring IoC 待注入的 class 12345678910public class BraveKnight implements Knight &amp;#123;  private Quest quest;  // will inject Quest here  public BraveKnight(Quest quest) &amp;#123;    this.quest = quest;  &amp;#12">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring in Action 笔记">
+<meta property="og:url" content="https://yyqian.com/post/1454224599679/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="Spring IoC 待注入的 class 12345678910public class BraveKnight implements Knight &amp;#123;  private Quest quest;  // will inject Quest here  public BraveKnight(Quest quest) &amp;#123;    this.quest = quest;  &amp;#12">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring in Action 笔记">
+<meta name="twitter:description" content="Spring IoC 待注入的 class 12345678910public class BraveKnight implements Knight &amp;#123;  private Quest quest;  // will inject Quest here  public BraveKnight(Quest quest) &amp;#123;    this.quest = quest;  &amp;#12">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Spring in Action 笔记 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring in Action 笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-31T15:16:39+08:00" content="2016-01-31">
+              2016-01-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1454224599679/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1454224599679/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Spring-IoC"><a href="#Spring-IoC" class="headerlink" title="Spring IoC"></a>Spring IoC</h2><hr>
+<p>待注入的 class</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BraveKnight</span> <span class="keyword">implements</span> <span class="title">Knight</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Quest quest;</span><br><span class="line">  <span class="comment">// will inject Quest here</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BraveKnight</span><span class="params">(Quest quest)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.quest = quest;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">embarkOnQuest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    quest.embark();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将要注入的 class<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SlayDragonQuest</span> <span class="keyword">implements</span> <span class="title">Quest</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> PrintStream stream;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">SlayDragonQuest</span><span class="params">(PrintStream stream)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.stream = stream;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">embark</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    stream.println(<span class="string">"Embarking on quest to slay the dragon!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以看到 BraveKnight 和 SlayDragonQuest 之间是通过 Quest 接口耦合的。下面将通过 JavaConfig 方法来执行注入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">KnightConfig</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Knight <span class="title">knight</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> BraveKnight(quest());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Quest <span class="title">quest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SlayDragonQuest(System.out);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后通过 application context 来调用这些 Beans，JavaConfig 要用 AnnotationConfigApplicationContext 来调用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">KnightMain</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    ClassPathXmlApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"META-INF/spring/knight.xml"</span>);</span><br><span class="line">    Knight knight = context.getBean(Knight<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    knight.embarkOnQuest();</span><br><span class="line">    context.close();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>By default, all beans in Spring are singletons. 如果调用一个方法被注解了 @Bean，那么这个方法返回的是一个 Singleton 的 Bean，而不会再创建一个对象。</p>
+<p>CD 机的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CompactDisc</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SgtPeppers</span> <span class="keyword">implements</span> <span class="title">CompactDisc</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> String title = <span class="string">"Sgt. Pepper's Lonely Hearts Club Band"</span>;</span><br><span class="line">  <span class="keyword">private</span> String artist = <span class="string">"The Beatles"</span>;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"Playing "</span> + title + <span class="string">" by "</span> + artist);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDPlayer</span> <span class="keyword">implements</span> <span class="title">MediaPlayer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> CompactDisc cd;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CDPlayer</span><span class="params">(CompactDisc cd)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.cd = cd;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    cd.play();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自动扫描设置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDPlayerConfig</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>手动 wiring</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CompactDisc <span class="title">sgtPeppers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> SgtPeppers();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CDPlayer <span class="title">cdPlayer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> CDPlayer(sgtPeppers());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的 wiring 也可以改成这样，这样 SgtPeppers 的 Config 就可以通过其他方式进行，譬如 XML 或 自动。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> CDPlayer <span class="title">cdPlayer</span><span class="params">(CompactDisc compactDisc)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> CDPlayer(compactDisc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Spring-Web"><a href="#Spring-Web" class="headerlink" title="Spring Web"></a>Spring Web</h2><hr>
+<h3 id="RequestMapping-方法的参数和返回值"><a href="#RequestMapping-方法的参数和返回值" class="headerlink" title="@RequestMapping 方法的参数和返回值"></a>@RequestMapping 方法的参数和返回值</h3><p>参数可以是 Servlet API 中定义的一些 Objects：</p>
+<ul>
+<li>Request or response objects：例如 ServletRequest，HttpServletRequest</li>
+<li>Session object：具体见 <a href="http://docs.spring.io/spring/docs/4.2.3.RELEASE/spring-framework-reference/htmlsingle/#mvc-ann-arguments" target="_blank" rel="noopener">Supported method argument types</a></li>
+</ul>
+<p>要注意的是参数的位置是有先后的。</p>
+<p>返回值在没有用 @ResponseBody 注解的情况下，常用的是 String，返回的是模版的名称，接下来将交给 View 来处理，</p>
+<p>返回值在注解了 @ResponseBody 的情况下，可以用任何 Object，返回的时候会使用 Jackson2 来序列化，并直接返回给用户。</p>
+<p>支持的返回值具体见：<a href="http://docs.spring.io/spring/docs/4.2.3.RELEASE/spring-framework-reference/htmlsingle/#mvc-ann-return-types" target="_blank" rel="noopener">Supported method return types</a></p>
+<h3 id="几种-Component-的区别"><a href="#几种-Component-的区别" class="headerlink" title="几种 Component 的区别"></a>几种 Component 的区别</h3><p><code>@Component</code> annotation marks a java class as a bean so the component-scanning mechanism of spring can pick it up and pull it into the application context.</p>
+<p><code>@Repository</code> annotation is a specialization of the <code>@Component</code> annotation with similar use and functionality. In addition to importing the DAOs into the DI container, it also makes the unchecked exceptions (thrown from DAO methods) eligible for translation into SpringDataAccessException.</p>
+<p><code>@Service</code> annotation is also a specialization of the component annotation. It doesn’t currently provide any additional behavior over the <code>@Component</code> annotation, but it’s a good idea to use <code>@Service</code> over <code>@Component</code> in service-layer classes because it specifies intent better. Additionally, tool support and additional behavior might rely on it in the future.</p>
+<p><code>@Controller</code> annotation marks a class as a Spring Web MVC controller. It too is a <code>@Component</code> specialization, so beans marked with it are automatically imported into the DI container.</p>
+<p>In real life, you will face very rare situations where you will need to use <code>@Component</code> annotation. Most of the time, you will using <code>@Repository</code>, <code>@Service</code> and <code>@Controller</code> annotations. <code>@Component</code> should be used when your class does not fall into either of three categories i.e. controller, manager and dao.</p>
+<p>Always use these annotations over concrete classes; not over interfaces.</p>
+<p>If you want to define name of the bean with which they will be registered in DI container, you can pass the name in annotation itself e.g. @Service (“employeeManager”).</p>
+<h3 id="Content-Type-相关"><a href="#Content-Type-相关" class="headerlink" title="Content-Type 相关"></a>Content-Type 相关</h3><p>Spring Web 可以将提交的表格或者 ajax 提交的 json 直接转换为 Object 或是提取参数，调用的方式是在 @RequestMapping 方法的参数上注解 @RequestParam，@ModelAttribute，@RequestBody。以下是三者的用处以及支持的 Content-Type：</p>
+<ul>
+<li>@RequestParam：可以提取参数，支持 application/x-www-form-urlencoded</li>
+<li>@ModelAttribute：可以直接绑定到 Object，支持 application/x-www-form-urlencoded</li>
+<li>@RequestBody：可以直接绑定到 Object，支持 application/json</li>
+</ul>
+<p>浏览器表单的提交是通过 application/x-www-form-urlencoded 这种格式上传的，jQuery 的 <code>$.ajax()</code> 也是将 json 转换成 application/x-www-form-urlencoded 格式再上传的。</p>
+<p>@RequestBody 按理来说在配置了 FormHttpMessageConverter 之后也可以支持 application/x-www-form-urlencoded，但是我在 Spring Boot 配置的环境中无法实现，原因不确定。</p>
+<h3 id="处理异常"><a href="#处理异常" class="headerlink" title="处理异常"></a>处理异常</h3><p>处理异常有几种方式，这里只介绍一种处理方式：</p>
+<p>如果每个 @Controller 类单独处理自己的异常，可以在该类中定义 @ExceptionHandler 方法。</p>
+<p>如果想集中处理所有 @Controller 类产生的异常，可以定义一个 @ControllerAdvice 类，这个类中的方法适用于所有 @Controller，因此在该类中定义 @ExceptionHandler 方法就可以处理所有控制器产生的异常。</p>
+<p>一个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlobalExceptionHandler</span> <span class="keyword">extends</span> <span class="title">DefaultHandlerExceptionResolver</span> </span>&#123;</span><br><span class="line">  <span class="meta">@ExceptionHandler</span>(&#123;</span><br><span class="line">      BadRequestException<span class="class">.<span class="keyword">class</span>,</span></span><br><span class="line"><span class="class">      <span class="title">ForbiddenException</span>.<span class="title">class</span>,</span></span><br><span class="line"><span class="class">      <span class="title">InternalServerErrorException</span>.<span class="title">class</span>,</span></span><br><span class="line"><span class="class">      <span class="title">NotFoundException</span>.<span class="title">class</span>,</span></span><br><span class="line"><span class="class">      <span class="title">UnauthorizedException</span>.<span class="title">class</span></span></span><br><span class="line"><span class="class">  &#125;)</span></span><br><span class="line"><span class="class">  <span class="title">void</span> <span class="title">restExceptionHandler</span>(<span class="title">RuntimeException</span> <span class="title">ex</span>, <span class="title">HttpServletResponse</span> <span class="title">response</span>) <span class="title">throws</span> <span class="title">IOException</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> statusCode;</span><br><span class="line">    <span class="keyword">if</span> (ex <span class="keyword">instanceof</span> BadRequestException) &#123;</span><br><span class="line">      statusCode = HttpServletResponse.SC_BAD_REQUEST;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ex <span class="keyword">instanceof</span> ForbiddenException) &#123;</span><br><span class="line">      statusCode = HttpServletResponse.SC_FORBIDDEN;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ex <span class="keyword">instanceof</span> NotFoundException) &#123;</span><br><span class="line">      statusCode = HttpServletResponse.SC_NOT_FOUND;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ex <span class="keyword">instanceof</span> UnauthorizedException) &#123;</span><br><span class="line">      statusCode = HttpServletResponse.SC_UNAUTHORIZED;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;</span><br><span class="line">    &#125;</span><br><span class="line">    response.sendError(statusCode);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BadRequestException</span> <span class="keyword">extends</span> <span class="title">RuntimeException</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BadRequestException</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BadRequestException</span><span class="params">(String message)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(message);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BadRequestException</span><span class="params">(String message, Throwable cause)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(message, cause);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BadRequestException</span><span class="params">(Throwable cause)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(cause);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">BadRequestException</span><span class="params">(String message, Throwable cause, <span class="keyword">boolean</span> enableSuppression, <span class="keyword">boolean</span> writableStackTrace)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(message, cause, enableSuppression, writableStackTrace);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h2><hr>
+<h3 id="自动配置和注解配置"><a href="#自动配置和注解配置" class="headerlink" title="自动配置和注解配置"></a>自动配置和注解配置</h3><p>Spring Boot 最主要解决的问题就是省去了很多繁琐的配置。实现的原理可以从 @SpringBootApplication 这个注解看出，这个注解包含了 @Configuration，@EnableAutoConfiguration，@ComponentScan。因此，@SpringBootApplication 注解的 Class 会做以下几件事：</p>
+<ol>
+<li>@Configuration：搜集当前 Class 中的配置</li>
+<li>@EnableAutoConfiguration：Spring Boot的主要功能，根据依赖的 jar 包来判断是否自动注册相应的 Bean 以及进行默认的配置。</li>
+<li>@ComponentScan：自动搜索当前包名下面的所有 Class，挑出所有 @Component 注解的 Class，并注册为 Bean。</li>
+</ol>
+<p>@Controller，@RestController，@Repository，@Service，@Configuration 都是特殊的 @Component，都会被注册为 Bean。</p>
+<p>以前的 XML 配置文件可以用 @Configuration 注解的 Class 来代替，要注册的 Bean 用 @Bean 来注解。auto-configuration 不会对自己注册过的 Bean 再进行注册或配置。</p>
+<p>配置 Rabbitmq 的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RabbitmqConfig</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> MessageConverter <span class="title">jackson2JsonMessageConverter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Jackson2JsonMessageConverter();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> RabbitTemplate <span class="title">rabbitTemplate</span><span class="params">(ConnectionFactory connectionFactory)</span> </span>&#123;</span><br><span class="line">    RabbitTemplate rabbitTemplate = <span class="keyword">new</span> RabbitTemplate(connectionFactory);</span><br><span class="line">    rabbitTemplate.setMessageConverter(jackson2JsonMessageConverter());</span><br><span class="line">    <span class="keyword">return</span> rabbitTemplate;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>如果想手动禁止一些自动配置的话，有两种方法：</p>
+<ol>
+<li>@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})</li>
+<li>配置 application.properties 文件中的 spring.autoconfigure.exclude</li>
+</ol>
+<h3 id="在-Ubuntu-中注册服务"><a href="#在-Ubuntu-中注册服务" class="headerlink" title="在 Ubuntu 中注册服务"></a>在 Ubuntu 中注册服务</h3><p>Gradle 中加入：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'spring-boot'</span></span><br><span class="line">springBoot &#123;</span><br><span class="line">    executable = <span class="keyword">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译得到的 jar 包 chmod 为 744，然后在 Ubuntu 中建立服务 <code>ln -s xxx.jar /etc/init.d/xxx</code>，就可以用 <code>service xxx start</code> 来启动应用了。</p>
+<h3 id="生成-war-包"><a href="#生成-war-包" class="headerlink" title="生成 war 包"></a>生成 war 包</h3><p>如果想生成 war 包，放在容器中运行，可以通过以下步骤：</p>
+<p>build.gradle 文件中添加：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'war'</span></span><br><span class="line">war &#123;</span><br><span class="line">    baseName = <span class="string">'app-name'</span></span><br><span class="line">    version = <span class="string">'0.0.1'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@SpringBootApplication 注解的 Class 中添加：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DolphinMsCoreApplication</span> <span class="keyword">extends</span> <span class="title">SpringBootServletInitializer</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> SpringApplicationBuilder <span class="title">configure</span><span class="params">(SpringApplicationBuilder application)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> application.sources(DolphinMsCoreApplication<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    SpringApplication.run(DolphinMsCoreApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行 <code>gradle build</code></p>
+<h2 id="Spring-Testing"><a href="#Spring-Testing" class="headerlink" title="Spring Testing"></a>Spring Testing</h2><hr>
+<h3 id="单元测试（Unit-testing）"><a href="#单元测试（Unit-testing）" class="headerlink" title="单元测试（Unit testing）"></a>单元测试（Unit testing）</h3><p>一般 Unit testing 速度很快，因为不需要设置或连接基础设施。</p>
+<p>最普通的 POJO 可以直接 new 一个 object，然后用 JUnit 来测试，不需要 Spring 框架或任何容器。</p>
+<p>service layer object 可以通过 stubbing or mocking DAO or Repository interfaces 来注入依赖，进而进行测试，这样就不需要连接数据库了。</p>
+<p>Spring 提供了一些 mock objects 来辅助 unit testing：</p>
+<ol>
+<li>Environment, PropertySource: <code>org.springframework.mock.env</code>, 包含了 MockEnvironment, MockPropertySource</li>
+<li>JNDI: <code>org.springframework.mock.jndi</code></li>
+<li>Servlet API: <code>org.springframework.mock.web</code>, 代替了 EasyMock 和 MockObjects，主要用来测试 web contexts, controllers and filters</li>
+</ol>
+<p>Spring 还提供了一些用来 testing 的工具，包含在 <code>org.springframework.test.util</code> package 中：</p>
+<ol>
+<li>ReflectionTestUtils：可以用来访问 private 的属性或方法</li>
+<li>AopTestUtils</li>
+</ol>
+<p>Spring MVC 相关的测试包含在 <code>org.springframework.test.web</code> package 中，测试 controller 可以用 ModelAndViewAssert 结合 MockHttpServletRequest, MockHttpSession 等等来进行。</p>
+<h3 id="集成测试（Integration-Testing）"><a href="#集成测试（Integration-Testing）" class="headerlink" title="集成测试（Integration Testing）"></a>集成测试（Integration Testing）</h3><p>集成测试与单元测试的主要不同是：需要导入 ApplicationContext，在这个上下文中进行测试</p>
+<p>集成测试的一个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">SpringApplicationConfiguration</span>(<span class="title">classes</span> </span>= EinsteinApplication<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">WebAppConfiguration</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">PostRestControllerTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> WebApplicationContext webApplicationContext;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> PostRepository postRepository;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> MockMvc mockMvc;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Before</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMockMvc</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRead</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    String testId = postRepository.findAll().get(<span class="number">0</span>).getId();</span><br><span class="line">    mockMvc.perform(get(<span class="string">"/api/post/"</span> + testId))</span><br><span class="line">        .andExpect(status().isOk());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Spring-Security"><a href="#Spring-Security" class="headerlink" title="Spring Security"></a>Spring Security</h2><hr>
+<p>authenticating user 有四种方式：</p>
+<ol>
+<li>inMemoryAuthentication() 这个就是把 username，password 都写死在程序里</li>
+<li>jdbcAuthentication() 适合 SQL DB，直接写 SQL 语句来查询；或者不写 SQL 语句，使用默认的 SQL 语句，构造符合要求的 TABLE</li>
+<li>ldapAuthentication() 这个不了解</li>
+<li>userDetailsService() 这个最灵活，自己实现 UserDetailsService 接口，override loadUserByUsername 方法，获取 domain 的 user，然后转换成 org.springframework.security.core.userdetails.User 返回。</li>
+</ol>
+<p>Intercepting requests 主要用这几个方法：</p>
+<ol>
+<li>authorizeRequests() 根据 URL 过滤</li>
+<li>requiresChannel() 限定 HTTPS 请求</li>
+<li>如果用了 Thymeleaf，form 会自动添加 _csrf 项</li>
+</ol>
+<p>HttpSecurity 在 authenticating 方面有以下常用方法：</p>
+<ol>
+<li>formLogin() 这个用在 Web 界面登陆</li>
+<li>httpBasic() 这个用在 RESTful API 等与 application 交互的地方</li>
+<li>rememberMe() 可以用来实现 remember me 功能</li>
+<li>logout()</li>
+</ol>
+<p>Thymeleaf 还包含了一些自己的 security dialect，可以根据登录状态来判断显示默写模块。</p>
+<h2 id="Integrating-Spring"><a href="#Integrating-Spring" class="headerlink" title="Integrating Spring"></a>Integrating Spring</h2><hr>
+<h3 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h3><p>Spring remoting 中讨论的主要是怎么使用 remote procedure call (RPC) 在一个 application 中调用另一个 app 的方法，Spring 可以使用的 remoting technologies 有：</p>
+<ol>
+<li>Remote Method Invocation (RMI)</li>
+<li>Hessian or Burlap</li>
+<li>HTTP invoker</li>
+<li>JAX-RPC and JAX-WS</li>
+</ol>
+<p>这些技术都是用在 SOA (service oriented architecture) 架构中的，顾名思义，这种架构以 service 为中心，不同的模块以 methods 耦合在一起。这种架构有个缺陷就是 PRC 过程是 block 的，跟本地调用还是有差别的。</p>
+<h3 id="RESTful-API"><a href="#RESTful-API" class="headerlink" title="RESTful API"></a>RESTful API</h3><p>RESTful API 也属于 Synchronous communication</p>
+<h3 id="Messaging"><a href="#Messaging" class="headerlink" title="Messaging"></a>Messaging</h3><p>Spring 中的 asynchronous messaging 主要有两种技术：Java Message Service (JMS)，Advanced Message Queuing Protocol (AMQP)。</p>
+<h4 id="JMS"><a href="#JMS" class="headerlink" title="JMS"></a>JMS</h4><p>messaging model有两种：point-to-point and publish/subscribe</p>
+<p>架构主要针对几个对象：the message producer, the message consumer(s), and a channel (either a queue or a topic)</p>
+<p>queues route using a point-to-point algorithm, and topics route in publish/subscribe fashion.</p>
+<p>ActiveMQ 是 message broker 的实现之一，可以实现 asynchronous messaging with JMS</p>
+<h4 id="AMQP"><a href="#AMQP" class="headerlink" title="AMQP"></a>AMQP</h4><p>AMQP 是最新的 messaging 技术，AMQP 可以实现跨语言、跨平台的沟通</p>
+<p>RabbitMQ 是 AMQP 的实现之一</p>
+<p>Kafka 是 Linkedin搞出来的，也可以考虑使用</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag">#Spring</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1450333289904/" rel="next" title="网页 URI/URL 设计">
+                <i class="fa fa-chevron-left"></i> 网页 URI/URL 设计
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1454576036902/" rel="prev" title="2015 年读过的那些书">
+                2015 年读过的那些书 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1454224599679/" data-title="Spring in Action 笔记" data-url="https://yyqian.com/post/1454224599679/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-IoC"><span class="nav-text">Spring IoC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Web"><span class="nav-text">Spring Web</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestMapping-方法的参数和返回值"><span class="nav-text">@RequestMapping 方法的参数和返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几种-Component-的区别"><span class="nav-text">几种 Component 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-Type-相关"><span class="nav-text">Content-Type 相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理异常"><span class="nav-text">处理异常</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot"><span class="nav-text">Spring Boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动配置和注解配置"><span class="nav-text">自动配置和注解配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Ubuntu-中注册服务"><span class="nav-text">在 Ubuntu 中注册服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成-war-包"><span class="nav-text">生成 war 包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Testing"><span class="nav-text">Spring Testing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单元测试（Unit-testing）"><span class="nav-text">单元测试（Unit testing）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集成测试（Integration-Testing）"><span class="nav-text">集成测试（Integration Testing）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Security"><span class="nav-text">Spring Security</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Integrating-Spring"><span class="nav-text">Integrating Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SOA"><span class="nav-text">SOA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RESTful-API"><span class="nav-text">RESTful API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Messaging"><span class="nav-text">Messaging</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JMS"><span class="nav-text">JMS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AMQP"><span class="nav-text">AMQP</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

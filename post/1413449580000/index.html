@@ -1,0 +1,665 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="树莓派,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="以下所用的配置环境：  PC端: Ubuntu 14.04 LTS 64-bit Raspberry Pi(RPi)端: Raspbian  Raspbian的安装配置参照：Raspbian安装配置记录 配置C/C++交叉编译环境 请仔细阅读以上链接内容，以下仅仅是个人操作记录。 PC端： sudo apt-get install build-essential git mkdir ~/rpi c">
+<meta name="keywords" content="树莓派">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Raspberry Pi 交叉编译配置">
+<meta property="og:url" content="https://yyqian.com/post/1413449580000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="以下所用的配置环境：  PC端: Ubuntu 14.04 LTS 64-bit Raspberry Pi(RPi)端: Raspbian  Raspbian的安装配置参照：Raspbian安装配置记录 配置C/C++交叉编译环境 请仔细阅读以上链接内容，以下仅仅是个人操作记录。 PC端： sudo apt-get install build-essential git mkdir ~/rpi c">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Raspberry Pi 交叉编译配置">
+<meta name="twitter:description" content="以下所用的配置环境：  PC端: Ubuntu 14.04 LTS 64-bit Raspberry Pi(RPi)端: Raspbian  Raspbian的安装配置参照：Raspbian安装配置记录 配置C/C++交叉编译环境 请仔细阅读以上链接内容，以下仅仅是个人操作记录。 PC端： sudo apt-get install build-essential git mkdir ~/rpi c">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Raspberry Pi 交叉编译配置 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Raspberry Pi 交叉编译配置
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-16T16:53:00+08:00" content="2014-10-16">
+              2014-10-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1413449580000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1413449580000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>以下所用的配置环境：</p>
+<ul>
+<li>PC端: Ubuntu 14.04 LTS 64-bit</li>
+<li>Raspberry Pi(RPi)端: Raspbian</li>
+</ul>
+<p>Raspbian的安装配置参照：<a href="http://blog.yyqian.com/117.html" target="_blank" rel="noopener">Raspbian安装配置记录</a></p>
+<p><a href="http://hertaville.com/2012/09/28/development-environment-raspberry-pi-cross-compiler/" target="_blank" rel="noopener">配置C/C++交叉编译环境</a></p>
+<p>请仔细阅读以上链接内容，以下仅仅是个人操作记录。</p>
+<p>PC端：</p>
+<pre><code>sudo apt-get install build-essential git
+mkdir ~/rpi
+cd ~/rpi
+git clone git://github.com/raspberrypi/tools.git
+vi ~/.bashrc    #最后一行添加export PATH=$PATH:$HOME/Work/RPi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin
+source ~/.bashrc
+arm-linux-gnueabihf-gcc -v                    #检查是否安装成功
+arm-linux-gnueabihf-g++ test.cpp -o test.exe  #写一个test.cpp并尝试编译，生成的test.exe需要拷贝到RPi运行
+</code></pre><a id="more"></a>
+<p>Debian 7默认stable源的libc6版本有可能比较低，需要装testing源的高版本libc6：</p>
+<pre><code>echo &apos;deb http://ftp.us.debian.org/debian/ testing main contrib non-free&apos; &gt;&gt; /etc/apt/sources.list
+apt-get update
+apt-get install -t testing libc6
+</code></pre><p><a href="http://hertaville.com/2014/04/12/cross-compiling-qt4-app/" target="_blank" rel="noopener">配置Qt4交叉编译环境</a></p>
+<p>请仔细阅读以上链接内容，以下仅仅是个人操作记录,需要先按照上述步骤配置C/C++交叉编译。</p>
+<p>RPi端：</p>
+<pre><code>sudo apt-get install libqt4-dev   #安装Qt4 libraries
+</code></pre><p>PC端：</p>
+<pre><code>arm-linux-gnueabihf-gcc -v   #确认c/c++交叉编译已经成功配置
+sudo apt-get install sshfs   #这是为了远程mount RPi的文件系统，后面的Makefile中会&quot;本地访问&quot;RPi的文件系统
+sudo usermod -a -G fuse XXX  #把XXX改为自己PC端的用户名,为自己增加对mount分区的访问权限
+sudo apt-get install libqt4-dev-bin  #这个是为了安装moc-qt4，貌似是为了将qt相关的.h翻译成gcc可以认识的代码(archlinux下面的话安装qt4)
+mkdir $HOME/Work/RPi/mntrpi       #准备将RPi系统mount到该位置
+sudo sshfs pi@IPADDRESS:/ /home/XXX/Work/RPi/mntrpi/ -o transform_symlinks -o allow_other  #将IPADDRESS替换成RPi的ip地址,XXX替换为自己PC端的用户名
+sudo ln -s $HOME/Work/RPi/mntrpi/usr/lib/arm-linux-gnueabihf/ /usr/lib/arm-linux-gnueabihf
+sudo ln -s $HOME/Work/RPi/mntrpi/lib/arm-linux-gnueabihf/ /lib/arm-linux-gnueabihf
+cd ~/rpi
+wget http://hertaville.com/OTHERFILES/qttest.tar.gz  #下载测试文件
+tar xvzf qttest.tar.gz
+cd ~/rpi/qttest
+make                                     #为RPi编译可执行文件,make之前确保sshfs已经成功
+cp target_bin $HOME/Work/RPi/mntrpi/home/pi   #将可执行文件cp到RPi的~目录下，在桌面环境下运行测试(命令行环境运行会得到连接不上X server的错误)
+sudo umount $HOME/Work/RPi/mntrpi             #不需要编译的时候断开链接
+</code></pre><p>Archlinux下这里有个问题：/lib被链接到了/usr/lib， 因此和debian下的文件系统对应不起来，下面语句无法创建两个链接</p>
+<pre><code>sudo ln -s $HOME/Work/RPi/mntrpi/usr/lib/arm-linux-gnueabihf/ /usr/lib/arm-linux-gnueabihf
+sudo ln -s $HOME/Work/RPi/mntrpi/lib/arm-linux-gnueabihf/ /lib/arm-linux-gnueabihf
+</code></pre><p>我的笨办法是把RPi系统中/usr/lib/arm-linux-gnueabihf/和/lib/arm-linux-gnueabihf/两个文件夹下的内容合并复制到本地系统的一个文件夹中，然后把/usr/lib/arm-linux-gnueabihf指向该文件夹，比如：</p>
+<pre><code>sudo ln -s $HOME/Work/RPi/arm-lib/ /usr/lib/arm-linux-gnueabihf
+</code></pre><p>请仔细读qttest这个测试程序，理解Makefile内容以及程序的结构。如果对Qt4和Makefile不熟，可以参考以下两个链接：<br><a href="http://www.opensourceforu.com/2012/06/gnu-make-in-detail-for-beginners/" target="_blank" rel="noopener">Makefile</a>,<br><a href="http://www.zetcode.com/gui/qt4/" target="_blank" rel="noopener">Qt4</a></p>
+<p>######qcustomplot在交叉编译环境中的配置：<br>qcustomplot只有2个文件：qcustomplot.h, qcustomplot.cpp。<br>代码中只需要载入头文件：#include “qcustomplot.h”<br>编译的时候需要先用moc-qt4对qcustomplot.h进行处理,然后g++编译qcustomplot.cpp,最后链接所有的.o文件。</p>
+<p>这是一个Makefile示例文件，根据之前的qttest示例修改的（在INC中添加qcustomplot.h，在SRC中添加qcustomplot.cpp）:</p>
+<pre><code>CXX=arm-linux-gnueabihf-g++
+
+INCLUDEDIR = ./
+INCLUDEDIR += $(HOME)/rpi/mntrpi/usr/include/qt4/
+INCLUDEDIR += $(HOME)/rpi/mntrpi/usr/include/qt4/QtCore
+INCLUDEDIR += $(HOME)/rpi/mntrpi/usr/include/qt4/QtGui
+
+LIBRARYDIR = $(HOME)/rpi/mntrpi/usr/lib/arm-linux-gnueabihf/
+LIBRARY +=  QtCore QtGui
+XLINK_LIBDIR += $(HOME)/rpi/mntrpi/lib/arm-linux-gnueabihf
+XLINK_LIBDIR += $(HOME)/rpi/mntrpi/usr/lib/arm-linux-gnueabihf
+
+INCDIR  = $(patsubst %,-I%,$(INCLUDEDIR))
+LIBDIR  = $(patsubst %,-L%,$(LIBRARYDIR))
+LIB    = $(patsubst %,-l%,$(LIBRARY))
+XLINKDIR = $(patsubst %,-Xlinker -rpath-link=%,$(XLINK_LIBDIR))
+
+OPT = -O3
+DEBUG = -g
+WARN= -Wall
+PTHREAD= -pthread
+
+CXXFLAGS= $(OPT) $(DEBUG) $(WARN) $(INCDIR)
+LDFLAGS= $(LIBDIR) $(LIB) $(XLINKDIR) $(PTHREAD)
+
+INC = qcustomplot.h
+SRC = main.cpp qcustomplot.cpp dsp.cpp
+
+OBJ = $(SRC:.cpp=.o) $(INC:.h=.moc.o)
+
+all: $(OBJ)
+    $(CXX) $(LDFLAGS) $(OBJ) -o tdlas
+
+%.moc.cpp: $(INC)
+    moc-qt4  $&lt;  -o $@
+
+%.o:%.cpp
+    $(CXX) $(CXXFLAGS)  -c $&lt;  
+
+clean:
+    -rm *.o
+    -rm target_bin
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/树莓派/" rel="tag">#树莓派</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1409906040000/" rel="next" title="统计学习方法 - 决策树">
+                <i class="fa fa-chevron-left"></i> 统计学习方法 - 决策树
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1413996540000/" rel="prev" title="Basis（基）的理解">
+                Basis（基）的理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1413449580000/" data-title="Raspberry Pi 交叉编译配置" data-url="https://yyqian.com/post/1413449580000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

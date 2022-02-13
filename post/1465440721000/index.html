@@ -1,0 +1,704 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Redis,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="持久化Redis 持久化有两种选择：  Snapshot（快照），把内存中的数据转存到文件 AOF（append-only file），把所有写命令存储到日志文件中，跟 mysql binlog 类似，但是它不是 bin 而是 text  快照快照相关的 Redis 参数设置： 1234save 60 1000stop-writes-on-bgsave-error nordbcompression">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 核心功能解析">
+<meta property="og:url" content="https://yyqian.com/post/1465440721000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="持久化Redis 持久化有两种选择：  Snapshot（快照），把内存中的数据转存到文件 AOF（append-only file），把所有写命令存储到日志文件中，跟 mysql binlog 类似，但是它不是 bin 而是 text  快照快照相关的 Redis 参数设置： 1234save 60 1000stop-writes-on-bgsave-error nordbcompression">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdn.yyqian.com/201606101032-FuVRVCXkcD4LI2tygloTtuF7Y29s?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201606101046-FoC_upg6ViKSWjTTTXZqkoqANudC?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201606101119-FirHKxTwDokfX9uZD2ET6F9I72yV?imageView2/2/w/800/h/600">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis 核心功能解析">
+<meta name="twitter:description" content="持久化Redis 持久化有两种选择：  Snapshot（快照），把内存中的数据转存到文件 AOF（append-only file），把所有写命令存储到日志文件中，跟 mysql binlog 类似，但是它不是 bin 而是 text  快照快照相关的 Redis 参数设置： 1234save 60 1000stop-writes-on-bgsave-error nordbcompression">
+<meta name="twitter:image" content="http://cdn.yyqian.com/201606101032-FuVRVCXkcD4LI2tygloTtuF7Y29s?imageView2/2/w/800/h/600">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Redis 核心功能解析 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redis 核心功能解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-09T10:52:01+08:00" content="2016-06-09">
+              2016-06-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1465440721000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1465440721000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>Redis 持久化有两种选择：</p>
+<ol>
+<li>Snapshot（快照），把内存中的数据转存到文件</li>
+<li>AOF（append-only file），把所有写命令存储到日志文件中，跟 mysql binlog 类似，但是它不是 bin 而是 text</li>
+</ol>
+<h3 id="快照"><a href="#快照" class="headerlink" title="快照"></a>快照</h3><p>快照相关的 Redis 参数设置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">save</span> <span class="number">60</span> <span class="number">1000</span></span><br><span class="line"><span class="string">stop-writes-on-bgsave-error</span> <span class="literal">no</span></span><br><span class="line"><span class="string">rdbcompression</span> <span class="literal">yes</span></span><br><span class="line"><span class="string">dbfilename</span> <span class="string">dump.rdb</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>快照要注意的是，当 Redis 服务发生崩溃，从最近一次快照到当前发生的数据更改都会丢失。触发 snapshot 主要有几种方式：</p>
+<ol>
+<li>Redis 客户端调用 <code>BGSAVE</code> 命令，Redis 会 fork 进程，子进程执行保存操作，父进程继续正常服务。</li>
+<li>Redis 客户端调用 <code>SAVE</code> 命令，Redis 拒绝所有服务，直到执行保存操作完成。</li>
+<li>如果参数配置了类似 <code>save 60 1000</code> 的内容，则当 60 秒内发生了 1000 次写操作，就会触发 <code>BGSAVE</code> 命令</li>
+<li>如果 Redis 接收到 SHUTDOWN 命令或者 TERM 信号，就会触发 <code>SAVE</code> 命令</li>
+<li>如果主从 Redis 服务之间进行同步，从服务执行 <code>SYNC</code> 命令，主服务就会触发 <code>BGSAVE</code> 命令</li>
+</ol>
+<p>当数据量在 1G 以下，快照是很好的选择。但是，当数据量到 10G，空闲内存不多，<code>BGSAVE</code> 操作可能导致 Redis 服务崩溃。</p>
+<p>根据 Redis 服务器硬件虚拟化方式的不同，<code>BGSAVE</code> 所执行的 fork 操作的效率会有所不同，每 1G 数据 fork 需要 10-20ms 到 200-300ms 不等，因此 fork 操作可能导致 Redis 服务几秒的停顿。</p>
+<p>对于数据量很大的情况，为了避免 fork 导致的挺多，我们可以禁用自动的 save 操作，手动规划执行 <code>BGSAVE</code> 或 <code>SAVE</code> 操作，<code>SAVE</code> 操作在这种情况下的优势是：虽然 Redis 拒绝了所有服务，但是没有 fork 操作，也不需要和父进程争夺资源，所以保存操作执行得更快。</p>
+<p>以 50G 数据为例，如果用 <code>BGSAVE</code>，fork 操作需要 15 秒，完成保存动作需要 15-20 分钟。但是，如果执行 <code>SAVE</code> 命令，则只需要 3-5 分钟，因此适合安排在凌晨三四点钟执行。</p>
+<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><p>AOF 相关的参数设置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">appendonly</span> <span class="literal">no</span></span><br><span class="line"><span class="string">appendfsync</span> <span class="string">everysec</span></span><br><span class="line"><span class="literal">no</span><span class="string">-appendfsync-on-rewrite</span> <span class="literal">no</span></span><br><span class="line"><span class="string">auto-aof-rewrite-percentage</span> <span class="number">100</span></span><br><span class="line"><span class="string">auto-aof-rewrite-min-size</span> <span class="string">64mb</span></span><br></pre></td></tr></table></figure>
+<p>AOF 需要将执行的命令写到磁盘的日志文件中，但是写操作不等同于真正的持久化了。写操作包括：</p>
+<ol>
+<li>write，把数据写到缓冲区，等待操作系统将它存到本地磁盘</li>
+<li>flush，告诉操作系统可以将缓冲区的数据写到磁盘，这一步是可选的，也就是说即使不 flush，操作系统也会在「恰当」的时候把数据写到磁盘，而且这步也不是立即执行的，它是异步操作。</li>
+<li>sync，相当于是 flush 的同步版本，它会阻塞进程直到完成存储到磁盘的操作。</li>
+</ol>
+<p>appendfsync 参数可以设置 always, everysec, no。如果是 always，则每次 AOF 同步操作都会触发真正的磁盘写操作，但是机械硬盘的性能大概是 200 writes/sec，固态硬盘是 10000 writes/sec 左右。并且 appendfsync 设置为 always 有可能严重缩短 SSD 的寿命。所以对于需要频繁写操作的 Redis 服务，always 不是个合适的选择，对于机械硬盘，写操作的性能是瓶颈，对于 SSD，寿命是制约的因素。</p>
+<p>对于通常的情况，appendfsync 设置为 everysec 是最好的选择，每秒一次的同步操作不会有明显的性能影响。即使服务发生崩溃，也最多丢失一秒的记录。</p>
+<p>appendfsync 设置为 no 的情况主要是针对硬盘的性能无法承受 write load，这个时候禁用显式的 sync 就是一个选择。</p>
+<p>如果我们单纯使用 AOF 而不用快照的话，AOF 日志文件的体积会持续增长，而且每次重启服务，Redis 都需要执行日志中所有的命令来恢复数据，大体积的 AOF 日志文件会导致 Redis 启动时间很长。</p>
+<p><code>BGREWRITEAOF</code> 可以用来减少 AOF 日志文件的冗余命令，但是每次重写都要删除冗余的项，当数据达到 10GB 左右的时候，删除冗余项依然是个性能上的负担。我们可以通过设置百分比和 min-size 来设置自动触发 <code>BGREWRITEAOF</code> 命令的时机，类似通过 save 参数来设置触发 <code>BGSAVE</code> 的时机。</p>
+<h2 id="Replication（复制）"><a href="#Replication（复制）" class="headerlink" title="Replication（复制）"></a>Replication（复制）</h2><p>Redis 可以跟 MySQL 一样，实现 master/slave 结构，master 负责写操作，slave 负责读操作。</p>
+<p>单个 Redis 服务大概能处理 100 commands/second，当数据量到几百万的时候，set/zset 操作可能需要几秒才能完成。</p>
+<p>配置 Replication 的时候，在 Master 端我们要配置 <code>dir</code> 和 <code>dbfilename</code> 参数，确保 <code>BGSAVE</code> 可以写到本地磁盘上。在 Slave 端，我们要配置 <code>slaveof host port</code>。</p>
+<p>我们一般让 Master 只使用 50-65% 的总内存，来确保 <code>BGSAVE</code> 的执行。Slave 在启动的时候先从本地的 snapshot/AOF 中恢复数据，然后连接到 master 来执行复制操作。</p>
+<p><img src="http://cdn.yyqian.com/201606101032-FuVRVCXkcD4LI2tygloTtuF7Y29s?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-10 at 10.32.14 AM.png"></p>
+<p>当 Slave 得到 snapshot 的时候，它会 flush 所有的数据，然后用 snapshot 的数据来代替。</p>
+<p>如果多个 Slave 几乎同时向 Master 发送 SYNC 请求，如果发生在上图中的 step 1 2，其他 slaves 会得到同样的 snapshot（也就是省去了多次 BGSAVE 的过程），但如果发生在 step 3 以及之后，就会重新执行 step 1-5。</p>
+<p>如果 Redis 服务负载很高，我们需要添加更多的 Slaves，但是 Slave 达到一定数量之后，单个 Master 就无法承载与多个 Slaves 同步，这个时候，我们可以添加 Helper Slaves（intermediate Redis master/slave nodes），也就是下图中的 Slave 1-3，形成一个 Master/Slave Chain。</p>
+<p><img src="http://cdn.yyqian.com/201606101046-FoC_upg6ViKSWjTTTXZqkoqANudC?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-10 at 10.45.54 AM.png"></p>
+<p>除此之外，我们还可以配置 AOF 来确保 Slaves 可以每秒执行同步操作。</p>
+<p>为了确保同步完成，我们可以给 Master 写入一个 dummy value，然后检查 slave 是否同步到这个值，过程中我们可以利用 <code>INFO</code> 来检查同步的状态。</p>
+<h2 id="处理系统错误"><a href="#处理系统错误" class="headerlink" title="处理系统错误"></a>处理系统错误</h2><p>Redis 没有 ACID 保障，需要额外的措施来保障数据完整性。</p>
+<p>我们有两个工具来检查数据完整性：redis-check-aof，redis-check-dump。</p>
+<p>以下是一个替代出错的 Master 的操作过程：我们有 A、B、C 三台 Redis 机器，Master A 出错，Slave B 正常，我们想用机器 C 代替 Master A 成为新的 Master。我们的操作流程是：</p>
+<ol>
+<li>从 Slave B <code>save</code> 一份 snapshot（dump.rdb），传输到机器 C</li>
+<li>启动机器 C 的 Redis 服务，加载这份 snapshot</li>
+<li>登录 Slave B，用 <code>SLAVEOF</code> 命令来指向新的 Master C。</li>
+</ol>
+<p><img src="http://cdn.yyqian.com/201606101119-FirHKxTwDokfX9uZD2ET6F9I72yV?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-10 at 11.18.49 AM.png"></p>
+<p>Redis Sentinel 也能实现以上类似的功能，主要来处理当 Master 出错时的情况。</p>
+<h2 id="Redis-事务"><a href="#Redis-事务" class="headerlink" title="Redis 事务"></a>Redis 事务</h2><p>Redis 的事务和 MySQL 等 SQL DB 不同，从 <code>MULTI</code> 开始到 <code>EXEC</code> 结束，Redis 不会执行中间任何命令，也就无法根据中间的执行状态来做出回滚等操作。</p>
+<p>我们需要使用 <code>WATCH, UNWATCH, DISCARD, MULTI, EXEC</code> 多个命令来保证事务的正确性。<code>WATCH</code> 的作用是: 我们在 <code>EXEC</code> 之前，先 <code>WATCH</code> 一个 key，如果这个 key 在 <code>EXEC</code> 之前发生了更改，那么在我们执行 <code>EXEC</code> 的时候就会报错。</p>
+<p>SQL DB 一般是使用锁来解决这个问题。而 Redis 是使用 <code>WATCH</code> 来实现 CAS 操作（compare and set），这是一种乐观锁的机制（SQL DB 那种是悲观锁）</p>
+<p><code>WATCH</code> 的使用流程大致是：</p>
+<ol>
+<li>WATCH x</li>
+<li>获取或检查 x 的值</li>
+<li>如果 x 值不满足条件，则 <code>UNWATCH</code> 然后退出</li>
+<li>如果 x 值满足条件，则开始 <code>MULTI</code></li>
+<li>设置 x 的值等相关命令</li>
+<li>最后 <code>EXEC</code></li>
+</ol>
+<p>以下是代码示例：</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">defn</span></span> list-item</span><br><span class="line">  <span class="string">"首先 watch 玩家的 inventory: 如果他的背包中没有该物品, 就返回; 如果有, 则开始执行事务（把物品添加到 market, 把物品从玩家背包移除）"</span></span><br><span class="line">  [itemid sellerid price]</span><br><span class="line">  (<span class="name"><span class="builtin-name">let</span></span> [inventory (<span class="name"><span class="builtin-name">str</span></span> <span class="string">"inventory:"</span> sellerid)</span><br><span class="line">        item (<span class="name"><span class="builtin-name">str</span></span> itemid <span class="string">"."</span> sellerid)]</span><br><span class="line">    (<span class="name">wcar*</span> (<span class="name">redis/watch</span> inventory))</span><br><span class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> <span class="number">1</span> (<span class="name">wcar*</span> (<span class="name">redis/sismember</span> inventory itemid)))</span><br><span class="line">      (<span class="name">wcar*</span> (<span class="name">redis/multi</span>)</span><br><span class="line">             (<span class="name">redis/zadd</span> <span class="string">"market:"</span> price item)</span><br><span class="line">             (<span class="name">redis/srem</span> inventory itemid)</span><br><span class="line">             (<span class="name">redis/exec</span>))</span><br><span class="line">      (<span class="name">wcar*</span> (<span class="name">redis/unwatch</span>)))))</span><br></pre></td></tr></table></figure>
+<h3 id="非事务性的-pipeline（non-transactional-pipelines）"><a href="#非事务性的-pipeline（non-transactional-pipelines）" class="headerlink" title="非事务性的 pipeline（non-transactional pipelines）"></a>非事务性的 pipeline（non-transactional pipelines）</h3><p>在客户端使用 pipeline 功能可以大幅提升性能，减少网络传输的开销。但是如果在不需要事务处理的地方使用 MULTI/EXEC 会带来事务的额外开销，我们可以选择使用 pipeline，但不在头尾包裹 MULTI/EXEC 来将性能最大化（Python 有这个选项）。</p>
+<p>这里我有个疑问：</p>
+<p>Redis 的 Clojure 客户端 carmine 通过 wcar 实现 pipeline。它把多条命令一起发送，然后同时返回所有命令的结果。但它是否默认在头尾用 MULTI 和 EXEC 包裹了起来？像上面我们在 pipeline 中间显式地调用了 MULTI 和 EXEC，那么是否是 MULTI/EXEC 又嵌套了一层 MULTI/EXEC，从返回的结果来看貌似是这样的，但实际 Redis 是不支持嵌套 MULTI/EXEC 的，所以这里 pipeline 不应当是在最外面包裹了 MULTI/EXEC。</p>
+<h3 id="性能方面的考虑"><a href="#性能方面的考虑" class="headerlink" title="性能方面的考虑"></a>性能方面的考虑</h3><p>我们可以用 <code>redis-benchmark -c 1 -q</code> 命令来测试 Redis 的性能。</p>
+<p>一般用客户端的性能会比 benchmark 测出来的差，最常见的原因是没用 pipeline，每个命令都需要建立连接。一般多数 Redis 客户端都有 pipeline 功能，并且在内部会使用 connection pool。</p>
+<h2 id="Redis-的应用"><a href="#Redis-的应用" class="headerlink" title="Redis 的应用"></a>Redis 的应用</h2><h3 id="LRU-Cache"><a href="#LRU-Cache" class="headerlink" title="LRU Cache"></a>LRU Cache</h3><p>LRU Cache 可以用一个双向链表和哈希表实现。LRU 的关键是在获取一个节点的时候，把这个节点从链表中删除，再添加到头部。对于链表，删除和添加到头部都是 O(1) 复杂度的操作，但根据 key 获取一个节点的复杂度是 O(N)，这样性能就很差。哈希表的在这里的目的是根据 key 能快速定位到双向链表中的对应节点，所以这个哈希表的键是 key，值是对应的链表中的节点的引用。</p>
+<p>Redis 中的 List 实际就是个双向链表，但这里我们没法直接获得某个节点的引用，因此没法构建一个哈希表来通过 key 快速定位到对应的节点。我们只能用 Redis 提供的 O(N) 复杂度的 LREM 操作来完成节点的移动。但是对于 LRU 一般我们都会限制链表的大小，如果限制的大小不大的话（例如 100 左右），性能一般也足够了。</p>
+<p>还有种办法是使用 ZSET，score 设置为使用时的当前时间。</p>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>如果系统负载很重，主键争用非常厉害，这个时候用 WATCH/MULTI/EXEC 组成的乐观锁性能会严重下降，这种情况用悲观锁效率更高。我们可以在 Redis 中自己构建一个分布式锁。</p>
+<p>假设我们要操作一个名叫 yyqian 的用户信息，我们可以用 Redis 中的 String 来表示一个锁，这个 String 的 key 我们假定是 lock:user:yyqian，value 是一个生成的 UUID，用来在解锁的时候进行验证。因此，获取锁的过程是：</p>
+<ol>
+<li>构造一个锁 LOCK（这里是 lock:user:yyqian），并且生成一个 UUID</li>
+<li>用 <code>SETNX LOCK UUID</code> 来设定一个键</li>
+<li>如果返回 0，说明该主键存在，其他线程已经获取了该锁，我们返回失败</li>
+<li>如果返回 1，说明设定成功，没有其他线程获取该锁，我们返回 UUID</li>
+</ol>
+<p>释放锁的过程是：</p>
+<ol>
+<li>先 <code>WATCH LOCK</code></li>
+<li>获取 LOCK 的值，检查是否跟上面返回的 UUID 相同，如果不同说明出错，UNWATCH 然后返回</li>
+<li>依次执行 <code>MULTI</code>, <code>DEL LOCK</code>, <code>EXEC</code></li>
+</ol>
+<p>我们的程序在入口处获取锁，在出口处释放锁，这样就能保证 yyqian 用户相关的事务，但是这里有个 bug 是：如果我们的程序在获取锁和释放锁之间的过程中挂了，会导致锁一直在 Redis 中存在，不会被释放。因此，我们需要更改下获取锁的过程，在 <code>SETNX LOCK UUID</code> 之后，给 LOCK 键添加过期时间，即使被占用我们也要检查下 LOCK 是否设置了过期时间，如果没有也要添加过期时间，以保证 LOCK 总是会被释放的。</p>
+<h3 id="队列（Queue）"><a href="#队列（Queue）" class="headerlink" title="队列（Queue）"></a>队列（Queue）</h3><p>生产者-消费者队列的实现：</p>
+<p>任务进入队列（生产者）：</p>
+<ol>
+<li>用 JSON 或其他方式将任务序列化</li>
+<li>RPUSH/LPUSH 序列化后的字符串到一个 LIST 中</li>
+</ol>
+<p>任务出队列（消费者）：</p>
+<ol>
+<li>RPOP/LPOP 队列，获取任务再反序列化</li>
+<li>也可以用 BRPOP/BLPOP（Blocking 版的 POP），如果队列是空的，它会阻塞进程，直到等到新的任务或是超过设定的等待时间</li>
+</ol>
+<p>延时任务的实现：</p>
+<p>这里我们实际上是在前面的任务队列基础上，添加一个前置的操作，用 ZSET 来存尚未达到执行的时间的任务，通过不断地轮询，将达到时间的任务转移到前面的任务队列中。</p>
+<p>生产者：</p>
+<ol>
+<li>JSON 序列化任务</li>
+<li>在一个 ZSET 中添加「序列化的任务」和「执行时间」，前者是 member，后者是 score</li>
+</ol>
+<p>守护进程：</p>
+<ol>
+<li>循环检查 ZSET 中是否有任务，以及新的任务是否已达到执行时间（根据 score 判断）</li>
+<li>从 ZSET 中删除已到执行时间的任务，把该任务添加到上的生产者-消费者队列中（这里注意要加锁）</li>
+</ol>
+<p>消费者：跟前面的生产者-消费者队列相同</p>
+<h3 id="其他应用"><a href="#其他应用" class="headerlink" title="其他应用"></a>其他应用</h3><ul>
+<li>自动完成</li>
+<li>计数信号量</li>
+<li>消息系统</li>
+<li>搜索引擎：基于倒排索引，类似 ElasticSearch</li>
+<li>类似 Twitter 的系统</li>
+</ul>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li>Redis in Action</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag">#Redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1463461156000/" rel="next" title="Elasticsearch 学习笔记">
+                <i class="fa fa-chevron-left"></i> Elasticsearch 学习笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1465705199000/" rel="prev" title="八皇后问题的 Clojure 和 JavaScript 解法">
+                八皇后问题的 Clojure 和 JavaScript 解法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1465440721000/" data-title="Redis 核心功能解析" data-url="https://yyqian.com/post/1465440721000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#持久化"><span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快照"><span class="nav-text">快照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replication（复制）"><span class="nav-text">Replication（复制）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理系统错误"><span class="nav-text">处理系统错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-事务"><span class="nav-text">Redis 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非事务性的-pipeline（non-transactional-pipelines）"><span class="nav-text">非事务性的 pipeline（non-transactional pipelines）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能方面的考虑"><span class="nav-text">性能方面的考虑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-的应用"><span class="nav-text">Redis 的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LRU-Cache"><span class="nav-text">LRU Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式锁"><span class="nav-text">分布式锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#队列（Queue）"><span class="nav-text">队列（Queue）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他应用"><span class="nav-text">其他应用</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

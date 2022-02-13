@@ -1,0 +1,724 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Spring,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="IoC 的基本概念在这篇文章里先略过了，我们在这里主要探究一下实现的原理。 IoC Service Provider当我们写好了一个个 POJO，就需要有个对象来把这些相互之间有依赖关系的 Bean 组织在一起，这个对象就是 IoC Service Provider，提供 IoC 相关的服务。Spring IoC 容器就是一个提供依赖注入服务的 IoC Service Provider。 它有两个">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring IoC 深入解析">
+<meta property="og:url" content="https://yyqian.com/post/1467262787000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="IoC 的基本概念在这篇文章里先略过了，我们在这里主要探究一下实现的原理。 IoC Service Provider当我们写好了一个个 POJO，就需要有个对象来把这些相互之间有依赖关系的 Bean 组织在一起，这个对象就是 IoC Service Provider，提供 IoC 相关的服务。Spring IoC 容器就是一个提供依赖注入服务的 IoC Service Provider。 它有两个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdn.yyqian.com/201606241004-FqiUyxfP_kWIWmoqQbO6ShhD-_Pm?imageView2/2/w/800/h/600">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.251Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring IoC 深入解析">
+<meta name="twitter:description" content="IoC 的基本概念在这篇文章里先略过了，我们在这里主要探究一下实现的原理。 IoC Service Provider当我们写好了一个个 POJO，就需要有个对象来把这些相互之间有依赖关系的 Bean 组织在一起，这个对象就是 IoC Service Provider，提供 IoC 相关的服务。Spring IoC 容器就是一个提供依赖注入服务的 IoC Service Provider。 它有两个">
+<meta name="twitter:image" content="http://cdn.yyqian.com/201606241004-FqiUyxfP_kWIWmoqQbO6ShhD-_Pm?imageView2/2/w/800/h/600">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Spring IoC 深入解析 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring IoC 深入解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-30T12:59:47+08:00" content="2016-06-30">
+              2016-06-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1467262787000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1467262787000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>IoC 的基本概念在这篇文章里先略过了，我们在这里主要探究一下实现的原理。</p>
+<h2 id="IoC-Service-Provider"><a href="#IoC-Service-Provider" class="headerlink" title="IoC Service Provider"></a>IoC Service Provider</h2><p>当我们写好了一个个 POJO，就需要有个对象来把这些相互之间有依赖关系的 Bean 组织在一起，这个对象就是 IoC Service Provider，提供 IoC 相关的服务。Spring IoC 容器就是一个提供依赖注入服务的 IoC Service Provider。</p>
+<p>它有两个职责：</p>
+<ol>
+<li>业务对象的构建管理：当我们调用某个对象时，我们不需要去关心如何去构建它，IoC Service Provider 应当负责这件事</li>
+<li>业务对象之间的依赖绑定</li>
+</ol>
+<p>IoC Service Provider 使用的注册对象管理信息的方式主要有以下几种：</p>
+<ol>
+<li>直接编码方式：也就是写在 Java 代码中，例如构建一个 Container 类，然后调用它的 register 方法来注册 Bean</li>
+<li>配置文件方式：最为常见的就是用 XML 文件</li>
+<li>元数据方式：最场景的就是使用注解，当然，注解最终也要通过代码处理来确定最终的注入关系，所以注解方式也可以算作编码方式的一种特殊情况。</li>
+</ol>
+<p>以上三种方式在 Spring 提供的 IoC 容器中都是支持的，所以接下来我们主要来探究下 Spring 的 IoC 容器。<br><a id="more"></a></p>
+<h2 id="BeanFactory-和-ApplicationContext"><a href="#BeanFactory-和-ApplicationContext" class="headerlink" title="BeanFactory 和 ApplicationContext"></a>BeanFactory 和 ApplicationContext</h2><p>Spring 有两种容器类型：</p>
+<ul>
+<li>BeanFactory：默认 lazy-load，容器启动较快，对于资源有限的场景是合适的</li>
+<li>ApplicationContext：构建于 BeanFactory 之上，功能更多，默认是 eager-load，启动时间更长，初始的资源占用更多</li>
+</ul>
+<p>两者的关系：</p>
+<p><img src="http://cdn.yyqian.com/201606241004-FqiUyxfP_kWIWmoqQbO6ShhD-_Pm?imageView2/2/w/800/h/600" alt="Screen Shot 2016-06-24 at 10.03.43 AM.png"></p>
+<p>后面对 BeanFactory 适用的内容，也同样适用于 ApplicationContext。</p>
+<p>BeanFactory 接口的定义大致有以下几类方法，基本都与查询有关：</p>
+<ol>
+<li>getBean</li>
+<li>getType</li>
+<li>containsBean</li>
+<li>isSingleton，isPrototype，isTypeMatch</li>
+</ol>
+<h3 id="BeanFactory-对象注册与依赖绑定方式："><a href="#BeanFactory-对象注册与依赖绑定方式：" class="headerlink" title="BeanFactory 对象注册与依赖绑定方式："></a>BeanFactory 对象注册与依赖绑定方式：</h3><p>前面 IoC Service Provider 中提到的几种方式在 BeanFactory 中都是支持的。</p>
+<p><strong>直接编码方式</strong></p>
+<p>其实不管是用 XML 还是注解，最后都会被解析处理之后，通过编码的方式来实现。</p>
+<p>BeanFactory的对象注册过程：</p>
+<ol>
+<li>构造一个实现类 DefaultListableBeanFactory，它同时实现了 BeanDefinitionRegistry 和 BeanFactory 两个接口（还记得 BeanFactory 只定义了查询相关的方法么，并不没有定义注册的方法）</li>
+<li>构建 BeanDefinition 来保存要注册对象的所有信息</li>
+<li>调用 BeanDefinitionRegistry 接口的 registerBeanDefinition 方法来注册 Bean</li>
+<li>指定 BeanDefinition 之间的依赖关系</li>
+<li>强制转换 DefaultListableBeanFactory 为 BeanFactory 然后返回（因为前面我们构造的 DefaultListableBeanFactory 实现了 BeanFactory接口）</li>
+</ol>
+<p><strong>外部配置文件方式</strong></p>
+<p>如果是通过外部文件进行 Bean 的配置（例如 XML），上述的过程之前，还需要进行：</p>
+<ol>
+<li>根据外部文件格式，构造相应的 BeanDefinitionReader</li>
+<li>用 BeanDefinitionReader 的 loadBeanDefinitions 方法来读取配置文件中的内容，并映射到多个 BeanDefinition</li>
+<li>前面直接编码方式的 2，3，4 步骤在这里可以省去，因为这里的 loadBeanDefinitions 已经自动完成了这些事情</li>
+</ol>
+<p>最常用的外部文件配置通常是 XML，它也是功能最完整的。所以第一步我们可以用 XmlBeanDefinitionReader 来作为实现类。</p>
+<p><strong>注解方式</strong></p>
+<p>我们可以在 POJO 中使用 @Autowired 和 @Component 注解来对当前对象完成注入和注册。@Component 需要配合 <code>&lt;context:component-scan/&gt;</code> 的 classpath-scanning 功能使用，也就是说 Spring 会自动扫描指定包内的带有 @Component 标注的对象。</p>
+<p>BeanFactory 详细的 XML 配置使用方式在这里先略过。</p>
+<p>Spring 容器中有两种最基本的 bean 的类型：signleton 和 prototype。singleton 全局只会有一个，并且跟容器生命周期一样长。prototype 每次调用就新构造一个，并且容器不会去管理它的生命周期，调用者如果用完不需要了，就自然被 GC 了。</p>
+<h2 id="探索-BeanFactory"><a href="#探索-BeanFactory" class="headerlink" title="探索 BeanFactory"></a>探索 BeanFactory</h2><p>IOC 容器有两个阶段：</p>
+<ol>
+<li>容器启动阶段：除了直接编码方式，容器需要通过某些工具类（例如 BeanDefinitionReader）来读取和解析 XML 或注解中的内容，然后映射成 BeanDefinition，再把这些 BeanDefinition 注册到 BeanDefinitionRegistry 中，这样容器启动工作就完成了。</li>
+<li>Bean 实例化阶段：当 Bean 被通过 BeanFactory 的 getBean 方法调用，会触发该 Bean 的实例化，这就是第二阶段的工作：先检查被请求的 Bean 是否已经实例化，如果有则返回该实例；如果没有，就通过第一阶段注册的 BeanDefinition 来实例化该对象。</li>
+</ol>
+<p>我们可以把第一阶段比作用图纸来装配生产线，第二阶段比作用生产线来生成具体的产品。</p>
+<h3 id="BeanFactoryPostProcessor"><a href="#BeanFactoryPostProcessor" class="headerlink" title="BeanFactoryPostProcessor"></a>BeanFactoryPostProcessor</h3><p>BeanFactoryPostProcessor 是对容器的一种扩展机制。它插手的地方在前面两个阶段之间，也就是已经注册了 BeanDefinition，但还为根据这个 BeanDefinition 来构造实例。它的工作是在这个时候对最终的 BeanDefinition 做一些修改，例如更改 BeanDefinition 的某些属性或者增加一些其他信息。</p>
+<p>后面谈到的 ApplicationContext 只需要将 BeanFactoryPostProcessor 注册为 bean，就可以自动识别并使用它了。BeanFactory 使用起来要麻烦一些。</p>
+<p>常用的几个 BeanFactoryPostProcessor 实现有：</p>
+<p><strong>PropertyPlaceholderConfigurer</strong></p>
+<p>这个用来替换占位符的实际内容。例如配置 DataSource 中的数据库连接属性，我们可以用<code>${xxx}</code>的格式来填写</p>
+ <figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>$</span><span class="template-variable">&#123;jdbc.url&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>$</span><span class="template-variable">&#123;jdbc.driver&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>$</span><span class="template-variable">&#123;jdbc.username&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>$</span><span class="template-variable">&#123;jdbc.password&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>然后，我们把真正的属性值写在另外一个 properties 配置文件中，对于这种需要经常改动的属性，这么做更容易维护</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jdbc.url</span>=jdbc:mysql://xxxxx</span><br><span class="line"><span class="attr">jdbc.driver</span>=com.mysql.jdbc.Driver</span><br><span class="line"><span class="attr">jdbc.username</span>=your username</span><br><span class="line"><span class="attr">jdbc.password</span>=your password</span><br></pre></td></tr></table></figure>
+<p>PropertyPlaceholderConfigurer 在实例化对象前，就会用 properties 配置文件中具体的数值替换掉 BeanDefinition 中的占位符</p>
+<p><strong>PropertyOverrideConfigurer</strong></p>
+<p>这个是用来覆盖默认的配置。它同样是从配置文件中进行获取配置信息，但不是去替换占位符，而是覆盖该 Bean 自身的某个属性的值，例如覆盖 Datasource 的 maxActive 属性：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dataSource.maxActive</span>=<span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>配置的 key 必须符合 beanName.propertyName=value 的形式，否则 IOC 容器怎么知道你要覆盖哪个 bean 的哪个属性呢，我们这儿又没有占位符。</p>
+<p><strong>CustomEditorConfigurer</strong></p>
+<p>由于容器从 XML 中读到的数据都是 String 类型的，还需要进行类型转换，满足各种类型对象的需要。这个东西在这就是辅助完成这个转换过程的。大多数数据容器都能自动识别，但是有些像日期这种类型，格式多种多样，所以有的时候需要自己「造轮子」来完成我们期望的结果。</p>
+<p>因此，当我们 XML 配置文件中的属性值的数据类型无法被正确识别的时候，我们需要自定义一个 PropertyEditor，再通过 CustomEditorConfigurer 告知容器。</p>
+<h3 id="Bean-的一生"><a href="#Bean-的一生" class="headerlink" title="Bean 的一生"></a>Bean 的一生</h3><p>我们前面说过，BeanFactory 默认是 lazy-load，ApplicationContext 默认是 eager-load。所以对于 BeanFactory，只有当显式或隐式地被 getBean 调用的时候，才会实例化。</p>
+<p>在 Bean 实例化后，Spring 容器将对它们的生命周期给予统一的管理，不会像正常的 Java 对象那样在脱离作用域之后就被 GC 回收。</p>
+<p>Bean 的初始化有两种方式：反射和 CGLIB 动态字节码生成。容器内部采用策略模式来决定用哪种，默认用的是 CGLIB。初始化之后，框架还会对构造的对象用 BeanWrapper 进行包裹，所以实际返回的是 BeanWrapper 实例。</p>
+<p><strong>BeanWrapper</strong></p>
+<p>BeanWrapper 的主要作用是可以「设置对象属性」，前面我们说了可以用 BeanFactoryPostProcessor 对 BeanDefinition 进行修改，这里有个了 BeanWrapper 之后就可以方便地进行这些修改了，我们可以免去直接使用 Java 反射 API 的繁琐。</p>
+<p><strong>Aware 接口</strong></p>
+<p>作用是如果当前对象实例实现了某个 Aware 接口，容器就把这个 Aware 接口定义中规定的依赖注入给当前对象实例。</p>
+<p><strong>BeanPostProcessor</strong></p>
+<p>BeanPostProcessor 存在于对象实例化阶段，而 BeanFactoryPostProcessor 存在于容器启动阶段。BeanFactoryPostProcessor 处理对象是 BeanDefinition，而 BeanPostProcessor 的处理对象是实例化之后的对象实例。相当于一个是处理流水线上的生成设备，另一个是处理生产出来的产品。</p>
+<p>它可以用来替换当前对象实例或字节码增强当前对象实例。Spring AOP 就用这个来为对象生成相应的代理对象。它是容器提供的对象实例化阶段的强有力的扩展点。</p>
+<p>它的实际应用之一是：我们有个 User 类，它的其中一个属性是 password，在初始化的时候，传入的是加密的密码，我们可以用 BeanPostProcessor 进行拦截，获取该实例中加密的密码，然后解密之后设置回 password 属性。这样当程序拿到该实例的时候，这个 password 属性就是解密后的密码了。</p>
+<p><strong>InitializingBean 和 init-method</strong></p>
+<p>InitializingBean 接口定义如下：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>InitializingBean &#123;</span><br><span class="line">    void afterPropertiesSet() throws Exception;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它的作用在于，在实例化过程调用过「BeanPostProcessor 的前置处理」之后，会接着检查是否实现了 InitializingBean 接口，如果是，就调用 afterPropertiesSet 方法。例如某些对象实例化之后还不处于可用状态，可以在 afterPropertiesSet 方法中进行一些后续处理。</p>
+<p>除此之外，还有另外一种方式来实现同样的功能。我们还可以在 XML 配置 Bean 的时候，指定 init-method 属性，该属性值是对象中的某个方法，这样就不用实现 InitializingBean 接口，方法名也不必是 afterPropertiesSet 了。</p>
+<p>两者我们只要选其中一个就可以了。一般我们在集成第三方库，或者其他特殊情况下，才会使用该特性。</p>
+<p><strong>DisposableBean 与 destroy-method</strong></p>
+<p>这两个是针对 singleton 类型的bean实例的，容器在销毁 singleton 类型的bean实例之前，会检查是否实现了 DisposableBean 接口，如果是，就调用一个回调方法，执行销毁逻辑。</p>
+<p>destroy-method 与前面的 init-method 类似，也是在 XML 配置中设置的另外一种方式。</p>
+<p>这个功能的典型应用是 Spring 容器中注册的数据库连接池，当系统退出，连接池应当关闭，以释放资源，所以我们可以设置：</p>
+<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=<span class="string">"dataSource"</span> <span class="class"><span class="keyword">class</span>="<span class="title">org</span>.<span class="title">apache</span>.<span class="title">commons</span>.<span class="title">dbcp</span>.<span class="title">BasicDataSource</span>" ➥</span></span><br><span class="line">destroy-<span class="function"><span class="keyword">method</span>=</span><span class="string">"close"</span>&gt;</span><br><span class="line">...</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p>其中的 close 是我们自己定义的方法。</p>
+<p>这些销毁逻辑只有在该实例对象不再被使用的时候才会执行，这通常也是 Spring 容器关闭的时候，但是 Spring 容器在关闭之前，不会聪明的自动调用这些销毁方法。所以，我们还需要告知容器，在哪个时间点来执行对象的自定义销毁方法。这一点对于 BeanFactory 和 ApplicationContext 两个容器有所不同，这里不在深究了。</p>
+<h2 id="ApplicationContext-的扩展"><a href="#ApplicationContext-的扩展" class="headerlink" title="ApplicationContext 的扩展"></a>ApplicationContext 的扩展</h2><p>ApplicationContext 是在 BeanFactory 容器的基础上，提供的一个功能更强大的 IoC 容器。新增的特性包括：统一的资源加载策略、i18n、容器内部事件发布、多配置文件加载。</p>
+<p>它有几个常用的实现：</p>
+<ul>
+<li>FileSystemXmlApplicationContext：从文件系统加载 XML</li>
+<li>ClassPathXmlApplicationContext：从 Classpath 加载 XML</li>
+<li>XmlWebApplicationContext</li>
+</ul>
+<p>我们这里主要探究一下其中的两个新特性：统一的资源加载策略和多配置文件加载。</p>
+<h3 id="Resource-和-ResourceLoader"><a href="#Resource-和-ResourceLoader" class="headerlink" title="Resource 和 ResourceLoader"></a>Resource 和 ResourceLoader</h3><p>Spring 中 Resource 和 ResourceLoader 的出现是因为 Java 自身的 URL 定义不明确。</p>
+<p><strong>Resource</strong></p>
+<p>Resource 是 Spring 中所有资源的抽象和访问接口。它的实现类有：</p>
+<ul>
+<li>ByteArrayResource</li>
+<li>ClassPathResource</li>
+<li>FileSystemResource</li>
+<li>UrlResource</li>
+</ul>
+<p>它可以帮助我们查询资源状态、访问资源内容，接口定义为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Resource</span> <span class="keyword">extends</span> <span class="title">InputStreamSource</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">exists</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isReadable</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isOpen</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function">URL <span class="title">getURL</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">  <span class="function">URI <span class="title">getURI</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">  <span class="function">File <span class="title">getFile</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">  <span class="function"><span class="keyword">long</span> <span class="title">contentLength</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">  <span class="function"><span class="keyword">long</span> <span class="title">lastModified</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">  <span class="function">Resource <span class="title">createRelative</span><span class="params">(String var1)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">  <span class="function">String <span class="title">getFilename</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function">String <span class="title">getDescription</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>ResourceLoader</strong></p>
+<p>该接口主要的方法是：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Resource <span class="title">getResource</span><span class="params">(<span class="keyword">String</span> location)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>我们要用一个字符串来作为 key，来定位 Resource 对象。</p>
+<p>它的实现类或扩展接口有：</p>
+<p><strong>DefaultResourceLoader</strong></p>
+<p>这是个默认的实现类，它的查找方式如下：</p>
+<ol>
+<li>检查是否以 <code>classpath:</code> 前缀打头，如果是，则尝试构造 ClassPathResource 类型并返回</li>
+<li>否则，尝试通过 URL，根据资源路径来定位。还是不行的话，委派 getResourceByPath 方法来查找</li>
+</ol>
+<p><strong>FileSystemResourceLoader</strong></p>
+<p>它继承自 DefaultResourceLoader，但覆盖了 getResourceByPath 方法，使得该方法返回的类型是 FileSystemResource</p>
+<p><strong>ResourcePatternResolver</strong></p>
+<p>这是 ResourceLoader 接口的扩展，它的接口定义如下：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>ResourcePatternResolver extends ResourceLoader &#123;</span><br><span class="line">    String CLASSPATH_ALL_URL_PREFIX = <span class="string">"classpath*:"</span>;</span><br><span class="line">    Resource[] getResources(String locationPattern) throws IOException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它有一种新的协议前缀<code>classpath*:</code>，功能支持由相应子类实现。</p>
+<p>它的最常用的实现是 PathMatchingResourcePatternResolver，它支持 <code>**/*.suffix</code> 之类的格式，加载资源的行为和 DefaultResourceLoader 基本相同，只是多了个 getResources 方法，可以获取多个匹配的 Resource。</p>
+<h3 id="ApplicationContext-与-ResourceLoader"><a href="#ApplicationContext-与-ResourceLoader" class="headerlink" title="ApplicationContext 与 ResourceLoader"></a>ApplicationContext 与 ResourceLoader</h3><p>通过 ApplicationContext 的继承关系，我们可以看到它继承了 ResourcePatternResolver，所以 ApplicationContext 本身就有加载资源的能力。</p>
+<p>ApplicationContext 的实现类在作为 ResourceLoader 或者 ResourcePatternResolver 时候的行为，完全就是委派给了 PathMatchingResourcePatternResolver 和 DefaultResourceLoader。它可以有以下功能：</p>
+<ol>
+<li>扮演 ResourceLoader 的角色，加载 Resource</li>
+<li>被当做 ResourceLoader 类型的 Bean 注入到其他的 Bean</li>
+<li>还有其他的就不深究了。</li>
+</ol>
+<p>一些细节：</p>
+<p>classpath*:与classpath:的唯一区别在于，如果能够在classpath中找到多个指定的资源，则<br>返回多个。</p>
+<p>当 ClassPathXmlApplicationContext 在实例化的时候，即使没有指明 classpath: 或者 classpath<em>: 等前缀，它会默认从 classpath 中加载 bean 定义配置文件。而 FileSystemXmlApplicationContex 则默认从文件系统中加载。不过如果在使用 FileSystemXmlApplicationContex 时加了 classpath: 前缀，它就会明确地从 classpath 中加载。简而言之，需要从 classpath 加载的时候，明确使用 classpath: 或者 classpath</em>: 前缀总是没错的。</p>
+<h3 id="多配置文件加载"><a href="#多配置文件加载" class="headerlink" title="多配置文件加载"></a>多配置文件加载</h3><p>使用 classpath* 我们可以完成加载多个配置文件，除此之外还有一种方式，就是在构造 ApplicationContext，传入配置文件参数的时候，我们传入一个 String[]，其中包含了多个配置文件所在路径，这样就能加载多个配置文件了，例如：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String</span>[] locations = <span class="keyword">new</span> <span class="type">String</span>[]&#123; <span class="string">"conf/dao-tier.springxml"</span>, <span class="string">"conf/view-tier.springxml"</span>, <span class="string">"conf/business-tier.springxml"</span>&#125;;</span><br><span class="line">ApplicationContext container = <span class="keyword">new</span> <span class="type">FileSystemXmlApplicationContext</span>(locations);</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line">ApplicationContext container = <span class="keyword">new</span> <span class="type">ClassPathXmlApplicationContext</span>(locations);</span><br><span class="line"><span class="comment">// 甚至于使用通配符</span></span><br><span class="line">ApplicationContext container = <span class="keyword">new</span> <span class="type">FileSystemXmlApplicationContext</span>(<span class="string">"conf/**/*.springxml"</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考资料：《Spring 揭秘》</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag">#Spring</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1466091213000/" rel="next" title="LeetCode 解题思路汇总">
+                <i class="fa fa-chevron-left"></i> LeetCode 解题思路汇总
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1467268596000/" rel="prev" title="Spring AOP 深入解析">
+                Spring AOP 深入解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1467262787000/" data-title="Spring IoC 深入解析" data-url="https://yyqian.com/post/1467262787000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IoC-Service-Provider"><span class="nav-text">IoC Service Provider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanFactory-和-ApplicationContext"><span class="nav-text">BeanFactory 和 ApplicationContext</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BeanFactory-对象注册与依赖绑定方式："><span class="nav-text">BeanFactory 对象注册与依赖绑定方式：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#探索-BeanFactory"><span class="nav-text">探索 BeanFactory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BeanFactoryPostProcessor"><span class="nav-text">BeanFactoryPostProcessor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean-的一生"><span class="nav-text">Bean 的一生</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ApplicationContext-的扩展"><span class="nav-text">ApplicationContext 的扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Resource-和-ResourceLoader"><span class="nav-text">Resource 和 ResourceLoader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ApplicationContext-与-ResourceLoader"><span class="nav-text">ApplicationContext 与 ResourceLoader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多配置文件加载"><span class="nav-text">多配置文件加载</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

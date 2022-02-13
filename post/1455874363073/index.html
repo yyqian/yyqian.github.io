@@ -1,0 +1,748 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Java,JVM,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。  深入理解 Java 虚拟机 - 自动内存管理机制 深入理解 Java 虚拟机 - 虚拟机执行子系统 深入理解 Java 虚拟机 - 程序编译与代码优化 深入理解 Java 虚拟机 - 高效并发  12. Java 内存模型与线程 12.2 硬件的效率与一致性计算机的 CPU 与 内">
+<meta name="keywords" content="Java,JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解 Java 虚拟机 - 高效并发">
+<meta property="og:url" content="https://yyqian.com/post/1455874363073/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。  深入理解 Java 虚拟机 - 自动内存管理机制 深入理解 Java 虚拟机 - 虚拟机执行子系统 深入理解 Java 虚拟机 - 程序编译与代码优化 深入理解 Java 虚拟机 - 高效并发  12. Java 内存模型与线程 12.2 硬件的效率与一致性计算机的 CPU 与 内">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdn.yyqian.com/1455874363073_a.jpg?imageView2/2/w/500">
+<meta property="og:image" content="http://cdn.yyqian.com/1455874363073_b.jpg?imageView2/2/w/500">
+<meta property="og:image" content="http://cdn.yyqian.com/1455874363073_c.png?imageView2/2/w/500">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.251Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解 Java 虚拟机 - 高效并发">
+<meta name="twitter:description" content="本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。  深入理解 Java 虚拟机 - 自动内存管理机制 深入理解 Java 虚拟机 - 虚拟机执行子系统 深入理解 Java 虚拟机 - 程序编译与代码优化 深入理解 Java 虚拟机 - 高效并发  12. Java 内存模型与线程 12.2 硬件的效率与一致性计算机的 CPU 与 内">
+<meta name="twitter:image" content="http://cdn.yyqian.com/1455874363073_a.jpg?imageView2/2/w/500">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 深入理解 Java 虚拟机 - 高效并发 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                深入理解 Java 虚拟机 - 高效并发
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-19T17:32:43+08:00" content="2016-02-19">
+              2016-02-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1455874363073/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1455874363073/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本系列文章的内容来源于周志明的《深入理解 Java 虚拟机》一书，经过了自己的加工整理和精简，主要是为了梳理知识。</p>
+<ul>
+<li><a href="http://yyqian.com/post/1455605122895">深入理解 Java 虚拟机 - 自动内存管理机制</a></li>
+<li><a href="http://yyqian.com/post/1455864579129">深入理解 Java 虚拟机 - 虚拟机执行子系统</a></li>
+<li><a href="http://yyqian.com/post/1455872592672">深入理解 Java 虚拟机 - 程序编译与代码优化</a></li>
+<li><a href="http://yyqian.com/post/1455874363073">深入理解 Java 虚拟机 - 高效并发</a></li>
+</ul>
+<h2 id="12-Java-内存模型与线程"><a href="#12-Java-内存模型与线程" class="headerlink" title="12. Java 内存模型与线程"></a>12. Java 内存模型与线程</h2><hr>
+<h3 id="12-2-硬件的效率与一致性"><a href="#12-2-硬件的效率与一致性" class="headerlink" title="12.2 硬件的效率与一致性"></a>12.2 硬件的效率与一致性</h3><p>计算机的 CPU 与 内存之间有几个数量级的速度差距，因此需要有一层高速缓存（Cache）来作为内存与 CPU 之间的缓冲。</p>
+<p>但是这个高速缓存（Cache）会带来缓存一致性（Cache Coherence）的问题：多核处理器中，每个核心有各自的高速缓存，因此它们各自缓存的数据可能是不一样的，但它们又共享同一主内存，所以缓存和主内存之间的读写访问需要遵循一种协议，称为缓存一致性协议。</p>
+<p><img src="http://cdn.yyqian.com/1455874363073_a.jpg?imageView2/2/w/500" alt="image"></p>
+<p>除了高速缓存外，还存在一种不一致性，来源于 CPU 可能会对指令进行乱序执行优化，它只保证执行的结果和顺序执行的结果是相同的，中间结果是不可预测的。<br><a id="more"></a></p>
+<h3 id="12-3-Java-内存模型（JMM）"><a href="#12-3-Java-内存模型（JMM）" class="headerlink" title="12.3 Java 内存模型（JMM）"></a>12.3 Java 内存模型（JMM）</h3><p>C/C++ 等主流程序语言，直接用物理硬件和操作系统的内存模型，因此不同平台下的内存模型是不同的。而 JVM 试图定义一种 Java 内存模型，来屏蔽这种差异。</p>
+<h4 id="主内存和工作内存"><a href="#主内存和工作内存" class="headerlink" title="主内存和工作内存"></a>主内存和工作内存</h4><p>Java 内存模型（JMM）和前面系统的内存模型类似：</p>
+<p><img src="http://cdn.yyqian.com/1455874363073_b.jpg?imageView2/2/w/500" alt="image"></p>
+<p>JMM 的主要目标是定义程序中各个变量的访问机制，即变量存储到内存和从内存读取这样的底层细节。这里讨论的「变量」不包括线程私有的变量（即局部变量和方法参数，因为它们不会被共享），它包括了实例字段、静态字段和构成数组对象的元素。</p>
+<p>所有的变量存储在主内存，每条线程有自己的工作内存，线程使用某变量时，先从主内存中拿一份拷贝放入工作内存，所有的读写操作都在工作内存中进行，而不直接读写主内存。</p>
+<p>这里的主内存、工作内存和 Java 堆、栈、方法区不是一个层次的内存划分，基本没有关系。如果强行对应的话，主内存对应于 Java 堆中的对象实例数据部分；工作内存对应于 Java 栈中而部分区域。从更低层次上说，主内存对应于物理内存，而工作内存有可能会优先存储于寄存器和高速缓存中。</p>
+<h4 id="内存间交互操作"><a href="#内存间交互操作" class="headerlink" title="内存间交互操作"></a>内存间交互操作</h4><p>为了实现主内存和工作内存之间的读写，JMM 定义了八种原子性的操作：</p>
+<ul>
+<li>lock：作用于主内存的变量</li>
+<li>unlock：主内存</li>
+<li>read：主内存，load 操作的前置操作，把变量的值从主内存传输到工作内存中</li>
+<li>load：工作内存，read 操作的后置操作，把从主内存中得到的变量值放入工作内存的副本中</li>
+<li>store：工作内存，write 操作的前置操作，把工作内存中的变量的值传送到主内存中</li>
+<li>write：主内存，store 操作的后置操作，把从工作内存中得到的变量放入主内存变量中</li>
+<li>use：工作内存，变量值从工作内存传输到执行引擎</li>
+<li>assign：工作内存，变量值从执行引擎传输到工作内存</li>
+</ul>
+<p>变量从主内存传输到工作内存，需要顺序执行 read 和 load；从工作内存传输到主内存，需要顺序执行 store 和 write。但是只需要顺序执行，不需要连续执行，中间可以插入其他指令。例如：read a、read b、load b、load a。</p>
+<h4 id="对于-volatile-型变量的特殊规则"><a href="#对于-volatile-型变量的特殊规则" class="headerlink" title="对于 volatile 型变量的特殊规则"></a>对于 volatile 型变量的特殊规则</h4><p>volatile 是最轻量级的同步机制。JMM 对 volatile 专门定义了一些特殊的访问规则。</p>
+<p>volatile 变量有两种特性：</p>
+<ul>
+<li>保证此变量对所有线程的可见性</li>
+<li>禁止指令重排序优化</li>
+</ul>
+<p>「可见性」是指当一条线程修改了这个变量的值，新值对于其他线程来说是可以立即得知的。</p>
+<p>但是使用 volatile 不能保证线程安全。譬如 volatile 修饰的 race 变量，<code>race++</code> 操作不是线程安全的，因为它不满足原子性。在不符合以下两条规则的场景中，我们还是需要通过加锁来保证原子性：</p>
+<ul>
+<li>运算结果并不依赖变量的当前值，或者能够确保只有单一的线程修改变量的值</li>
+<li>变量不需要与其他的状态变量共同参与不变约束</li>
+</ul>
+<p>「禁止指令重排序优化」这条语义必要的原因是，JMM 中有「线程内表现为串行的语义」，这个意思是执行引擎可以对指令进行重新排序执行，以提高性能，并且保证输出的结果和顺序执行的结果是相同的，因此是「表现为串行」，但是这个是限定在当前线程内的。如果另外一个线程去观测它的话，中间结果是不保证符合按顺序执行得到的结果的，所以指令重排序会对并行编程产生一定的麻烦和困扰，而 volatile 修饰之后会禁用这一个优化措施。</p>
+<h4 id="long-和-double-变量的特殊规则"><a href="#long-和-double-变量的特殊规则" class="headerlink" title="long 和 double 变量的特殊规则"></a>long 和 double 变量的特殊规则</h4><p>JMM 要求前面提到的八个操作都有原子性，但是对于 64 位的 long 和 double，JMM 特别定义了一条宽松的规定：允许没有 volatile 修饰的 64 位数据的读写操作划分为两次 32 位，即所谓的非原子性协定。</p>
+<p>但是目前商用虚拟机几乎都把对 64 位数据的操作实现为原子操作，所以我们实际不用担心这一点。</p>
+<h4 id="JMM-的特征"><a href="#JMM-的特征" class="headerlink" title="JMM 的特征"></a>JMM 的特征</h4><p>JMM 是围绕并发过程中如何处理原子性、可见性和有序性这三个特征来建立的：</p>
+<ul>
+<li><p>原子性：JMM 的八种操作都是原子性的，字节码中有 monitorenter 和 monitorexit 来实现大范围的原子性保证，Java 代码中则是 synchronized 关键字</p>
+</li>
+<li><p>可见性：可见性是指当一个线程修改了共享变量的值，其他线程能够立即得知这个修改。普通变量和 volatile 变量都需要在修改后将新值从工作内存同步回主内存，在变量读取前从主内存刷新变量值回工作内存。但 volatile 的特殊规则保证了新值能立即同步到主内存，以及每次使用前立即从主内存刷新。除了 volatile，还有两个关键词能实现可见性：synchronized 和 final。</p>
+</li>
+<li><p>有序性：Java 的普通情况下的有序性是：如果在本线程内观察，所有的操作都是有序的；如果在一个线程观察另一个线程，所有的操作都是无序的。前半句指「线程内表现为串行的语义」，后半句指「指令重排序」优化和「工作内存与主内存同步延迟」现象。</p>
+</li>
+</ul>
+<h4 id="先行发生原则（happens-before）"><a href="#先行发生原则（happens-before）" class="headerlink" title="先行发生原则（happens-before）"></a>先行发生原则（happens-before）</h4><p>JMM 中有一些「天然的」先行发生关系，这几个原则对并发编程很重要，总共有八个：</p>
+<ul>
+<li>程序次序规则（Program Order Rule）：在一个线程内，按照代码顺序，前面的操作先行发生于后面的操作。这里要注意是在同一个线程内。</li>
+<li>管程锁定规则（Monitor Lock Rule）：同一个锁的 unlock 操作先行发生于后面（时间上先后）的 lock 操作。</li>
+<li>volatile 变量规则（Volatile Variable Rule）：对一个 volatile 变量的写操作先行发生于后面（时间上先后）对这个变量的读操作。</li>
+</ul>
+<p>剩下的五个规则有三个是针对 Thread 对象的，一个用于 finalize() 方法，还有一个是传递性（即 A 先行发生于 B，B 先行发生于 C，则可以推论 A 先行发生于 C）</p>
+<p>如果不能套用任何先行发生原则，则两个线程之间各自的操作在时间上先后发生顺序是不可预见的。譬如最常见的 getter/setter 方法：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> <span class="keyword">value</span> = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span>(<span class="params"><span class="keyword">int</span> <span class="keyword">value</span></span>)</span> &#123;</span><br><span class="line">  <span class="keyword">this</span>.<span class="keyword">value</span> = <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码是最常见的，bean 中都是这样写的，但是两个方法都不是线程安全的。如果线程 A 执行了 setValue(1)，然后线程 B 执行了 getValue()，那么线程 B 得到的返回值是多少？</p>
+<p>首先，我们看这两个方法能否符合任何先行发生原则：</p>
+<ol>
+<li>程序次序规则：这两个方法在不同的线程中执行，因此不适用这个规则</li>
+<li>管程锁定规则：这两个方法中都没有上锁，所以也不适用</li>
+<li>volatile 变量原则：没有 volatile 修饰，显然不适用</li>
+<li>剩下的原则都显然不适用</li>
+</ol>
+<p>所以这两个方法不符合任何先行发生原则，所以即使线程 A 的 setValue(1) 在时间上确实早于线程 B 的 getValue()，线程 B 的返回结果还是不确定的。</p>
+<p>修复这个问题的思路就是让这两个方法符合其中一种先行发生原则，所以至少有两种简单的方案：</p>
+<ol>
+<li>将 getter/setter 都定义为 synchronized，这样就符合第二条规则</li>
+<li>将 value 定义为 volatile 变量，这样就符合第三条规则</li>
+</ol>
+<p>实际上，在没有先行发生原则保证的情况下，「时间上的先发生」和「先行发生」没有任何推到关系，一个操作「时间上先发生」并不一定会「先行发生」，反过来一个操作「先行发生」并不能说明它「时间上先发生」。</p>
+<p>在处理并发安全的问题的时候，一切必须以「先行发生原则」为准，时间先后顺序和先行发生原则之间基本没有太大的关系。</p>
+<h3 id="12-4-Java-与线程"><a href="#12-4-Java-与线程" class="headerlink" title="12.4 Java 与线程"></a>12.4 Java 与线程</h3><p>并发不一定依赖于多线程，也有可能是多进程（譬如 PHP），但 Java 中一般都是线程。</p>
+<h4 id="线程的实现"><a href="#线程的实现" class="headerlink" title="线程的实现"></a>线程的实现</h4><p>线程是 CPU 调度的基本单位，一个进程可以有多个线程，各个线程可以共享进程资源（内存地址、文件 I/O 等）。实现线程主要有三种方式：</p>
+<ol>
+<li><p>使用内核线程实现：程序调用的是内核线程的一种高级接口 - 轻量级进程。这种方式系统资源消耗较大，需要系统调用（系统调用需要在用户态和内核态之间来回切换），并且轻量级进程的数量是有限的。</p>
+</li>
+<li><p>使用用户线程实现：用户线程的建立、同步、销毁和调度都在用户态中完成，优势是不需要内核的帮助，资源消耗低，劣势也同样是没有内核支援，自己处理线程操作比较复杂。Java 曾经使用过，后来放弃了。</p>
+</li>
+<li><p>使用用户线程加轻量级进程混合实现：用户线程和轻量级进程的数量是 N : M 的关系</p>
+</li>
+<li><p>Java 线程的实现：Java 在 Windows 和 Linux 下都是一对一的线程模型实现，一条 Java 线程就映射到一条轻量级进程之中。系统提供的线程模型也就是一对一的。</p>
+</li>
+</ol>
+<h4 id="Java-线程调度"><a href="#Java-线程调度" class="headerlink" title="Java 线程调度"></a>Java 线程调度</h4><p>线程调度方式主要有两种：</p>
+<ul>
+<li>协同式线程调度：线程的执行时间由线程本身来控制，线程把自己的工作执行完了之后，要主动通知系统切换到另一个线程上。这种方式相当不稳定，如果一个进程坚持不让出 CPU 执行时间，就会导致系统崩溃</li>
+<li>抢占式线程调度：每个线程将由系统来分配执行时间，线程的切换不由线程本身来决定。Java 采用这种方式。</li>
+</ul>
+<p>线程优先级一般不太靠谱，原因是 Java 的线程是映射到系统的原生线程上来的，线程的调度最终还是取决于操作系统。</p>
+<h4 id="状态转换"><a href="#状态转换" class="headerlink" title="状态转换"></a>状态转换</h4><p>Java 总共定义了五种线程状态：</p>
+<ul>
+<li><p>新建（New）：创建了但未启动</p>
+</li>
+<li><p>运行（Runable）：包括了操作系统线程状态中的 Running 和 Ready</p>
+</li>
+<li><p>无限期等待（Waiting）：处于这种状态的线程不会被分配 CPU 执行时间，它们要等待被其他线程显式地唤醒。以下方法会触发该状态：</p>
+<ul>
+<li>没有设置 Timeout 参数的 Object.wait()</li>
+<li>没有设置 Timeout 参数的 Thread.join()</li>
+<li>LockSupport.park()</li>
+</ul>
+</li>
+<li><p>限期等待（Timed Waiting）：处于这种状态的线程也不会被分配 CPU 执行时间，但系统在一定时间后会自动唤醒它。以下方法会触发该状态：</p>
+<ul>
+<li>Thread.sleep()</li>
+<li>设置 Timeout 参数的 Object.wait()</li>
+<li>设置 Timeout 参数的 Thread.join()</li>
+<li>LockSupport.parkNanos()</li>
+<li>LockSupport.parkUntil()</li>
+</ul>
+</li>
+<li><p>阻塞（Blocked）：阻塞状态下是在等待着获取一个排他锁，在程序等待进入同步区域的时候，线程将进入这个状态</p>
+</li>
+<li><p>结束（Terminated）：线程已经结束执行</p>
+</li>
+</ul>
+<p>线程状态转换关系：</p>
+<p><img src="http://cdn.yyqian.com/1455874363073_c.png?imageView2/2/w/500" alt="image"></p>
+<h2 id="13-线程安全与锁优化"><a href="#13-线程安全与锁优化" class="headerlink" title="13. 线程安全与锁优化"></a>13. 线程安全与锁优化</h2><hr>
+<h3 id="13-2-线程安全"><a href="#13-2-线程安全" class="headerlink" title="13.2 线程安全"></a>13.2 线程安全</h3><p>线程安全指的是：代码本身封装了所有必要的正确性保障手段（譬如互斥同步），令调用者无须关心多线程的问题，更无须自己采取任何措施来保证多线程的正确使用。</p>
+<p>讨论线程安全的前提是，多个线程之间存在共享数据访问。</p>
+<p>可以将 Java 中共享数据按照「安全程度」分为：</p>
+<ol>
+<li><p>不可变：不可变（Immutable）的对象一定是线程安全的。如果共享数据是基本数据类型，则只要用 final 来定义就可以保证不可变；如果共享数据是对象，除了 final 定义，还要保证对象的行为不会对其状态产生任何影响（譬如 String 类的 substring、replace、concat 方法都是返回一个新的 String 对象，而不会改变对象原来的状态），这种保证最简单的实现方式是把对象中所有带状态的变量都声明为 final</p>
+</li>
+<li><p>绝对线程安全：这种一般很难实现，即使一个对象所有的方法都是同步的，如果这些方法组合之后，就有可能失去原子性，不是线程安全的</p>
+</li>
+<li><p>相对线程安全：它只需要保证对这个对象单独的操作是线程安全的，但对于一些特定顺序的连续调用，还是需要额外的同步手段的。</p>
+</li>
+<li><p>线程兼容：这个指的是对象本身不是线程安全的，但我们可以通过使用同步手段或线程封闭，来实现线程安全</p>
+</li>
+<li><p>线程对立：这个指的是无论调用端采取何种同步措施，都是无法在并发环境下使用的。</p>
+</li>
+</ol>
+<h4 id="线程安全的实现方法"><a href="#线程安全的实现方法" class="headerlink" title="线程安全的实现方法"></a>线程安全的实现方法</h4><h5 id="互斥同步"><a href="#互斥同步" class="headerlink" title="互斥同步"></a>互斥同步</h5><p>同步是指在多个线程并发访问共享数据时，保证共享数据在同一个时刻只被一个线程使用。（如果使用信号量，可以是一些线程）</p>
+<p>临界区（Critical）、互斥量（Mutex）和信号量（Semaphore）都是互斥的实现方式。互斥是方法，同步是目的。</p>
+<p>Java 中，synchronized 是最基本的互斥同步手段，编译之后，在同步块前后会有 monitorenter 和 monitorexit 这两个字节码，这两个字节码都需要一个 reference 类型的参数来指明要锁定和解锁的对象。在 Java 中有两种使用方式：</p>
+<ol>
+<li>synchronized (obj) {} 代码块，明确指名对象参数</li>
+<li>用 synchronized 修饰实例方法或类方法，自动取方法所在的对象实例或 Class 对象作为锁对象</li>
+</ol>
+<p>JVM 规范要求，执行 monitorenter 指令时，先尝试获取对象锁，如果没被锁定或当前线程已经持有锁（线程重入），则锁的计数器加 1；执行 monitorenter 指令时，锁的计数器减 1；当计数器为 0 时，锁就被释放了。</p>
+<p>如果执行 monitorenter 指令时，获取对象锁失败，当前线程就会进入阻塞状态。由于 Java 的线程是映射到操作系统的原生线程上的，阻塞和唤醒一个线程，都需要操作系统的支援，这就需要从用户态转换到核心态中，这个状态转换很耗费 CPU 时间，如果同步块的代码简单，则执行状态转换的消耗比执行用户代码的消耗还大。</p>
+<p>除了 synchronized，还有 ReentrantLock 可以实现同步，两者现在的性能相近，它主要有几个高级功能：</p>
+<ol>
+<li>等待可中断，如果等待的线程长期获得不到锁，可以放弃改为处理其他事</li>
+<li>实现公平锁，公平锁是指当多个线程等待同一个锁的时候，必须按照申请锁的时间顺序依次获得锁。synchronized 的锁是非公平的。但是公平性会把性能降低约两个数量级，不必要的话，不要为公平性付出代价。</li>
+<li>锁可以绑定多个条件</li>
+</ol>
+<h5 id="非阻塞同步"><a href="#非阻塞同步" class="headerlink" title="非阻塞同步"></a>非阻塞同步</h5><p>互斥同步最大的问题就是线程阻塞和唤醒所带来的性能问题，因此这种同步也成为阻塞同步（Blocking Synchronization）。</p>
+<p>从策略上来讲，互斥同步属于「悲观」的并发策略，因为不论共享数据是否真的会发生竞争，都要上锁。对应的还有一种「乐观」的基于冲突检测的并发策略：不上锁，先进行操作，如果没有数据竞争，操作就成功了，如果检测到有冲突，就采取补偿措施（常见的就是不断重试）。这种乐观的并发策略一般不需要把线程挂起，所以称为非阻塞同步（Non-Blocking Synchronization）。</p>
+<p>乐观策略实现需要硬件指令集的支援，因为我们需要操作和冲突检测这两步具备原子性，要把看起来多次操作的行为只通过一条指令就完成，典型的有 CAS 指令（Compare-and-Swap 比较并交换），简单得说就是在更新的时候，要先检查当前值是否符合预期，如果不符合就不更新。</p>
+<h5 id="无同步方案"><a href="#无同步方案" class="headerlink" title="无同步方案"></a>无同步方案</h5><p>保证线程安全，并不是一定需要同步，同步只是其中一个手段。如果一个方法不涉及共享数据，就天然是线程安全的。有两类代码天生就是线程安全的：</p>
+<p>可重入代码（Reentrant Code）：也叫纯代码（Pure Code），可以在代码执行的任何时刻中断它，转而执行其他代码，控制权返回后，原来的程序不会出现任何错误。可重入代码有共同特征：不依赖存储在堆上的数据和公用的系统资源、用到的状态量都是由参数传入的、不调用非可重入方法。如果一个方法输入相同的数据，永远都能返回相同的结果，那它就是可重入的。</p>
+<p>线程本地存储（Thread Local Storage）：我的理解就是线程封闭。生产者 - 消费者模式的队列一般都会将产品的消费过程在一个线程中消费完。最重要的实例就是 Web 交互模型的「一个请求对应一个服务器线程（Threa-per-Request）」。Java 中由 java.Lang.ThreadLocal 类来实现线程本地存储功能，每一个线程的 Thread 对象都有一个 ThreadLocalMap 对象，ThreadLocal 对象就是当前线程的 ThreadLocalMap 的访问入口。</p>
+<h3 id="13-3-锁优化"><a href="#13-3-锁优化" class="headerlink" title="13.3 锁优化"></a>13.3 锁优化</h3><h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><p>有的时候一个线程稍微多等一会，另外一个线程就会释放锁给它，这样可以省去线程切换的开销。因此，我们可以让线程执行一个忙循环（自旋），这就叫自旋锁技术。</p>
+<p>自旋的次数可以参数设定，也可以用自适应的自旋锁，自适应这的是会根据运行状况自己调节自旋的次数。</p>
+<h4 id="锁消除"><a href="#锁消除" class="headerlink" title="锁消除"></a>锁消除</h4><p>如果 JIT 编译器探测到一段需要同步的代码，实际不可能存在共享数据竞争，就可能将锁去掉，这种探测主要依赖于逃逸分析。</p>
+<h4 id="锁粗化"><a href="#锁粗化" class="headerlink" title="锁粗化"></a>锁粗化</h4><p>虽然推荐将同步块的作用范围尽量变小，这样执行同步块时间可以缩短，等待锁的时间减少。但是如果同步块出现在循环中，频繁的 lock 和 unlock 也会导致性能损耗。</p>
+<h4 id="轻量级锁和偏向锁"><a href="#轻量级锁和偏向锁" class="headerlink" title="轻量级锁和偏向锁"></a>轻量级锁和偏向锁</h4><p>HotSpot 对象头（Object Header）中有一个 Mark Word，用于实现一些锁标记。</p>
+<p>偏向锁类似轻量级锁，不同点是，这个锁会偏向于第一个获得它的线程，之后如果没有其他线程获取这个锁，则持有偏向锁的线程将永远不需要再进行同步。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#Java</a>
+          
+            <a href="/tags/jvm/" rel="tag">#JVM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1455872592672/" rel="next" title="深入理解 Java 虚拟机 - 程序编译与代码优化">
+                <i class="fa fa-chevron-left"></i> 深入理解 Java 虚拟机 - 程序编译与代码优化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1456761600000/" rel="prev" title="Thymeleaf 调用参数的几种方式">
+                Thymeleaf 调用参数的几种方式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1455874363073/" data-title="深入理解 Java 虚拟机 - 高效并发" data-url="https://yyqian.com/post/1455874363073/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#12-Java-内存模型与线程"><span class="nav-text">12. Java 内存模型与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#12-2-硬件的效率与一致性"><span class="nav-text">12.2 硬件的效率与一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-3-Java-内存模型（JMM）"><span class="nav-text">12.3 Java 内存模型（JMM）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主内存和工作内存"><span class="nav-text">主内存和工作内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存间交互操作"><span class="nav-text">内存间交互操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对于-volatile-型变量的特殊规则"><span class="nav-text">对于 volatile 型变量的特殊规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#long-和-double-变量的特殊规则"><span class="nav-text">long 和 double 变量的特殊规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JMM-的特征"><span class="nav-text">JMM 的特征</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#先行发生原则（happens-before）"><span class="nav-text">先行发生原则（happens-before）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-4-Java-与线程"><span class="nav-text">12.4 Java 与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程的实现"><span class="nav-text">线程的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-线程调度"><span class="nav-text">Java 线程调度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#状态转换"><span class="nav-text">状态转换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-线程安全与锁优化"><span class="nav-text">13. 线程安全与锁优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#13-2-线程安全"><span class="nav-text">13.2 线程安全</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程安全的实现方法"><span class="nav-text">线程安全的实现方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#互斥同步"><span class="nav-text">互斥同步</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#非阻塞同步"><span class="nav-text">非阻塞同步</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#无同步方案"><span class="nav-text">无同步方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-3-锁优化"><span class="nav-text">13.3 锁优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自旋锁"><span class="nav-text">自旋锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁消除"><span class="nav-text">锁消除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁粗化"><span class="nav-text">锁粗化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#轻量级锁和偏向锁"><span class="nav-text">轻量级锁和偏向锁</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

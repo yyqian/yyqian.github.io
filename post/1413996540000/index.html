@@ -1,0 +1,589 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="数字信号处理,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常最近想研究一下小波变换（wavelet），所以先从Basis入手，加深一下对基的理解。由于这篇内容比较抽象，所以先举个日常生活中的例子，对基有个大体的了解： 我们拿在KFC点餐举例，我们可以点套餐，也可以单个点，譬如说1号套餐是1巨无霸+1薯条+1可乐，2号套餐是1鸡肉卷+1薯条+1可乐，如果我们总共想买1巨无霸+2鸡肉卷">
+<meta name="keywords" content="数字信号处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Basis（基）的理解">
+<meta property="og:url" content="https://yyqian.com/post/1413996540000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常最近想研究一下小波变换（wavelet），所以先从Basis入手，加深一下对基的理解。由于这篇内容比较抽象，所以先举个日常生活中的例子，对基有个大体的了解： 我们拿在KFC点餐举例，我们可以点套餐，也可以单个点，譬如说1号套餐是1巨无霸+1薯条+1可乐，2号套餐是1鸡肉卷+1薯条+1可乐，如果我们总共想买1巨无霸+2鸡肉卷">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Basis（基）的理解">
+<meta name="twitter:description" content="文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常最近想研究一下小波变换（wavelet），所以先从Basis入手，加深一下对基的理解。由于这篇内容比较抽象，所以先举个日常生活中的例子，对基有个大体的了解： 我们拿在KFC点餐举例，我们可以点套餐，也可以单个点，譬如说1号套餐是1巨无霸+1薯条+1可乐，2号套餐是1鸡肉卷+1薯条+1可乐，如果我们总共想买1巨无霸+2鸡肉卷">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Basis（基）的理解 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Basis（基）的理解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-23T00:49:00+08:00" content="2014-10-23">
+              2014-10-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1413996540000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1413996540000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h6 id="文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常"><a href="#文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常" class="headerlink" title="文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常"></a>文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常</h6><p>最近想研究一下小波变换（wavelet），所以先从Basis入手，加深一下对基的理解。由于这篇内容比较抽象，所以先举个日常生活中的例子，对基有个大体的了解：</p>
+<p>我们拿在KFC点餐举例，我们可以点套餐，也可以单个点，譬如说1号套餐是1巨无霸+1薯条+1可乐，2号套餐是1鸡肉卷+1薯条+1可乐，如果我们总共想买1巨无霸+2鸡肉卷+3薯条+3可乐，那我们可以点1个1号套餐，2个2号套餐。这里，这些套餐就是在KFC食品空间的一组基，我们点的单子就是这组基的线性组合。但是，如果我们要点1巨无霸+1鸡肉卷+1可乐，我们是无法通过组合这几个套餐来下单的，只能单个点这些食品。这里，单个食品也组成一组基，并且这组“单品基”比“套餐基”更“万能”，因为我们要下的任何单子都可以是“单品基”的一种线性组合。但是，“套餐基”也有其优点：它可以简化表达方式，我们下的第一份单子如果用“套餐基”，只需要点2种套餐，如果用“单品基”，需要点4种单品。例子就举到这，下面说正题。</p>
+<p>对于学过量子力学的，肯定对各种矩阵变换、矩阵对角化、特征值特征向量求解很熟悉（当然，其他学科也会有涉及，只是表达形式不一样）。我们对于某个事物所处状态的描述通常是在某个特定空间内，选取一组基，然后用特征向量来表示该事物状态。<br>譬如说在二维平面内，一个物体的位置我们可以用坐标(x,y)来表示，如果我们选取的一组基是(1,0)和(0,1)，那么位置的特征向量就是(x,y)，这是因为：<br><a id="more"></a><br>(x,y)=x(1,0)+y(0,1)</p>
+<p>所以当我们说坐标位于(x,y)时，我们其实已经不自觉地默认使用了(1,0)和(0,1)这一组基。但如果我们选取另一组基，譬如说</p>
+<p>(sqrt(2)/2,sqrt(2)/2) 和 (sqrt(2)/2,−sqrt(2)/2)</p>
+<p>那么，特征向量应该表示为</p>
+<p>(sqrt(2)(x+y)/2,sqrt(2)(x−y)/2)</p>
+<p>当然，一般情况下，我们默认用的基都是前者，因为表述特征向量的时候更简洁，矩阵变换等操作也更简单。</p>
+<p>但是对于其他事物，我们可能可以通过变换基、甚至变换空间，来简化对该事物的描述。我们接触的最多的便是傅立叶变换：</p>
+<p>f(t)=1/2π∫F(ω)eiωtdw</p>
+<p>傅立叶变换将一段信号从“时间空间”变换到“频率空间”，上式中 f(t) 是信号在时间域的表现形式， F(ω) 是信号在频率域的表现形式， eiωt 是一组基。对于单一频率的正弦波，在时间域描述，是一段无限长的序列（所有时间点信号的强度）；而在频率域描述，则是在特定频率有一峰值，其他区域都为0，只需要2个参数就能描述（频率和该频率的强度）。由此可见，通过变换空间或变换基，可以简化对事物的表现形式，也可以把该事物的主要特征挖掘出来。（譬如说正弦波，我们关心的并不是它在时间域的波形是如何的，而是它在频率域频率是多少，幅度是多大）</p>
+<p>不过，这些基并不是随意选择的，我们或许会接触过欧几里德空间、希尔伯特空间等等，这些空间会规范一下我们可选择的基，譬如说正交性，完备性，归一化。我们举的KFC例子中，“单品基”可以说在KFC食品空间里是正交归一完备的，但“套餐基”这三种性质都不满足。第二个例子，在二维平面（欧几里德空间），我们选取的两组基都是正交归一完备的。第三个例子，在希尔伯特空间，这里的基并不总是用数字（向量）来表示的，有可以是函数（各种频率的波函数），对于函数的正交归一性，我们还要求其平方可积。</p>
+<p>但是，不论我们在什么空间里用什么基，目的还是和之前说的一样，就是要简化表现形式，并且抓住主要特征。至于正交完备归一等性质，并不是必需的，譬如说我们常见的泰勒展开：</p>
+<p>f(x)=∑∞n=0an(x−b)n</p>
+<p>这里的基是函数 (x−b)n ，这组基显然不是正交归一的，但是，我们这儿感兴趣的往往只是 n=0,1,2… 这几个低阶项的基，因为它们反应了函数在 x=b 处的主要特征，满足了我们简化表达式，方便估算的需求。</p>
+<p>而对于小波变换，我现在对此的简单理解就是，把傅立叶变换中用到的正弦波替换成一种自定义的“小波”，也就是换了一组基。正弦波是一种长度无限的波（能量无限），而“小波”一般是有限长度的波（能量有限），具体的讨论就留到下篇日志。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数字信号处理/" rel="tag">#数字信号处理</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1413449580000/" rel="next" title="Raspberry Pi 交叉编译配置">
+                <i class="fa fa-chevron-left"></i> Raspberry Pi 交叉编译配置
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1414428180000/" rel="prev" title="Continuous Wavelet Transform (CWT)简述">
+                Continuous Wavelet Transform (CWT)简述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1413996540000/" data-title="Basis（基）的理解" data-url="https://yyqian.com/post/1413996540000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常"><span class="nav-text">文章从以前的wordpress导入后，由于没有LaTeX插件，公式显示不正常</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

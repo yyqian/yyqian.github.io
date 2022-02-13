@@ -1,0 +1,633 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Spring,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="traditional JDBC 太麻烦是因为要处理很多 SQLException，很多 boilerplate code，但它的操作比其他框架更底层。 Spring JDBC 所有的异常都继承自 DataAccessException，属于 unchecked exceptions。 Spring 采用 JDBC template 来去掉 boilerplate code (resource-m">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Data JPA 笔记">
+<meta property="og:url" content="https://yyqian.com/post/1449555296031/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="traditional JDBC 太麻烦是因为要处理很多 SQLException，很多 boilerplate code，但它的操作比其他框架更底层。 Spring JDBC 所有的异常都继承自 DataAccessException，属于 unchecked exceptions。 Spring 采用 JDBC template 来去掉 boilerplate code (resource-m">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Data JPA 笔记">
+<meta name="twitter:description" content="traditional JDBC 太麻烦是因为要处理很多 SQLException，很多 boilerplate code，但它的操作比其他框架更底层。 Spring JDBC 所有的异常都继承自 DataAccessException，属于 unchecked exceptions。 Spring 采用 JDBC template 来去掉 boilerplate code (resource-m">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Spring Data JPA 笔记 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring Data JPA 笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-08T14:14:56+08:00" content="2015-12-08">
+              2015-12-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1449555296031/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1449555296031/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>traditional JDBC 太麻烦是因为要处理很多 SQLException，很多 boilerplate code，但它的操作比其他框架更底层。</p>
+<p>Spring JDBC 所有的异常都继承自 DataAccessException，属于 unchecked exceptions。</p>
+<p>Spring 采用 JDBC template 来去掉 boilerplate code (resource-management, exception-handling etc)，用户只需要写 SQL 语句和一些 mapping 的方法。</p>
+<p>结合 Spring Security 可以处理 method level 的 access control。</p>
+<p>Spring Data JPA 基本都是标准的 JPA(Java Persistence API)，底层是用 Hibernate 来实现的。持久化数据相关的最主要的两种类是：@Entity 和 @Repository 注解的 Class。<br><a id="more"></a></p>
+<h2 id="1-Entity"><a href="#1-Entity" class="headerlink" title="1. Entity"></a>1. Entity</h2><hr>
+<p>Entity 对应的是数据库中的表，使用 JPA 的话就需要通过配置 @Entity Class来完成 ORM 映射。</p>
+<p>Entity 的简单设置：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Entity</span></span><br><span class="line"><span class="variable">@Table</span>(name = <span class="string">"post"</span>)</span><br><span class="line">public class Post &#123;</span><br><span class="line"></span><br><span class="line">  <span class="variable">@Id</span></span><br><span class="line">  <span class="variable">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">  <span class="variable">@Column</span>(name = <span class="string">"id"</span>)</span><br><span class="line">  protected Long id;</span><br><span class="line"></span><br><span class="line">  <span class="variable">@Version</span></span><br><span class="line">  <span class="variable">@Column</span>(name = <span class="string">"version"</span>)</span><br><span class="line">  protected Integer version;</span><br><span class="line"></span><br><span class="line">  <span class="variable">@Temporal</span>(value = TemporalType.TIMESTAMP)</span><br><span class="line">  <span class="variable">@Column</span>(name = <span class="string">"created_at"</span>, nullable = false)</span><br><span class="line">  protected Date createdAt;</span><br><span class="line"></span><br><span class="line">  <span class="variable">@Column</span>(name = <span class="string">"title"</span>, nullable = false)</span><br><span class="line">  protected String title;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">protected</span> <span class="selector-tag">Post</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// getters, setters</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果涉及到继承：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@MappedSuperclass</span></span><br><span class="line"><span class="variable">@Inheritance</span>(strategy = InheritanceType.SINGLE_TABLE)</span><br><span class="line">public abstract class Base implements Serializable &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">@Entity</span></span><br><span class="line"><span class="variable">@Table</span>(name = <span class="string">"post"</span>)</span><br><span class="line">public class Post extends Base &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果有多对一的单向关系：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">public</span> <span class="selector-tag">class</span> <span class="selector-tag">BaseUGC</span> &#123;</span><br><span class="line">  <span class="variable">@ManyToOne</span>(fetch = FetchType.EAGER)</span><br><span class="line">  <span class="variable">@JoinColumn</span>(name = <span class="string">"user_id"</span>)</span><br><span class="line">  <span class="variable">@NotNull</span></span><br><span class="line">  protected User user;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">public</span> <span class="selector-tag">class</span> <span class="selector-tag">User</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果有多对一的双向关系：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">public</span> <span class="selector-tag">class</span> <span class="selector-tag">Post</span> &#123;</span><br><span class="line">  <span class="variable">@OneToMany</span>(</span><br><span class="line">      mappedBy = <span class="string">"post"</span>,</span><br><span class="line">      fetch = FetchType.EAGER,</span><br><span class="line">      orphanRemoval = true,</span><br><span class="line">      cascade = &#123;CascadeType.PERSIST, CascadeType.MERGE&#125;)</span><br><span class="line">  <span class="variable">@JsonIgnore</span></span><br><span class="line">  protected List&lt;Comment&gt; comments = new ArrayList&lt;Comment&gt;();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">public</span> <span class="selector-tag">class</span> <span class="selector-tag">Comment</span> &#123;</span><br><span class="line">  <span class="variable">@ManyToOne</span>(fetch = FetchType.LAZY)</span><br><span class="line">  <span class="variable">@JoinColumn</span>(name = <span class="string">"post_id"</span>)</span><br><span class="line">  <span class="variable">@NotNull</span></span><br><span class="line">  <span class="variable">@JsonIgnore</span></span><br><span class="line">  protected Post post;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果有自己对自己的关系：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">public</span> <span class="selector-tag">class</span> <span class="selector-tag">Comment</span> &#123;</span><br><span class="line">  <span class="variable">@ManyToOne</span>(fetch = FetchType.LAZY)</span><br><span class="line">  <span class="variable">@JoinColumn</span>(name = <span class="string">"parent_comment_id"</span>)</span><br><span class="line">  <span class="variable">@JsonBackReference</span></span><br><span class="line">  protected Comment parent;</span><br><span class="line"></span><br><span class="line">  <span class="variable">@OneToMany</span>(</span><br><span class="line">      mappedBy = <span class="string">"parent"</span>,</span><br><span class="line">      fetch = FetchType.EAGER,</span><br><span class="line">      orphanRemoval = true,</span><br><span class="line">      cascade = &#123;CascadeType.PERSIST, CascadeType.MERGE&#125;)</span><br><span class="line">  <span class="variable">@JsonManagedReference</span></span><br><span class="line">  protected List&lt;Comment&gt; children = new ArrayList&lt;Comment&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果有多个 key 组成 PK，并且这些 keys 都是 class，譬如说 Join Table：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table(name = <span class="meta-string">"comment_vote"</span>, uniqueConstraints = &#123;@UniqueConstraint(columnNames = &#123;<span class="meta-string">"user_id"</span>, <span class="meta-string">"comment_id"</span>&#125;)</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommentVote</span> <span class="title">extends</span> <span class="title">BaseVote</span> </span>&#123;</span><br><span class="line">  <span class="meta">@EmbeddedId</span></span><br><span class="line">  <span class="keyword">private</span> CommentVotePK commentVotePK;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ManyToOne(fetch = FetchType.LAZY)</span></span><br><span class="line">  <span class="meta">@MapsId(value = <span class="meta-string">"userId"</span>)</span></span><br><span class="line">  <span class="meta">@JoinColumn(name = <span class="meta-string">"user_id"</span>, referencedColumnName = <span class="meta-string">"id"</span>, insertable = false, updatable = false)</span></span><br><span class="line">  <span class="meta">@NotNull</span></span><br><span class="line">  <span class="meta">@JsonIgnore</span></span><br><span class="line">  <span class="keyword">private</span> User user;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ManyToOne(fetch = FetchType.LAZY)</span></span><br><span class="line">  <span class="meta">@MapsId(value = <span class="meta-string">"commentId"</span>)</span></span><br><span class="line">  <span class="meta">@JoinColumn(name = <span class="meta-string">"comment_id"</span>, referencedColumnName = <span class="meta-string">"id"</span>, insertable = false, updatable = false)</span></span><br><span class="line">  <span class="meta">@NotNull</span></span><br><span class="line">  <span class="meta">@JsonIgnore</span></span><br><span class="line">  <span class="keyword">private</span> Comment comment;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommentVotePK</span> <span class="title">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">  <span class="keyword">protected</span> CommentVotePK() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> CommentVotePK(<span class="built_in">Long</span> userId, <span class="built_in">Long</span> commentId) &#123;</span><br><span class="line">    <span class="keyword">this</span>.userId = userId;</span><br><span class="line">    <span class="keyword">this</span>.commentId = commentId;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="built_in">Long</span> userId;</span><br><span class="line">  <span class="keyword">private</span> <span class="built_in">Long</span> commentId;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> boolean equals(Object o) &#123;</span><br><span class="line">    <span class="keyword">if</span> (o == <span class="keyword">this</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ((<span class="literal">null</span> == o) || (o.getClass() != getClass())) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">final</span> CommentVotePK cvPK = (CommentVotePK) o;</span><br><span class="line">    <span class="keyword">return</span> (cvPK.userId.equals(userId)) &amp;&amp; (cvPK.commentId.equals(commentId));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> int hashCode() &#123;</span><br><span class="line">    <span class="keyword">return</span> new HashCodeBuilder()</span><br><span class="line">        .append(userId)</span><br><span class="line">        .append(commentId)</span><br><span class="line">        .toHashCode();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">Long</span> getUserId() &#123;</span><br><span class="line">    <span class="keyword">return</span> userId;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">Long</span> getCommentId() &#123;</span><br><span class="line">    <span class="keyword">return</span> commentId;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-Repository"><a href="#2-Repository" class="headerlink" title="2. Repository"></a>2. Repository</h2><hr>
+<p>Repository 一般通过继承已有的接口来创建。以下最顶层的是基类，下层的是上层的继承：</p>
+<ul>
+<li>Repository</li>
+<li>CrudRepository</li>
+<li>PagingAndSortingRepository</li>
+<li>JpaRepository</li>
+</ul>
+<p>这些接口已经实现了 count, delete, remove 等操作，我们可以在此基础上衍生出：</p>
+<ul>
+<li>countByLastname</li>
+<li>deleteByLastname</li>
+<li>removeByLastname</li>
+</ul>
+<p>CrudRepository 会暴露所有的 CRUD 的操作，可以考虑 Repository 基类接口，然后 copy 一些 method 来限制可以进行的操作。</p>
+<p>如果自定义一些只是用来继承的接口，可以添加 @NoRepositoryBean。</p>
+<p>JPA 中可以用 @Query 来定义一些无法通过 method name 描述的操作。</p>
+<p>如果 @Query 也不能描述一些复杂操作，可以实现一个 Impl 后缀的 Repository 来调用 EntityManager，进而实现更复杂的操作。</p>
+<h3 id="创建查询方法"><a href="#创建查询方法" class="headerlink" title="创建查询方法"></a>创建查询方法</h3><p>常用的关键词：</p>
+<ol>
+<li>strips the prefixes find…By, read…By, query…By, count…By, and get…By</li>
+<li>And and Or: findByEmailAddressAndLastname</li>
+<li>IgnoreCase, AllIgnoreCase: findByLastnameIgnoreCase, findByLastnameAndFirstnameAllIgnoreCase</li>
+<li>OrderByXXXAsc, OrderByXXXDesc: findByLastnameOrderByFirstnameAsc</li>
+<li>first, top: findFirstByOrderByLastnameAsc, queryFirst10ByLastname, findTop3ByLastname</li>
+<li>Distinct: findDistinctPeopleByLastnameOrFirstname</li>
+</ol>
+<p>如果要检索 Person.address.zipCode，要这样定义：<code>List&lt;Person&gt; findByAddressZipCode(ZipCode zipCode);</code></p>
+<p>如果上面的分词分错了，譬如：AddressZip, Code，可以用 findByAddress_ZipCode 来强制分词，但不建议这样做，不符合 Java 的代码风格</p>
+<p>可以用 Java 8 的 Stream<t>，譬如：</t></p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">try</span> (<span class="keyword">Stream&lt;User&gt; </span><span class="keyword">stream </span>= repository.findAllByCustomQueryAndStream()) &#123;</span><br><span class="line">  <span class="keyword">stream.forEach(…);</span></span><br><span class="line"><span class="keyword">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>Async query 也是支持的：</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Async</span></span><br><span class="line"><span class="built_in">Future</span>&lt;User&gt; findByFirstname(<span class="built_in">String</span> firstname);</span><br><span class="line"></span><br><span class="line"><span class="meta">@Async</span></span><br><span class="line">CompletableFuture&lt;User&gt; findOneByFirstname(<span class="built_in">String</span> firstname);</span><br><span class="line"></span><br><span class="line"><span class="meta">@Async</span></span><br><span class="line">ListenableFuture&lt;User&gt; findOneByLastname(<span class="built_in">String</span> lastname);</span><br></pre></td></tr></table></figure>
+<h3 id="一些查询方法的例子"><a href="#一些查询方法的例子" class="headerlink" title="一些查询方法的例子"></a>一些查询方法的例子</h3><p>Repository 的最简单设置，用继承的<code>findOne</code>, <code>findAll</code>, <code>save</code>等操作：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CommentRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Comment</span>, <span class="title">Long</span>&gt; &#123;</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>用约定的函数名生成数据库操作函数：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CommentRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Comment</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function">List&lt;Comment&gt; <span class="title">findByUser</span><span class="params">(User user)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 Entity 头部定义 @NamedQuery， 然后在 Repository 里调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@NamedQueries</span>(value = &#123;</span><br><span class="line">    <span class="meta">@NamedQuery</span>(name = <span class="string">"Comment.findRootsByPost"</span>,</span><br><span class="line">        query = <span class="string">"SELECT c FROM Comment c WHERE c.parent IS NULL AND c.post = ?1"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"comment"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Comment</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CommentRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Comment</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function">List&lt;Comment&gt; <span class="title">findRootsByPost</span><span class="params">(Post post)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用 @PrePersist、@PreUpdate 等自动触发一些 Table 内部的操作</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MappedSuperclass</span></span><br><span class="line"><span class="meta">@Inheritance</span>(strategy = InheritanceType.SINGLE_TABLE)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> Base <span class="keyword">implements</span> Serializable &#123;</span><br><span class="line">  <span class="meta">@Temporal</span>(value = TemporalType.TIMESTAMP)</span><br><span class="line">  <span class="meta">@Column</span>(name = <span class="string">"created_at"</span>, nullable = <span class="literal">false</span>)</span><br><span class="line">  <span class="keyword">protected</span> <span class="built_in">Date</span> createdAt;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Temporal</span>(value = TemporalType.TIMESTAMP)</span><br><span class="line">  <span class="meta">@Column</span>(name = <span class="string">"updated_at"</span>, nullable = <span class="literal">false</span>)</span><br><span class="line">  <span class="keyword">protected</span> <span class="built_in">Date</span> updatedAt;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@PrePersist</span></span><br><span class="line">  <span class="keyword">private</span> <span class="built_in">void</span> onPrePersist() &#123;</span><br><span class="line">    <span class="built_in">Date</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">    <span class="keyword">this</span>.createdAt = now;</span><br><span class="line">    <span class="keyword">this</span>.updatedAt = now;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@PreUpdate</span></span><br><span class="line">  <span class="keyword">private</span> <span class="built_in">void</span> onPreUpdate() &#123;</span><br><span class="line">    <span class="keyword">this</span>.updatedAt = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更复杂的，跨越多个表的可以定义成 Service，并且标记为事务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RepositoryService</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> PostRepository postRepository;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> CommentRepository commentRepository;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">RepositoryService</span><span class="params">(PostRepository postRepository, CommentRepository commentRepository)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.postRepository = postRepository;</span><br><span class="line">    <span class="keyword">this</span>.commentRepository = commentRepository;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Transactional</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveCommentAndUpdateCommentCount</span><span class="params">(Comment comment)</span> </span>&#123;</span><br><span class="line">    Post post = postRepository.findOne(comment.getPost().getId());</span><br><span class="line">    post.increaseCommentCount();</span><br><span class="line">    postRepository.save(post);</span><br><span class="line">    commentRepository.save(comment);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag">#Spring</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1448354139006/" rel="next" title="Google Java Style 摘录">
+                <i class="fa fa-chevron-left"></i> Google Java Style 摘录
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1450333289904/" rel="prev" title="网页 URI/URL 设计">
+                网页 URI/URL 设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1449555296031/" data-title="Spring Data JPA 笔记" data-url="https://yyqian.com/post/1449555296031/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Entity"><span class="nav-text">1. Entity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Repository"><span class="nav-text">2. Repository</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建查询方法"><span class="nav-text">创建查询方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些查询方法的例子"><span class="nav-text">一些查询方法的例子</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

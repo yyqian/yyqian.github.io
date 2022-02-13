@@ -1,0 +1,598 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Java,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="概览LinkedHashMap 继承自 HashMap，它在功能上增加了双向链表的实现。它有两种顺序访问方式：插入序（insertion-order）或访问序（access-order）。插入序和普通的链表是一致的，类似 FIFO，而访问序实际就是 LRU(least-recently-used) 顺序，这点在后面的 LRUCache 会提到。 123public class LinkedHash">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 源码分析 - LinkedHashMap">
+<meta property="og:url" content="https://yyqian.com/post/1468371727000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="概览LinkedHashMap 继承自 HashMap，它在功能上增加了双向链表的实现。它有两种顺序访问方式：插入序（insertion-order）或访问序（access-order）。插入序和普通的链表是一致的，类似 FIFO，而访问序实际就是 LRU(least-recently-used) 顺序，这点在后面的 LRUCache 会提到。 123public class LinkedHash">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 源码分析 - LinkedHashMap">
+<meta name="twitter:description" content="概览LinkedHashMap 继承自 HashMap，它在功能上增加了双向链表的实现。它有两种顺序访问方式：插入序（insertion-order）或访问序（access-order）。插入序和普通的链表是一致的，类似 FIFO，而访问序实际就是 LRU(least-recently-used) 顺序，这点在后面的 LRUCache 会提到。 123public class LinkedHash">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Java 源码分析 - LinkedHashMap | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java 源码分析 - LinkedHashMap
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T09:02:07+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1468371727000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1468371727000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>LinkedHashMap 继承自 HashMap，它在功能上增加了双向链表的实现。它有两种顺序访问方式：插入序（insertion-order）或访问序（access-order）。插入序和普通的链表是一致的，类似 FIFO，而访问序实际就是 LRU(least-recently-used) 顺序，这点在后面的 LRUCache 会提到。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedHashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="存储结构-字段"><a href="#存储结构-字段" class="headerlink" title="存储结构-字段"></a>存储结构-字段</h2><p>我们只关注扩展的部分，这里面值得注意的是 head 和 tail 字段，以及扩展后的内部节点类中的 before 和 after 字段。<br><a id="more"></a><br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 类似 LinkedList，一头一尾两个引用</span></span><br><span class="line"><span class="keyword">transient</span> LinkedHashMap.Entry&lt;K,V&gt; head;</span><br><span class="line"><span class="keyword">transient</span> LinkedHashMap.Entry&lt;K,V&gt; tail;</span><br><span class="line"><span class="comment">// true 为 access-order，false 为 insertion-order</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">boolean</span> accessOrder;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 内部的节点在 HashMap 的 Node 基础上进行了扩展，增加了 before 和 after 字段，这个字段要和 Node 自身的 next 区分开来，两者是不同层面的东西</span></span><br><span class="line"><span class="comment">// 桶内单向链表通过 next 链接</span></span><br><span class="line"><span class="comment">// 全局的双向链表通过 before 和 after 链接</span></span><br><span class="line">static <span class="class"><span class="keyword">class</span> <span class="title">Entry&lt;K</span>,<span class="title">V&gt;</span> <span class="keyword">extends</span> <span class="title">HashMap</span>.<span class="title">Node&lt;K</span>,<span class="title">V&gt;</span> </span>&#123;</span><br><span class="line">    <span class="type">Entry</span>&lt;<span class="type">K</span>,<span class="type">V</span>&gt; before, after;</span><br><span class="line">    <span class="type">Entry</span>(int hash, <span class="type">K</span> key, <span class="type">V</span> value, <span class="type">Node</span>&lt;<span class="type">K</span>,<span class="type">V</span>&gt; next) &#123;</span><br><span class="line">        <span class="keyword">super</span>(hash, key, value, next);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="功能实现-方法"><a href="#功能实现-方法" class="headerlink" title="功能实现-方法"></a>功能实现-方法</h2><h3 id="插入序的实现"><a href="#插入序的实现" class="headerlink" title="插入序的实现"></a>插入序的实现</h3><p>添加和替换操作</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// link at the end of list</span></span><br><span class="line"><span class="comment">// 将新节点添加到双向链表的尾部</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">linkNodeLast</span><span class="params">(LinkedHashMap.Entry&lt;K,V&gt; p)</span> </span>&#123;</span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; last = tail;</span><br><span class="line">    tail = p;</span><br><span class="line">    <span class="keyword">if</span> (last == <span class="keyword">null</span>)</span><br><span class="line">        <span class="comment">// 如果 last 为空，说明之前的双向链表是空的，所以此时 head 也指向新的节点</span></span><br><span class="line">        head = p;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 双向链接</span></span><br><span class="line">        p.<span class="keyword">before</span> = last;</span><br><span class="line">        last.<span class="keyword">after</span> = p;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// apply src's links to dst</span><br><span class="line">// 用 dst 节点替换双向链表中的 src 节点</span><br><span class="line">private void <span class="title">transferLinks</span>(LinkedHashMap.Entry&lt;K,V&gt; src,</span><br><span class="line">                           LinkedHashMap.Entry&lt;K,V&gt; dst) &#123;</span><br><span class="line">    <span class="comment">// 修改 dst 的前驱和后继链接</span></span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; b = dst.<span class="keyword">before</span> = src.<span class="keyword">before</span>;</span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; a = dst.<span class="keyword">after</span> = src.<span class="keyword">after</span>;</span><br><span class="line">    // 让前驱和后继链接指向 dst，完成双向链接</span><br><span class="line">    <span class="title">if</span> (b == null)</span><br><span class="line">        head = dst;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        b.<span class="keyword">after</span> = dst;</span><br><span class="line">    <span class="title">if</span> (a == null)</span><br><span class="line">        tail = dst;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        a.<span class="keyword">before</span> = dst;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建新节点之后，就调用 linkNodeLast 方法将之加入到双向链表的尾部</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Node</span><span class="title">&lt;K</span>,V&gt; newNode(int hash, K key, V value, <span class="keyword">Node</span><span class="title">&lt;K</span>,V&gt; e) &#123;</span><br><span class="line">    LinkedHashMap.Entry<span class="tag">&lt;K,V&gt;</span> p =</span><br><span class="line">        new LinkedHashMap.Entry<span class="tag">&lt;K,V&gt;</span>(hash, key, value, e);</span><br><span class="line">    linkNodeLast(p);</span><br><span class="line">    return p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了这几个方法之后，每次添加新节点，都是添加到双向链表的尾部，因此实现了类似 FIFO 的顺序，也就是插入序。</p>
+<h3 id="访问序的实现"><a href="#访问序的实现" class="headerlink" title="访问序的实现"></a>访问序的实现</h3><p>前面说了插入序的实现，那访问序如何实现呢？实际上 HashMap 中已经为我们做好准备了，HashMap 的 remove、put、replace 等操作在完成之后，会调用以下几个方法之一，但是它们在 HashMap 中是空的，注释中写明了是为了方便 LinkedHashMap 实现的</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Callbacks to allow LinkedHashMap post-actions</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">afterNodeAccess</span><span class="params">(Node&lt;K,V&gt; p)</span> </span>&#123; &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">afterNodeInsertion</span><span class="params">(<span class="keyword">boolean</span> evict)</span> </span>&#123; &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">afterNodeRemoval</span><span class="params">(Node&lt;K,V&gt; p)</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+<p>那么我们就来看看 LinkedHashMap 覆盖的这几个方法：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个和访问序无关，由于双向链表的存在，我们在 remove 的时候需要一些额外的工作，除了把节点从哈希桶的单向链表中移除，也需要把它从双向链表中移除，为了不修改父类的逻辑，我们把这些额外的工作放在了这儿</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">afterNodeRemoval</span><span class="params">(Node&lt;K,V&gt; e)</span> </span>&#123; <span class="comment">// unlink</span></span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; p =</span><br><span class="line">        (LinkedHashMap.Entry&lt;K,V&gt;)e, b = p.<span class="keyword">before</span>, a = p.<span class="keyword">after</span>;</span><br><span class="line">    p.<span class="keyword">before</span> = p.<span class="keyword">after</span> = null;</span><br><span class="line">    <span class="title">if</span> (b == null)</span><br><span class="line">        head = a;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        b.<span class="keyword">after</span> = a;</span><br><span class="line">    <span class="title">if</span> (a == null)</span><br><span class="line">        tail = b;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        a.<span class="keyword">before</span> = b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 我们可以选择是否删除最老的节点</span><br><span class="line">void <span class="title">afterNodeInsertion</span>(boolean evict) &#123; <span class="comment">// possibly remove eldest</span></span><br><span class="line">    <span class="comment">// 如果是访问序，最老的节点在头部，最年轻的节点在尾部，所以这里 first 指向的是最老的节点</span></span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; first;</span><br><span class="line">    <span class="keyword">if</span> (evict &amp;&amp; (first = head) != <span class="keyword">null</span> &amp;&amp; removeEldestEntry(first)) &#123;</span><br><span class="line">        <span class="comment">// 这里需要判断：</span></span><br><span class="line">        <span class="comment">// 不是在构造方法中</span></span><br><span class="line">        <span class="comment">// 头元素不为空</span></span><br><span class="line">        <span class="comment">// 要求删除最老元素</span></span><br><span class="line">        K key = first.key;</span><br><span class="line">        removeNode(hash(key), key, <span class="keyword">null</span>, <span class="keyword">false</span>, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个和访问序最息息相关，它会把被访问的节点，移动到双向链表尾部，也就是最年轻的位置</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">afterNodeAccess</span><span class="params">(Node&lt;K,V&gt; e)</span> </span>&#123; <span class="comment">// move node to last</span></span><br><span class="line">    <span class="comment">// 指向最年轻的节点，也就是尾部节点</span></span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; last;</span><br><span class="line">    <span class="comment">// 判断是否采用了 access-order 以及被访问节点是否已经在尾部了</span></span><br><span class="line">    <span class="keyword">if</span> (accessOrder &amp;&amp; (last = tail) != e) &#123;</span><br><span class="line">        <span class="comment">// 强制转换 Node 为 Entry</span></span><br><span class="line">        <span class="comment">// 获得被访问节点的前驱和后继</span></span><br><span class="line">        LinkedHashMap.Entry&lt;K,V&gt; p =</span><br><span class="line">            (LinkedHashMap.Entry&lt;K,V&gt;)e, b = p.<span class="keyword">before</span>, a = p.<span class="keyword">after</span>;</span><br><span class="line">        // 被访问节点作为尾部，后继为 null</span><br><span class="line">        p.<span class="keyword">after</span> = null;</span><br><span class="line">        // 让被访问节点的前驱和后继相互链接</span><br><span class="line">        <span class="title">if</span> (b == null)</span><br><span class="line">            head = a;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            b.<span class="keyword">after</span> = a;</span><br><span class="line">        <span class="title">if</span> (a != null)</span><br><span class="line">            a.<span class="keyword">before</span> = b;</span><br><span class="line">        else</span><br><span class="line">            last = b;</span><br><span class="line">        // 让被访问节点和之前的尾部节点双向链接</span><br><span class="line">        <span class="title">if</span> (last == null)</span><br><span class="line">            head = p;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            p.<span class="keyword">before</span> = last;</span><br><span class="line">            last.<span class="keyword">after</span> = p;</span><br><span class="line">        &#125;</span><br><span class="line">        // 全局的 tail 字段指向被访问节点，也就是当前的尾部</span><br><span class="line">        tail = p;</span><br><span class="line">        ++modCount;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LinkedHashMap 中的 afterNodeInsertion 方法实际不会发生作用，因为它调用的 removeEldestEntry 方法永远都返回 false。但我们注意到该方法被 protected 修饰，所以我们可以在需要该功能的情况下，继承 LinkedHashMap 类，override removeEldestEntry 方法，让它返回 true，这样就能激活 afterNodeInsertion 的功能了</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">removeEldestEntry</span><span class="params">(Map.Entry&lt;K,V&gt; eldest)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>前面说了，HashMap 的 remove、put、replace 等操作在完成之后会调用前面的几个回调方法，但唯独 get 方法没有调用。所以 LinkedHashMap 在这里复写 get 方法，在 accessOrder 为 true 的情况下，会调用 afterNodeAccess 来实现节点的移动。</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> V <span class="built_in">get</span>(<span class="keyword">Object</span> <span class="built_in">key</span>) &#123;</span><br><span class="line">    Node&lt;K,V&gt; e;</span><br><span class="line">    <span class="keyword">if</span> ((e = getNode(hash(<span class="built_in">key</span>), <span class="built_in">key</span>)) == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (accessOrder)</span><br><span class="line">        afterNodeAccess(e);</span><br><span class="line">    <span class="keyword">return</span> e.value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="遍历及迭代器"><a href="#遍历及迭代器" class="headerlink" title="遍历及迭代器"></a>遍历及迭代器</h3><p>LinkeHashMap 有了全局的双向链表之后，实际有两种遍历方式：一种是和 HashMap 相同的遍历方式，依次遍历哈希桶中的单链表；另一种是利用这个双向链表。显然，双向链表才能满足我们对访问顺序的要求，并且遍历也更为简便。下面就看下迭代器源码中遍历的方式是否如此：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> LinkedHashIterator &#123;</span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; <span class="keyword">next</span>;</span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; current;</span><br><span class="line">    <span class="keyword">int</span> expectedModCount;</span><br><span class="line"></span><br><span class="line">    LinkedHashIterator() &#123;</span><br><span class="line">        <span class="keyword">next</span> = head;</span><br><span class="line">        expectedModCount = modCount;</span><br><span class="line">        current = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> hasNext() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">next</span> != <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> LinkedHashMap.Entry&lt;K,V&gt; nextNode() &#123;</span><br><span class="line">        LinkedHashMap.Entry&lt;K,V&gt; e = <span class="keyword">next</span>;</span><br><span class="line">        <span class="keyword">if</span> (modCount != expectedModCount)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</span><br><span class="line">        <span class="keyword">if</span> (e == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</span><br><span class="line">        current = e;</span><br><span class="line">        <span class="comment">// 从这一句我们就可以看到，它是在双向链表上遍历</span></span><br><span class="line">        <span class="keyword">next</span> = e.after;</span><br><span class="line">        <span class="keyword">return</span> e;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> remove() &#123;</span><br><span class="line">        Node&lt;K,V&gt; p = current;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</span><br><span class="line">        <span class="keyword">if</span> (modCount != expectedModCount)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</span><br><span class="line">        current = <span class="keyword">null</span>;</span><br><span class="line">        K key = p.key;</span><br><span class="line">        removeNode(hash(key), key, <span class="keyword">null</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">        expectedModCount = modCount;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除此之外，containsValue 方法也是用双向链表进行遍历的：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> boolean <span class="title">containsValue</span>(<span class="params">Object <span class="keyword">value</span></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (LinkedHashMap.Entry&lt;K,V&gt; e = head; e != <span class="literal">null</span>; e = e.after) &#123;</span><br><span class="line">        V v = e.<span class="keyword">value</span>;</span><br><span class="line">        <span class="keyword">if</span> (v == <span class="keyword">value</span> || (<span class="keyword">value</span> != <span class="literal">null</span> &amp;&amp; <span class="keyword">value</span>.<span class="keyword">equals</span>(v)))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="LRU-Cache-的实现"><a href="#LRU-Cache-的实现" class="headerlink" title="LRU Cache 的实现"></a>LRU Cache 的实现</h3><p>前面我们已经提到过，两种访问顺序的选择是通过 accessOrder 字段来确定的。这个字段唯一的设置方法是在构造方法中：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只有这个构造方法能传入 accessOrder 属性，并且必须给出 initialCapacity 和 loadFactor。我们通过传入 accessOrder = true 来设定 LRU 顺序</span></span><br><span class="line"><span class="keyword">public</span> LinkedHashMap(<span class="keyword">int</span> initialCapacity,</span><br><span class="line">                     <span class="keyword">float</span> loadFactor,</span><br><span class="line">                     <span class="keyword">boolean</span> accessOrder) &#123;</span><br><span class="line">    <span class="keyword">super</span>(initialCapacity, loadFactor);</span><br><span class="line">    <span class="keyword">this</span>.accessOrder = accessOrder;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 默认的顺序是 FIFO</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedHashMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>();</span><br><span class="line">    accessOrder = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际使用时，我们可能还需要设定最大容量，以及在溢出时清除最老的元素等操作，所以还需要进一步封装一下。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>LinkedHashMap 在 HashMap 基础上做出的扩展就在于双向链表的引入，它的引入带来了 FIFO 和 LRU 两种访问顺序的选择，以及更高效的遍历操作。其他方面还是和 HashMap 一样基于桶数组、桶内单链表和红黑树。它们也都支持 null 而键值。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#Java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1468371713000/" rel="next" title="Java 源码分析 - LinkedList">
+                <i class="fa fa-chevron-left"></i> Java 源码分析 - LinkedList
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1468377874000/" rel="prev" title="Java 源码分析 - HashSet/TreeSet/LinkedHashSet">
+                Java 源码分析 - HashSet/TreeSet/LinkedHashSet <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1468371727000/" data-title="Java 源码分析 - LinkedHashMap" data-url="https://yyqian.com/post/1468371727000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储结构-字段"><span class="nav-text">存储结构-字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能实现-方法"><span class="nav-text">功能实现-方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入序的实现"><span class="nav-text">插入序的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问序的实现"><span class="nav-text">访问序的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历及迭代器"><span class="nav-text">遍历及迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LRU-Cache-的实现"><span class="nav-text">LRU Cache 的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

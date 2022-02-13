@@ -1,0 +1,702 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="机器学习,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="最近在 Coursera 上完成了第一门课：Andrew Ng 的 Machine Learning，拿到了第一个 Certification。体验挺好的，这篇文章把各个知识点大体梳理一下，备忘。 IntroductionMachine Learning 这个概念有两种定义：  The field of study that gives computers the ability to learn">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Machine Learning 课程小结">
+<meta property="og:url" content="https://yyqian.com/post/1471831725000/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="最近在 Coursera 上完成了第一门课：Andrew Ng 的 Machine Learning，拿到了第一个 Certification。体验挺好的，这篇文章把各个知识点大体梳理一下，备忘。 IntroductionMachine Learning 这个概念有两种定义：  The field of study that gives computers the ability to learn">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221047-FrgHgRIsGoZKXDZvEPlilFSvvs8t?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221052-FmLpNuAechaq1EtnrfYcqUOp0Wsy?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221059-FkJ_z4QRYAR_1Ce_HmwYWgu6TrF4?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221101-Ft7nLcfdpVWWfN-1pOwm3qk3ivI1?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221151-Fga3YXFvlgtPXDXaf9Wr20_PDDtv?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221210-Fr6D8G8NcaHbokKVPNMAtz6oA7MY?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221212-FkDKRpQINvPDQkaN50CQYeW8p7IO?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221354-FkVVQkZ2nW2FaoJFNrkpSxdS-vPa?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221406-FsLetHIFI233G8OXjmmfOytdsQ7v?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221406-FtADQsEBhKIYJw3H6xbBJmC7RSNe?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221410-Fibr4h544-ZAYnIjagmumncZ7THc?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221413-FmF1PqFLSHpYQ3y1mkUpOD7wOPv1?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221452-FlOcYo-KKwbJ-hq94Yf6gP6OyqfE?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221452-FtpF2iDC4p1MAWC8n5EalpQm-z7O?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221501-FtftYoPW3r2a-YrY7VKTu89aQHHz?imageView2/2/w/800/h/600">
+<meta property="og:image" content="http://cdn.yyqian.com/201608221504-FtmxsjOrv_NtTM7i2rHSttUXmZYn?imageView2/2/w/800/h/600">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Machine Learning 课程小结">
+<meta name="twitter:description" content="最近在 Coursera 上完成了第一门课：Andrew Ng 的 Machine Learning，拿到了第一个 Certification。体验挺好的，这篇文章把各个知识点大体梳理一下，备忘。 IntroductionMachine Learning 这个概念有两种定义：  The field of study that gives computers the ability to learn">
+<meta name="twitter:image" content="http://cdn.yyqian.com/201608221047-FrgHgRIsGoZKXDZvEPlilFSvvs8t?imageView2/2/w/800/h/600">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Machine Learning 课程小结 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Machine Learning 课程小结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T10:08:45+08:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1471831725000/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1471831725000/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在 Coursera 上完成了第一门课：Andrew Ng 的 Machine Learning，拿到了第一个 Certification。体验挺好的，这篇文章把各个知识点大体梳理一下，备忘。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Machine Learning 这个概念有两种定义：</p>
+<ol>
+<li>The field of study that gives computers the ability to learn without being explicitly programmed.</li>
+<li>A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.</li>
+</ol>
+<p>它大体可以分为两类：</p>
+<ol>
+<li>supervised learning</li>
+<li>unsupervised learning</li>
+</ol>
+<p>前者的学习需要以往数据给出一定的「指导」，而后者可以自发地从数据中摸索出一定的「规律」。<br><a id="more"></a></p>
+<h3 id="Supervised-learning"><a href="#Supervised-learning" class="headerlink" title="Supervised learning"></a>Supervised learning</h3><p>Supervised learning 的问题又可以分为两类问题：regression 和 classification。前者预测的值一般是连续的，例如根据以往的运营情况预测未来的盈利；后者预测的值是离散的，例如预测是否得癌症。</p>
+<p>这一类问题在这门课中讲了以下四种方法：</p>
+<ol>
+<li>Linear Regression</li>
+<li>Logistic Regression</li>
+<li>Neural Networks</li>
+<li>Support Vector Machines (SVM)</li>
+</ol>
+<p>第一种可以解决 regression 问题，后三种都是解决 classification 问题。</p>
+<h3 id="Unsupervised-Learning"><a href="#Unsupervised-Learning" class="headerlink" title="Unsupervised Learning"></a>Unsupervised Learning</h3><p>这门课中针对三类问题讲了以下三种方法：</p>
+<ol>
+<li>K-Means，用于聚类</li>
+<li>Anomaly Detection（使用 Gaussian Distribution）</li>
+<li>Collaborative filtering，用于推荐系统</li>
+</ol>
+<p>以下将针对每一种方法进行简短的概述。</p>
+<h2 id="Linear-Regression"><a href="#Linear-Regression" class="headerlink" title="Linear Regression"></a>Linear Regression</h2><p>线性回归虽然并不适用于复杂的系统，但它的简洁明了适合我们去掌握 ML 中很多关键的概念。</p>
+<p>首先我们要掌握的是 Hypothesis Function：</p>
+<p><img src="http://cdn.yyqian.com/201608221047-FrgHgRIsGoZKXDZvEPlilFSvvs8t?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 10.46.46 AM.png"></p>
+<p>这个是适用于 Linear Regression 的假设函数，Linear 这个命名也来源于此，因为它是一个矩阵和向量的乘积。</p>
+<p>假设函数的目的是根据输入 X 来计算预测值，而 sigma 就是参数，描述了我们的模型。</p>
+<p>有了预测值，我们需要根据 Cost function</p>
+<p><img src="http://cdn.yyqian.com/201608221052-FmLpNuAechaq1EtnrfYcqUOp0Wsy?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 10.52.44 AM.png"></p>
+<p>来计算预测的值和真实值之间的偏差，也称之为 cost。当然，我们希望这个 cost 越小越好，所以我们接下来要做的就是最小化这个 cost，而这里的变量就是 sigma。</p>
+<p>最小化 Cost function 较为通用的方法是 Gradient descent：</p>
+<p><img src="http://cdn.yyqian.com/201608221059-FkJ_z4QRYAR_1Ce_HmwYWgu6TrF4?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 10.58.46 AM.png"></p>
+<p>我们每次都沿着函数的切线方向，向谷底走一小步，直到达到谷底就完成了最小化的过程。对于 Linear Regression，我们得到的具体的计算公式如下：</p>
+<p><img src="http://cdn.yyqian.com/201608221101-Ft7nLcfdpVWWfN-1pOwm3qk3ivI1?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 11.01.12 AM.png"></p>
+<p>实际上，对于线性回归这类特殊问题，我们是有解析解的，通过求逆矩阵等步骤，可以得到精确解，但是对于超大的矩阵，求逆矩阵这个步骤计算量特别大，所以解析的方法也是有局限之处的。</p>
+<p>另外要注意的是，这里的线性不是指的只跟 X 的一次方相关，我们也可以引入高次幂，只要把高次幂作为新的 features 加入到 X 中即可。</p>
+<h2 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h2><p>Logistic Regression 和 Linear Regression 的差别主要在于 Hypothesis Function，其他计算是类似的，但它虽然名字带 regression，其实是用来解决 classification 问题的。</p>
+<p>Logistic Regression 的 Hypothesis Function 如下：</p>
+<p><img src="http://cdn.yyqian.com/201608221151-Fga3YXFvlgtPXDXaf9Wr20_PDDtv?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 11.51.19 AM.png"></p>
+<p>它的输出是 0 到 1 之间的连续的数值，我们以 0.5 为分割点，将这个数值进一步二值化为 0 和 1，这就是我们最终的预测值（后面我们还能看到，这个分割点 0.5 是可以取其他值的）。</p>
+<p>然后 Cost function 也需要进行一定的更改：</p>
+<p><img src="http://cdn.yyqian.com/201608221210-Fr6D8G8NcaHbokKVPNMAtz6oA7MY?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 12.10.47 PM.png"></p>
+<p>如果这里还是用之前的 Cost function，会存在很多局部最小值，而这个对数形式的是只有全局最小值的。</p>
+<p>最小化这个 cost function 的方法还是用 Gradient descent，更新的步骤是以下公式，这里已经计算好了导数的表达式：</p>
+<p><img src="http://cdn.yyqian.com/201608221212-FkDKRpQINvPDQkaN50CQYeW8p7IO?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 12.12.20 PM.png"></p>
+<p>这个方法本质上只适用于二分类的问题，如果是多分类的问题，我们要用 One-vs-all 的技巧：例如我们有 A、B、C 三类，第一次计算的时候标记 A 为 0，B 和 C 为 1，后面两次计算交互顺序，所以实际上是做三次计算，得到三个预测模型，每个模型只能预测 X 和 非X。</p>
+<h2 id="Neural-Networks"><a href="#Neural-Networks" class="headerlink" title="Neural Networks"></a>Neural Networks</h2><p>Neural Networks 无疑是当下 ML 中比较火的算法，它通过模拟神经元组成的网络来构建模型。这里不具体讲这个算法了，只谈一下我对这个算法的理解。</p>
+<p>前面的 Linear Regression 和 Logistic Regression 在模型的复杂度方面存在一定的局限性：我们在构造这些模型时选用的 features（也就是 X）往往只包含一次项，它们的高次幂以及交互项（例如 x_1*x_2）很有可能是完全忽略的（这一点可以从只包含一次幂或二次幂的平面曲线中可以看出）。</p>
+<p>虽然我们可以通过添加新的高次幂或者交互项作为独立的 features 来将模型复杂化，但是这个过程是需要人为挑选的，一定程度上违背了「机器自动学习」的宗旨。</p>
+<p>Neural Networks 在复杂度方面有非常大的优势，该模型中的隐藏节点实际上就是构造出来的新的 features，但这些 features 对我们来说是透明的，我们不需要也不允许去挑选新的 features。我们要做的是选择隐藏节点的层数和每层的节点数，这个实际上是在定义模型的复杂度，这显然比人为地挑选新的 features 要优雅地多。</p>
+<p>除此之外，跟 Logistic Regression 相比，Neural Networks 天然支持多分类问题，只需要多个输出节点就可以了。</p>
+<p>Neural Networks 的正向传播和反向传播算法这里就不多介绍了，计算量比其他算法大很多，但好在现在有 TensorFlow 等框架的支持，并行以及用 GPU 并行等技术可以很轻易地来加速这一算法的实现。</p>
+<h2 id="General-Advice"><a href="#General-Advice" class="headerlink" title="General Advice"></a>General Advice</h2><p>ML 中除了这些一个个用于解决某类问题的算法，还有很多较为普适的问题、分析方法和优化手段。</p>
+<h3 id="Model-Selection"><a href="#Model-Selection" class="headerlink" title="Model Selection"></a>Model Selection</h3><p>前面我们提到了模型中有很多参数需要进行最优化计算，这其实是一类参数，还有一类参数是模型本身的：例如神经网络中的层数和节点数，线性回归中高次项的挑选以及后面我们要提到的 Regularization 中的 lambda 值的选择。这一类参数和数据集无关，只和我们模型的选择有关，所以我们实际还需要对模型本身做出一些选择。</p>
+<h3 id="Train-Validation-Test-Sets"><a href="#Train-Validation-Test-Sets" class="headerlink" title="Train/Validation/Test Sets"></a>Train/Validation/Test Sets</h3><p>在使用已有的数据集的时候，我们一般建议把数据集分成三类：</p>
+<ol>
+<li>Train Set: 这个数据集是通过最小化 Cost function 来计算最优的 Sigma 参数的，针对每一种不同的模型我们都需要进行计算（包括不同模型参数）。</li>
+<li>Cross Validation Set: 这个数据集用于 Model Selection，前面我们用 Train Set 训练好了所有的备选的模型，这个时候我们 CV 这一组数据集来测试这些模型的准确度，这样我们就能从中挑选最佳的模型了。</li>
+<li>Test set：用该组数据集来计算我们最终选择的最优的模型的误差。</li>
+</ol>
+<p>这三个数据集的比例一般建议为：6:2:2。</p>
+<h3 id="Underfitting-和-Overfitting，Bias-和-Variance"><a href="#Underfitting-和-Overfitting，Bias-和-Variance" class="headerlink" title="Underfitting 和 Overfitting，Bias 和 Variance"></a>Underfitting 和 Overfitting，Bias 和 Variance</h3><p>如果我们的模型太简单（例如线性回归只包含了一次项），这个时候无论我们有多少精准的数据，都无法得到一个很好的模型，我们称之为欠拟合。它表现为测试集和交叉验证集得到的误差（也就是 cost function）都很大，我们称之为 high bias。这个时候我们改进的手段就是增加 features，让模型复杂化。</p>
+<p>如果我们的数据太少或者 features 太多，这个时候可以很好地 fit 测试集，但无法很好地预测交叉验证集，我们称之为过拟合。它表现为测试集的误差很小，但交叉验证集得到的误差很大，我们称之为 high variance。这个时候我们改进的手段有获取更多的数据和合理地减少 features。</p>
+<h3 id="Regularization"><a href="#Regularization" class="headerlink" title="Regularization"></a>Regularization</h3><p>前面的过拟合问题我们还可以通过增加一个 Regularization 项来解决，例如对于逻辑回归：</p>
+<p><img src="http://cdn.yyqian.com/201608221354-FkVVQkZ2nW2FaoJFNrkpSxdS-vPa?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 1.53.46 PM.png"></p>
+<p>我们可以通过调节这个 lambda 的大小，来控制 bias 和 variance 之间的权衡。过大的 lambda 会导致 underfitting，而过小的 lambda 有可能会导致 overfitting。这个调节可以通过 CV set 来设计程序自动选择最优的 lambda 值。</p>
+<p>这一项的作用实际是在削弱模型中高次项的 features 对整体的影响，它是以 penalty 的形式加进来的。</p>
+<h3 id="Learning-Curve"><a href="#Learning-Curve" class="headerlink" title="Learning Curve"></a>Learning Curve</h3><p>Learning Curve 的示例图如下：</p>
+<p><img src="http://cdn.yyqian.com/201608221406-FsLetHIFI233G8OXjmmfOytdsQ7v?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 2.05.17 PM.png"></p>
+<p><img src="http://cdn.yyqian.com/201608221406-FtADQsEBhKIYJw3H6xbBJmC7RSNe?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 2.06.09 PM.png"></p>
+<p>我们可以通过这个图诊断我们的模型存在哪些问题，以及如何针对这些问题进行改进。</p>
+<h3 id="Precision-and-Recall"><a href="#Precision-and-Recall" class="headerlink" title="Precision and Recall"></a>Precision and Recall</h3><p>我们前面评判一个算法好坏以及 Model Selection 的时候，使用的评判指标是 Cost function 也就是误差。但这个不适用于 skewed classes，例如病人的诊断，可能 98% 的人都是正常的，只有 2% 是有病的。这个时候更适合参考的是 precision 和 recall，两者定义如下：</p>
+<p><img src="http://cdn.yyqian.com/201608221410-Fibr4h544-ZAYnIjagmumncZ7THc?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 2.10.21 PM.png"></p>
+<p>两者结合能得到更合适的指标：</p>
+<p><img src="http://cdn.yyqian.com/201608221413-FmF1PqFLSHpYQ3y1mkUpOD7wOPv1?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 2.13.31 PM.png"></p>
+<h2 id="Support-Vector-Machine-SVM"><a href="#Support-Vector-Machine-SVM" class="headerlink" title="Support Vector Machine (SVM)"></a>Support Vector Machine (SVM)</h2><p>SVM 和 Logistic Regression 有很多类似之处。它又称为 Large Margin Classification，训练得到的模型的边界比 Logistic Regression 更佳。</p>
+<p>SVM 有 with kernal 和 witout kernal (linear kernal) 两个版本，linear kernal 的形式基本和 Logistic Regression 是一致的，有核的版本会在每个点作高斯函数的展开，计算量会大很多。所以我们需要根据 features 数目和数据集大小，来在这两个方法中做出选择。</p>
+<h2 id="K-means"><a href="#K-means" class="headerlink" title="K-means"></a>K-means</h2><p>K-means 是用来解决一系列的聚类问题，将一个无标签的数据集分成若干类。这个算法的迭代分两步：</p>
+<ol>
+<li>对每个数据点，计算它到各个 cluster 中心的距离，选择最近的那个作为它的归属（也就是分类）</li>
+<li>对当前的每个分类，计算该分类所有数据点的平均值来作为新的 cluster 中心。</li>
+</ol>
+<p>我们可以看出这实际上是一个较为简单明了的算法，我们额外还需要做的是设定多少个 cluster 中心（也就是要分成多少个类）？以及随机初始化这些 cluster centers 的位置。</p>
+<p>初始化位置的不同也会导致最终的分类有所差别，所以这里也需要 CV set 来进行 Model Selection 的步骤。</p>
+<h2 id="Principal-Component-Analysis（PCA）"><a href="#Principal-Component-Analysis（PCA）" class="headerlink" title="Principal Component Analysis（PCA）"></a>Principal Component Analysis（PCA）</h2><p>PCA 是用来进行 Dimensionality Reduction 的一种方法，也可以用作 Data Compression（例如减少图片的颜色种类）、Visualization（将高维度的数据压缩到 2、3 维以便作图）。在我们的 ML 中，我们可以通过压缩维度来大大减小计算量。具体的算法就不做展开了。</p>
+<h2 id="Anomaly-Detection"><a href="#Anomaly-Detection" class="headerlink" title="Anomaly Detection"></a>Anomaly Detection</h2><p>Anomaly Detection 的思路其实很简单，用高斯分布来拟合数据集，概率小的数据点自然就很可能是异常的。</p>
+<p>高斯分布表达式中的 mu 和 sigma 都是可以通过数据集训练出来的。这里的关键在于如何确定一个概率的阈值，小于这个阈值的数据点都被标为异常点。这个时候我们需要少量的带标签的异常数据，来「指导」我们对这个阈值做出选择。</p>
+<p>既然我们用来带标签的数据集，这不就是 Supervised Learning 了么？这里的区别就在于异常数据集的大小，Anomaly Detection 只需要很少量的异常数据集来标定阈值，而 Supervised Learning 通常需要相同体量的正负样本数目。</p>
+<h2 id="Recommender-Systems"><a href="#Recommender-Systems" class="headerlink" title="Recommender Systems"></a>Recommender Systems</h2><p>Recommender System 是被广泛使用的一种 ML 应用，采用一种称为 Collaborative Filtering 的算法来构造。这里直接给出 Cost function 和迭代步骤的表达式：</p>
+<p><img src="http://cdn.yyqian.com/201608221452-FlOcYo-KKwbJ-hq94Yf6gP6OyqfE?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 2.52.36 PM.png"></p>
+<p><img src="http://cdn.yyqian.com/201608221452-FtpF2iDC4p1MAWC8n5EalpQm-z7O?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 2.52.28 PM.png"></p>
+<p>我们要注意的是这个算法里有 x 和 sigma 两种参数需要进行训练，两者之间也存在相互训练的关系。这个算法看似较为复杂，但在向量化之后，实际的计算表达式并不复杂。</p>
+<h2 id="Large-Scale-Machine-Learning"><a href="#Large-Scale-Machine-Learning" class="headerlink" title="Large Scale Machine Learning"></a>Large Scale Machine Learning</h2><p>在人人都谈大数据的时代，动不动就是上亿的数据量会给我们之前讨论的算法都带来一些的问题。</p>
+<h3 id="Gradient-Descent-的变种"><a href="#Gradient-Descent-的变种" class="headerlink" title="Gradient Descent 的变种"></a>Gradient Descent 的变种</h3><p>对于 Gradient Descent 这一训练步骤，迭代的每一步都需要遍历所有数据，这个对于大数据是不太适用的。因此有了 Stochastic Gradient Descent 算法，它的区别在于迭代步骤每次只随机选用了一个数据点：</p>
+<p><img src="http://cdn.yyqian.com/201608221501-FtftYoPW3r2a-YrY7VKTu89aQHHz?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 3.01.40 PM.png"></p>
+<p>这个算法在优化的路径上是迂回前进的，但最终到达终点的速度要比我们之前的 Batch Gradient Descent 算法更快。</p>
+<p>如果对这条迂回的路线不太满意，我们还可以用 Mini-Batch Gradient Descent，它的区别就在于迭代的时候选用了部分的数据集，作为 batch 和 stochastic 两者的折中方案：</p>
+<p><img src="http://cdn.yyqian.com/201608221504-FtmxsjOrv_NtTM7i2rHSttUXmZYn?imageView2/2/w/800/h/600" alt="Screen Shot 2016-08-22 at 3.04.36 PM.png"></p>
+<h3 id="Online-Learning"><a href="#Online-Learning" class="headerlink" title="Online Learning"></a>Online Learning</h3><p>如果你听过 Streaming、Piplining 等字眼，应该可以理解我们的数据往往是向水流一样源源不断地流到我们系统中来的，而不是像这里一直在讨论的先准备数据集，再做划分等等 blabla。这个时候我们就要求算法能够实时地消化新的数据，动态地更新当前的模型，然后就把数据丢掉。</p>
+<h3 id="并行化"><a href="#并行化" class="headerlink" title="并行化"></a>并行化</h3><p>我们可以看到 ML 的算法中大量地用了累加，矩阵运算等操作，这些操作大多是可以并行计算的。并行的方式有多种，例如：</p>
+<ol>
+<li>利用 CPU 或 GPU 的多个核心，通过多线程来并行计算</li>
+<li>将数据集分成若干块，交个多个计算机处理，再汇集它们的处理结果，这也就是 Map-reduce 过程</li>
+</ol>
+<p>这个课程里也经常强调使用向量化，目的之一也是利用软件平台内部实现的并行优化来进行一些常见的矩阵乘法等操作。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>个人觉得 Andrew Ng 的 Machine Learning 这门课程能够很好的让其他领域的学生让了解 ML 这个 AI 的分支，学习门槛较低，课程目的也是以了解这一领域能做什么，以及如何运用到实际的项目中为主。学完之后觉得也能做点小项目实践一下了。同时，这对于推广这门技术，让它发展更为迅速也很有帮助。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag">#机器学习</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1470801058000/" rel="next" title="Java 中的 I/O 类">
+                <i class="fa fa-chevron-left"></i> Java 中的 I/O 类
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1480334056000/" rel="prev" title="CS:APP3e - Bomblab">
+                CS:APP3e - Bomblab <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1471831725000/" data-title="Machine Learning 课程小结" data-url="https://yyqian.com/post/1471831725000/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Supervised-learning"><span class="nav-text">Supervised learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unsupervised-Learning"><span class="nav-text">Unsupervised Learning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linear-Regression"><span class="nav-text">Linear Regression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logistic-Regression"><span class="nav-text">Logistic Regression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neural-Networks"><span class="nav-text">Neural Networks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#General-Advice"><span class="nav-text">General Advice</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Selection"><span class="nav-text">Model Selection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Train-Validation-Test-Sets"><span class="nav-text">Train/Validation/Test Sets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Underfitting-和-Overfitting，Bias-和-Variance"><span class="nav-text">Underfitting 和 Overfitting，Bias 和 Variance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Regularization"><span class="nav-text">Regularization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Learning-Curve"><span class="nav-text">Learning Curve</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Precision-and-Recall"><span class="nav-text">Precision and Recall</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Support-Vector-Machine-SVM"><span class="nav-text">Support Vector Machine (SVM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-means"><span class="nav-text">K-means</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Principal-Component-Analysis（PCA）"><span class="nav-text">Principal Component Analysis（PCA）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Anomaly-Detection"><span class="nav-text">Anomaly Detection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Recommender-Systems"><span class="nav-text">Recommender Systems</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Large-Scale-Machine-Learning"><span class="nav-text">Large Scale Machine Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradient-Descent-的变种"><span class="nav-text">Gradient Descent 的变种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Online-Learning"><span class="nav-text">Online Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行化"><span class="nav-text">并行化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

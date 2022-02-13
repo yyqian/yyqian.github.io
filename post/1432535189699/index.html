@@ -1,0 +1,607 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="REST,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="RESTful API设计思想 URL里只包含名词，用来指向资源 用HTTP请求(GET/POST/PUT/PATCH/DELETE)来描述CRUD动作  标准的RESTful API以下为几种常见的RESTful API：  GET /post 获取所有的posts GET /post/:pid 获取特定的post POST /post 新建post PUT /post/:pid 修改post">
+<meta name="keywords" content="REST">
+<meta property="og:type" content="article">
+<meta property="og:title" content="REST API 设计">
+<meta property="og:url" content="https://yyqian.com/post/1432535189699/index.html">
+<meta property="og:site_name" content="YYQIAN">
+<meta property="og:description" content="RESTful API设计思想 URL里只包含名词，用来指向资源 用HTTP请求(GET/POST/PUT/PATCH/DELETE)来描述CRUD动作  标准的RESTful API以下为几种常见的RESTful API：  GET /post 获取所有的posts GET /post/:pid 获取特定的post POST /post 新建post PUT /post/:pid 修改post">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-02-11T15:15:56.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="REST API 设计">
+<meta name="twitter:description" content="RESTful API设计思想 URL里只包含名词，用来指向资源 用HTTP请求(GET/POST/PUT/PATCH/DELETE)来描述CRUD动作  标准的RESTful API以下为几种常见的RESTful API：  GET /post 获取所有的posts GET /post/:pid 获取特定的post POST /post 新建post PUT /post/:pid 修改post">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> REST API 设计 | YYQIAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d00e38d4c75ea7dd82adf3b48be0c9ff";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YYQIAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Do not go gentle into that good night</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                REST API 设计
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-25T14:26:29+08:00" content="2015-05-25">
+              2015-05-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/post/1432535189699/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="post/1432535189699/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="RESTful-API设计思想"><a href="#RESTful-API设计思想" class="headerlink" title="RESTful API设计思想"></a>RESTful API设计思想</h2><ol>
+<li>URL里只包含名词，用来指向资源</li>
+<li>用HTTP请求(GET/POST/PUT/PATCH/DELETE)来描述CRUD动作</li>
+</ol>
+<h2 id="标准的RESTful-API"><a href="#标准的RESTful-API" class="headerlink" title="标准的RESTful API"></a>标准的RESTful API</h2><p>以下为几种常见的RESTful API：</p>
+<ul>
+<li><code>GET /post</code> 获取所有的posts</li>
+<li><code>GET /post/:pid</code> 获取特定的post</li>
+<li><code>POST /post</code> 新建post</li>
+<li><code>PUT /post/:pid</code> 修改post</li>
+<li><code>PATCH /post/:pid</code> 部分修改post</li>
+<li><code>DELETE /post/:pid</code> 删除post<a id="more"></a>
+<h2 id="名词单复数问题"><a href="#名词单复数问题" class="headerlink" title="名词单复数问题"></a>名词单复数问题</h2></li>
+</ul>
+<p><code>post</code>还是<code>posts</code>，其实都是可以的。有的文章建议复数，原因是有的工具会自动将单数转换为复数。我这里偏向于单数，原因是现在项目中使用的Sails框架中默认用的是单数。</p>
+<h2 id="资源之间的依赖关系"><a href="#资源之间的依赖关系" class="headerlink" title="资源之间的依赖关系"></a>资源之间的依赖关系</h2><p>譬如说任何一个post都是所属于某一个group的，那么这个API可以设计为：<code>/group/:gid/post</code>。</p>
+<h2 id="如果某个action不能用CRUD来准确描述"><a href="#如果某个action不能用CRUD来准确描述" class="headerlink" title="如果某个action不能用CRUD来准确描述"></a>如果某个action不能用CRUD来准确描述</h2><p>这里有几个方案：</p>
+<ol>
+<li><p>把这个action当作是一种sub－resource来处理，譬如在GitHub’s API中，star a gist with <code>PUT /gists/:id/star</code> and unstar with <code>DELETE /gists/:id/star</code>.</p>
+</li>
+<li><p>把这个action当做是一种resource来处理，但是这种action不能附带参数。譬如active可以用actived来处理。</p>
+</li>
+</ol>
+<h2 id="返回资源"><a href="#返回资源" class="headerlink" title="返回资源"></a>返回资源</h2><p>默认的返回资源可以尽可能的全面，可以通过以下参数进行进一步处理：</p>
+<ul>
+<li>Filtering: <code>GET /post?hidden=true</code></li>
+<li>Sorting: <code>GET /post?sort=createdAt</code></li>
+<li>Searching: <code>GET /post?hidden=true&amp;sort=createdAt</code>，结合上面两者</li>
+<li>Alias: <code>GET /post/recently_hidden</code>，效果同上</li>
+<li>Fields: <code>GET /post?fields=id,title,createdAt&amp;hidden=true&amp;sort=createdAt</code>，效果同上，但限制返回的字段</li>
+<li>Embed: <code>GET /post/12?embed=user.name,group.name</code>，展开链接的user和group</li>
+</ul>
+<h2 id="错误信息"><a href="#错误信息" class="headerlink" title="错误信息"></a>错误信息</h2><p>错误信息需要设计固定格式，这个是 Spring Boot 默认返回的错误信息：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   <span class="attr">"timestamp"</span> : <span class="number">1413313361387</span>,</span><br><span class="line">   <span class="attr">"exception"</span> : <span class="string">"org.springframework.web.bind.MissingServletRequestParameterException"</span>,</span><br><span class="line">   <span class="attr">"status"</span> : <span class="number">400</span>,</span><br><span class="line">   <span class="attr">"error"</span> : <span class="string">"Bad Request"</span>,</span><br><span class="line">   <span class="attr">"path"</span> : <span class="string">"/greet"</span>,</span><br><span class="line">   <span class="attr">"message"</span> : <span class="string">"Required String parameter 'name' is not present"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/rest/" rel="tag">#REST</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/1429502073486/" rel="next" title="CSRF 攻防">
+                <i class="fa fa-chevron-left"></i> CSRF 攻防
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/1433484701184/" rel="prev" title="如何绑定动态 IP 的域名">
+                如何绑定动态 IP 的域名 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="post/1432535189699/" data-title="REST API 设计" data-url="https://yyqian.com/post/1432535189699/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="https://o6wh5ckx2.qnssl.com/201604280914-FqDVv6RqEGFlPWZBF44e5g8DOHvd" alt="Yinyin Qian">
+          <p class="site-author-name" itemprop="name">Yinyin Qian</p>
+          <p class="site-description motion-element" itemprop="description">In me the tiger sniffs the rose</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">139</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/in/yyqian" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yyqian" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.flickr.com/photos/yyqian" target="_blank">
+                  
+                    <i class="fa fa-flickr"></i>
+                  
+                  Flickr
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RESTful-API设计思想"><span class="nav-text">RESTful API设计思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准的RESTful-API"><span class="nav-text">标准的RESTful API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#名词单复数问题"><span class="nav-text">名词单复数问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源之间的依赖关系"><span class="nav-text">资源之间的依赖关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果某个action不能用CRUD来准确描述"><span class="nav-text">如果某个action不能用CRUD来准确描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回资源"><span class="nav-text">返回资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误信息"><span class="nav-text">错误信息</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2008 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yinyin Qian</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yyqian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
